@@ -22,86 +22,89 @@ body {
 	font-family: Arial, sans-serif;
 	background-color: #f4f4f4;
 }
-
 h2 {
-	text-align: center;
-	color: #333;
+    text-align: center;
+    color: #333;
+    margin-top: 20px; /* 添加這一行 */
 }
 
 form {
-	padding-top: 0px;
-	display: flex;
-	flex-direction: column;
-	/*     align-items: center; /* 水平居中對齊 */
-	justify-content: center; /* 垂直居中對齊 */
-	width: 250px;
-	margin: 0 auto; /* 左右居中 */
+    padding-top: 0px; /* 修改為 20px */
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */ /* 移除垂直居中對齊 */
+    width: 100px;
+    margin: 0 auto; /* 左右居中 */
 }
 
 label {
-	margin-top: 5px;
+   margin-top: 5px;
 }
 
 input {
-	padding: 5px;
-	margin-bottom: 20px;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	width: 80px;
+    padding: 5px; /* 修改為 8px */
+    margin-bottom: 20px; /* 修改為 15px */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 20%;
+    box-sizing: border-box; /* 添加這一行 */
 }
 
 textarea {
-	width: 200px;
-	height: 200px;
+    width: 100%; /* 修改為 100% */
+    height: 100px; /* 修改為 100px */
 }
 
 button {
-	padding: 10px;
-	margin-top: 20px;
-	background-color: #0056b3;
-	color: white;
-	border: none;
-	border-radius: 10px;
-	cursor: pointer;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 20%;
 }
 
 #submit {
-	width: 100px;
-	margin-top: 80px;
-	margin-left: 230px;
+    width: 20%; /* 修改為 100% */
+    margin-top: 50px; /* 修改為 20px */
+    margin-left: 300px; /* 修改為 0 */
 }
 
 #submit:disabled {
-	opacity: 0.5;
+    opacity: 0.5;
 }
 
 .flatpickr-calendar.inline {
-	position: absolute;
-	top: 70%;
-	left: 50%;
+    position: absolute;
+    top: 70%;
+    left: 50%;
 }
 
 .time-button {
-	margin: 5px 10px;
-	padding: 5px;
-	font-size: 20px;
-	margin-left: 0;
-	cursor: pointer;
-	border: 1px solid #ccc;
-	background-color: #84C1FF;
-	color: #272727;
+    margin: 5px 10px;
+    padding: 5px;
+    font-size: 20px;
+    margin-left: 0;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #84C1FF;
+    color: #272727;
 }
+
 
 </style>
 
+
 </head>
 
+	<!-- th:style="'; background-image: url('+@{/frontend/images/restaurant.jpg}+');'" -->
 <body class="main-layout">
 
-	<!-- th:style="'; background-image: url('+@{/frontend/images/restaurant.jpg}+');'" -->
-	<th:block link th:insert="~{/front-end/htmlfile/content3.html}" />
+	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
 	<div th:fragment="content">
-		<div class="news-section" style="margin-top: 100px;">
+		<div class="news-section" style="margin-top: 20px;">
 			<div class="container" style="display: flex;">
 				<!-- 東西從這裡放 -->
 
@@ -115,13 +118,13 @@ button {
 						<label for="" style="display: none;">餐廳場次編號:</label> <input
 							type="hidden" id="sessionid"
 							th:field="*{ressionVO.reserveSessionId}"> <label for="">會員編號:</label>
-						<input type="text" th:field="*{memberVO.memId}"> <label
+						<input type="text" th:field="*{memberVO.memberId}"> <label
 							for="reserveNumber">預定人數:(最多10人)</label> 
 							
 							
 						<select th:field="*{reserveNumber}" id="reserveNumber" name="reserveNumber"
-						style="width: 100px">
-							<option value="">選擇人數</option>
+						style="width: 80px ;height: 30px;">
+							<option value="">人數</option>
 						    <option value="1">1</option>
 						    <option value="2">2</option>
 						    <option value="3">3</option>
@@ -137,7 +140,7 @@ button {
 							
 							<label for="">預定日期:</label>
 						<input type="datetime-local" id="bookingDate" name="bookingDate"
-							th:field="*{bookingDate}" disabled style="width: 170px">
+							th:field="*{bookingDate}" disabled style="width: 150px">
 
 
 				

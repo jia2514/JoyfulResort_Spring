@@ -402,6 +402,13 @@ public class IndexController_inSpringBoot {
 		return "back-end/reserve/reservecontent";
 	}
 	
+	@GetMapping("/joyfulresort/insertfront")  //配合前端新增訂單不報錯控制層而設置
+	public String restaurant1(Model model) {
+		return "front-end/restaurant/main";
+	}
+
+	
+	
 //	----------------------------------------------
 	
 	@ModelAttribute("ContentList")
