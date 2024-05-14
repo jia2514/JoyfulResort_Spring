@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Room Demo</title>
+    <link th:insert="@{/back-end/htmlfile/css.html}" />
+    <style type="text/css">
+        body {
+            padding-left: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            height: 50px;
+            width: 100px;
+        }
+
+        input[type="submit"] {
+            margin-top: 5px;
+            padding: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+
+<th:block th:insert="~{/back-end/htmlfile/content1}"/>
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded">
+        <div class="G3_content">
+
+            <h2>房型系統</h2>
+            <div>
+                <a th:href="@{/roomtype/getAll}">查詢所有房型</a><br>
+                <a th:href="@{/roomtype/addRoomType}">新增一筆房型</a><br>
+            </div>
+            <h3><b>複合查詢 (使用 Criteria Query)：</b></h3>
+            <form th:action="@{roomtype}" method="post">
+                <p><label>房型模糊查詢：</label></p>
+                <input type="text" name="roomtypename"><br>
+                <p><label>房型：</label></p>
+                <select name="room">
+                    <option value="">選取房型</option>
+                    <option value="品趣客房">品趣客房</option>
+                    <option value="童旅主題房">童旅主題房</option>
+                    <option value="童漾家庭房">童漾家庭房</option>
+                </select>
+                <p><label>入住日期間範圍</label></p>
+                <input type="date" name="startcheckindate"> ～ <input type="date" name="endcheckindate"><br>
+                <p><label>房型價格範圍</label></p>
+                <input type="text" name="startroomtypeprice"> ～ <input type="text" name="endroomtypeprice"><br>
+                <p><input type="submit" value="送出"></p>
+                <input type="hidden" name="action" value="compositeQuery">
+            </form>
+
+        </div>
+    </div>
+</div>
+
+   <th:block th:insert="~{/back-end/htmlfile/content2}"/>
+   <th:block th:insert="~{/back-end/htmlfile/script}"/>
+
+</body>
+</html>

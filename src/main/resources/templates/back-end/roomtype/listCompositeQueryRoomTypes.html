@@ -1,0 +1,42 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/main/main.css">
+<title>List RoomType</title>
+</head>
+<body>
+	<h1>房型列表</h1>
+	<br>
+	
+	<table style="width:50%; text-align:center;">
+		<tr>
+			<th>房型編號</th>
+			<th>房型名稱</th>
+			<th>房型數量</th>
+			<th>房型說明</th>
+			<th>上下架狀態</th>
+			<th>房型價格</th>
+
+		</tr>
+		<c:forEach var="roomType" items="${roomTypeList}">
+			<tr>
+				<td>${roomType.roomTypeId}</td>
+				<td>${roomType.roomTypeName}</td>
+				<td>${roomType.roomTypeAmount}</td>
+				<td>${roomType.roomTypeContent}</td>
+				<td>${roomType.roomTypeSaleState}</td>
+				<td>${roomType.roomTypePrice}</td>
+				<td>${{roomType.room.roomTypeId}</td>
+			</tr>
+		</c:forEach>
+	</table>
+	<br>
+
+	<br><br>
+	
+	<a href="${pageContext.request.contextPath}/index.jsp">回首頁</a>	
+</body>
+</html>

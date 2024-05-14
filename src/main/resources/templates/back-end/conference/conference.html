@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>DASHMIN - Bootstrap Admin Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="/backend/static1/css/css2.css" rel="stylesheet">
+
+    <link href="/backend/static1/css/all.min.css" rel="stylesheet">
+    <link href="/backend/static1/css/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="/backend/static1/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="/backend/static1/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet">
+
+    <link href="/backend/static1/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/backend/static1/css/style.css" rel="stylesheet">
+    <style>
+        .list table {
+            width: 100%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .list th, td {
+            padding: 12px 15px;
+
+        }
+
+        .list th {
+            background-color: #a8a8af;
+            color: white;
+            padding-top: 20px;
+        }
+
+        .list tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .list tr:hover {
+            background-color: #ddd;
+        }
+
+        .list td > a {
+            text-decoration: none;
+            color: #757575;
+        }
+
+        .list td > a:hover {
+            color: #757575;
+        }
+
+        .add-link {
+            display: block;
+            width: 100px;
+            margin: 20px auto;
+            text-align: center;
+            padding: 10px;
+            background-color: #a8a8af;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .add-link:hover {
+            background-color: #a8a8af;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container-fluid position-relative bg-white d-flex p-0">
+
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+
+    <div class="sidebar pe-4 pb-3">
+        <nav class="navbar bg-light navbar-light">
+            <a href="#" class="navbar-brand mx-4 mb-3">
+                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>JoyfulResort</h3>
+            </a>
+            <div class="d-flex align-items-center ms-4 mb-4">
+                <div class="position-relative">
+                    <img class="rounded-circle" src="/backend/static1/picture/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                </div>
+                <div class="ms-3">
+                    <h6 class="mb-0">員工姓名</h6>
+                    <span>員工職位</span>
+                </div>
+            </div>
+            <div class="navbar-nav w-100">
+                <a href="#" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>員工管理</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="#" class="dropdown-item">個人資料管理</a>
+                        <a href="#" class="dropdown-item">員工查詢</a>
+                        <a href="#" class="dropdown-item">人資專區</a>
+                        <a href="#" class="dropdown-item"></a>
+                    </div>
+                </div>
+
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>會員管理</a>
+
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-table me-2"></i>房間資料管理</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="#" class="dropdown-item">房型管理</a>
+                        <a href="#" class="dropdown-item">房間管理</a>
+                        <a href="#" class="dropdown-item"></a>
+                    </div>
+                </div>
+
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>房務管理</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="#" class="dropdown-item">check in</a>
+                        <a href="#" class="dropdown-item">check out</a>
+                        <a href="#" class="dropdown-item">住宿訂單管理</a>
+                        <a href="#" class="dropdown-item"></a>
+                    </div>
+                </div>
+
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-chart-bar me-2"></i>活動管理</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="#" class="dropdown-item">活動內容管理</a>
+                        <a href="#" class="dropdown-item">活動訂單管理</a>
+                        <a href="#" class="dropdown-item"></a>
+                    </div>
+                </div>
+
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-keyboard me-2"></i>會議廳管理</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="#" class="dropdown-item active">會議廳內容管理</a>
+                        <a href="/conference/backend/order" class="dropdown-item">會議廳訂單管理</a>
+                        <a href="#" class="dropdown-item"></a>
+                    </div>
+                </div>
+
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-table me-2"></i>餐廳管理</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="#" class="dropdown-item">餐廳內容管理</a>
+                        <a href="#" class="dropdown-item">餐廳訂單管理</a>
+                        <a href="#" class="dropdown-item"></a>
+                    </div>
+                </div>
+
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>圖文管理</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="#" class="dropdown-item">最新消息管理</a>
+                        <a href="#" class="dropdown-item">媒體報導管理</a>
+                        <a href="#" class="dropdown-item">常見問題管理</a>
+                        <a href="#" class="dropdown-item"></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+</div>
+
+<div class="content">
+
+    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+        <a href="#" class="navbar-brand d-flex d-lg-none me-4">
+            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars"></i>
+        </a>
+        <form class="d-none d-md-flex ms-4">
+            <input class="form-control border-0" type="hidden" placeholder="Search">
+        </form>
+
+        <div class="navbar-nav align-items-center ms-auto">
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <img class="rounded-circle me-lg-2" src="/backend/static1/picture/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <span class="d-none d-lg-inline-flex">John Doe</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">基本資料</a>
+                    <a href="#" class="dropdown-item">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container-fluid pt-4 px-4 list">
+        <h2 class="fw-bold m-0 text-center" STYLE="color: #a8a8af">會議廳列表</h2>
+        <div class="row vh-100 bg-light">
+            <div class="col-md-12 text-center p-0">
+                <table class="w-100">
+                    <thead>
+                    <tr>
+                        <th>會議廳編號</th>
+                        <th>會議廳名稱</th>
+                        <th>詳細資訊</th>
+                        <th>上下架</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="meetingRoom : ${meetingRooms}">
+                        <td th:text="${meetingRoom.meetingRoomId}"></td>
+                        <td th:text="${meetingRoom.meetingRoomName}"></td>
+                        <td>
+                            <a th:href="@{'/conference/backend/detail/' + ${meetingRoom.meetingRoomId}}">詳細資訊</a>
+                        </td>
+                        <td>
+                            <div class="form-check form-switch mx-auto" style="width: 85px">
+                                <input class="form-check-input" type="checkbox" id="saleStateSwitch" th:checked="${meetingRoom.meetingRoomSaleState}" th:attr="data-roomid=${meetingRoom.meetingRoomId}" onclick="toggleSaleState(this)">
+                                <label class="form-check-label" for="saleStateSwitch" th:text="${meetingRoom.meetingRoomSaleState} ? '上架' : '下架'"></label>
+                            </div>
+                        </td>
+                        <td>
+                            <a th:href="@{'/conference/backend/edit/' + ${meetingRoom.meetingRoomId}}">編輯</a>
+                            <a th:href="@{'/conference/backend/delete/' + ${meetingRoom.meetingRoomId}}" onclick="return confirm('確定要刪除嗎？')">刪除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <a href="/conference/backend/add" class="add-link">新增會議廳</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded-top p-4">
+            <div class="col-12 col-sm-6 text-center text-sm-start">
+                Copyright &copy; 2022.Company name All rights reserved.<a target="_blank" href="https://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+            </div>
+            <div class="col-12 col-sm-6 text-center text-sm-end">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+<script src="/backend/static1/js/jquery-3.4.1.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/static1/js/bootstrap.bundle.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/static1/js/chart.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/static1/js/easing.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/static1/js/waypoints.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/static1/js/owl.carousel.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/static1/js/moment.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/static1/js/moment-timezone.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/static1/js/tempusdominus-bootstrap-4.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+
+<script src="/backend/static1/js/main.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/static1/js/rocket-loader.min.js" data-cf-settings="f3b0939065fde96a75ea2bd3-|49" defer=""></script></body>
+<script th:inline="javascript">
+    function toggleSaleState(checkbox) {
+        let meetingRoomId = checkbox.getAttribute('data-roomid');
+        let newState = checkbox.checked;
+
+        $.ajax({
+            url: '/conference/backend/update/' + meetingRoomId,
+            type: 'POST',
+            data: {
+                meetingRoomSaleState: newState
+            },
+            success: function() {
+                let label = checkbox.nextElementSibling;
+                label.textContent = newState ? '上架' : '下架';
+
+                // console.log('Sale state updated successfully!');
+            },
+            error: function(xhr, status, error) {
+
+                console.error('Error updating sale state:', error);
+            }
+        });
+    }
+</script>
+</html>

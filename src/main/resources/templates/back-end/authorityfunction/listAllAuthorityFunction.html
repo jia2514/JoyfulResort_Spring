@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+<meta charset="UTF-8">
+<title>功能權限管理</title>
+<link th:insert="~{/back-end/htmlfile/css.html}" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<style>
+body {
+	font-family: 'Roboto', sans-serif;
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 20px;
+}
+
+.container-fluid {
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+th, td {
+	padding: 12px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+	color: black;
+}
+
+th {
+	background-color: #5bc0de;
+	color: white;
+	border-left: 5px solid white;
+	font-size: 20px;
+}
+
+th:first-child {
+	border-left: none;
+}
+
+tr:hover {
+	background-color: #f5f5f5;
+}
+
+.title-text {
+	font-size: 28px;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 20px;
+	color: black;
+	text-align: center;
+	line-height: 1.2;
+	margin-top: 30px;
+}
+
+.fa-rectangle-list {
+	margin-right: 10px;
+	margin-top: 2px;
+}
+
+input[type="radio"] {
+	cursor: pointer;
+}
+
+.edit-button, .update-button, .add-button, .delete-button {
+	padding: 10px 20px;
+	background-color: #5f9ea0;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-weight: bold;
+	transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+	display: inline-block;
+	text-align: center;
+	line-height: 20px;
+	vertical-align: middle;
+}
+
+.edit-button:hover, .update-button:hover, .add-button:hover,
+	.delete-button:hover {
+	background-color: #436e70;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transform: scale(1.05);
+}
+
+form {
+	display: inline-block;
+	width: auto;
+	margin: 10px;
+	vertical-align: top;
+}
+
+label, input, button {
+	display: inline-block;
+	margin-right: 10px;
+	vertical-align: middle;
+}
+
+label {
+	color: black;
+	font-weight: bold;
+}
+
+input[type="text"] {
+	width: 200px; /* 調整寬度為200px */
+	height: 38px;
+	padding: 0 10px;
+}
+
+.pagination {
+	display: flex;
+	list-style: none;
+	padding-left: 0;
+	justify-content: center;
+	margin-top: 30px;
+}
+
+.pagination li {
+	margin: 0 5px;
+}
+
+.pagination a {
+	font-size: 20px;
+	padding: 8px 16px;
+	text-decoration: none;
+	color: white;
+	background-color: #008fb3;
+	border: 1px solid #ddd;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.pagination a:hover, .pagination a:focus {
+	background-color: #005266;
+}
+
+.pagination .active a {
+	background-color: #005266;
+}
+
+.pagination .disabled a {
+	color: #6c757d;
+	background-color: #fff;
+	pointer-events: none;
+}
+
+.is-invalid {
+	border-color: #dc3545; /* 紅色邊框顯示錯誤 */
+}
+
+.alert.alert-danger {
+	color: #721c24;
+	background-color: #f8d7da;
+	border-color: #f5c6cb;
+	padding: 4px;
+	margin-top: 5px;
+	border-radius: 3px;
+	font-size: 0.875em;
+}
+
+   .search-container {
+        display: flex; /* 啟用 Flexbox */
+        align-items: center; /* 垂直居中對齊 */
+        margin-bottom: 10px; /* 下邊距 */
+    }
+
+    #searchInput {
+        flex-grow: 1; /* 輸入框填充剩餘空間 */
+        padding: 8px;
+    }
+
+    label {
+        margin-right: 10px; /* 標籤和輸入框之間的間隔 */
+    }
+</style>
+
+
+
+</head>
+<body>
+	<th:block th:insert="~{/back-end/htmlfile/content1}" />
+	<div class="container-fluid pt-4 px-4">
+		<div class="bg-light rounded">
+			<div class="G3_content">
+
+
+ <div class="search-container">
+    <label for="searchInput">* 搜索功能權限名稱:</label>
+    <input type="text" id="searchInput" placeholder="搜索功能權限名稱">
+</div>
+
+
+				<form th:action="@{/AuthorityFunctionController/insert}"
+					th:object="${authorityFunction}" method="post">
+					<label>* 新增功能權限名稱:</label> <input type="text"
+						th:field="*{functionName}" placeholder="輸入要新增的權限名稱" required>
+					<div th:if="${#fields.hasErrors('functionName')}"
+						th:errors="*{functionName}" class="alert alert-danger"></div>
+					<button type="submit" class="add-button">新增</button>
+				</form>
+
+
+
+
+
+
+
+				<form th:action="@{/AuthorityFunctionController/update}"
+					th:object="${authorityFunction}" method="post">
+					<input type="hidden" th:field="*{functionId}" id="functionIdHidden" />
+					<label>* 修改功能權限名稱:</label> <input type="text"
+						th:field="*{functionName}" placeholder="輸入要修改的權限名稱" required>
+					<button type="submit" class="update-button">修改</button>
+				</form>
+
+
+
+
+				<form th:action="@{/AuthorityFunctionController/delete}"
+					method="post">
+					<label>* 刪除功能權限:</label> <input type="hidden" name="functionId"
+						th:value="${selectedAuthorityFunctionId}">
+					<button type="submit" class="delete-button">刪除</button>
+				</form>
+
+
+
+
+				<span class="title-text"><i
+					class="fa-solid fa-rectangle-list"></i>所有功能權限列表</span>
+
+
+
+				 <table id="authorityTable">
+					<thead>
+						<tr>
+							<th>選擇</th>
+							<th>功能權限編號</th>
+							<th>功能權限名稱</th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block
+							th:each="authorityFunction : ${authorityFunctionPage.content}">
+							<tr>
+								<td><input type="radio" name="selectedAuthorityFunctionId"
+									th:value="${authorityFunction.functionId}"></td>
+								<!-- 								<td th:text="${authorityFunctionStat.count}"></td> -->
+								<td th:text="${authorityFunction.functionId}"></td>
+								<td th:text="${authorityFunction.functionName}"></td>
+							</tr>
+						</th:block>
+					</tbody>
+				</table>
+
+				<!-- 在頁面中顯示分頁按鈕 -->
+
+				<div>
+					<ul class="pagination">
+						<li
+							th:class="${authorityFunctionPage.isFirst()} ? 'disabled' : ''">
+							<a
+							th:href="@{/authorityfunction/listAllAuthorityFunction(page=${authorityFunctionPage.number - 1})}">&laquo;
+								前一頁</a>
+						</li>
+						<li
+							th:each="i : ${#numbers.sequence(0, authorityFunctionPage.totalPages - 1)}"
+							th:class="${i == authorityFunctionPage.number} ? 'active' : ''"><a
+							th:href="@{/authorityfunction/listAllAuthorityFunction(page=${i})}"
+							th:text="${i + 1}"></a></li>
+						<li th:class="${authorityFunctionPage.isLast()} ? 'disabled' : ''"><a
+							th:href="@{/authorityfunction/listAllAuthorityFunction(page=${authorityFunctionPage.number + 1})}">下一頁
+								&raquo;</a></li>
+					</ul>
+				</div>
+
+				<script>
+					$(document).ready(function() {
+						$('input[type="radio"]').change(function() {
+						// 當選擇的單選按鈕狀態改變時，取得選中的 radio 值
+						var selectedId = $(this).val();
+						// 將這個值設定給隱藏的 input 欄位
+						$('#functionIdHidden').val(selectedId);
+					});
+
+				// 將額外提供的 JavaScript 代碼加入
+				$("input").focus(function() {
+					$(this).next(".alert.alert-danger").hide(); // 當聚焦到輸入框時隱藏相鄰的錯誤訊息
+				});
+
+				// 將更新按鈕綁定提交事件
+				$('.update-button').click(function(event) {// 檢查是否選擇了一個 radio 按鈕
+				if (!$('input[name="selectedAuthorityFunctionId"]:checked').val()) {
+						alert('請選擇一個功能權限來修改。');
+						// 阻止表單提交	
+						event.preventDefault(); }
+					});
+				});
+
+					$(document).ready(function() {
+					// 將刪除按鈕綁定點擊事件
+						$('.delete-button').click(function(event) {
+						// 檢查是否選擇了一個 radio 按鈕
+							if (!$('input[name="selectedAuthorityFunctionId"]:checked').val()) {
+								alert('請選擇一個功能權限來刪除。');
+								event.preventDefault(); // 阻止默認行為（即阻止表單提交）
+							} else {
+							// 獲取選中的功能權限的 functionId
+							var selectedFunctionId = $('input[name="selectedAuthorityFunctionId"]:checked').val();
+							// 將 functionId 設置到表單中的隱藏欄位中
+							$('input[name="functionId"]').val(selectedFunctionId);
+							// 繼續執行刪除操作
+							// 如果你的刪除操作是在表單提交後由後端處理的，你可以不用寫任何其他代碼，
+							// 只需確保表單在這裡提交即可。
+							}
+						});
+					});
+					
+					
+					
+					//搜尋
+					$(document).ready(function(){
+    					$("#searchInput").on("keyup", function() {
+        					var value = $(this).val().toLowerCase();
+        					//針對authorityTable 內的tbody標籤內的tr做過濾
+       						$("#authorityTable tbody tr").filter(function() {
+            					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    						 });
+  						});
+					});
+					
+				</script>
+
+
+			</div>
+		</div>
+	</div>
+	<th:block th:insert="~{/back-end/htmlfile/content2}" />
+	<th:block th:insert="~{/back-end/htmlfile/script}" />
+</body>
+</html>

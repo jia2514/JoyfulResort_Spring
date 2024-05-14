@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>住宿訂單資料</title>
+
+<link th:insert="~{/back-end/htmlfile/css.html}" />
+
+
+<style type="text/css">
+label {
+    font-weight: bold;
+}
+
+.error-message {
+    color: red; /* 错误消息文字颜色为红色 */
+}
+
+
+/* 间数选择框样式 */
+select {
+    width: 250px; /* 设置宽度 */
+    padding: 5px; /* 设置内边距 */
+    border: 1px solid #ccc; /* 设置边框 */
+    border-radius: 4px; /* 设置边框圆角 */
+}
+
+/* 提交按钮样式 */
+input[type="submit"] {
+    background-color: #007bff; /* 设置背景颜色 */
+    color: #fff; /* 设置文字颜色 */
+    padding: 10px 20px; /* 设置内边距 */
+    border: none; /* 移除边框 */
+    border-radius: 4px; /* 设置边框圆角 */
+    cursor: pointer; /* 设置鼠标指针样式为手型 */
+}
+
+/* 提交按钮悬停样式 */
+input[type="submit"]:hover {
+    background-color: #0056b3; /* 设置悬停时的背景颜色 */
+}
+
+/* 输入框样式 */
+input[type="text"],
+textarea {
+    width: 200px; /* 设置宽度为200px */
+    padding: 5px; /* 设置内边距 */
+    border: 1px solid #ccc; /* 设置边框 */
+    border-radius: 4px; /* 设置边框圆角 */
+    box-sizing: border-box; /* 设置盒模型为边框盒模型 */
+    margin-bottom: 10px; /* 设置底部边距 */
+}
+
+/* 文本区域样式 */
+textarea {
+    width: 30%; /* 文本区域宽度占据父元素的100% */
+}
+
+</style>
+</head>
+<body>
+	<th:block th:insert="~{/back-end/htmlfile/content1}" />
+	<div class="container-fluid pt-4 px-4">
+		<div class="bg-light rounded">
+			<div class="G3_content">
+				<h4>新增住宿訂單</h4>
+    <hr>
+    <form action="#" th:action="@{/roomorder/insert}" method="post" onsubmit="return validateForm()">
+        <label>會員姓名：</label>
+        <input type="text" id="memberName" name="memberName"> <span class="error-message" id="memberName_error"></span><br>
+        
+        <label>會員電話：</label>
+        <input type="text" id="memberPhone" name="memberPhone"> <span class="error-message" id="memberPhone_error"></span><br>
+       
+        
+        <div><label>預定checkin日期：</label>
+        <span th:text="${roomOrder.checkindate}"></span>
+        <input type="hidden" name="checkInDate" th:value="${roomOrder.checkindate}">
+        </div><br>
+        <div><label>預定checkout日期：</label>
+        <span th:text="${roomOrder.checkoutdate}"></span>
+        <input type="hidden" name="checkOutDate" th:value="${roomOrder.checkoutdate}">
+        </div><br>
+
+
+        <div th:each="i : ${#numbers.sequence(1, roomOrder.paramCount)}" th:with="rt=${roomOrder.__${'roomTypeId' + i}__}">
+            <div>
+                <span th:each="roomType : ${roomTypeListData}" >
+					    <span class="roomTypeItem" th:if="${#strings.equals(rt, roomType.roomTypeId)}">
+					        <label th:text="${roomType.roomTypeName}"></label>
+					    </span>
+				</span>
+                <input type="hidden"  th:name="roomType+${i}" th:value="${rt}">
+                
+            
+            <label>間數：</label>
+            <select th:id="roomAmount+${i}" th:name="roomAmount+${i}" >
+<!--                 <option value="">選取間數</option> -->
+<!--                 <option th:text="${roomOrder.__${'minEmptyRooms' + i}__}"></option> -->
+                <option th:if="${#strings.equals(0, roomOrder.__${'minEmptyRooms' + i}__)}" th:value="0">此時間區間無足夠空房可預訂</option>
+                <option th:value="0">請選擇房型數量</option>
+                <option th:unless="${#strings.equals(0, roomOrder.__${'minEmptyRooms' + i}__)}"
+                        th:each="roomCount : ${#numbers.sequence(1, roomOrder.__${'minEmptyRooms' + i}__)}"
+                        th:value="${roomCount}" th:text="${roomCount + '間'}"></option>
+            </select><div class="error-message" th:id="room_error+${i}"></div>
+            </div><br>
+        </div>
+        
+        
+        <label>特殊需求：</label><br>
+        <textarea name="specialreq">請輸入訂單特殊需求</textarea>
+        
+        <hr>
+        <input type="hidden" id="paramCount" name="paramCount" th:value="${roomOrder.paramCount}">
+        <input type="submit" value="送出">
+        
+       
+    </form>
+
+				<a th:href="@{/roomorder/roomorderselect}">回住宿訂單首頁</a>
+			</div>
+		</div>
+	</div>
+	<th:block th:insert="~{/back-end/htmlfile/content2}" />
+	<th:block th:insert="~{/back-end/htmlfile/script}" />
+
+	<script type="text/javascript">
+	function validateForm() {
+		document.getElementById("memberName_error").innerText = "";
+		document.getElementById("memberPhone_error").innerText = "";
+		for (var i = 1; i <= paramCount; i++) {
+			document.getElementById("room_error"+i).innerText = ""; 
+	    }
+		var memberName = document.getElementById("memberName").value;
+	    var memberPhone = document.getElementById("memberPhone").value;
+	    
+	    if (memberName.trim() === "" && memberPhone.trim() === "") {
+	    	document.getElementById("memberName_error").innerText = "請填寫姓名或電話";
+	    	document.getElementById("memberPhone_error").innerText = "請填寫姓名或電話";
+	    	alert("請填寫姓名或電話");
+	       
+	    }
+		
+		
+		var paramCount = document.getElementById("paramCount").value;
+	    var totalRoomAmount = 0;
+	    var roomAmount;
+	    for (var i = 1; i <= paramCount; i++) {
+	    	roomAmount = parseInt(document.getElementById("roomAmount" + i).value);
+	        totalRoomAmount += roomAmount;     
+	    }	
+	  
+	    if (totalRoomAmount==0) {
+	    	
+	    	alert("請選擇房間數量");
+	    	for (var i = 1; i <= paramCount; i++) {
+	    		document.getElementById("room_error"+ i).innerText = "請選擇至少一種房型的房間數量"; 
+		    }
+	    }
+	    
+	    if ((memberName.trim() === "" && memberPhone.trim() === "")||totalRoomAmount==0){
+	    	return false;
+	    }
+	    
+		
+	}	
+		
+	</script>
+</body>
+</html>

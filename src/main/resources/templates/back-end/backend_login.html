@@ -1,0 +1,177 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>後台登入頁面 - 童樂渡假村</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-form {
+    position: relative;
+    background-color: #ffffff;
+    padding: 40px;
+    width: 450px; /* 調整表單寬度 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.icon-home {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #5f9ea0;
+    font-size: 24px;
+}
+
+.form-control, .login-button {
+    width: 100%; /* 讓輸入框和按鈕寬度充滿父容器 */
+    max-width: 400px; /* 設置輸入框和按鈕的最大寬度 */
+    padding: 15px;
+    margin: 10px auto;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 18px;
+}
+
+.login-button {
+    background-color: #5f9ea0;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-bottom: 0;
+}
+
+.login-button:hover {
+    background-color: #395e60;
+    transform: scale(1.05);
+}
+
+.title {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    color: #5f9ea0;
+}
+
+.title span:last-child {
+    color: black; /* 將最後一個 span 的文字顏色設為黑色 */
+}
+
+.color-joyful, .color-joyfulresort {
+    color: #5f9ea0;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: black;
+    z-index: 10;
+}
+
+.password {
+    padding-right: 50px;
+}
+
+/*以下是會動的icon*/
+/* 動畫人物 */
+@keyframes run {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100vw); }
+}
+
+.running-character {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    animation: run 10s linear infinite;
+}
+    </style>
+    <script>
+      
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            var togglePassword = document.querySelector('.toggle-password');
+            var passwordInput = document.querySelector('.password');
+            togglePassword.addEventListener('click', function() {
+                var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+
+            var errorDiv = document.querySelector('.error-message');
+            var inputFields = document.querySelectorAll('.form-control');
+            inputFields.forEach(function(input) {
+                input.addEventListener('click', function() {
+                    errorDiv.style.display = 'none';
+                });
+            });
+        });
+        
+        
+    </script>
+</head>
+<body>
+
+
+
+<div class="login-form">
+    <i class="fa-solid fa-house-user icon-home"></i>
+    <div class="title">
+        <span class="color-joyfulresort">Joyfulresort</span><span>童樂渡假村</span>
+    </div>
+    <h2>後台員工登入</h2>
+    <div class="error-message" th:if="${loginError}" style="color: red; text-align: center;">
+        <p th:text="${loginError}"></p>
+    </div>
+    <form th:action="@{/login}" method="post">
+        <div>
+            <input type="text" name="empAccount" placeholder="輸入員工帳號" class="form-control" required>
+        </div>
+        <div style="position: relative; width: 100%;">
+            <input type="password" name="empPassword" placeholder="輸入密碼" class="form-control password" required>
+            <i class="fas fa-eye toggle-password"></i>
+        </div>
+        <div>
+            <button type="submit" class="login-button">登入</button>
+        </div>
+    </form>
+    
+<!--     <h3><a th:href="@{/main_page}" style="text-decoration:underline; color: black;">登入後台首頁</a></h3> -->
+</div>
+</body>
+</html>
+

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+
+
+
+    <meta charset="UTF-8">
+    <title>Joyfulresort 後臺首頁</title>
+    <link th:insert="~{/back-end/htmlfile/css.html}"/>
+    
+<style type="text/css">
+input[type="text"] {
+	width: 100px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+label {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+    margin-right:0px;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+textarea {
+    width: 150px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+
+
+/*   ------------------------ */
+.page {
+	/*	position: absolute; 頁碼位置是否跟隨表格底部  */
+	bottom: -100px;
+	text-align: center;
+	width: 80%;
+}
+
+a {
+	display: inline-block;
+	padding: 7px 14px;
+	font-size: 14px;
+	color: black; /* 默认颜色 */
+	background-color: transparent; /* 默认背景色 */
+	text-decoration: none;
+	border-radius: 5px; /* 圆角 */
+	transition: background-color 0.3s, color 0.3s; /* 平滑过渡效果 */
+}
+
+.active {
+	background-color: #006B00;
+	color: #ffffff;
+}
+
+.main-content {
+	margin-left: 200px;
+	padding: 20px;
+	background: #ffffff;
+	min-height: 100vh; /* 確保至少和視窗同高 */
+	font-size: 0.9em; /* 適當的字體大小 */
+	display: flex;
+	flex-direction: column;
+	align-items: center; /* 將子元素（表格）置中 */
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+	max-width: 100%; /* 確保表格不超過容器寬度 */
+	margin: 20px auto; /* 上下保持20px間距，左右自動（置中） */
+	display: table; /* 確保表格為表格顯示 */
+}
+
+th, td {
+	border: 1px solid #dddddd;
+	text-align: center;
+	padding: 10px; /* 增加間距讓表格更易於閱讀 */
+	font-size: 0.9em; /* 統一字體大小 */
+	word-break: break-word;
+}
+
+.table td {
+	background: #ffffff;
+	text-align: center; /* 水平居中 */
+	vertical-align: middle; /* 垂直居中 */
+}
+
+h1 {
+	text-align: center;
+}
+
+
+
+tr:nth-child(even) {
+	background-color: #f2f2f2; /* 輪流顏色以分隔行 */
+}
+
+.button-group button, button[type="submit"] {
+	padding: 8px 15px;
+	margin-right: 10px;
+	background-color: #5cb85c;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.button-group button:hover, input[type="submit"]:hover {
+	background-color: #4cae4c;
+}
+
+.search-form {
+	margin-bottom: 20px; /* 為搜尋表格添加間距 */
+	display: flex;
+	align-items: center; /* 這會將所有子項目對齊到同一水平線 */
+	justify-content: center; /* 這會在容器中水平居中所有子項目 */
+	flex-wrap: wrap; /* 確保在較小的屏幕上元素可以換行 */
+	gap: 10px; /* 元素之間的間距 */
+}
+
+.search-form input[type="text"], .search-form select {
+	padding: 5px 0px;
+	margin-right: 10px; /* 為輸入框添加間距 */
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.search-form input[type="submit"] {
+	padding: 8px 5px;
+	margin-right: 10px;
+	background-color: #5cb85c;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+/*  ------------------------ */
+.G3_content {
+	height: auto; /* 设置固定高度 */
+	overflow: auto; /* 添加滚动条 */
+	text-align: left;
+	padding: 20px;
+	overflow: auto; /* 添加滚动条 */
+	text-align: left;
+}
+
+.justify-content-center {
+	justify-content: flex-start !important;
+}
+</style>
+    
+</head>
+<body>
+    <th:block th:insert="~{/back-end/htmlfile/content1}"/>
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded">
+            <div class="G3_content">
+            <div>
+         		    <form th:action="@{/reserve/insert}" method="post" th:object="${resVO}" enctype="multipary/form-data">
+				
+<!-- 				    <label for="">餐廳訂單編號:</label> -->
+<!-- 				    <input type="text" th:field="*{reserveOrderId}"  ><br><br> -->
+				
+<!-- 				    <label for="">餐廳場次編號:</label> -->
+				    <input type="hidden"   	id="sessionid" th:field="*{ressionVO.reserveSessionId}"  readonly style="background-color: lightgray" > 
+				
+				    <label for="">會員編號:</label>
+				    <input type="text" th:field="*{memberVO.memId}"><br><br>
+				
+				    <label for="">訂單日期:</label>
+				    <input th:text="*{reserveOrderDate}"   type="hidden"   th:field="*{reserveOrderDate}"><br><br>
+				
+				    <label for="">預定人數:</label>
+				    <input type="text" th:field="*{reserveNumber}" ><br><br>
+				
+				    <label for="" >預定日期:</label>
+				    <input  type="datetime-local" th:field="*{bookingDate}" id="bookingDate" name="bookingDate"><br><br>
+					<div id="error"></div>
+					
+<script type="text/javascript">
+$('#bookingDate').change(function() {
+    var selectedDate = new Date($(this).val());
+    var selectedTime = selectedDate.getHours() * 100 + selectedDate.getMinutes(); // 將時間轉換為24小時制的數字表示，如1400表示14:00
+
+    // 假設限制為14:00前不能超過100人
+    if (selectedTime < 1400 && num > 100) {
+        $('#error').text('此時段已滿，請選擇其他時段');
+        $(this).val(''); // 清空日期時間欄位
+    } else {
+        $('#error').text('');
+    }
+});</script>			
+				
+				    <label for="">備註:</label>
+				    <textarea id="orderNote" th:field="*{orderNote}" maxlength="100" style="max-height: 150px;"></textarea><br><br>
+				
+				   	 <button type="submit" id="submit">送出</button>
+<!-- 				    <label for="">訂單狀態:</label> -->
+				    <input type="hidden" th:field="*{reserveOrderState}"><br><br>
+				    
+				    </form>
+				</div>
+             </div>
+        </div>
+    </div>
+    <th:block th:insert="~{/back-end/htmlfile/content2}"/>
+    <th:block th:insert="~{/back-end/htmlfile/script}"/>
+</body>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+			<script>
+				flatpickr(
+						"#bookingDate",
+						{
+							enableTime : true,
+							noCalendar : false,
+							dateFormat : "Y-m-d H:i",
+							time_24hr : true,
+							minuteIncrement : 30,
+							
+							defaultDate : "10:00",
+							minTime : "10:00",
+							maxTime : "19:00",
+							minDate : new Date().fp_incr(3),
+							maxDate : new Date().fp_incr(60),
+							onChange : function(selectedDates, dateStr,
+									instance) {
+								const minutes = selectedDates[0].getMinutes();
+								if (minutes !== 0 && minutes !== 30) {
+									const adjustedDate = new Date(
+											selectedDates[0]
+													.setMinutes(minutes < 30 ? 0
+															: 30));
+									instance.setDate(adjustedDate, false);
+								}
+
+								const hour = selectedDates[0].getHours();
+								const sessionidValue = hour < 14 ? "101"
+										: "102";
+								document.getElementById("sessionid").value = sessionidValue;
+
+								req.setAttribute("sessionid", sessionid);
+							}
+						});
+			</script>
+
+</html>

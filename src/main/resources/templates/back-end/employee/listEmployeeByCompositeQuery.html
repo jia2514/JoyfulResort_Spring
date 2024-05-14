@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+<meta charset="UTF-8">
+<title>所有員工資料</title>
+<link th:insert="~{/back-end/htmlfile/css.html}" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap">
+
+
+
+
+<script>
+	//當表單提交時執行的函數
+	function checkSelection() {
+		// 取得所有的 radio 元素
+		var radios = document.getElementsByName('selectedEmp');
+		var isChecked = false; // 初始化一個變量，用於檢查是否有 radio 被選中
+
+		// 迭代所有 radio 元素
+		for (var i = 0; i < radios.length; i++) {
+			// 如果有任何一個 radio 被選中，將 isChecked 設置為 true，並跳出循環
+			if (radios[i].checked) {
+				isChecked = true;
+				// 設置所選的員工編號到 hidden input 中
+				document.getElementById('selectedEmpNo').value = radios[i].value;
+				break;
+			}
+		}
+		// 如果沒有任何一個 radio 被選中，顯示提示
+		if (!isChecked) {
+			alert('請選擇要修改的員工資料');
+			return false; // 阻止表單提交
+		}
+		return true; // 允許表單提交
+	}
+</script>
+
+
+
+<style>
+/* 全局樣式 */
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 20px;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+th, td {
+	padding: 8px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+	color: black;
+}
+
+th {
+	background-color: #5bc0de;
+	color: white;
+	border-left: 5px solid white;
+}
+
+th:first-child {
+	border-left: none;
+}
+
+tr:hover {
+	background-color: #f5f5f5;
+}
+
+.header-with-button {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-bottom: 10px;
+}
+
+.edit-button {
+	padding: 10px 20px;
+	background-color: #009973;
+	color: white;
+	border: none;
+	cursor: pointer;
+	border-radius: 5px;
+	float: right;
+	margin-top: 20px;
+	transition: all 0.3s ease;
+	font-weight: bold;
+}
+
+.edit-button:hover {
+	background-color: #007f66;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transform: scale(1.05);
+}
+
+.home-icon {
+	margin-right: 20px;
+	text-decoration: none;
+	color: black;
+	font-size: 20px;
+	position: relative;
+}
+
+.tooltip-text {
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: white;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	top: 100%;
+	left: 50%;
+	margin-left: -60px;
+	opacity: 0;
+	transition: opacity 0.3s, visibility 0.3s;
+}
+
+.home-icon:hover .tooltip-text {
+	visibility: visible;
+	opacity: 1;
+}
+
+.title-text {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	font-size: 28px;
+	color: black;
+}
+
+.title-icon {
+	margin-right: 10px;
+}
+
+/* 分頁樣式 */
+/* 分頁容器樣式 */
+.pagination {
+	display: flex;
+	justify-content: center; /* 將分頁置於底部中間 */
+	list-style: none;
+	padding: 0;
+	margin-top: 40px; /* 上移分頁 */
+	font-family: 'Mulish', sans-serif;
+}
+
+/* 分頁項目通用樣式 */
+.pagination li {
+	margin: 0 5px;
+}
+
+/* 分頁連結通用樣式 */
+.pagination a {
+	font-size: 20px; /* 調整字體大小 */
+	padding: 8px 16px;
+	text-decoration: none;
+	color: white; /* 文字顏色 */
+	background-color: #008fb3; /* 背景顏色 */
+	border: 1px solid #ddd;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+/* 鼠標懸停和焦點樣式 */
+.pagination a:hover, .pagination a:focus {
+	background-color: #005266; /* 深一點的顏色作為懸停效果 */
+}
+
+/* 當前頁和禁用狀態樣式 */
+.pagination .active a {
+	background-color: #005266; /* 當前頁面的背景顏色 */
+}
+
+.pagination .disabled a {
+	color: #6c757d;
+	background-color: #fff;
+	pointer-events: none; /* 禁止點擊事件 */
+}
+</style>
+
+
+</head>
+<body>
+	<th:block th:insert="~{/back-end/htmlfile/content1}" />
+	<div class="container-fluid pt-4 px-4">
+		<div class="bg-light rounded">
+			<div class="G3_content">
+				<div class="header-with-button">
+					<div style="display: flex; align-items: center;">
+						<a th:href="@{/employee/selectEmployeePage}" class="home-icon">
+							<i class="fas fa-search"></i> <span class="tooltip-text">查詢</span>
+						</a> <a th:href="@{/employee/addEmployee}" class="home-icon"
+							style="margin-left: 20px;"> <i class="fas fa-user-plus"></i>
+							<span class="tooltip-text">新增員工</span>
+						</a>
+					</div>
+					<span class="title-text"> <i
+						class="fa-solid fa-user title-icon"></i> 所有員工資料
+					</span>
+
+					<form th:action="@{/empController/getOne_For_Update}" method="post"
+						onsubmit="return checkSelection()" id="employeeForm">
+						<!-- 在這裡插入一個隱藏的 input，將所選的員工編號傳遞給控制器 -->
+						<input type="hidden" id="selectedEmpNo" name="selectedEmpNo" /> <input
+							type="submit" value="修改" class="edit-button">
+					</form>
+
+
+
+				</div>
+
+				<table id="employeeTable">
+					<thead>
+						<tr>
+							<th>計數</th>
+							<th>選擇</th>
+							<th>員工編號</th>
+							<th>員工職位</th>
+							<th>員工姓名</th>
+							<th>入職日期</th>
+							<th>員工狀態</th>
+							<th>員工帳號</th>
+							<th>員工密碼</th>
+							<th>員工照片</th>
+						</tr>
+					</thead>
+										<tbody>
+											<th:block th:each="employee : ${empListData}">
+												<tr>
+													<td th:text="${employeeStat.count}"></td>
+													<td><input type="radio" name="selectedEmp"
+														th:value="${employee.empno}" /></td>
+													<td th:text="${employee.empno}"></td>
+													<td th:text="${employee.position.positionName}"></td>
+													<td th:text="${employee.empName}"></td>
+													<td
+														th:text="${#temporals.format(employee.hiredate, 'yyyy-MM-dd')}"></td>
+													<td th:text="${employee.empState ? '在職' : '離職'}"></td>
+													<td th:text="${employee.empAccount}"></td>
+													<td th:text="${employee.empPassword}"></td>
+													<td><img
+														th:src="@{/employee/DBGifReader(empno=${employee.empno})}"
+														width="100px"></td>
+												</tr>
+											</th:block>
+										</tbody>
+
+
+
+<!-- 					<tbody> -->
+<!-- 						<th:block th:each="employee : ${employeesPage.content}"> -->
+<!-- 							注意這裡的改動 -->
+<!-- 							<tr> -->
+<!-- 								<td th:text="${employeeStat.count}"></td> -->
+<!-- 								<td><input type="radio" name="selectedEmp" -->
+<!-- 									th:value="${employee.empno}" /></td> -->
+<!-- 								<td th:text="${employee.empno}"></td> -->
+<!-- 								<td th:text="${employee.position.positionName}"></td> -->
+<!-- 								<td th:text="${employee.empName}"></td> -->
+<!-- 								<td -->
+<!-- 									th:text="${#temporals.format(employee.hiredate, 'yyyy-MM-dd')}"></td> -->
+<!-- 								<td th:text="${employee.empState ? '在職' : '離職'}"></td> -->
+<!-- 								<td th:text="${employee.empAccount}"></td> -->
+<!-- 								<td th:text="${employee.empPassword}"></td> -->
+<!-- 								<td><img -->
+<!-- 									th:src="@{/employee/DBGifReader(empno=${employee.empno})}" -->
+<!-- 									width="100px"></td> -->
+<!-- 							</tr> -->
+<!-- 						</th:block> -->
+<!-- 					</tbody> -->
+
+				</table>
+
+
+
+
+<!-- 				<div> -->
+<!-- 					<ul class="pagination"> -->
+<!-- 						<li th:class="${employeesPage.isFirst()} ? 'disabled' : ''"> -->
+<!-- 							<a -->
+<!-- 							th:href="@{/employee/listAllEmployee(page=${employeesPage.number - 1})}">&laquo; -->
+<!-- 								前一頁</a> -->
+<!-- 						</li> -->
+<!-- 						<li -->
+<!-- 							th:each="i : ${#numbers.sequence(0, employeesPage.totalPages - 1)}" -->
+<!-- 							th:class="${i == employeesPage.number} ? 'active' : ''"><a -->
+<!-- 							th:href="@{/employee/listAllEmployee(page=${i})}" -->
+<!-- 							th:text="${i + 1}"></a></li> -->
+<!-- 						<li th:class="${employeesPage.isLast()} ? 'disabled' : ''"><a -->
+<!-- 							th:href="@{/employee/listAllEmployee(page=${employeesPage.number + 1})}">下一頁 -->
+<!-- 								&raquo;</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</div> -->
+
+							
+
+				<!-- 分頁導航結束 -->
+
+
+
+
+			</div>
+		</div>
+	</div>
+	<th:block th:insert="~{/back-end/htmlfile/content2}" />
+	<th:block th:insert="~{/back-end/htmlfile/script}" />
+</body>
+</html>

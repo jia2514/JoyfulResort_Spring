@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+<meta charset="UTF-8">
+<title>新增員工</title>
+<link th:insert="~{/back-end/htmlfile/css.html}" />
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+	rel="stylesheet">
+
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 0;
+}
+
+.myapp-form-header {
+	background-color: #5bc0de;
+	color: white;
+	padding: 20px 10px;
+	text-align: center;
+	font-size: 24px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	margin-bottom: 30px;
+}
+
+.myapp-form {
+	max-width: 500px;
+	margin: 20px auto;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.myapp-input-group {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 20px; /* 確保所有 input-group 之間的間距為 20px */
+}
+
+.myapp-label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+	color: black;
+}
+
+.myapp-input, .myapp-select {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.myapp-password-container {
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+.myapp-input[type="password"] {
+	flex-grow: 1;
+	padding-right: 30px;
+}
+
+.myapp-toggle-password {
+	cursor: pointer;
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.myapp-input[type="submit"] {
+	background-color: #5bc0de;
+	color: white;
+	padding: 4px 10px;
+	font-size: 16px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+	width: 100px;
+}
+
+.myapp-input[type="submit"]:hover {
+	background-color: #48b0cc;
+	transform: scale(1.05);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.error-message {
+	margin-top: 5px; /* 增加上邊距以確保與輸入欄位有間隙 */
+	color: red;
+	font-size: 0.8em;
+	text-align: left;
+	padding-left: 5px;
+	display: block; /* 確保錯誤訊息占據整行 */
+}
+
+.position-error {
+	bottom: -5px;
+}
+
+.myapp-input-group:first-of-type {
+	margin-top: 30px;
+}
+
+.move-up {
+	margin-top: -30px; /* 根據需求調整數值，這裡用 -10px 作為示例 */
+}
+
+.move-up-date {
+	margin-top: -30px; /* 根據需要調整這個值 */
+}
+
+.move-up-status {
+	margin-top: -20px; /* 根據需要調整這個值 */
+}
+
+.label-bold {
+	font-weight: bold; /* 讓文字變粗體 */
+	color: black; /* 改變文字顏色為黑色 */
+}
+
+.button-lower {
+	margin-top: 20px; /* 根據需要調整這個值 */
+}
+
+.readonly-input {
+	cursor: not-allowed; /* 在滑鼠懸停時顯示禁止符號 */
+}
+
+.myapp-toggle-visibility {
+	cursor: pointer;
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 16px;
+}
+
+.move-down {
+	margin-top: 20px; /* 調整這個值以達到所需的間距 */
+}
+
+.move-down-photo {
+	margin-top: 20px; /* 根據需要調整這個值 */
+}
+
+.readonly-input {
+    cursor: not-allowed; /* 在滑鼠懸停時顯示禁止符號 */
+}
+
+</style>
+</head>
+<body>
+	<th:block th:insert="~{/back-end/htmlfile/content1}" />
+	<div class="container-fluid pt-4 px-4">
+		<div class="bg-light rounded">
+			<div class="G3_content">
+				<form th:action="@{/empController/insert}" method="post"
+					th:object="${employee}" enctype="multipart/form-data"
+					class="myapp-form" onsubmit="return validateForm();">
+
+
+					<div class="myapp-form-header">新增員工</div>
+
+					<!-- 					
+<!-- 員工職務 -->
+					<div class="myapp-input-group">
+						<label class="myapp-label">* 員工職務:</label> <select
+							class="myapp-select" th:field="*{position}"
+							onclick="hideContent('position.errors');">
+							<option value="">請選擇職位</option>
+							<option th:each="position : ${positionListData}"
+								th:value="${position.positionId}"
+								th:text="${position.positionName}"></option>
+						</select> <span th:if="${#fields.hasErrors('position')}"
+							th:errors="*{position}" class="error-message position-error"
+							id="position.errors"></span>
+					</div>
+
+
+
+
+					<!-- 員工姓名 -->
+					<div class="myapp-input-group">
+						<label class="myapp-label">* 員工姓名:</label> <input
+							class="myapp-input" type="text" th:field="*{empName}"
+							onclick="hideContent('empName.errors');" /> <span
+							th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"
+							class="error-message" id="empName.errors"></span>
+					</div>
+
+
+					<!-- 入職日期 -->
+					<div class="myapp-input-group">
+						<label class="myapp-label">* 入職日期:</label> <input
+							class="myapp-input" type="date" th:field="*{hiredate}"
+							onclick="hideContent('hiredate.errors');" /> <span
+							th:if="${#fields.hasErrors('hiredate')}" th:errors="*{hiredate}"
+							class="error-message" id="hiredate.errors"></span>
+					</div>
+
+
+					<div class="myapp-input-group">
+						<label class="myapp-label">* 員工狀態:</label> <select
+							class="myapp-select" th:field="*{empState}"
+							onclick="hideContent('empState.errors');">
+							<option value="true">在職</option>
+							<option value="false">離職</option>
+						</select> <span th:if="${#fields.hasErrors('empState')}"
+							th:errors="*{empState}" class="error-message"
+							id="empState.errors"></span>
+					</div>
+
+
+					<!-- 				
+
+					<!-- 員工密碼 -->
+					<div class="myapp-input-group">
+						<label class="myapp-label">* 員工密碼:</label>
+						<div class="myapp-password-container">
+							<input class="myapp-input" type="password"
+								th:field="*{empPassword}" id="password"
+								onclick="hideContent('empPassword.errors');"> <i
+								class="fas fa-eye myapp-toggle-password"
+								onclick="togglePasswordVisibility();"></i>
+						</div>
+						<span th:if="${#fields.hasErrors('empPassword')}"
+							th:errors="*{empPassword}" class="error-message"
+							id="empPassword.errors"></span>
+					</div>
+
+
+
+
+
+					<!-- 照片上傳 -->
+					<div class="myapp-input-group">
+						<label class="myapp-label">* 照片:</label> <input
+							class="myapp-input" type="file" th:field="*{image}"
+							onchange="previewImage()" onclick="hideContent('images.errors');">
+						<span class="error-message" th:utext="${errorMessage}"
+							id="images.errors">${errorMessage}</span>
+					</div>
+
+
+					<!-- 提交按钮 -->
+					<div class="myapp-input-group">
+						<input class="myapp-input" type="submit" value="新增">
+					</div>
+
+
+					<script>
+						function togglePasswordVisibility() {
+							var passwordInput = document
+									.getElementById("password");
+							var toggleIcon = document
+									.querySelector('.myapp-toggle-password');
+							if (passwordInput.type === "password") {
+								passwordInput.type = "text";
+								toggleIcon.classList.remove("fa-eye");
+								toggleIcon.classList.add("fa-eye-slash");
+							} else {
+								passwordInput.type = "password";
+								toggleIcon.classList.remove("fa-eye-slash");
+								toggleIcon.classList.add("fa-eye");
+							}
+						}
+
+						function validateForm() {
+							var positionId = document
+									.getElementById("positionId").value;
+							if (positionId === "") {
+								alert("請選擇職位");
+								return false;
+							}
+							// 可以添加進一步的職務驗證邏輯
+							return true;
+						}
+
+						function hideContent(elementId) {
+							var element = document.getElementById(elementId);
+							if (element) {
+								element.style.display = 'none';
+							}
+						}
+					</script>
+
+
+
+				</form>
+			</div>
+		</div>
+	</div>
+	<th:block th:insert="~{/back-end/htmlfile/content2}" />
+	<th:block th:insert="~{/back-end/htmlfile/script}" />
+</body>
+</html>

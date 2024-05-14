@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+<meta charset="UTF-8">
+<title>My Page</title>
+<link th:insert="~{/front-end/htmlfile/css.html}" />
+<!--  <script th:src="@{/webjars/jquery/jquery.min.js}"></script> -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+
+<style>
+body.main-layout {
+	background-color: #FFEEDD;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+}
+
+h2 {
+	text-align: center;
+	color: #333;
+}
+
+form {
+	padding-top: 0px;
+	display: flex;
+	flex-direction: column;
+	/*     align-items: center; /* 水平居中對齊 */
+	justify-content: center; /* 垂直居中對齊 */
+	width: 250px;
+	margin: 0 auto; /* 左右居中 */
+}
+
+label {
+	margin-top: 5px;
+}
+
+input {
+	padding: 5px;
+	margin-bottom: 20px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	width: 80px;
+}
+
+textarea {
+	width: 200px;
+	height: 200px;
+}
+
+button {
+	padding: 10px;
+	margin-top: 20px;
+	background-color: #0056b3;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+#submit {
+	width: 100px;
+	margin-top: 80px;
+	margin-left: 230px;
+}
+
+#submit:disabled {
+	opacity: 0.5;
+}
+
+.flatpickr-calendar.inline {
+	position: absolute;
+	top: 70%;
+	left: 50%;
+}
+
+.time-button {
+	margin: 5px 10px;
+	padding: 5px;
+	font-size: 20px;
+	margin-left: 0;
+	cursor: pointer;
+	border: 1px solid #ccc;
+	background-color: #84C1FF;
+	color: #272727;
+}
+
+</style>
+
+</head>
+
+<body class="main-layout">
+
+	<!-- th:style="'; background-image: url('+@{/frontend/images/restaurant.jpg}+');'" -->
+	<th:block link th:insert="~{/front-end/htmlfile/content3.html}" />
+	<div th:fragment="content">
+		<div class="news-section" style="margin-top: 100px;">
+			<div class="container" style="display: flex;">
+				<!-- 東西從這裡放 -->
+
+
+				<div style="flex: 1; padding-left: 200px;">
+					<form th:action="@{/joyfulresort/insertfront}" method="Post"
+						th:object="${resVO}" enctype="multipary/form-data"
+						style="width: 300px;">
+
+
+						<label for="" style="display: none;">餐廳場次編號:</label> <input
+							type="hidden" id="sessionid"
+							th:field="*{ressionVO.reserveSessionId}"> <label for="">會員編號:</label>
+						<input type="text" th:field="*{memberVO.memId}"> <label
+							for="reserveNumber">預定人數:(最多10人)</label> 
+							
+							
+						<select th:field="*{reserveNumber}" id="reserveNumber" name="reserveNumber"
+						style="width: 100px">
+							<option value="">選擇人數</option>
+						    <option value="1">1</option>
+						    <option value="2">2</option>
+						    <option value="3">3</option>
+						    <option value="4">4</option>
+						    <option value="5">5</option>
+						    <option value="6">6</option>
+						    <option value="7">7</option>
+						    <option value="8">8</option>
+						    <option value="9">9</option>
+						    <option value="10">10</option>
+						</select>
+							
+							
+							<label for="">預定日期:</label>
+						<input type="datetime-local" id="bookingDate" name="bookingDate"
+							th:field="*{bookingDate}" disabled style="width: 170px">
+
+
+				
+
+
+						<!-- 						<div id="time-buttons"></div> -->
+
+
+						<label for="">備註:</label>
+
+						<textarea id="orderNote" th:field="*{orderNote}" maxlength="50"
+							style="max-height: 150px; height: 70px" placeholder="最多25字......">	</textarea>
+
+						<br>
+						<button type="submit" id="submit">送出</button>
+
+
+						<!--  <label for="">訂單狀態:</label> -->
+						<input type="hidden" th:field="*{reserveOrderState}"><br>
+						<br>
+						<!-- <label for="">訂單日期:</label>  -->
+						<input type="hidden" th:field="*{reserveOrderDate}"> <br>
+						<br>
+
+					</form>
+				</div>
+
+
+
+
+				<div style="flex: 1; padding-right: 300px;">
+
+					<div>
+						<label>時間:</label>
+						
+						<div style="position: relative;">
+							<div id="time-buttons" style="width: 350px"></div>
+							<div id="error" style="color: red; position: absolute; font-size: 18px "   ></div>
+						</div>
+						
+						<br>
+						<div style="overflow: auto; width: 150%;">
+							<label style="padding-top: 20px">說明:</label>
+							<ul  style="padding-left: 0px">
+								
+								<li>* 超過 10 人的訂位，請使用電話預約</li>
+								<li>* 以上價格需另加一成服務費，以現場公告為主，不另行通知。</li>
+								<li>* 兒童收費標準：0-5歲免費，6-12歲以兒童價收費，13歲(含)以上以成人計價。</li>
+								<li>* 此餐價恕不適用於國定假日、農曆除夕、農曆春節、中西情人節、母親節(前一週週末與當週週末)、父親節、耶誕夜、耶誕節、跨年夜及特殊美食節。</li>
+
+							</ul>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- 	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" /> -->
+	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
+</body>
+
+
+<script type="text/javascript">
+	// 時間按鈕的時間列表
+var times = ['11:00', '12:00', '13:00', '14:00', '17:00', '18:00', '19:00', '20:00'];
+
+// 	var times = [];
+// 	for (var i = 11; i <= 14; i++) {
+// 	    var time = i.	toString().padStart(2, '0') + ':00';
+// 	    times.push(time);
+	    
+// 	}
+
+// 	for (var i = 17; i <= 20; i++) {
+// 	    var time = i.toString().padStart(2, '0') + ':00';
+// 	    times.push(time);
+// 	}
+// 	for (var i = 11; i <= 20; i++) {
+// 	    if (i !== 15 && i !== 16) {
+// 		var time = i.toString().padStart(2, '0') + ':00';
+// 		times.push(time);
+// 	}
+// 	}
+	//獲取用於放置按鈕的元素
+	var timeButtonsContainer = document.getElementById('time-buttons');
+
+	//抓取預定時間的日期部分 將選擇時間的值 往預訂送
+	function updateTimeAndCheckAvailability(time) {
+		var bookingDateInput = document.getElementById('bookingDate');
+		var currentDateTime = bookingDateInput.value; // 獲取當前日期時間
+		var selectedDateTime = currentDateTime.split(' ')[0] + ' ' + time; //抓取日期部分
+
+		bookingDateInput.value = selectedDateTime;
+		var selectedNumber = $('#reserveNumber').val(); // 獲取選擇的人數
+		console.log(selectedDateTime)
+
+		checkAvailability(selectedDateTime, selectedNumber);
+	}
+
+	// 創建並添加時間按鈕
+	times.forEach(function(time) {
+		var button = document.createElement('button');
+		button.disabled = true; // 初始狀態為禁用
+		button.style.opacity = button.disabled ? '0.5' : '1'; // 設定透明度
+		button.textContent = time;
+		button.classList.add('time-button');
+		button.addEventListener('click', function() {
+			event.preventDefault();
+			var hours = parseInt(time.split(':')[0]); //
+			var sessionidValue = hours < 15 ? "101" : "102";
+			document.getElementById("sessionid").value = sessionidValue;
+			updateTimeAndCheckAvailability(time);
+		});
+		timeButtonsContainer.appendChild(button);
+
+	});
+
+	//-------------------------------------------------日期樣式
+	flatpickr("#bookingDate", {
+		enableTime : false,
+		dateFormat : "Y-m-d H:i",
+		time_24hr : true,
+		minTime : "10:00",
+		maxTime : "20:00",
+		// 	inline: true ,
+		minDate : new Date().fp_incr(3),
+		maxDate : new Date().fp_incr(60),
+		
+		minuteIncrement : 60,
+		
+		onClose : function(selectedDates) {
+			const hour = selectedDates[0].getHours();
+			const sessionidValue = hour < 15 ? "101" : "102";
+
+			document.getElementById("sessionid").value = sessionidValue;
+
+		},
+			
+    
+	});
+	//-------------------------------------------------日期樣式
+	$('#bookingDate').change(function() {
+		var selectedDate = $(this).val();
+		var selectedNumber = $('#reserveNumber').val(); // 獲取選擇的人數
+		checkAvailability(selectedDate, selectedNumber);
+
+	});
+
+	$('#reserveNumber').change(function() {
+		var selectedNumber = $(this).val();
+		var selectedDate = $('#bookingDate').val(); //獲取選擇的日期
+
+		checkAvailability(selectedDate, selectedNumber);
+	});
+
+	function checkAvailability(bookingDate, reserveNumber) {
+		$.ajax({
+			url : '/total1',
+			type : 'POST',
+			data : {
+				bookingDate : bookingDate
+			},
+			success : function(response) {
+				// 將後端返回的總人數與前端所選擇的人數相加
+				var totalNumber = response.number + parseInt(reserveNumber);
+				// 檢查總人數是否超過 100
+				if (totalNumber > 100) {
+					// 超過則禁止選擇這個時間
+					$('#error').text(''+response.message+'').show();
+					$('#submit').prop('disabled', true); // 禁用送出欄位
+				} else {
+					$('#error').hide();
+					$('#submit').prop('disabled', false); // 啟用
+				}
+			}
+		});
+	}
+	//限制人數	
+	document.getElementById('reserveNumber').addEventListener('input',
+			function() {
+				var reserveNumber = parseInt(this.value, 10);
+				if (isNaN(reserveNumber) || reserveNumber < 1) {
+					reserveNumber = 1;
+				} else if (reserveNumber > 10) {
+					reserveNumber = 10;
+				}
+				this.value = reserveNumber;
+			});
+
+	// 判斷有人數才能選擇時間 
+	$(document).ready(function() {
+		$('#reserveNumber').on('input', function() {
+			var reserveNumber = $(this).val();
+			if (reserveNumber.trim() !== '') {
+				$('#bookingDate').prop('disabled', false);
+			} else {
+				$('#bookingDate').prop('disabled', true);
+			}
+		});
+	});
+
+	// 監聽日期輸入的變更事件
+	document.getElementById('bookingDate').addEventListener(
+			'input',
+			function() {
+				var bookingDateInput = this.value;
+				// 如果日期輸入框有值，則啟用所有時間按鈕
+				document.querySelectorAll('.time-button').forEach(
+						function(button) {
+							button.disabled = !bookingDateInput; // 如果日期輸入框有值，則按鈕啟用；否則按鈕禁用
+							button.style.opacity = button.disabled ? '0.5'
+									: '1'; // 根據按鈕狀態設置透明度
+						});
+			});
+	
+	
+</script>
+
+
+</html>

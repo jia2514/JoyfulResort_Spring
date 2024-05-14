@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+<meta charset="UTF-8">
+<title>員工職務新增</title>
+<link th:insert="~{/back-end/htmlfile/css.html}" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+
+
+
+* {
+    box-sizing: border-box; /* 確保內邊距和邊框不會影響到元素寬度的計算 */
+}
+
+html, body {
+    width: 100%; /* 確保根元素滿版 */
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid, .some-other-container {
+    width: 100%; /* 確保容器滿版 */
+    padding: 0; /* 移除不必要的內距 */
+    margin: 0; /* 移除不必要的外距 */
+}
+
+table {
+    width: 100%; /* 表格滿版 */
+    border-collapse: collapse; /* 邊框合併 */
+    margin: 20px auto; /* 上下邊距，並水平居中 */
+}
+
+th, td {
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #ddd;
+    color: black; /* 確保文字顏色為黑色 */
+    font-size: 16px; /* 調整字體大小 */
+}
+
+th {
+    background-color: #5bc0de;
+    color: white;
+    font-size: 18px; /* 標題的字體大小更大一些 */
+}
+
+
+.title-text {
+    font-weight: bold;
+    font-size: 30px;
+    color: black;
+    margin-left: 40%; /* 左側邊距為 40%，用於水平居中 */
+    text-align: center;
+}
+
+#submitBtn, #modifyBtn, #deleteBtn {
+    padding: 5px 15px;
+    background-color: #009973;  /* 綠色背景 */
+    color: white;              /* 白色文字 */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#submitBtn:hover, #modifyBtn:hover, #deleteBtn:hover {
+    background-color: #007f66;  /* 滑鼠懸停時的深綠色背景 */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+#submitBtn:focus, #modifyBtn:focus, #deleteBtn:focus {
+    outline: 2px solid #333;  /* 獲得焦點時的邊框樣式 */
+}
+
+.input-container {
+    display: flex;
+    align-items: center; /* 垂直居中對齊 */
+    justify-content: start; /* 從左側開始排列 */
+    flex-wrap: wrap; /* 允許元素包裹到下一行 */
+    gap: 10px; /* 元素之間的間距 */
+    position: relative;
+    width: 100%; /* 確保容器滿寬 */
+}
+
+.input-label {
+    font-weight: bold; /* 設置文字為粗體 */
+    color: black; /* 設置文字顏色為黑色 */
+    margin-right: 10px; /* 標籤與輸入框之間的間距 */
+    white-space: nowrap; /* 防止標籤折行 */
+    flex-shrink: 0; /* 防止標籤在空間不足時縮小 */
+}
+
+input[type="text"] {
+    flex-grow: 1; /* 輸入框填充剩餘空間 */
+    margin-right: 10px; /* 輸入框與按鈕之間的間距 */
+}
+
+#error-message {
+    color: red;
+    width: 100%; /* 確保錯誤訊息在新的一行且滿寬 */
+    margin-top: 5px; /* 頂部間距 */
+    text-align: left; /* 文字對齊方式 */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-row {
+    display:flex;
+    justify-content: flex-end; /* 這將確保子元素在父容器中均勻分佈 */
+    align-items: center;
+    margin-bottom: 30px;
+    padding-right: 20px; /* 確保有足夠的空間在行的最右側 */
+}
+
+#modifyForm, .input-container {
+    margin-left: 100px; /* 將修改表單和刪除按鈕推向右側 */
+}
+
+#deleteBtn {
+    margin-left: 250px; /* 在刪除按鈕和修改表單之間添加一些空間 */
+    margin-top: 35px; /* 增加上方邊距來將按鈕向下推 */
+}
+
+.add-position-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.add-position-container .input-label, 
+.add-position-container #positionName, 
+.add-position-container #newPositionName {
+    flex-grow: 1;
+}
+
+.add-position-container #submitBtn, 
+.add-position-container #modifyBtn, 
+.add-position-container #deleteBtn {
+    margin-left: 20px; /* 統一按鈕之間的間距 */
+    flex-shrink: 0; /* 防止按鈕在小屏幕上縮小 */
+}
+
+#submitBtn:hover, #modifyBtn:hover, #deleteBtn:hover {
+    background-color: #007f66;  /* 滑鼠懸停時的深綠色背景 */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    transform: scale(1.05); /* 滑鼠懸停時放大1.05倍 */
+}
+
+/* 如果您想要所有按鈕都有這種效果，您可以這樣設置 */
+button:hover {
+    transform: scale(1.05);
+}
+
+
+
+
+</style>
+
+
+</head>
+<body>
+	<th:block th:insert="~{/back-end/htmlfile/content1}" />
+	<div class="container-fluid pt-4 px-4">
+		<div class="bg-light rounded">
+			<div class="G3_content">
+
+
+
+
+<div class="form-row">
+<form id="positionForm">
+    <div class="input-container">
+        <label for="positionName" class="input-label">* 新增職務名稱:</label>
+        <input type="text" id="positionName" name="positionName" placeholder="輸入職務名稱" required>
+        <button type="submit" id="submitBtn">新增</button>
+    </div>
+    <div id="error-message" style="color: red;"></div>
+</form>
+
+
+
+
+
+
+<!--     <form id="modifyForm"> -->
+<!--         <div class="input-container"> -->
+<!--             <label for="newPositionName" class="input-label">* 修改職務名稱:</label> -->
+<!--             <input type="text" id="newPositionName" name="newPositionName" placeholder="輸入新的職務名稱"> -->
+<!--             <button type="button" id="modifyBtn">修改</button> -->
+<!--         </div> -->
+<!--     </form> -->
+
+
+<form id="modifyForm">
+    <div class="input-container">
+        <label for="newPositionName" class="input-label">* 修改職務名稱:</label>
+        <input type="text" id="newPositionName" name="newPositionName" placeholder="輸入新的職務名稱" required>
+        <button type="submit" id="modifyBtn">修改</button>  <!-- 改成 type="submit" -->
+    </div>
+</form>
+
+
+
+    <!-- 新增的刪除按鈕 -->
+    <div class="input-container">
+        <button type="button" id="deleteBtn">刪除</button>
+    </div>
+</div>
+
+
+
+
+
+<span class="title-text"> <i class="fa-solid fa-circle-user"></i>所有職務列表
+				</span>
+
+<div class="container-fluid">
+    <div class="some-other-container"> <!-- 確保這個容器沒有限制寬度或不必要的邊距 -->
+        <table>
+            <tr>
+                <th>選擇</th>
+                <th>職務編號</th>
+                <th>職務名稱</th>
+                <th>該職務所占人數</th>
+            </tr>
+            <tr th:each="position : ${positionListDataIncludeEmpCount}">
+                <td><input type="radio" th:name="positionRadio" th:value="${position.positionId}" /></td>
+                <td th:text="${position.positionId}"></td>
+                <td th:text="${position.positionName}"></td>
+                <td th:text="${position.employeeCount}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+				<script>		
+			
+
+    //新增
+    
+    document.getElementById("positionForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        var positionName = document.getElementById("positionName").value;
+        var positionData = { "positionName": positionName };
+        var jsonToSend = JSON.stringify(positionData);
+
+        fetch('/positions/insert', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: jsonToSend
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            if (data.success) {
+            	alert("新增成功");
+                var table = document.querySelector("table");
+                var newRow = table.insertRow(-1);
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                var cell3 = newRow.insertCell(2);
+                var cell4 = newRow.insertCell(3);
+
+                cell1.innerHTML = `<input type="radio" name="positionRadio" value="${data.positionId}" />`;
+                cell2.textContent = data.positionId;
+                cell3.textContent = data.positionName;
+                cell4.textContent = data.employeeCount || 0;
+
+                document.getElementById("positionName").value = '';
+                document.getElementById("error-message").textContent = '';
+            } else {
+                document.getElementById("error-message").textContent = data.errorMessage;
+            }
+        }).catch(function(error) {
+            console.error('錯誤:', error);
+            document.getElementById("error-message").textContent = '無法連接到服務器';
+        });
+    });
+
+
+
+
+
+	//修改按鈕
+
+document.getElementById("modifyForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    var newPositionName = document.getElementById("newPositionName").value;
+    var selectedRadio = document.querySelector('input[name="positionRadio"]:checked');
+    var selectedPositionId = selectedRadio ? selectedRadio.value : null;
+
+    if (!selectedPositionId) {
+        console.error('沒有選擇任何職務');
+        alert('請選擇一個職務進行修改');
+        return;
+    }
+
+    if (!newPositionName) {
+        console.error('職務名稱不能為空');
+        alert('請填寫職務名稱');
+        return;
+    }
+
+    fetch('/positions/update', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            positionId: selectedPositionId,
+            positionName: newPositionName
+        })
+    }).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+        if (data.success) {
+            console.log('職務名稱修改成功');
+            alert('職務名稱已成功修改');
+            
+            // 更新表格中的職務名稱
+            var positionCells = document.querySelectorAll('td');
+            for (let cell of positionCells) {
+                if (cell.parentNode.querySelector('input[name="positionRadio"]').value == data.positionId) {
+                    cell.parentNode.cells[2].textContent = data.positionName;  // 假設職務名稱在第三列
+                    break;
+                }
+            }
+
+        } else {
+            console.error('職務名稱修改失敗:', data.errorMessage);
+            alert('修改失敗: ' + data.errorMessage);
+        }
+    }).catch(function(error) {
+        console.error('出現錯誤:', error);
+        alert('修改時發生錯誤');
+    });
+});
+
+
+	//刪除按鈕
+	document.getElementById("deleteBtn").addEventListener("click", function() {
+    var selectedRadio = document.querySelector('input[name="positionRadio"]:checked');
+    if (!selectedRadio) {
+        alert('請選擇一個職務進行刪除');
+        return;
+    }
+    var selectedPositionId = selectedRadio.value;
+    // 獲取職務所占的員工數量
+    var employeeCount = selectedRadio.closest("tr").cells[3].textContent; // 假設員工數量在第四列
+
+    if (employeeCount > 0) {
+        alert('此職務尚有員工，無法刪除');
+        return;
+    }
+
+    if (confirm('確定要刪除此職務嗎？')) {
+        fetch(`/positions/delete/${selectedPositionId}`, {
+            method: 'DELETE'
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            if (data.success) {
+                console.log('職務刪除成功');
+                // 刷新表格或從表格中移除被刪除的行
+                selectedRadio.closest("tr").remove();
+            } else {
+                console.error('職務刪除失敗:', data.errorMessage);
+                alert('刪除失敗: ' + data.errorMessage);
+            }
+        }).catch(function(error) {
+            console.error('出現錯誤:', error);
+            alert('修改時發生錯誤');
+        });
+    }
+});
+
+	
+	
+
+ // 添加鼠標懸停事件監聽器以清除錯誤信息
+	document.getElementById("positionName").addEventListener("click", function() {
+	    document.getElementById("error-message").textContent = '';
+	});
+
+</script>
+
+
+			</div>
+		</div>
+	</div>
+	<th:block th:insert="~{/back-end/htmlfile/content2}" />
+	<th:block th:insert="~{/back-end/htmlfile/script}" />
+</body>
+</html>

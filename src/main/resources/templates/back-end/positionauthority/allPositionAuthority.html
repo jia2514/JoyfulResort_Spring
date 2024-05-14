@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+    <meta charset="UTF-8">
+    <title>功能職務列表</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link th:insert="~{/back-end/htmlfile/css.html}"/>
+    
+<style>
+/* 基本字體和背景設定 */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+/* 標題文字和圖標的樣式 */
+.title-text {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+    font-size: 28px; /* 字體大小 */
+    font-weight: bold; /* 字體粗細 */
+    color: black; /* 文字顏色 */
+    margin: 20px 0; /* 上下邊距 */
+}
+
+.title-text i {
+    font-size: 32px; /* 圖標大小 */
+    margin-right: 10px; /* 圖標和文字之間的間隔 */
+}
+
+/* 表格基本樣式 */
+table {
+    width: 100%; /* 表格滿版 */
+    border-collapse: collapse; /* 去除內邊距，使表格更緊密 */
+    border-spacing: 0; /* 用 border-spacing 代替原本的間隔線 */
+}
+
+/* 表頭樣式 */
+table th {
+    background-color: #5bc0de; /* 淡藍色背景 */
+    color: white; /* 白色文字 */
+    border-left: 1px solid black; /* 左側有一條黑色邊框 */
+    border-bottom: 1px solid black; /* 底部框 */
+    padding: 10px; /* 內邊距 */
+    text-align: center; /* 文字居中顯示 */
+    font-size: 18px; /* 字體放大 */
+}
+
+
+th:first-child {
+    border-left: none; /* 第一個表頭元素沒有左邊框 */
+    width: 20%; /* 設定寬度較窄 */
+}
+
+th:nth-child(2) {
+    width: 80%; /* 第二個表頭元素寬度較寬 */
+}
+
+/* 單元格樣式 */
+td, th {
+    padding: 10px; /* 內邊距 */
+    text-align: left; /* 文字靠左對齊 */
+    border-right: 1px solid black; /* 右邊框 */
+    border-bottom: 1px solid black; /* 底部框 */
+    color: black; /* 文字顏色 */
+}
+
+.center-text {
+    text-align: center; /* 水平置中 */
+}
+
+ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 創建足夠的列，每列寬度至少為200px，最多平分空間 */
+    grid-template-rows: repeat(5, auto); /* 每列最多五個項目，每個項目高度自動 */
+    grid-auto-flow: column; /* 確保填充完一列後，項目流向下一列 */
+    list-style-type: disc; /* 保留標準的列表項標誌 */
+    padding-left: 20px; /* 列表內縮，為標誌留出空間 */
+    gap: 5px; /* 設定項目之間的間隔 */
+}
+
+li {
+    display: list-item; /* 保持列表項標誌 */
+    margin-bottom: 5px; /* 項目之間的縱向間隔 */
+}
+
+/* 確保最後一行沒有底邊 */
+tr:last-child td, tr:last-child th {
+    border-bottom: none;
+}
+
+</style>
+
+
+</head>
+<body>
+    <th:block th:insert="~{/back-end/htmlfile/content1}"/>
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded">
+            <div class="G3_content">
+            
+            <a th:href="@{/positionauthority/updatePositionAuthority}" class="edit-link" title="修改職務功能設定"> <i
+					class="fas fa-pen"></i> 修改
+				</a>
+            
+            
+            <a th:href="@{/positionauthority/addPositionAuthority}" class="edit-link" title="修改職務功能設定"> <i
+					class="fas fa-pen"></i> 新增
+				</a>
+            
+            
+                <span class="title-text"> <i class="fa-solid fa-circle-user"></i>所有職務功能</span>
+                <table>
+                    <tr>
+                        <th>員工職務</th>
+                        <th>職務功能</th>
+                    </tr>
+<!--                     使用 Thymeleaf 迭代職務 -->
+                    <tr th:each="position : ${positionListData}">
+                        <td class="center-text" th:text="${position.positionName}"></td>
+
+                        <td>
+                            <ul>
+<!--                                 遍歷每個職務的權限功能 -->
+                                <li th:each="auth : ${position.getAuthorities()}"
+                                    th:text="${auth.authorityFunction.functionName}"></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+    <th:block th:insert="~{/back-end/htmlfile/content2}"/>
+    <th:block th:insert="~{/back-end/htmlfile/script}"/>
+</body>
+</html>

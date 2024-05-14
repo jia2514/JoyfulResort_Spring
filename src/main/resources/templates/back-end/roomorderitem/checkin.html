@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>checkin資料</title>
+
+<link th:insert="~{/back-end/htmlfile/css.html}" />
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<!-- ●●js  for jquery datatables 用 -->
+<script
+	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<!-- ●●js  for jquery datatables 用 -->
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+<!-- ●●css for jquery datatables 用 -->
+
+<!-- ●● jquery datatables 設定 -->
+
+
+<style type="text/css">
+h1 {
+	margin-top: 0; /* 移除标题顶部间距 */
+	margin-bottom: 20px; /* 添加标题底部间距 */
+}
+
+.error-message {
+    color: red; /* 错误消息文字颜色为红色 */
+    display: none; /* 初始隐藏错误消息 */
+    
+}
+
+textarea {
+    width: 100%; /* 设置文本区域的宽度为父元素的100% */
+    height: 60px; /* 设置文本区域的高度为150像素 */
+    /* 其他样式属性 */
+}
+
+input[type="text"] {
+    width: 100%; /* 设置输入框宽度为父元素的100% */
+    /* 其他样式属性 */
+}
+
+table {
+    table-layout: auto; /* 使用自动列宽 */
+    width: 100%; /* 表格宽度填满父容器 */
+    text-align: center; /* 居中对齐表格内容 */
+    margin-top: 20px; /* 表格顶部间距 */
+    border-collapse: collapse; /* 合并表格边框 */
+}
+
+th, td {
+	padding: 10px; /* 单元格内边距 */
+	border: 1px solid #dddddd; /* 单元格边框 */
+}
+
+th {
+	background-color: #0056b3; /* 表头背景颜色 */
+	color: white; /* 表头文字颜色 */
+}
+
+
+
+
+
+th {
+	background-color: #004080; /* 深蓝色表头背景 */
+	color: white; /* 表头文字颜色 */
+}
+
+tr:nth-child(even) {
+	background-color: #f2f2f2; /* 偶数行背景颜色 */
+}
+
+a {
+	text-decoration: none; /* 移除链接下划线 */
+	color: #007bff; /* 链接颜色 */
+}
+
+a:hover {
+	text-decoration: underline; /* 鼠标悬停时添加下划线 */
+}
+
+input[type="submit"] {
+	background-color: #007bff; /* 浅蓝色按钮背景颜色 */
+	color: #ffffff; /* 按钮文字颜色 */
+	border: none; /* 移除按钮边框 */
+	border-radius: 5px; /* 圆角按钮 */
+	padding: 8px 16px; /* 按钮内边距 */
+	cursor: pointer; /* 鼠标悬停时显示手型 */
+}
+
+input[type="submit"]:hover {
+	background-color: #4d94ff; /* 鼠标悬停时按钮背景颜色 */
+}
+table {
+    table-layout: fixed;
+}
+</style>
+</head>
+<body>
+	<th:block th:insert="~{/back-end/htmlfile/content1}" />
+	<div class="container-fluid pt-4 px-4">
+		<div class="bg-light rounded">
+			<div class="G3_content">
+				<div align="center">
+					<h2>今日checkin明細</h2>
+				</div>
+
+				<table>
+					<thead>
+						<tr>
+							<th>訂單編號</th>
+							<th>會員姓名</th>
+<!-- 							<th>check in 日期</th> -->
+							<th>check out 日期</th>
+							<th>房型</th>
+							<th>入住姓名</th>
+							<th>入住電話</th>
+<!-- 							<th>入住人數</th> -->
+							<th>特殊需求</th>
+							<th>房間</th>
+							<th></th>
+						</tr>
+					</thead>
+					
+		    <tbody>
+    <!-- 第一个循环迭代 checkInList -->
+    <div th:each="roomOrder : ${checkInList}">
+        <!-- 第二个循环迭代 roomOrder.roomOrderItems -->
+        
+            <!-- 使用 #lists.size() 函数获取 roomOrder.roomOrderItems 的大小 -->
+            <div th:with="count=${#lists.size(roomOrder.roomOrderItems)}">
+                <!-- 使用内部循环迭代订单项 -->
+                <tr th:each="i : ${#numbers.sequence(0, count-1)}" th:class="'roomOrderItem_' + ${roomOrder.roomOrderItems[i].roomOrderItemId}">
+                    <!-- 在每个订单项中显示房间类型的名称 -->
+                    <td th:text="${roomOrder.roomOrderId}"></td>
+                    <td th:text="${roomOrder.member.memberName}"></td>
+<!--                     <td th:text="${roomOrder.checkInDate}"></td> -->
+                    <td th:text="${roomOrder.checkOutDate}"></td>
+                    <td th:text="${roomOrder.roomOrderItems[i].roomType.roomTypeName}"></td>
+                    
+                    <form id="myForm" th:action="@{'/roomorderItem/checkinUpdate'}" method="post">
+                     <div th:if="${roomOrder.roomOrderItems[i].roomOrderItemState == 1}">
+	                    <td class="room_guest_name_row" th:text="${roomOrder.roomOrderItems[i].roomGuestName}"></td>
+						<td class="room_guest_phone_row" th:text="${roomOrder.roomOrderItems[i].roomGuestPhone}"></td>
+
+						<td class="special_req_row" th:text="${roomOrder.roomOrderItems[i].specialREQ}"></td>
+						<td class="choose_room_row" th:text="${roomOrder.roomOrderItems[i].room.roomId}"></td>
+	                    <td class="buttom_row">已完成checkin</td>
+	                    </div>
+	                  
+	                 <div th:if="${roomOrder.roomOrderItems[i].roomOrderItemState == 4}">
+	                    <td class="room_guest_name_row"></td>
+						<td class="room_guest_phone_row"></td>
+
+						<td class="special_req_row" th:text="${roomOrder.roomOrderItems[i].specialREQ}"></td>
+						<td class="choose_room_row"></td>
+	                    <td class="buttom_row">取消入住</td>
+	                    </div> 
+	                    
+	                    <div th:if="${roomOrder.roomOrderItems[i].roomOrderItemState == 0}">
+	                    <td class="room_guest_name_row">
+	                     
+	                     	<input type="text" name="roomGuestName" th:value="${roomOrder.member.memberName}" required>
+	                    	<span class="error-message">姓名請勿空白</span>
+	                    </td>
+						<td class="room_guest_phone_row">
+							<input type="text" name="roomGuestPhone" th:value="${roomOrder.member.memberPhone}" required pattern="09\d{8}">
+						    <span class="error-message ER1">格式09xxxxxxxx</span>
+						    <span class="error-message ER2">電話請勿空白</span>
+						</td>
+
+						<td class="special_req_row">
+							<textarea type="text" name="specialREQ" th:text="${roomOrder.roomOrderItems[i].specialREQ}"></textarea>
+						</td>
+						<td class="choose_room_row">
+							<select id="mySelect" name="roomId" th:field="*{roomType}" required>
+                				<option value="">選擇房間</option>
+								<div th:each="roomType : ${roomTypeListData}" th:if="${roomOrder.roomOrderItems[i].roomType.roomTypeId == roomType.roomTypeId}" >
+								<option th:each="room : ${roomType.room}"
+				                th:if="${room.roomSaleState == true && room.roomState == 0}"
+				                th:value="${room.roomId}"
+				                th:text="${room.roomId}" />
+				                
+				                </div>
+            				</select>
+							<div class="error-message">請選擇房間</div>
+						</td>
+	                    <td class="buttom_row">
+	                    	<input class="room_checkin" type="submit" value="checkin">
+	                    	<input type="hidden" name="roomOrderItemId" th:value="${roomOrder.roomOrderItems[i].roomOrderItemId}">
+	                    </td>
+	                    </div>
+	                    
+	                    
+                    </form>
+                    
+                </tr>
+            </div>
+        
+    </div>
+</tbody>
+		</table>
+				
+							
+				
+				
+				
+				
+				<a th:href="@{/roomorder/roomorderselect}">回住宿訂單首頁</a>
+			</div>
+		</div>
+	</div>
+	<th:block th:insert="~{/back-end/htmlfile/content2}" />
+	<th:block th:insert="~{/back-end/htmlfile/script}" />
+
+	<script type="text/javascript">
+	$(document).ready(function() {
+	    $('.room_checkin').click(function(e) {
+	        e.preventDefault();
+	        var currentRow = $(this).closest('tr');
+	        
+	        var phoneInput = currentRow.find('.room_guest_phone_row input');
+	        var phonePattern = phoneInput.attr('pattern');
+	        var phoneValue = phoneInput.val().trim();
+	        var phoneErrorMessage1 = phoneInput.siblings('.error-message.ER1');
+	        var phoneErrorMessage2 = phoneInput.siblings('.error-message.ER2');
+	        
+	        var nameInput = currentRow.find('.room_guest_name_row input');
+	        var nameValue = nameInput.val().trim();
+	        var nameErrorMessage = nameInput.siblings('.error-message');
+	        
+	        var roomSelect = currentRow.find("#mySelect");
+	        var roomValue = roomSelect.val();
+	        var roomErrorMessage = roomSelect.siblings('.error-message');
+	        
+	        
+	        
+	        if(phoneValue.match(new RegExp(phonePattern)) && nameValue != '' && roomValue != ""){
+	        	
+	        }else{
+	        	if (phoneValue != '' && !phoneValue.match(new RegExp(phonePattern))) {
+		            phoneErrorMessage1.show();
+		        } else if (phoneValue === '') {
+		            phoneErrorMessage2.show();
+		        } 
+	        	if (nameValue === '') {
+		            nameErrorMessage.show();
+		        } 
+	        	if (roomValue === ""){
+		        	roomErrorMessage.show();
+		        }
+	        	return;
+	        }
+	        
+        
+	        // 获取当前行的表单数据
+	        var formData = currentRow.find("#myForm").serialize();
+	        var selectValue = currentRow.find("#mySelect").val();
+	        formData = decodeURIComponent(formData, true);
+	        formData += "&roomId=" + selectValue;
+	        console.log(formData);
+
+	        // 执行 AJAX 请求
+	        $.ajax({
+	            type: 'POST',
+	            url: '/roomorderitem/checkinUpdate',
+	            data: formData,
+	            success: function(roomOrderItem) {
+	                // 在当前行更新相关信息
+	                currentRow.find('.buttom_row').text('已完成checkin');
+	                currentRow.find('.room_guest_name_row').text(roomOrderItem.roomGuestName);
+	                currentRow.find('.room_guest_phone_row').text(roomOrderItem.roomGuestPhone);
+	                currentRow.find('.special_req_row').text(roomOrderItem.specialREQ);
+	                currentRow.find('.choose_room_row').text(roomOrderItem.roomId);
+	                $('select').each(function() {
+	                    $(this).find('option[value="' + roomOrderItem.roomId + '"]').remove();
+	                });
+	            },
+	            error: function(xhr, status, error) {
+	                console.error(error);
+	            }
+	        });
+	        
+	    });
+	});
+		
+	
+		
+	</script>
+</body>
+</html>

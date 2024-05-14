@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class="w-100">
+    <thead>
+    <tr>
+        <th>編號</th>
+        <th>標題</th>
+        <th>日期</th>
+        <th>摘要</th>
+        <th>內容</th>
+        <th>照片</th>
+        <th>狀態</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="news : ${news}">
+        <td th:text="${news.newsId}"></td>
+        <td th:text="${news.newsTitle}"></td>
+        <td th:text="${news.newsDate}"></td>
+        <td th:text="${news.newsAbstract}"></td>
+        <td th:text="${news.newsContent}"></td>
+        <td>
+            <img style="width: 100px; height: 100px" th:src="@{'/news/images/'+${news.newsId}}" alt=""/>
+        </td>
+        <td th:text="${news.newsState} ? '上架' : '下架'"></td>
+        <td>
+            <a th:href="'/news/backend/update/' + ${news.newsId}">修改</a>
+            <a th:href="'/news/backend/delete/' + ${news.newsId}" onclick="return confirm('確定要刪除嗎？')">刪除</a>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+<a href="/news/backend/add" class="add-link">新增消息</a>
+</body>
+</html>

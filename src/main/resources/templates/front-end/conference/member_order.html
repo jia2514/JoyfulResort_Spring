@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Title</title>
+
+</head>
+<body>
+<table class="w-100">
+    <thead>
+    <tr>
+        <th>訂單編號</th>
+        <th>會議廳名稱</th>
+        <th>訂單生效日期</th>
+        <th>下訂日期</th>
+        <th>訂單狀態</th>
+        <th>訂單備註</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${memberOrders}">
+        <td th:text="${order.meetingRoomOrderId}"></td>
+        <td th:text="${order.meetingRoom.meetingRoomName}"></td>
+        <td th:text="${order.meetingRoomOrderDate}"></td>
+        <td th:text="${order.bookingDate}"></td>
+        <td>
+                            <span th:switch="${order.orderState}">
+                                <span th:case="0">取消</span>
+                                <span th:case="1">未付款</span>
+                                <span th:case="2">成立</span>
+                                <span th:case="3">完成</span>
+                            </span>
+        </td>
+        <td th:text="${order.orderNote}"></td>
+        <td th:if="${order.orderState == 1}">
+            <a href="#" class="btn btn-outline-dark">前往付款</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+</html>

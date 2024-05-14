@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員查詢頁面</title>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                    <!-- ●●js  for jquery datatables 用 -->
+<script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>              <!-- ●●js  for jquery datatables 用 -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" /> <!-- ●●css for jquery datatables 用 -->
+
+<!-- ●● jquery datatables 設定 -->
+<script>
+	$(document).ready(function() {
+		$('#example').DataTable({
+			"lengthMenu": [3 ,5, 10, 20, 50, 100],
+			"searching": true,  //搜尋功能, 預設是開啟
+		    "paging": true,     //分頁功能, 預設是開啟
+		    "ordering": true,   //排序功能, 預設是開啟
+		    "language": {
+		        "processing": "處理中...",
+		        "loadingRecords": "載入中...",
+		        "lengthMenu": "顯示 _MENU_ 筆結果",
+		        "zeroRecords": "沒有符合的結果",
+		        "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
+		        "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+		        "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+		        "infoPostFix": "",
+		        "search": "搜尋:",
+		        "paginate": {
+		            "first": "第一頁",
+		            "previous": "上一頁",
+		            "next": "下一頁",
+		            "last": "最後一頁"
+		        },
+		        "aria": {
+		            "sortAscending":  ": 升冪排列",
+		            "sortDescending": ": 降冪排列"
+		        }
+		    }
+		});
+	});
+</script>
+<style type="text/css">
+body {
+	margin: 1rem 12rem 2rem 12rem;
+}
+</style>
+</head>
+<body>
+    <h1>這是會員查詢介面</h1>
+    
+    <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+		 <div align="center"> <h2>--會員資料--</h2></div>
+		 
+</nav>
+
+
+<table id="example" class="display" style="width: 100%">
+  <thead >
+	<tr style="background-color:#CCCCFF">
+		<th>會員編號</th>
+		<th>會員姓名</th>
+		<th>會員帳號</th>
+		<th>Email</th>
+		<th>電話</th>
+		<th>地址</th>
+		<th>性別</th>
+		<th>生日</th>
+		<th>狀態</th>
+		<th>修改</th>
+	</tr>
+  </thead>
+	
+  <tbody>
+		<th:block th:each="MemberVO : ${memListData}">
+			<tr>
+				<td th:text="${MemberVO.memberId}"></td>
+				<td th:text="${MemberVO.memberName}"></td>
+				<td th:text="${MemberVO.memberAccount}"></td>
+				<td th:text="${MemberVO.memberEmail}"></td>
+				<td th:text="${MemberVO.memberPhone}"></td>
+				<td th:text="${MemberVO.memberAddress}"></td>
+				<td th:text="${MemberVO.memberGender}"></td>
+				<td th:text="${MemberVO.memberBirthday}"></td>
+				<td th:text="${MemberVO.memberState}"></td>
+				<td><button>按鈕</button></td>
+			</tr>
+		</th:block>
+  </tbody>
+</table>
+</body>
+</html>
