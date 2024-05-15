@@ -14,7 +14,7 @@ import javax.servlet.http.*;
 import com.joyfulresort.he.member.model.MemberService;
 import com.joyfulresort.reservecontent.model.ResContentService;
 
-@Controller
+@Controller("ResContentDBGifReaderController")
 //@RequestMapping("/member")
 @RequestMapping(value={"/member","/reserve"})
 public class DBGifReaderController {
