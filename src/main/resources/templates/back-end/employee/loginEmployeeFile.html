@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+<meta charset="UTF-8">
+<title>員工資料</title>
+<link th:insert="~{/back-end/htmlfile/css.html}" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script>
+	function checkSelection() {
+		var radios = document.getElementsByName('selectedEmp');
+		var isChecked = false;
+		for (var i = 0; i < radios.length; i++) {
+			if (radios[i].checked) {
+				isChecked = true;
+				document.getElementById('selectedEmpNo').value = radios[i].value;
+				break;
+			}
+		}
+		if (!isChecked) {
+			alert('請選擇要修改的員工資料');
+			return false;
+		}
+		return true;
+	}
+</script>
+
+
+
+
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 20px;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+th, td {
+	padding: 8px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+	color: black;
+}
+
+th {
+	background-color: #5bc0de;
+	color: white;
+	border-left: 5px solid white;
+}
+
+th:first-child {
+	border-left: none;
+}
+
+tr:hover {
+	background-color: #f5f5f5;
+}
+
+.header-with-button {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-bottom: 10px;
+}
+
+.edit-button {
+    padding: 10px 20px;
+    background-color: #009973; /* 修改按鈕顏色 */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    float: right;
+    margin-top: -20px; /* 可能需要調整此值以適應你的佈局 */
+    transition: all 0.3s ease;
+    font-weight: bold;
+    position: relative; /* 添加相對定位 */
+    top: 50%; /* 將按鈕垂直中心 */
+    transform: translateY(-50%); /* 確保按鈕完全垂直居中 */
+}
+
+.edit-button:hover {
+    background-color: #007f66; /* 滑鼠移過時的顏色 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05) translateY(-50%); /* 更新hover狀態的transform，保持垂直居中 */
+}
+
+
+.home-icon {
+	margin-right: 20px;
+	text-decoration: none;
+	color: black;
+	font-size: 20px;
+	position: relative;
+}
+
+.tooltip-text {
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: white;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	top: 100%;
+	left: 50%;
+	margin-left: -60px;
+	opacity: 0;
+	transition: opacity 0.3s, visibility 0.3s;
+}
+
+.home-icon:hover .tooltip-text {
+	visibility: visible;
+	opacity: 1;
+}
+
+.title-text {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	font-size: 28px;
+	color: black;
+}
+
+.title-icon {
+	margin-right: 10px;
+}
+</style>
+
+</head>
+<body>
+	<th:block th:insert="~{/back-end/htmlfile/content1}" />
+	<div class="container-fluid pt-4 px-4">
+		<div class="bg-light rounded">
+			<div class="G3_content">
+				<div class="header-with-button">
+					<div style="display: flex; align-items: center;">
+						<a th:href="@{/employee/selectEmployeePage}" class="home-icon"> <i class="fas fa-search"></i>
+							<span class="tooltip-text">查詢</span>
+						</a> <a th:href="@{/employee/addEmployee}" class="home-icon"
+							style="margin-left: 20px;"> <i class="fas fa-user-plus"></i>
+							<span class="tooltip-text">新增員工</span>
+						</a>
+					</div>
+					<span class="title-text"> <i
+						class="fa-solid fa-user title-icon"></i> 員工資料
+					</span>
+				</div>
+				<form th:action="@{/empController/getOne_For_Update}" method="post"
+					onsubmit="return checkSelection()" id="employeeForm">
+					<input type="hidden" id="selectedEmpNo" name="selectedEmpNo" />
+					<input type="submit" value="修改" class="edit-button">
+				</form>
+
+				<table id="employeeTable">
+					<thead>
+						<tr>
+							<th>選擇</th>
+							<th>員工編號</th>
+							<th>員工職位</th>
+							<th>員工姓名</th>
+							<th>入職日期</th>
+							<th>員工狀態</th>
+							<th>員工帳號</th>
+							<th>員工密碼</th>
+							<th>員工照片</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type="radio" name="selectedEmp"
+								th:value="${session.employees.empno}" /></td>
+							<td th:text="${session.employees.empno}"></td>
+							<td th:text="${session.employees.position.positionName}"></td>
+							<td th:text="${session.employees.empName}"></td>
+							<td
+								th:text="${#temporals.format(session.employees.hiredate, 'yyyy-MM-dd')}"></td>
+							<td th:text="${session.employees.empState ? '在職' : '離職'}"></td>
+							<td th:text="${session.employees.empAccount}"></td>
+							<td th:text="${session.employees.empPassword}"></td>
+							<td><img
+								th:src="@{/employee/DBGifReader(empno=${session.employees.empno})}"
+								width="100px"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<th:block th:insert="~{/back-end/htmlfile/content2}" />
+	<th:block th:insert="~{/back-end/htmlfile/script}" />
+</body>
+</html>
