@@ -3,6 +3,7 @@ package com.joyfulresort.so.activityorder.controller;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,7 @@ import javax.validation.Valid;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,7 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.joyfulresort.so.activity.model.ActivityVO;
+import com.joyfulresort.he.member.model.MemberService;
+import com.joyfulresort.he.member.model.MemberVO;
 import com.joyfulresort.so.activityorder.model.ActivityOrderService;
 import com.joyfulresort.so.activityorder.model.ActivityOrderVO;
 import com.joyfulresort.so.activitysession.model.ActivitySessionService;
@@ -38,19 +41,37 @@ public class ActivityOrderController {
 	@Autowired
     private RedisService redisService;
 	
+	@Autowired
+	MemberService memSvc;
+	
 	@PostMapping("listAll")
 	public String getALL(ModelMap model) {
 		List<ActivityOrderVO> list = aoSvc.getAll();
 		model.addAttribute("activityOrderListData", list);
 		model.addAttribute("getAll", true);
-		return "backend/activityorder/listAllActivityOrder";
+		return "back-end/activityorder/listAllActivityOrder";
 	}
 	
 	@PostMapping("listType")
 	public String getALL(@RequestParam("activitySessionID") String activitySessionID, ModelMap model) {
 		List<ActivityOrderVO> list = aoSvc.getActivityBySession(Integer.valueOf(activitySessionID));
 		model.addAttribute("activityOrderListData", list);
-		return "backend/activityorder/listAllActivityOrder";
+		return "back-end/activityorder/listAllActivityOrder";
+	}
+	
+	@PostMapping("listCompositeQuery")
+	public String listAllEmp(HttpServletRequest req, Model model) {
+		Map<String, String[]> map = req.getParameterMap();
+		List<ActivityOrderVO> list = aoSvc.getAll(map);
+		model.addAttribute("activityOrderListData", list);
+		
+		if (list.isEmpty()) {
+			model.addAttribute("errorMessage", "查無資料");
+			return "back-end/activityorder/activityorder";
+		}
+		
+		model.addAttribute("getAll", true);
+		return "back-end/activityorder/listAllActivityOrder";
 	}
 	
 	@PostMapping("updatePage")
@@ -62,14 +83,14 @@ public class ActivityOrderController {
 //		model.addAttribute("activitySessionVO", activitySessionVO);
 		
 		
-		return "backend/activityorder/updateActivityOrder";
+		return "back-end/activityorder/updateActivityOrder";
 	}
 	
 	@PostMapping("update")
 	public String update(@Valid ActivityOrderVO activityOrderVO, BindingResult result, ModelMap model) {
 		if (result.hasErrors()) {
 			model.addAttribute("activityOrderVO", activityOrderVO);
-			return "backend/activityorder/updateActivityOrder";
+			return "back-end/activityorder/updateActivityOrder";
 		}
 		aoSvc.updateActivityOrder(activityOrderVO);
 		
@@ -81,7 +102,7 @@ public class ActivityOrderController {
 		
 		activityOrderVO = aoSvc.getOneActivityOrder(Integer.valueOf(activityOrderVO.getActivityOrderID()));
 		model.addAttribute("activityOrderVO", activityOrderVO);
-		return "backend/activityorder/listOneActivityOrder";
+		return "back-end/activityorder/listOneActivityOrder";
 	}
 	
 	@PostMapping("add")
@@ -98,7 +119,7 @@ public class ActivityOrderController {
 		
 	    ActivityOrderVO activityOrderVO = new ActivityOrderVO();	
 		model.addAttribute("activityOrderVO", activityOrderVO);	
-		return "backend/activityorder/addActivityOrder";
+		return "back-end/activityorder/addActivityOrder";
 	}
 	
 	@PostMapping("insert")
@@ -106,7 +127,7 @@ public class ActivityOrderController {
 
 		if (result.hasErrors()) {
 			model.addAttribute("activityOrderVO", activityOrderVO);
-			return "backend/activityorder/addActivityOrder";
+			return "back-end/activityorder/addActivityOrder";
 		}
 		
 		// 獲取當前活動場次的報名人數
@@ -125,7 +146,7 @@ public class ActivityOrderController {
 	        // 返回錯誤信息或重定向到適當的頁面
 	    	int leftTotal = maxTotal - currentTotal;
 	        model.addAttribute("errorMessage", "報名人數剩 " + leftTotal + " 人");
-	        return "backend/activityorder/addActivityOrder"; // 需要創建一個錯誤頁面或適當處理
+	        return "back-end/activityorder/addActivityOrder"; // 需要創建一個錯誤頁面或適當處理
 	    }
 		
 		aoSvc.addActivityOrder(activityOrderVO);
@@ -139,7 +160,7 @@ public class ActivityOrderController {
 		List<ActivityOrderVO> list = aoSvc.getAll();
 		model.addAttribute("activityOrderListData", list);
 		
-		return "backend/activityorder/listOneActivityOrder";
+		return "back-end/activityorder/listOneActivityOrder";
 	}
 	
 	@PostMapping("getActivityPrice")
@@ -188,6 +209,12 @@ public class ActivityOrderController {
 	@ModelAttribute("activitySessionListData")
 	protected List<ActivitySessionVO> referenceActivitySessionListData() {
 		List<ActivitySessionVO> list = asSvc.getAll();
+		return list;
+	}
+	
+	@ModelAttribute("MemberList")
+	protected List<MemberVO> referenceMemberList(Model model) {
+		List<MemberVO> list = memSvc.getAll();
 		return list;
 	}
 

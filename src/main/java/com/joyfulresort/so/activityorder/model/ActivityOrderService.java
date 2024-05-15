@@ -1,13 +1,14 @@
 package com.joyfulresort.so.activityorder.model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.joyfulresort.so.activity.model.ActivityVO;
+import hibernate.util.CompositeQuery.HibernateUtilCompositeQueryActivityOrder;
 
 @Service("aoSvc")
 public class ActivityOrderService {
@@ -37,6 +38,10 @@ public class ActivityOrderService {
 	
 	public List<ActivityOrderVO> getActivityBySession(Integer activitySessionID){
 		return repository.findBySession(activitySessionID);
+	}
+	
+	public List<ActivityOrderVO> getAll(Map<String, String[]> map) {
+		return HibernateUtilCompositeQueryActivityOrder.getAllC(map,sessionFactory.openSession());
 	}
 
 }

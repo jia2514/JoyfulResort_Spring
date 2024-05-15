@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.joyfulresort.he.member.model.MemberVO;
 import com.joyfulresort.so.activitysession.model.ActivitySessionVO;
 
 @Entity
@@ -28,9 +29,9 @@ public class ActivityOrderVO {
 	@JoinColumn(name = "activity_session_id", referencedColumnName = "activity_session_id")
 	private ActivitySessionVO activitySessionVO;
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "member_id", referencedColumnName = "member_id")
-//	private Member member;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "member_id", referencedColumnName = "member_id")
+	private MemberVO memberVO;
 	
 	@Column(name = "entered_number")
 	@NotNull(message = "請輸入報名人數")
@@ -75,14 +76,6 @@ public class ActivityOrderVO {
 		this.activitySessionVO = activitySessionVO;
 	}
 
-//	public Member getMember() {
-//		return member;
-//	}
-//
-//	public void setMember(Member member) {
-//		this.member = member;
-//	}
-
 	public Integer getEnteredNumber() {
 		return enteredNumber;
 	}
@@ -91,13 +84,13 @@ public class ActivityOrderVO {
 		this.enteredNumber = enteredNumber;
 	}
 
-//	public Integer getEnteredChildNumber() {
-//		return enteredChildNumber;
-//	}
-//
-//	public void setEnteredChildNumber(Integer enteredChildNumber) {
-//		this.enteredChildNumber = enteredChildNumber;
-//	}
+	public MemberVO getMemberVO() {
+		return memberVO;
+	}
+
+	public void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
+	}
 
 	public Integer getOrderAmount() {
 		return orderAmount;

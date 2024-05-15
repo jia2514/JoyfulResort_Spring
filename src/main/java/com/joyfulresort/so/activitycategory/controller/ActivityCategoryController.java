@@ -37,46 +37,46 @@ public class ActivityCategoryController {
 		model.addAttribute("activityCategoryVO", activityCategoryVO);
 		model.addAttribute("activityCategoryListData", list);
 		model.addAttribute("getOne", true);
-		return "backend/activitycategory/listOneActivityCategory";
+		return "back-end/activitycategory/listOneActivityCategory";
 	}
 	
 	@PostMapping("updatePage")
 	public String updatePage(@RequestParam("activityCategoryID") String activityCategoryID, ModelMap model) {
 		ActivityCategoryVO activityCategoryVO = acSvc.getOneActivityCategory(Integer.valueOf(activityCategoryID));
 		model.addAttribute("activityCategoryVO", activityCategoryVO);
-		return "backend/activitycategory/updateActivityCategory";
+		return "back-end/activitycategory/updateActivityCategory";
 	}
 	
 	@PostMapping("update")
 	public String update(@Valid ActivityCategoryVO activityCategoryVO, BindingResult result, ModelMap model) {
 		if (result.hasErrors()) {
 			model.addAttribute("activityCategoryVO", activityCategoryVO);
-			return "backend/activitycategory/updateActivityCategory";
+			return "back-end/activitycategory/updateActivityCategory";
 		}
 		acSvc.updateActivityCategory(activityCategoryVO);
 		activityCategoryVO = acSvc.getOneActivityCategory(Integer.valueOf(activityCategoryVO.getActivityCategoryID()));
 		model.addAttribute("activityCategoryVO", activityCategoryVO);
-		return "backend/activitycategory/listOneActivityCategory";
+		return "back-end/activitycategory/listOneActivityCategory";
 	}
 	
 	@PostMapping("add")
 	public String addPage(ModelMap model) {
 		ActivityCategoryVO activityCategoryVO = new ActivityCategoryVO();
 		model.addAttribute("activityCategoryVO", activityCategoryVO);
-		return "backend/activitycategory/addActivityCategory";
+		return "back-end/activitycategory/addActivityCategory";
 	}
 	
 	@PostMapping("insert")
 	public String insert(@Valid ActivityCategoryVO activityCategoryVO, BindingResult result, ModelMap model) {
 		if (result.hasErrors()) {
 			model.addAttribute("activityCategoryVO", activityCategoryVO);
-			return "backend/activitycategory/addActivityCategory";
+			return "back-end/activitycategory/addActivityCategory";
 		}
 		acSvc.addActivityCategory(activityCategoryVO);
 		List<ActivityCategoryVO> list = acSvc.getAll();
 		model.addAttribute("activityCategoryListData", list);
 		model.addAttribute("getAll", true);
-		return "backend/activitycategory/listOneActivityCategory";
+		return "back-end/activitycategory/listOneActivityCategory";
 //		model.addAttribute("activityCategoryVO", activityCategoryVO);
 //		return "backend/activitycategory/listAllActivityCategory";
 	}

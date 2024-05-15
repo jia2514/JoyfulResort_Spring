@@ -77,7 +77,7 @@
 						<tr>
 			                <th>活動訂單編號</th>
 			                <th>活動場次編號</th>
-			                <!-- <th>會員編號</th> -->
+			                <th>會員編號</th>
 			                <th>報名人數</th>
 			                <!-- <th>孩童報名人數</th> -->
 			                <th>訂單金額</th>
@@ -93,7 +93,7 @@
 	            		<tr>
 			            	<td th:text="${activityOrderVO.activityOrderID}"></td>
 			            	<td th:text="${activityOrderVO.activitySessionVO.activitySessionID}"></td>
-							<!-- <td th:text="${activityOrderVO.memberID}"></td> -->
+							<td th:text="${activityOrderVO.memberVO.memberId}"></td>
 							<td th:text="${activityOrderVO.enteredNumber}"></td>
 							<!-- <td th:text="${activityOrderVO.enteredChildNumber}"></td> -->
 							<td th:text="${activityOrderVO.orderAmount}"></td>

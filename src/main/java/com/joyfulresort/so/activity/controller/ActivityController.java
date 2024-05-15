@@ -45,33 +45,33 @@ public class ActivityController {
 		List<ActivityVO> list = aSvc.getAll();
 		model.addAttribute("activityListData", list);
 		model.addAttribute("getOne", true);
-		return "backend/activity/listOneActivity";
+		return "back-end/activity/listOneActivity";
 	}
 	
 	@PostMapping("listType")
 	public String getALL(@RequestParam("activityCategoryID") String activityCategoryID, ModelMap model) {
 		List<ActivityVO> list = aSvc.getActivityByCategory(Integer.valueOf(activityCategoryID));
 		model.addAttribute("activityListData", list);
-		return "backend/activity/listAllActivity";
+		return "back-end/activity/listAllActivity";
 	}
 	
 	@PostMapping("updatePage")
 	public String updatePage(@RequestParam("activityID") String activityID, ModelMap model) {
 		ActivityVO activityVO = aSvc.getOneActivity(Integer.valueOf(activityID));
 		model.addAttribute("activityVO", activityVO);
-		return "backend/activity/updateActivity";
+		return "back-end/activity/updateActivity";
 	}
 	
 	@PostMapping("update")
 	public String update(@Valid ActivityVO activityVO, BindingResult result, ModelMap model) {
 		if (result.hasErrors()) {
 			model.addAttribute("activityVO", activityVO);
-			return "backend/activity/updateActivity";
+			return "bac-kend/activity/updateActivity";
 		}
 		aSvc.updateActivity(activityVO);
 		activityVO = aSvc.getOneActivity(Integer.valueOf(activityVO.getActivityID()));
 		model.addAttribute("activityVO", activityVO);
-		return "backend/activity/listOneActivity";
+		return "back-end/activity/listOneActivity";
 	}
 	
 	@PostMapping("add")
@@ -82,14 +82,14 @@ public class ActivityController {
 		ActivityCategoryVO activityCategoryVO = new ActivityCategoryVO();
 		model.addAttribute("activityCategoryVO", activityCategoryVO);
 		
-		return "backend/activity/addActivity";
+		return "back-end/activity/addActivity";
 	}
 	
 	@PostMapping("insert")
 	public String insert(@Valid ActivityVO activityVO, BindingResult result, ModelMap model) {
 		if (result.hasErrors()) {
 			model.addAttribute("activityVO", activityVO);
-			return "backend/activity/addActivity";
+			return "back-end/activity/addActivity";
 		}
 		aSvc.addActivity(activityVO);
 		
@@ -107,8 +107,8 @@ public class ActivityController {
 //			System.out.print(ac.getActivityCategoryVO().getActivityCategoryName());
 //		}
 //		model.addAttribute("getOne", true);
-//		return "backend/activity/activity";
-		return "backend/activity/listOneActivity";
+//		return "back-end/activity/activity";
+		return "back-end/activity/listOneActivity";
 	}
 	
 	// 讓activity裡也能取得activitycategory的資訊，可以在html中使用
