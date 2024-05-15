@@ -57,6 +57,7 @@ public class ResContentController {
 	public String contentupdate(@Valid ResContentVO contentVO, BindingResult result, ModelMap model,
 			@RequestParam("reserveImage") MultipartFile[] parts) throws IOException {
 		result = removeFieldError(contentVO, result, "reserveImage");
+		model.addAttribute("contentVO", contentVO);
 
 		if (parts[0].isEmpty()) {
 			byte[] reserveImage = rescontentSvc.getOneContent(contentVO.getId()).getReserveImage();
@@ -69,7 +70,9 @@ public class ResContentController {
 
 		}
 		if (result.hasErrors()) {
-			model.addAttribute("message", "錯誤!"); // 待修正
+//			  model.addAttribute("error", result.getAllErrors());
+			model.addAttribute("error", result.getFieldError("reserveText"));
+			return "back-end/reserve/reservecontentupdate";
 		}
 
 		rescontentSvc.updateContent(contentVO);
@@ -85,9 +88,10 @@ public class ResContentController {
 	public String contentinsert(@Valid ResContentVO contentVO, BindingResult result, ModelMap model,
 			@RequestParam("reserveImage") MultipartFile[] parts) throws IOException {
 		result = removeFieldError(contentVO, result, "reserveImage");
+		model.addAttribute("contentVO", contentVO);
 
 		if (parts[0].isEmpty()) {
-			model.addAttribute("errorMessage", "請上傳內容照片");
+			model.addAttribute("message", "請上傳內容照片");
 
 		} else {
 			for (MultipartFile multipartFile : parts) {
@@ -97,8 +101,9 @@ public class ResContentController {
 
 		}
 		if (result.hasErrors() || parts[0].isEmpty()) {
-//			return "back-end/reserve/reservecontentadd";
-			// 待修正 無法導回
+			model.addAttribute("error", result.getFieldError("reserveText"));
+
+			return "back-end/reserve/reservecontentadd";
 		}
 
 		rescontentSvc.addContent(contentVO);

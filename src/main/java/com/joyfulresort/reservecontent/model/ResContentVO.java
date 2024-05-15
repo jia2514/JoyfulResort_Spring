@@ -23,7 +23,7 @@ public class ResContentVO implements Serializable {
 	private Integer id;
 
 	@NotEmpty(message = "內容文字請勿空白!") 
-	@Length(min = 20, max = 150, message = "文字長度限制在10到120字之間") 
+	@Length(min = 20, max = 150, message = "文字內容限制在10到140字之間") 
 	@Column(name = "reserve_text")
 	private String reserveText;
 
