@@ -38,7 +38,7 @@ public class ActivityPhotoController {
 		List<ActivityPhotoVO> list = apSvc.getAll();
 		model.addAttribute("activityPhotoListData", list);
 		model.addAttribute("getAll", true);
-		return "backend/activityphoto/activityphoto";
+		return "back-end/activityphoto/activityphoto";
 	}
 	
 //	@PostMapping("listOne")
@@ -58,17 +58,17 @@ public class ActivityPhotoController {
 		
 		if (list.isEmpty()) {
 			model.addAttribute("errorMessage", "查無資料");
-			return "backend/activityphoto/activityphoto";
+			return "back-end/activityphoto/activityphoto";
 		}
 		
-		return "backend/activityphoto/listAllActivityPhoto";
+		return "back-end/activityphoto/listAllActivityPhoto";
 	}
 	
 	@PostMapping("updatePage")
 	public String updatePage(@RequestParam("activityPhotoID") String activityPhotoID, ModelMap model) {
 		ActivityPhotoVO activityPhotoVO = apSvc.getOneActivityPhoto(Integer.valueOf(activityPhotoID));
 		model.addAttribute("activityPhotoVO", activityPhotoVO);
-		return "backend/activityphoto/updateActivityPhoto";
+		return "back-end/activityphoto/updateActivityPhoto";
 	}
 	
 	@PostMapping("update")
@@ -89,7 +89,7 @@ public class ActivityPhotoController {
 			}
 		}
 		if (result.hasErrors()) {
-			return "backend/activityphoto/updateActivityPhoto";
+			return "back-end/activityphoto/updateActivityPhoto";
 		}
 		/*************************** 2.開始修改資料 *****************************************/
 		apSvc.updateActivityPhoto(activityPhotoVO);;
@@ -99,15 +99,15 @@ public class ActivityPhotoController {
 //		List<ActivityPhotoVO> list = apSvc.getAll();
 //		model.addAttribute("activityPhotoListData", list);
 //		model.addAttribute("getAll", true);
-//		return "backend/activityphoto/activityphoto";
-		return "backend/activityphoto/listOneActivityPhoto";
+//		return "back-end/activityphoto/activityphoto";
+		return "back-end/activityphoto/listOneActivityPhoto";
 	}
 	
 	@PostMapping("add")
 	public String addPage(ModelMap model) {
 		ActivityPhotoVO activityPhotoVO = new ActivityPhotoVO();
 		model.addAttribute("activityPhotoVO", activityPhotoVO);
-		return "backend/activityphoto/addActivityPhoto";
+		return "back-end/activityphoto/addActivityPhoto";
 	}
 	
 	@PostMapping("insert")
@@ -126,7 +126,7 @@ public class ActivityPhotoController {
 			}
 		}
 		if (result.hasErrors() || parts[0].isEmpty()) {
-			return "backend/activityphoto/addActivityPhoto";
+			return "back-end/activityphoto/addActivityPhoto";
 		}
 		/*************************** 2.開始新增資料 *****************************************/
 		apSvc.addActivityPhoto(activityPhotoVO);;
@@ -137,8 +137,8 @@ public class ActivityPhotoController {
 		List<ActivityPhotoVO> list = apSvc.getAll();
 		model.addAttribute("activityPhotoListData", list);
 //		model.addAttribute("getAll", true);
-//		return "backend/activityphoto/activityphoto";
-		return "backend/activityphoto/listOneActivityPhoto";
+//		return "back-end/activityphoto/activityphoto";
+		return "back-end/activityphoto/listOneActivityPhoto";
 	}
 	
 	@ModelAttribute("activityListData")

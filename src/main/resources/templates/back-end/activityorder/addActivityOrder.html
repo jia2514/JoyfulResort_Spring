@@ -105,10 +105,13 @@
 						</select>
 					</div>
 					
-					<!-- <div>
+					<div>
 						<label>會員</label><br>
-						<input type="text" th:value="${member}" readonly>
-					</div> -->
+						<select th:field="*{memberVO.memberId}" id="memberID">
+						    <option value="">請選擇</option>
+						    <option th:each="memberVO : ${MemberList}" th:value="${memberVO.memberId}" th:text="${memberVO.memberName}"></option>
+						</select>
+					</div>
 					
 					<div>
 						<label>訂單金額</label>

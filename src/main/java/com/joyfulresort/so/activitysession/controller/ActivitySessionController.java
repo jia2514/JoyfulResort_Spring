@@ -43,7 +43,7 @@ public class ActivitySessionController {
 		List<ActivitySessionVO> list = asSvc.getAll();
 		model.addAttribute("activitySessionListData", list);
 //		model.addAttribute("getAll", true);
-		return "backend/activitysession/listAllActivitySession";
+		return "back-end/activitysession/listAllActivitySession";
 	}
 	
 	@PostMapping("listCompositeQuery")
@@ -54,11 +54,11 @@ public class ActivitySessionController {
 		
 		if (list.isEmpty()) {
 			model.addAttribute("errorMessage", "查無資料");
-			return "backend/activitysession/activitysession";
+			return "back-end/activitysession/activitysession";
 		}
 		
 		model.addAttribute("getAll", true);
-		return "backend/activitysession/listAllActivitySession";
+		return "back-end/activitysession/listAllActivitySession";
 	}
 	
 	@PostMapping("add")
@@ -66,7 +66,7 @@ public class ActivitySessionController {
 		ActivitySessionVO activitySessionVO = new ActivitySessionVO();
 		model.addAttribute("activitySessionVO", activitySessionVO);
 		
-		return "backend/activitysession/addActivitySession";
+		return "back-end/activitysession/addActivitySession";
 	}
 	
 	@PostMapping("insert")
@@ -74,7 +74,7 @@ public class ActivitySessionController {
 
 		if (result.hasErrors()) {
 			model.addAttribute("activitySessionVO", activitySessionVO);
-			return "backend/activitysession/addActivitysession";
+			return "back-end/activitysession/addActivitysession";
 		}
 		asSvc.addActivitySession(activitySessionVO);
 		
@@ -83,7 +83,7 @@ public class ActivitySessionController {
 		List<ActivitySessionVO> list = asSvc.getAll();
 		model.addAttribute("activitySessionListData", list);
 		
-		return "backend/activitysession/listOneActivitySession";
+		return "back-end/activitysession/listOneActivitySession";
 	}
 	
 	@PostMapping("updatePage")
@@ -97,21 +97,21 @@ public class ActivitySessionController {
 		activitySessionVO.setEnteredTotal(enteredTotal);
 		
 		model.addAttribute("activitySessionVO", activitySessionVO);
-		return "backend/activitysession/updateActivitySession";
+		return "back-end/activitysession/updateActivitySession";
 	}
 	
 	@PostMapping("update")
 	public String update(@Valid ActivitySessionVO activitySessionVO, BindingResult result, ModelMap model) {
 		if (result.hasErrors()) {
 			model.addAttribute("activitySessionVO", activitySessionVO);
-			return "backend/activitysession/updateActivitySession";
+			return "back-end/activitysession/updateActivitySession";
 		}
 	    
 	    asSvc.updateActivitySession(activitySessionVO);
 	    
 		activitySessionVO = asSvc.getOneActivitySession(Integer.valueOf(activitySessionVO.getActivitySessionID()));
 		model.addAttribute("activitySessionVO", activitySessionVO);
-		return "backend/activitysession/listOneActivitySession";
+		return "back-end/activitysession/listOneActivitySession";
 	}
 	
 	// 讓activitysession裡也能取得activity的資訊，可以在html中使用
