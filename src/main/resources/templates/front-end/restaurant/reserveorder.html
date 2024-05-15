@@ -10,6 +10,8 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
 
@@ -22,84 +24,92 @@ body {
 	font-family: Arial, sans-serif;
 	background-color: #f4f4f4;
 }
+
 h2 {
-    text-align: center;
-    color: #333;
-    margin-top: 20px; /* 添加這一行 */
+	text-align: center;
+	color: #333;
+	margin-top: 20px; /* 添加這一行 */
 }
 
 form {
-    padding-top: 0px; /* 修改為 20px */
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center; */ /* 移除垂直居中對齊 */
-    width: 100px;
-    margin: 0 auto; /* 左右居中 */
+	padding-top: 0px; /* 修改為 20px */
+	display: flex;
+	flex-direction: column;
+	/* justify-content: center; */ /* 移除垂直居中對齊 */
+	width: 100px;
+	margin: 0 auto; /* 左右居中 */
 }
 
 label {
-   margin-top: 5px;
+	margin-top: 20px;
+	font-size: 20px;
 }
 
 input {
-    padding: 5px; /* 修改為 8px */
-    margin-bottom: 20px; /* 修改為 15px */
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 20%;
-    box-sizing: border-box; /* 添加這一行 */
+	padding: 5px; /* 修改為 8px */
+	margin-bottom: 5px; /* 修改為 15px */
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	width: 20%;
+	box-sizing: border-box; /* 添加這一行 */
 }
 
 textarea {
-    width: 100%; /* 修改為 100% */
-    height: 100px; /* 修改為 100px */
+	width: 100%; /* 修改為 100% */
+	height: 100px; /* 修改為 100px */
 }
 
 button {
-    padding: 10px;
-    margin-top: 20px;
-    background-color: #0056b3;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 20%;
+	padding: 10px;
+	margin-top: 20px;
+	background-color: #0056b3;
+	color: white;
+	border: none;
+	border-radius: 15px;
+	cursor: pointer;
+	width: 20%;
+	border: 2px solid black; /* 邊框顏色 */
 }
-
 #submit {
-    width: 20%; /* 修改為 100% */
-    margin-top: 50px; /* 修改為 20px */
-    margin-left: 300px; /* 修改為 0 */
+	width: 30%; /* 修改為 100% */
+	font-size:19px; 
+
 }
 
 #submit:disabled {
-    opacity: 0.5;
+	opacity: 0.5;
 }
-
+#submit:hover {
+	background-color: #007BFF; /* 點擊時的背景顏色 */
+	color: white; /* 點擊時的文字顏色 */
+}
 .flatpickr-calendar.inline {
-    position: absolute;
-    top: 70%;
-    left: 50%;
+	position: absolute;
+	top: 70%;
+	left: 50%;
 }
 
 .time-button {
-    margin: 5px 10px;
-    padding: 5px;
-    font-size: 20px;
-    margin-left: 0;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    background-color: #84C1FF;
-    color: #272727;
+	border: 2px solid #000000;
+	margin: 5px 10px;
+	padding: 5px;
+	font-size: 20px;
+	margin-left: 0;
+	cursor: pointer;
+	background-color: #84C1FF;
+	color: #272727;
 }
 
-
+.time-button:focus {
+	background-color: #007BFF; /* 點擊時的背景顏色 */
+	color: white; /* 點擊時的文字顏色 */
+}
 </style>
 
 
 </head>
 
-	<!-- th:style="'; background-image: url('+@{/frontend/images/restaurant.jpg}+');'" -->
+<!-- th:style="'; background-image: url('+@{/frontend/images/restaurant.jpg}+');'" -->
 <body class="main-layout">
 
 	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
@@ -119,31 +129,26 @@ button {
 							type="hidden" id="sessionid"
 							th:field="*{ressionVO.reserveSessionId}"> <label for="">會員編號:</label>
 						<input type="text" th:field="*{memberVO.memberId}"> <label
-							for="reserveNumber">預定人數:(最多10人)</label> 
-							
-							
-						<select th:field="*{reserveNumber}" id="reserveNumber" name="reserveNumber"
-						style="width: 80px ;height: 30px;">
+							for="reserveNumber">預定人數:(最多10人)</label> <select
+							th:field="*{reserveNumber}" id="reserveNumber"
+							name="reserveNumber" style="width: 80px; height: 30px;">
 							<option value="">人數</option>
-						    <option value="1">1</option>
-						    <option value="2">2</option>
-						    <option value="3">3</option>
-						    <option value="4">4</option>
-						    <option value="5">5</option>
-						    <option value="6">6</option>
-						    <option value="7">7</option>
-						    <option value="8">8</option>
-						    <option value="9">9</option>
-						    <option value="10">10</option>
-						</select>
-							
-							
-							<label for="">預定日期:</label>
-						<input type="datetime-local" id="bookingDate" name="bookingDate"
-							th:field="*{bookingDate}" disabled style="width: 150px">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						</select> <label for="">預定日期:</label> <input type="datetime-local"
+							id="bookingDate" name="bookingDate" th:field="*{bookingDate}"
+							disabled style="width: 150px">
 
 
-				
+
 
 
 						<!-- 						<div id="time-buttons"></div> -->
@@ -155,8 +160,9 @@ button {
 							style="max-height: 150px; height: 70px" placeholder="最多25字......">	</textarea>
 
 						<br>
+						<div class="text-left">
 						<button type="submit" id="submit">送出</button>
-
+						</div>
 
 						<!--  <label for="">訂單狀態:</label> -->
 						<input type="hidden" th:field="*{reserveOrderState}"><br>
@@ -175,21 +181,23 @@ button {
 
 					<div>
 						<label>時間:</label>
-						
+
 						<div style="position: relative;">
 							<div id="time-buttons" style="width: 350px"></div>
-							<div id="error" style="color: red; position: absolute; font-size: 18px "   ></div>
+							<div id="error"
+								style="color: red; position: absolute; font-size: 18px"></div>
 						</div>
-						
+
 						<br>
 						<div style="overflow: auto; width: 150%;">
 							<label style="padding-top: 20px">說明:</label>
-							<ul  style="padding-left: 0px">
-								
+							<ul style="padding-left: 0px">
+
 								<li>* 超過 10 人的訂位，請使用電話預約</li>
 								<li>* 以上價格需另加一成服務費，以現場公告為主，不另行通知。</li>
 								<li>* 兒童收費標準：0-5歲免費，6-12歲以兒童價收費，13歲(含)以上以成人計價。</li>
-								<li>* 此餐價恕不適用於國定假日、農曆除夕、農曆春節、中西情人節、母親節(前一週週末與當週週末)、父親節、耶誕夜、耶誕節、跨年夜及特殊美食節。</li>
+								<li>*
+									此餐價恕不適用於國定假日、農曆除夕、農曆春節、中西情人節、母親節(前一週週末與當週週末)、父親節、耶誕夜、耶誕節、跨年夜及特殊美食節。</li>
 
 							</ul>
 
@@ -208,25 +216,15 @@ button {
 
 <script type="text/javascript">
 	// 時間按鈕的時間列表
-var times = ['11:00', '12:00', '13:00', '14:00', '17:00', '18:00', '19:00', '20:00'];
+	var times = [ '11:00', '12:00', '13:00', '14:00', '17:00', '18:00',
+			'19:00', '20:00' ];
 
-// 	var times = [];
-// 	for (var i = 11; i <= 14; i++) {
-// 	    var time = i.	toString().padStart(2, '0') + ':00';
-// 	    times.push(time);
-	    
-// 	}
-
-// 	for (var i = 17; i <= 20; i++) {
-// 	    var time = i.toString().padStart(2, '0') + ':00';
-// 	    times.push(time);
-// 	}
-// 	for (var i = 11; i <= 20; i++) {
-// 	    if (i !== 15 && i !== 16) {
-// 		var time = i.toString().padStart(2, '0') + ':00';
-// 		times.push(time);
-// 	}
-// 	}
+	// 	for (var i = 11; i <= 20; i++) {
+	// 	    if (i !== 15 && i !== 16) {
+	// 		var time = i.toString().padStart(2, '0') + ':00';
+	// 		times.push(time);
+	// 	}
+	// 	}
 	//獲取用於放置按鈕的元素
 	var timeButtonsContainer = document.getElementById('time-buttons');
 
@@ -271,9 +269,9 @@ var times = ['11:00', '12:00', '13:00', '14:00', '17:00', '18:00', '19:00', '20:
 		// 	inline: true ,
 		minDate : new Date().fp_incr(3),
 		maxDate : new Date().fp_incr(60),
-		
+
 		minuteIncrement : 60,
-		
+
 		onClose : function(selectedDates) {
 			const hour = selectedDates[0].getHours();
 			const sessionidValue = hour < 15 ? "101" : "102";
@@ -281,8 +279,7 @@ var times = ['11:00', '12:00', '13:00', '14:00', '17:00', '18:00', '19:00', '20:
 			document.getElementById("sessionid").value = sessionidValue;
 
 		},
-			
-    
+
 	});
 	//-------------------------------------------------日期樣式
 	$('#bookingDate').change(function() {
@@ -312,7 +309,7 @@ var times = ['11:00', '12:00', '13:00', '14:00', '17:00', '18:00', '19:00', '20:
 				// 檢查總人數是否超過 100
 				if (totalNumber > 100) {
 					// 超過則禁止選擇這個時間
-					$('#error').text(''+response.message+'').show();
+					$('#error').text('' + response.message + '').show();
 					$('#submit').prop('disabled', true); // 禁用送出欄位
 				} else {
 					$('#error').hide();
@@ -358,8 +355,6 @@ var times = ['11:00', '12:00', '13:00', '14:00', '17:00', '18:00', '19:00', '20:
 									: '1'; // 根據按鈕狀態設置透明度
 						});
 			});
-	
-	
 </script>
 
 

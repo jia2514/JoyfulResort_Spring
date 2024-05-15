@@ -49,7 +49,7 @@ public class ResFrontController {
 			System.out.println("前端新增訂單錯誤");
 		}
 		resSvc.addRes(resVO);
-		model.addAttribute("success", "新增成功");
+		model.addAttribute("success", "訂位成功");
 		return "front-end/restaurant/main";
 	}
 //		return "redirect:/joyfulresort/restaurant"  
