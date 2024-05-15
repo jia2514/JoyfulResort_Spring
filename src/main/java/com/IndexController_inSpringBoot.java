@@ -98,10 +98,12 @@ public class IndexController_inSpringBoot {
 	@Autowired
 	MemberService memSvc;
 
-//	@GetMapping("/")
-//	public String Myfone() {
-//		return "form1";
-//	}
+	@GetMapping("/member/listAllMember")
+	public String listAllMember(Model model) {
+		List<MemberVO> list = memSvc.getAll();
+		model.addAttribute("memListData", list);
+		return "back-end/member/listAllMember";
+	}
 
 	
 	
