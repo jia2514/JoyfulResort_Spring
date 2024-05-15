@@ -3,60 +3,52 @@ package com.joyfulresort.he.member.controller;
 import java.io.IOException;
 import java.sql.Date;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.joyfulresort.he.member.model.MemberService;
 import com.joyfulresort.he.member.model.MemberVO;
 
 @Controller
-@RequestMapping("/frontend/member")
+@RequestMapping("/joyfulresort/member")
 public class FrontendMemberController {
 
 	@Autowired
 	MemberService memSvc;
-
-	// 登入頁面
-	@GetMapping("/memberLogin.html")
-	public String memberLogin() {
-		return "frontend/member/memberLogin";
-	}
-
-	// 登入頁面點擊註冊 轉跳至註冊頁面
-	@GetMapping("/memberRegister")
-	public String Repository() {
-		return "frontend/member/memberRegister";
-	}
-
+	
+	@Autowired
+	StringRedisTemplate redis;
+	
 	// 會員資料頁面
-	@GetMapping("/memberinfo.html")
+	@GetMapping("/memberinfo")
 	public String memberInfo(HttpSession session, Model model) {
 		Integer userId = (Integer) session.getAttribute("memberID"); // 取得session內的值
 
 		MemberVO mem = memSvc.getOneMember(userId); // 查找會員資料
 		model.addAttribute("memberData", mem); // 轉交
-		return "frontend/member/memberinfo";
+		return "front-end/member/memberinfo";
 	}
 
 	// 註冊頁面傳來的ajax請求 對有唯一值的欄位進行檢查
 	@PostMapping("/Ajax")
-	public void ajax(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	public void ajax(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		res.setContentType("application/json; charset=UTF-8");
 
 		String inputColumn = req.getParameter("inputColumn");
-		System.out.println(inputColumn);
+//		System.out.println(inputColumn);
 
 		// 檢查輸入欄位
 		switch (inputColumn) {
@@ -103,31 +95,7 @@ public class FrontendMemberController {
 
 	}
 
-	// 用戶登入
-	@PostMapping("/Login")
-	public String Login(HttpServletRequest req, HttpSession session, Model model) {
-		// 接收資料
-		String userAccount = req.getParameter("userAccount");
-		String userPassword = req.getParameter("userPassword");
 
-		// 取得資料庫的USER資料
-		MemberVO mem = memSvc.getUserData(userAccount);
-
-		// 判斷USER輸入的帳號密碼是否正確
-		if (mem == null) {
-			System.out.println("查無帳號"); // 查無帳號
-			model.addAttribute("errorMessage", "帳號或密碼錯誤");
-		} else if (!userPassword.equals(mem.getMemberPassword())) {
-			System.out.println("密碼錯誤"); // 密碼錯誤
-			model.addAttribute("errorMessage", "帳號或密碼錯誤");
-		} else {
-			System.out.println("密碼正確"); // 密碼正確
-			session.setAttribute("memberID", mem.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
-
-			return "redirect:/frontend/member/memberinfo.html"; // 轉向至會員個人資料
-		}
-		return "frontend/member/memberLogin"; // 回到登入頁面
-	}
 
 	// USER修改資料
 	@PostMapping("/userUpData")
@@ -141,11 +109,11 @@ public class FrontendMemberController {
 		String inputAddrsee = req.getParameter("memberAddress");
 		String inputBirthday = req.getParameter("memberBirthday");
 		String ID = String.valueOf(MemberID);
-		
+
 		System.out.println(img[0].isEmpty());
-		
+
 		if (!img[0].isEmpty()) {
-			System.out.println("img不為空");
+//			System.out.println("img不為空");
 			for (MultipartFile user : img) {
 				byte[] buf = user.getBytes();
 				memSvc.upDataByImg(ID, buf);
@@ -154,15 +122,15 @@ public class FrontendMemberController {
 			MemberVO upUserData = memSvc.upUserData(ID, inputName, inputEmail, inputPhone, inputAddrsee, inputBirthday);
 			// 轉交
 			model.addAttribute("memberData", upUserData);
-			return "frontend/member/memberinfo.html";
+			return "front-end/member/memberinfo.html";
 
-		} else {			
-			System.out.println("img為空");
+		} else {
+//			System.out.println("img為空");
 			// 修改資料
 			MemberVO upUserData = memSvc.upUserData(ID, inputName, inputEmail, inputPhone, inputAddrsee, inputBirthday);
 			// 轉交
 			model.addAttribute("memberData", upUserData);
-			return "frontend/member/memberinfo.html";
+			return "front-end/member/memberinfo.html";
 		}
 	}
 
@@ -196,7 +164,74 @@ public class FrontendMemberController {
 //		System.out.println(newMember.getMemberId());
 		session.setAttribute("memberID", newMember.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
 
-		return "frontend/member/memberinfo.html";
+		return "front-end/member/memberinfo.html";
+	}
+	
+	//檢查驗證碼
+	@PostMapping("/checkAuthCode")
+	@ResponseBody
+	public void checkAuthCode(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		res.setContentType("application/json; charset=UTF-8");
+		//取得用戶輸入驗證碼
+		String inputAuthCode = req.getParameter("inputAuthCode");
+//		System.out.println("用戶輸入:"+inputAuthCode);
+		//取得用戶ID
+		String id = req.getParameter("MemberID");
+//		System.out.println("ID:"+id);
+		//取得Redis內驗證碼
+		String authCode = redis.opsForValue().get("AuthCode");
+//		System.out.println("redis資料:"+authCode);
+				
+		JSONObject obj = new JSONObject();
+		if(authCode == null) { //Redis 值為空 超時
+			obj.put("checkAuthCode", "404");
+			res.getWriter().print(obj);
+		} else if (inputAuthCode.equals(authCode)) { //輸入正確
+			
+			memSvc.memberStateUpData(Integer.valueOf(id)); // 檢查會員狀態並修改狀態
+						
+			obj.put("checkAuthCode", "200");
+			res.getWriter().print(obj);
+		} else {  //輸入錯誤
+			obj.put("checkAuthCode", "400");
+			res.getWriter().print(obj);
+		}
+		return;
+	}
+	//修改密碼
+	@PostMapping("/passwordRevise")
+	@ResponseBody
+	public boolean revisePassword(HttpServletRequest req, HttpServletResponse res) {
+		res.setContentType("application/json; charset=UTF-8");
+		//取得用戶輸入資料
+		String ID = req.getParameter("MemberID");
+		String pw_1 = req.getParameter("password_1");
+		String pw_2 = req.getParameter("password_2");
+		String pw_3 = req.getParameter("password_3");
+		
+		System.out.printf("用戶ID: %s%n密碼: %s%n新密碼: %s%n再輸入: %s%n", ID, pw_1, pw_2, pw_3);
+		
+		MemberVO mem = memSvc.getOneMember(Integer.valueOf(ID));
+		String password = mem.getMemberPassword();
+		System.out.println("資料庫密碼: "+password);
+		System.out.println("--------------------------");
+		
+		if(password.equals(pw_1)) {
+			if(pw_2.equals(pw_3)) {
+				System.out.println("密碼正確 pw_2,pw_3輸入一致");
+				//修改會員密碼
+				mem.setMemberPassword(pw_2);
+				memSvc.changePassword(mem);
+				
+				return true;
+			}
+			System.out.println("密碼正確 pw_2,pw_3輸入不一致");
+			return false;
+		} else {
+			System.out.println("密碼錯誤");
+			return false;
+		}
+		
 	}
 
 }

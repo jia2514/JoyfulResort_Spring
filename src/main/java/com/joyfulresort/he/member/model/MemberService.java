@@ -105,6 +105,19 @@ public class MemberService {
 		repository.upImg(buf, ID);
 		return;		
 	}
+	//透過驗證更新狀態
+	public void memberStateUpData(Integer id) {
+		Optional<MemberVO> mem = repository.findById(id);
+		MemberVO member = mem.get();
+		member.setMemberState(1);
+		repository.save(member);
+		return;
+	}
+	//用戶修改密碼
+	public void changePassword(MemberVO mem) {
+		repository.save(mem);
+		
+	}
 
 	
 //	--------------------------------------------------------------------------

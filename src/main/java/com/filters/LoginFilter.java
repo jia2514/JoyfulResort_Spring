@@ -32,12 +32,12 @@ public class LoginFilter implements Filter {
 		HttpSession session = req.getSession();
 		
 		Object account = session.getAttribute("memberID");
-		
-		if (account == null) {
+		//判斷有無登入
+		if (account == null) { //無 跳轉至首頁 
 			session.setAttribute("location", req.getRequestURI());
-			res.sendRedirect(req.getContextPath() + "/frontend/member/memberLogin.html");
+			res.sendRedirect(req.getContextPath() + "/joyfulresort");
 			return;
-		} else {
+		} else { //有 放行
 			chain.doFilter(request, response);
 		}
 
