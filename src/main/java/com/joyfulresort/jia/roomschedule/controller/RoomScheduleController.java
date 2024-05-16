@@ -1,6 +1,7 @@
 package com.joyfulresort.jia.roomschedule.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,12 +106,15 @@ public class RoomScheduleController {
 	@PostMapping("roomScheduleQueryList")
 	public String listRoomScheduleByPeopleAmount(@ModelAttribute("roomTypeListData") List<RoomType> roomTypeListData,HttpServletRequest req, Model model) {
 		Map<String, String[]> map = req.getParameterMap();
-		
-		String jsonStr = roomScheduleSvc.getByPeopleAmount(map);
-		model.addAttribute("roomScheduleListCount", jsonStr);
+		Date startquerydate = Date.valueOf(req.getParameter("startquerydate"));
+		Date endquerydate = Date.valueOf(req.getParameter("endquerydate"));
+		Integer peopleAmount = Integer.valueOf(req.getParameter("peopleAmount"));
+		List<Map<RoomType, Integer>> listRoomSchedule = roomScheduleSvc.getByPeopleAmount(map);
+		model.addAttribute("listRoomSchedule", listRoomSchedule);
+		model.addAttribute("startquerydate", startquerydate);
+		model.addAttribute("endquerydate", endquerydate);
+		model.addAttribute("peopleAmount", peopleAmount);
 		return "front-end/roomorder/roomorderselect";
-			
-		
 		
 	}
 	

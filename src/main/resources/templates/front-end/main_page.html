@@ -16,11 +16,13 @@
         justify-content: space-between;
         align-items: center;
         border: 1px solid #ccc;
-        padding: 20px;
+        padding: 10px 20px;
         border-radius: 10px;
+        height:50%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
     .title {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: bold;
     }
     .form-control {
@@ -34,7 +36,15 @@
         border-radius: 5px;
         cursor: pointer;
     }
+	
+	.bookingcontainer > div {
+	    flex: 1;
+	    margin-right: 20px; /* 调整元素之间的水平间距 */
+	}
 
+	.bookingcontainer > div:first-child {
+    	margin-left: 20px; /* 最后一个元素不需要右侧的间距 */
+	}
 	
 </style>
 
@@ -235,26 +245,9 @@
             alert("退房日期必須在入住日期之後");
             return false;
         }
-//         if(checkoutDateInput !== ""){
-//         	checkoutDate.setDate(checkoutDate.getDate() - 1);
-//         	document.getElementById('checkout-date').value = formatDate(checkoutDate);
-//         	console.log(checkoutDate);
-//         }
-//         alert("Form submitted successfully!");
-//         return true;  
+
     }
-    
-//     function formatDate(date) {
-//         var year = date.getFullYear();
-//         var month = date.getMonth() + 1;
-//         var day = date.getDate();
-//         if (month < 10) month = '0' + month;
-//         if (day < 10) day = '0' + day;
-//         return year + '-' + month + '-' + day;
-//     }
-    
-    
-    
+   
 </script>
 	
 	
