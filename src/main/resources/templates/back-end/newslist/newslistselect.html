@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Room Demo</title>
+    <title>NewsList Demo</title>
     <link th:insert="@{/back-end/htmlfile/css.html}" />
     <style type="text/css">
         body {
@@ -47,32 +47,47 @@
     <div class="bg-light rounded">
         <div class="G3_content">
 
-            <h2>房型系統</h2>
+            <h2>媒體報導管理</h2>
+             </br> 
             <div>
-                <a th:href="@{/roomtype/getAll}">查詢所有房型</a><br>
-                <a th:href="@{/roomtype/addRoomType}">新增一筆房型</a><br>
+                <a th:href="@{/newslist/getAll}">查詢所有媒體報導</a><br>
+                
+                <a th:href="@{/newslist/addNewsList}">新增一筆媒體報導</a><br>
             </div>
-      
-             <form method="post" th:action="@{/roomtype/getOne_For_Display}">
-                選擇房型編號:
-                <select name="roomTypeId">
-                    <option th:each="roomType : ${roomTypeListData}" th:value="${roomType.roomTypeId}" th:text="${roomType.roomTypeId}"></option>
-                </select>
-                <input type="submit" value="送出">
-            </form><br>
             
-            
-            <form method="post" th:action="@{/roomtype/getOne_For_Display}">
-                選擇房型價格:
-                <select name="roomTypeId">
-                    <option th:each="roomType : ${roomTypeListData}" th:value="${roomType.roomTypeId}" th:text="${roomType.roomTypePrice}"></option>
-                </select>
-                <input type="submit" value="送出">
-            </form><br>
+          </br>  
+           
+<!-- 	<!-- 錯誤表列 -->
+<!-- 	<div class="errorblock" th:utext="${errorMessage}">${errorMessage}</div><br> -->
+<!-- 	<div class="a"> -->
 
+	
+		<form method="post" th:action="@{/newslist/getOne_For_Display}">
+				選擇媒體報導編號:
+				<select name="newsId">
+				     <option th:each="newsList : ${newsListListData}" th:value="${newsList.newsId}" th:text="${newsList.newsId}" />
+			    </select>
+				<input type="submit" value="送出">
+			</form><br>
+		
+
+		
+		
+		
+		<form method="post" th:action="@{/newslist/getOne_For_Display}">
+				選擇媒體報導摘要:
+				<select name="newsId">
+				     <option th:each="newsList : ${newsListListData}" th:value="${newsList.newsId}" th:text="${newsList.newsAbstract}" />
+			    </select>
+				<input type="submit" value="送出">
+			</form><br>
+		
+          
+
+	</div>
         </div>
     </div>
-</div>
+
 
    <th:block th:insert="~{/back-end/htmlfile/content2}"/>
    <th:block th:insert="~{/back-end/htmlfile/script}"/>

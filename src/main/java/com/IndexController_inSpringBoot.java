@@ -34,6 +34,8 @@ import com.joyfulresort.he.member.model.MemberVO;
 import com.joyfulresort.jia.roomorder.model.RoomOrder;
 import com.joyfulresort.jia.roomorder.model.RoomOrderService;
 import com.joyfulresort.jia.roomorderitem.model.RoomOrderItemService;
+import com.joyfulresort.yu.newslist.model.NewsList;
+import com.joyfulresort.yu.newslist.model.NewsListService;
 import com.joyfulresort.reservecontent.model.ResContentService;
 import com.joyfulresort.reservecontent.model.ResContentVO;
 import com.joyfulresort.reserveorder.model.ResService;
@@ -725,4 +727,42 @@ public class IndexController_inSpringBoot {
 	 * |.........................其他...............................|
 	 * +-----------------------------------------------------------+
 	 */
+    
+	@Autowired
+	NewsListService newsListSvc;
+    
+    @ModelAttribute("newsListListData") // for select_page.html 第135行用
+	protected List<NewsList> referenceListData_NewsList(Model model) {
+		model.addAttribute("newsList", new NewsList()); // for select_page.html 第133行用
+		List<NewsList> list = newsListSvc.getAll();
+		return list;
+		}
+
+	  @ModelAttribute("newsList")  // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
+		protected List<NewsList> referencenewsListListData(Model model) {	
+    	List<NewsList> list = newsListSvc.getAll();
+		return list;
+		}
+
+	  	@GetMapping("/newslist/newslistselect")
+ 		public String NewsListSelect(Model model) {
+	  	System.out.println("測試點0514");
+ 		return "back-end/newslist/newslistselect";		
+	  	}
+     
+//	   	@GetMapping("/newslist/addNewsList")
+//	  	public String addNewsList(Model model) {
+//		 System.out.println("測試點0515");
+//	  	return "back-end/newslist/addNewsList";
+//	  	}
+     
+	    @GetMapping("/newslist/listAllNewsList")
+	   	public String listAllNewsList(Model model) {
+	   	return "back-end/newslist/listAllNewsList";
+	   	}
+     
+	    @GetMapping("/newslist/updateNewsList")
+	    public String updateNewsList(Model model) {
+	    return "back-end/newslist/updateNewsList";
+	    }
 }

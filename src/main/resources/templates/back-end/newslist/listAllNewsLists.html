@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+    <meta charset="UTF-8">
+    <title>所有媒體報導</title>
+	<link th:insert="~{/back-end/htmlfile/css.html}"/>   
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <style type="text/css">
+h1 {
+    margin-top: 0; /* 移除标题顶部间距 */
+    margin-bottom: 20px; /* 添加标题底部间距 */
+}
+
+table {
+    width: 100%; /* 表格宽度填满父容器 */
+    text-align: center; /* 居中对齐表格内容 */
+    margin-top: 20px; /* 表格顶部间距 */
+    border-collapse: collapse; /* 合并表格边框 */
+}
+
+th, td {
+    padding: 10px; /* 单元格内边距 */
+    border: 1px solid #dddddd; /* 单元格边框 */
+}
+
+th {
+    background-color: #0056b3; /* 表头背景颜色 */
+    color: white; /* 表头文字颜色 */
+}
+
+th:nth-child(1), td:nth-child(1) {
+    width: 5%; /* 调整媒體報導編號列宽度 */
+}
+
+th:nth-child(2), td:nth-child(2) {
+    width: 10%; /* 调整媒體報導標題宽度 */
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: 15%; /* 调整媒體報導日期宽度 */
+}
+
+th:nth-child(4), td:nth-child(4) {
+    width: 15%; /* 调整媒體報導摘要宽度 */
+}
+
+th:nth-child(5), td:nth-child(5) {
+    width: 25%; /* 调整媒體報導內容列宽度 */
+}
+
+th:nth-child(6), td:nth-child(6) {
+    width: 10%; /* 调整媒體報導圖片列宽度 */
+}
+
+th:nth-child(7), td:nth-child(7) {
+    width: 5%; /* 调整媒體報導出處列宽度 */
+}
+
+th:nth-child(8), td:nth-child(8) {
+    width: 5%; /* 调整最媒體報導狀態列宽度 */
+}
+
+th:nth-child(9), td:nth-child(9) {
+    width: 5%; /* 调整報導狀態更新列宽度 */
+}
+
+th {
+    background-color: #004080; /* 深蓝色表头背景 */
+    color: white; /* 表头文字颜色 */
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* 偶数行背景颜色 */
+}
+
+a {
+    text-decoration: none; /* 移除链接下划线 */
+    color: #007bff; /* 链接颜色 */
+}
+
+a:hover {
+    text-decoration: underline; /* 鼠标悬停时添加下划线 */
+}
+
+input[type="submit"] {
+    background-color: #007bff; /* 浅蓝色按钮背景颜色 */
+    color: #ffffff; /* 按钮文字颜色 */
+    border: none; /* 移除按钮边框 */
+    border-radius: 5px; /* 圆角按钮 */
+    padding: 8px 16px; /* 按钮内边距 */
+    cursor: pointer; /* 鼠标悬停时显示手型 */
+}
+
+input[type="submit"]:hover {
+    background-color: #4d94ff; /* 鼠标悬停时按钮背景颜色 */
+}
+
+</style>	
+  
+</head>
+<body>
+ <th:block th:insert="~{/back-end/htmlfile/content1}"/>
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded">
+            <div class="G3_content">
+
+    <h1>所有媒體報導</h1>
+    <table style="width:100%; text-align:left;">
+
+        <tr>
+            <th>媒體報導編號</th>
+			<th>媒體報導標題</th>
+			<th>媒體報導日期</th>
+			<th>媒體報導摘要</th>
+			<th>媒體報導內容</th>
+			<th>媒體報導圖片</th>
+			<th>媒體報導出處</th>
+			<th>媒體報導狀態</th>
+			<th>報導狀態更新</th>
+				
+        </tr>
+        
+        
+   <tr th:each="newsList : ${newsList}">
+            <td th:text="${newsList.newsId}"></td>
+            <td th:text="${newsList.newsTitle}"></td>
+            <td th:text="${newsList.newsDate}"></td>
+            <td th:text="${newsList.newsAbstract}"></td>
+			<td th:text="${newsList.newsContent}"></td>
+			<td><img th:src="@{/newslist/DBGifReader} + '?newsId=' + ${newsList.newsId}" width="200px"></td>
+            <td th:text="${newsList.newsFrom}"></td>
+            <td th:text="${newsList.newsState} ? '上架' : '下架'"></td>
+
+            <td>
+    		<form method="post" th:action="@{/newslist/getOne_For_Update}" style="margin-bottom: 0px;">
+			<input type="submit" value="修改">
+			<input type="hidden" name="newsId" th:value="${newsList.newsId}"></form>
+			</td>
+			
+        </tr>
+    </table>
+        <a th:href="@{/newslist/newslistselect}">回首頁</a>
+    
+      		</div>
+        </div>
+    </div>
+    <th:block th:insert="~{/back-end/htmlfile/content2}"/>
+    <th:block th:insert="~{/back-end/htmlfile/script}"/>
+</body>
+</html>
