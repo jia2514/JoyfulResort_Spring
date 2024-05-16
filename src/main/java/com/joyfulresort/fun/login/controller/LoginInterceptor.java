@@ -1,5 +1,8 @@
 package com.joyfulresort.fun.login.controller;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,7 +13,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.joyfulresort.fun.emp.model.Employee;
-import com.joyfulresort.fun.emp.model.EmployeeService; 
+import com.joyfulresort.fun.emp.model.EmployeeService;
+import com.joyfulresort.fun.positionauthority.model.PositionAuthority; 
 
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
@@ -56,26 +60,6 @@ public class LoginInterceptor implements HandlerInterceptor {
     
     
     
-    
-//    @Override
-//    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-//            ModelAndView modelAndView) throws Exception {
-//        // 在這裡可以對 ModelAndView 做進一步的處理
-//    }
-    
-    
-//    @Override
-//    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-//            ModelAndView modelAndView) throws Exception {
-//        // 獲取登入的員工帳號
-//        Integer empAccount = Integer.valueOf(request.getParameter("empAccount"));
-//
-//        // 根據員工帳號查詢員工信息，包括圖片
-//        Employee employees = employeeService.getOneEmp(empAccount);
-//
-//        // 將員工信息放入 ModelAndView 中
-//        modelAndView.addObject("employees", employees);
-//    }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
@@ -91,15 +75,25 @@ public class LoginInterceptor implements HandlerInterceptor {
         session.setAttribute("employees", employees);
         
         
-     // 檢查 session 中是否成功存儲了員工信息
-        Employee storedEmployee = (Employee) session.getAttribute("employees");
-        if (storedEmployee != null) {
-            // 如果成功存儲了員工信息，可以在控制台中打印一條消息以表示成功
-            System.out.println("Employee information stored in session: " + storedEmployee);
-        } else {
-            // 如果員工信息為空，可以在控制台中打印一條消息以表示失敗
-            System.out.println("Failed to store employee information in session.");
+//     // 檢查 session 中是否成功存儲了員工信息
+//        Employee storedEmployee = (Employee) session.getAttribute("employees");
+//        if (storedEmployee != null) {
+//            // 如果成功存儲了員工信息，可以在控制台中打印一條消息以表示成功
+//            System.out.println("Employee information stored in session: " + storedEmployee);
+//        } else {
+//            // 如果員工信息為空，可以在控制台中打印一條消息以表示失敗
+//            System.out.println("Failed to store employee information in session.");
+//        }
+        
+     // 將員工的權限放入 Session 中
+        Set<Integer> authorityFunctions = new HashSet<>();
+        for (PositionAuthority authority : employees.getPosition().getAuthorities()) {
+            authorityFunctions.add(authority.getAuthorityFunction().getFunctionId());
+//            System.out.println("登入測試");
+//            System.out.println(authority);
         }
+        session.setAttribute("authorityFunctions", authorityFunctions);
+        
     }
 
     

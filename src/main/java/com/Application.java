@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 
-
 @SpringBootApplication
 @ServletComponentScan(basePackages = "com.filters.LoginFilter")
 public class Application {
@@ -17,5 +16,4 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	
 }
