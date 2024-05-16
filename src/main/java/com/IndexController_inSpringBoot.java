@@ -323,6 +323,10 @@ public class IndexController_inSpringBoot {
 		return "front-end/activity/activityinfo";
 	}
 	
+	@GetMapping("/joyfulactivity")
+	public String joyfulActivity(Model model) {
+		return "front-end/activity/joyfulactivity";
+	}
 	
 	// ======================================== 後台控制器 ======================================== //
 	

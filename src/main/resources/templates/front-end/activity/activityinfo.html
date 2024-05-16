@@ -6,6 +6,7 @@
 <title>My Page</title>
 <link th:insert="~{/front-end/htmlfile/css.html}" />
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 <style type="text/css">
 
 /*     放css */
@@ -21,13 +22,14 @@
 			<div class="container mt-5">
 			    <nav style="--bs-breadcrumb-divider: '----'; font-size: smaller;" aria-label="breadcrumb">
 			        <ol class="breadcrumb justify-content-center">
-			            <li class="breadcrumb-item google-icon"><a href="/front_main_page" style="color: #847674; font-size: smaller;"><svg
+			            <li class="breadcrumb-item google-icon"><a th:href="@{/joyfulresort}" style="color: #847674; font-size: smaller;"><svg
 			                    xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="24"
 			                    style="margin-top: -5px;">
 			                <path
 			                        d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" />
 			            </svg>首頁</a></li>
 			            <li class="breadcrumb-item"><a href="/activityinfo" style="color: #847674; font-size: smaller;">活動類別</a>
+			            <li class="breadcrumb-item"><a th:href="@{/joyfulactivity}" style="color: #847674; font-size: smaller;">活動</a>
 			            </li>
 			        </ol>
 			    </nav>
@@ -75,7 +77,7 @@
 			
 			<hr class="mt-5" data-aos="zoom-in-up" data-aos-duration="1000">
         	<div class="mt-4 d-flex justify-content-center" data-aos="zoom-in-up" data-aos-duration="1000">
-				<a href="/joyfulactivity" class="btn btn-primary fw-bold" style="border: 1px solid;">瀏覽活動</a>
+				<a th:href="@{/joyfulactivity}" class="btn btn-primary fw-bold" style="border: 1px solid;">瀏覽活動</a>
     		</div>
 				
 		</div>
@@ -84,6 +86,9 @@
 	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
 	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
 
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
 	    AOS.init();
