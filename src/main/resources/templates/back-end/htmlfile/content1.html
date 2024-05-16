@@ -29,20 +29,34 @@
 					<span th:text="${session.employees.position.positionName}"></span>
                 </div>
             </div>
-            <div class="navbar-nav w-100">
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>員工管理</a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <a th:href="@{/employee/listAllEmployee}" class="dropdown-item">員工資料首頁</a>
-						 <a th:href="@{/positions/positionAdd}" class="dropdown-item">員工職務管理</a>	
-						  <a th:href="@{/authorityfunction/listAllAuthorityFunction}" class="dropdown-item">功能權限管理</a>
-							 <a th:href="@{/positionauthority/allPositionAuthority}" class="dropdown-item">職務權限列表管理</a>
-						
-						
-<!--                         <a href="員工新增修改頁面.html" class="dropdown-item">人資專區</a> -->
-                        <a href="element.html" class="dropdown-item"></a>
-                    </div>
-                </div>
+<!--             <div class="navbar-nav w-100"> -->
+<!--                 <div class="nav-item dropdown"> -->
+<!--                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>員工管理</a> -->
+<!--                     <div class="dropdown-menu bg-transparent border-0"> -->
+<!--                         <a th:href="@{/employee/listAllEmployee}" class="dropdown-item">員工資料首頁</a> -->
+<!-- 						 <a th:href="@{/positions/positionAdd}" class="dropdown-item">員工職務管理</a>	 -->
+<!-- 						  <a th:href="@{/authorityfunction/listAllAuthorityFunction}" class="dropdown-item">功能權限管理</a> -->
+<!-- 							 <a th:href="@{/positionauthority/allPositionAuthority}" class="dropdown-item">職務權限列表管理</a> -->
+<!--                         <a href="element.html" class="dropdown-item"></a> -->
+<!--                     </div> -->
+<!--                 </div> -->
+
+
+<!-- 這邊是員工的修改測試區域 -->
+<div class="navbar-nav w-100">
+    <div class="nav-item dropdown" th:if="${session.authorityFunctions.contains(2)}">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>員工管理</a>
+        <div class="dropdown-menu bg-transparent border-0">
+            <a th:href="@{/employee/listAllEmployee}" class="dropdown-item" th:if="${session.authorityFunctions.contains(2)}">員工資料首頁</a>
+            <a th:href="@{/positions/positionAdd}" class="dropdown-item" th:if="${session.authorityFunctions.contains(3)}">員工職務管理</a>
+            <a th:href="@{/authorityfunction/listAllAuthorityFunction}" class="dropdown-item" th:if="${session.authorityFunctions.contains(3)}">功能權限管理</a>
+            <a th:href="@{/positionauthority/allPositionAuthority}" class="dropdown-item" th:if="${session.authorityFunctions.contains(3)}">職務權限列表管理</a>
+        </div>
+    </div>
+
+
+
+<!-- 這邊是員工的修改測試區域 -->
                 
                 <a th:href="@{/member/listAllMember}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>會員管理</a>
                 
