@@ -51,8 +51,8 @@ public class HibernateUtil_CompositeQuery_RoomSchedule {
 					+ " GROUP BY rt.room_type_id, d.v_date " + " ORDER BY d.v_date, rt.room_type_id; ";
 
 			list = session.createSQLQuery(sql).addScalar("room_type_id", IntegerType.INSTANCE)
-					.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", LongType.INSTANCE)
-					.addScalar("remptyroomtotal", LongType.INSTANCE).list();
+					.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", IntegerType.INSTANCE)
+					.addScalar("remptyroomtotal", IntegerType.INSTANCE).list();
 			System.err.println("57+"+list);
 			tx.commit();
 		} catch (RuntimeException ex) {
@@ -100,8 +100,8 @@ public class HibernateUtil_CompositeQuery_RoomSchedule {
 					sql.append("GROUP BY rt.room_type_id, d.v_date ");
 					sql.append("ORDER BY d.v_date, rt.room_type_id; ");
 					list = session.createSQLQuery(sql.toString()).addScalar("room_type_id", IntegerType.INSTANCE)
-							.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", LongType.INSTANCE)
-							.addScalar("remptyroomtotal", LongType.INSTANCE).setParameter(1, startQueryDate)
+							.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", IntegerType.INSTANCE)
+							.addScalar("remptyroomtotal", IntegerType.INSTANCE).setParameter(1, startQueryDate)
 							.setParameter(2, startQueryDate).setParameter(3, startQueryDate)
 							.setParameter(4, endQueryDate).setParameter(5, roomTypeId).list();
 
@@ -113,8 +113,8 @@ public class HibernateUtil_CompositeQuery_RoomSchedule {
 					sql.append("GROUP BY rt.room_type_id, d.v_date ");
 					sql.append("ORDER BY d.v_date, rt.room_type_id; ");
 					list = session.createSQLQuery(sql.toString()).addScalar("room_type_id", IntegerType.INSTANCE)
-							.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", LongType.INSTANCE)
-							.addScalar("remptyroomtotal", LongType.INSTANCE).setParameter(1, startQueryDate)
+							.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", IntegerType.INSTANCE)
+							.addScalar("remptyroomtotal", IntegerType.INSTANCE).setParameter(1, startQueryDate)
 							.setParameter(2, startQueryDate).setParameter(3, roomTypeId).list();
 					System.out.println("104+" + list);
 					return list;
@@ -129,8 +129,8 @@ public class HibernateUtil_CompositeQuery_RoomSchedule {
 					sql.append("GROUP BY rt.room_type_id, d.v_date ");
 					sql.append("ORDER BY d.v_date, rt.room_type_id; ");
 					list = session.createSQLQuery(sql.toString()).addScalar("room_type_id", IntegerType.INSTANCE)
-							.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", LongType.INSTANCE)
-							.addScalar("remptyroomtotal", LongType.INSTANCE).setParameter(1, startQueryDate)
+							.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", IntegerType.INSTANCE)
+							.addScalar("remptyroomtotal", IntegerType.INSTANCE).setParameter(1, startQueryDate)
 							.setParameter(2, startQueryDate).setParameter(3, startQueryDate)
 							.setParameter(4, endQueryDate).list();
 
@@ -141,8 +141,8 @@ public class HibernateUtil_CompositeQuery_RoomSchedule {
 					sql.append("GROUP BY rt.room_type_id, d.v_date ");
 					sql.append("ORDER BY d.v_date, rt.room_type_id; ");
 					list = session.createSQLQuery(sql.toString()).addScalar("room_type_id", IntegerType.INSTANCE)
-							.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", LongType.INSTANCE)
-							.addScalar("remptyroomtotal", LongType.INSTANCE).setParameter(1, startQueryDate)
+							.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", IntegerType.INSTANCE)
+							.addScalar("remptyroomtotal", IntegerType.INSTANCE).setParameter(1, startQueryDate)
 							.setParameter(2, startQueryDate).list();
 
 					return list;
@@ -179,8 +179,8 @@ public class HibernateUtil_CompositeQuery_RoomSchedule {
 
 			Integer roomTypeId = Integer.valueOf(map.get("roomTypeId"));
 			list = session.createSQLQuery(sql).addScalar("room_type_id", IntegerType.INSTANCE)
-					.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", LongType.INSTANCE)
-					.addScalar("remptyroomtotal", LongType.INSTANCE).setParameter(1, roomTypeId).list();
+					.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", IntegerType.INSTANCE)
+					.addScalar("remptyroomtotal", IntegerType.INSTANCE).setParameter(1, roomTypeId).list();
 
 			tx.commit();
 		} catch (RuntimeException ex) {

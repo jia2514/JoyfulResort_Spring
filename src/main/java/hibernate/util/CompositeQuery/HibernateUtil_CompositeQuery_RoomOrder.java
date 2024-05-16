@@ -122,7 +122,8 @@ public class HibernateUtil_CompositeQuery_RoomOrder {
 			// org.hibernate.Query 介面
 			list = query.getResultList();
 			for(RoomOrder roomOrder:list) {
-				System.out.println("126" + roomOrder.getMember());
+				System.out.println("125" + roomOrder.getMember());
+				System.out.println("126" + roomOrder.getRoomOrderItems());
 			}
 			
 			tx.commit();
