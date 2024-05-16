@@ -17,6 +17,8 @@ import com.joyfulresort.so.activity.model.ActivityService;
 import com.joyfulresort.so.activity.model.ActivityVO;
 import com.joyfulresort.so.activitycategory.model.ActivityCategoryService;
 import com.joyfulresort.so.activitycategory.model.ActivityCategoryVO;
+import com.joyfulresort.so.activityphoto.model.ActivityPhotoService;
+import com.joyfulresort.so.activityphoto.model.ActivityPhotoVO;
 
 @Controller
 @RequestMapping("/activity")
@@ -27,6 +29,9 @@ public class ActivityController {
 	
 	@Autowired
 	ActivityCategoryService acSvc;
+	
+	@Autowired
+	ActivityPhotoService apSvc;
 	
 //	@PostMapping("listAll")
 //	public String getALL(ModelMap model) {
@@ -116,6 +121,29 @@ public class ActivityController {
 	protected List<ActivityCategoryVO> referenceActivityCategoryListData() {
 		List<ActivityCategoryVO> list = acSvc.getAll();
 		return list;
+	}
+	
+	// 給前台搜尋活動類別使用(一個活動只能有一張照片，而且活動編號要跟活動圖片編號一樣)
+	@PostMapping("listCategory")
+	public String getCategory(@RequestParam("activityCategoryID") String activityCategoryID, ModelMap model) {
+		List<ActivityVO> list = null;
+		if (Integer.valueOf(activityCategoryID) == 0) {
+			list = aSvc.getAll();
+			for (ActivityVO ac : list) {
+				List<ActivityPhotoVO> imageList = apSvc.getAll();
+				model.addAttribute("activityPhotoListData", imageList);
+			}
+		} else {
+			list = aSvc.getActivityByCategory(Integer.valueOf(activityCategoryID));
+			for (ActivityVO acVO : list) {
+				List<ActivityPhotoVO> photoList = apSvc.getPhotoByActivityCategory(acVO.getActivityCategoryVO().getActivityCategoryID());
+				System.out.println(photoList);
+				model.addAttribute("activityPhotoListData", photoList);
+			}
+		}
+		
+		model.addAttribute("activityListData", list);
+		return "front-end/activity/joyfulactivity";
 	}
 
 }
