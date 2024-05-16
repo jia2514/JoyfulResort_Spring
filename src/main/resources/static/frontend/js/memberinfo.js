@@ -209,6 +209,7 @@ $('#inputPassword_1').change(function(){
   } else {
 	$('#passwordHelpBlock_1').html('')
 	pw_1 = 0;
+  $('#newPassword').attr('disabled', false)
   }
 })
 //新密碼
