@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+    <meta charset="UTF-8">
+    <title>Joyfulresort 後臺首頁</title>
+    <link th:insert="~{/back-end/htmlfile/css.html}"/>
+    
+</head>
+<body>
+    <th:block th:insert="~{/back-end/htmlfile/content1}"/>
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded">
+            <div class="G3_content">
+  <h1>媒體報導詳細資料</h1>
+                <table style="width:100%; text-align:left;">
+                    <tr>
+                        <th>媒體報導編號</th>
+                        <td th:text="${newsList.newsId}"></td>
+                    </tr>
+                    <tr>
+                        <th>媒體報導標題</th>
+                        <td th:text="${newsList.newsTitle}"></td>
+                    </tr>
+                    <tr>
+                        <th>媒體報導日期</th>
+                        <td th:text="${newsList.newsDate}"></td>
+                    </tr>
+                    <tr>
+                        <th>媒體報導摘要</th>
+                        <td th:text="${newsList.newsAbstract}"></td>
+                    </tr>
+                    <tr>
+                        <th>媒體報導內容</th>
+                        <td th:text="${newsList.newsContent}"></td>
+                    </tr>
+                    <tr>
+                        <th>媒體報導圖片</th>
+                        <td><img th:src="@{'/newslist/DBGifReader?newsId=' + ${newsList.newsId}}" width="200px"></td>
+                    </tr>
+                    <tr>
+                        <th>媒體報導出處</th>
+                        <td th:text="${newsList.newsFrom}"></td>
+                    </tr>
+                    <tr>
+                        <th>媒體報導狀態</th>
+                        <td th:text="${newsList.newsState} ? '上架' : '下架'"></td>
+                    </tr>
+                </table>
+                <a th:href="@{/newslist/newslistselect}">回首頁</a>
+            </div>
+        </div>
+    </div>
+    <th:block th:insert="~{/back-end/htmlfile/content2}"/>
+    <th:block th:insert="~{/back-end/htmlfile/script}"/>
+</body>
+</html>

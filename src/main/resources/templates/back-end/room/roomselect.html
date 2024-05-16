@@ -52,24 +52,7 @@
                 <a th:href="@{/room/getAll}">查詢所有房間</a><br>
                 <a th:href="@{/room/addRoom}">新增一筆房間</a><br>
             </div>
-            <h3><b>複合查詢 (使用 Criteria Query)：</b></h3>
-            <form th:action="@{room}" method="post">
-                <p><label>房型模糊查詢：</label></p>
-                <input type="text" name="roomId"><br>
-                <p><label>房間：</label></p>
-                <select name="room">
-                    <option value="">選取房型</option>
-                    <option value="品趣客房">品趣客房</option>
-                    <option value="童旅主題房">童旅主題房</option>
-                    <option value="童漾家庭房">童漾家庭房</option>
-                </select>
-                <p><label>入住日期間範圍</label></p>
-                <input type="date" name="startcheckindate"> ～ <input type="date" name="endcheckindate"><br>
-                <p><label>房型價格範圍</label></p>
-                <input type="text" name="startroomtypeprice"> ～ <input type="text" name="endroomtypeprice"><br>
-                <p><input type="submit" value="送出"></p>
-                <input type="hidden" name="action" value="compositeQuery">
-            </form>
+            
 
         </div>
     </div>
