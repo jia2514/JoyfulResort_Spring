@@ -31,21 +31,19 @@ h2 {
 	margin-top: 20px; /* 添加這一行 */
 }
 
-form {
+.form {
 	padding-top: 0px; /* 修改為 20px */
 	display: flex;
 	flex-direction: column;
-	/* justify-content: center; */ /* 移除垂直居中對齊 */
 	width: 100px;
 	margin: 0 auto; /* 左右居中 */
 }
 
-label {
-	margin-top: 20px;
+.label {
+	margin-top: 1px;
 	font-size: 18px;
 }
-
-input {
+.input {
 	padding: 5px; /* 修改為 8px */
 	margin-bottom: 5px; /* 修改為 15px */
 	border: 1px solid #ddd;
@@ -132,30 +130,30 @@ color: red;
 				<div style="flex: 1; padding-left: 200px;">
 					<form th:action="@{/joyfulresort/insertfront}" method="Post"
 						th:object="${resVO}" enctype="multipary/form-data"
-						style="width: 300px;">
+						style="width: 300px;" class="form">
 
 
-						<label for="" style="display: none;">餐廳場次編號:</label> <input
+						<label for="" class="label" style="display: none;">餐廳場次編號:</label> <input
 							type="hidden" id="sessionid"
 							th:field="*{ressionVO.reserveSessionId}"> 
 							
-							<label for="">姓名:</label>
-							<input type="text" th:field="*{resName}">					
+							<label for="" class="label">姓名: </label>
+							<input type="text" th:field="*{resName}" class="input">					
 <!-- 						<input type="text" th:field="*{memberVO.memberName}"> -->
 <div th:if="${#fields.hasErrors('resName')}" th:errors="*{resName}" class="error"></div>
 	
 	
 							
-							<label for="">電話:</label>
-							<input type="text"  maxlength="10"  th:field="*{resPhone}">
+							<label for="" class="label">電話:</label>
+							<input type="text"  maxlength="10"  th:field="*{resPhone}" class="input">
 <!-- 						<input type="text" th:field="*{memberVO.memberPhone}"> -->
 <div th:if="${#fields.hasErrors('resPhone')}" th:errors="*{resPhone}" class="error"></div>
 
 
-						<label for="">會員編號:</label>
-						<input type="text" th:value="1" 	>
+						<label for="" class="label">會員編號:</label>
+						<input type="text" th:value="1"  class="input"	>
 						
-	 <label	for="reserveNumber">預定人數:(最多10人)</label> 
+	 <label	for="reserveNumber" class="label">預定人數:(最多10人)</label> 
 	 <select	th:field="*{reserveNumber}" id="reserveNumber"	name="reserveNumber" style="width: 80px; height: 30px;">
 							<option value="">人數</option>
 							<option value="1">1</option>
@@ -172,9 +170,9 @@ color: red;
 						</select> 
 <div th:if="${#fields.hasErrors('reserveNumber')}" th:errors="*{reserveNumber}" class="error"></div>
 						
-						<label for="">預定日期:</label> <input type="datetime-local"
+						<label for="" class="label">預定日期:</label> <input type="datetime-local"
 							id="bookingDate" name="bookingDate" th:field="*{bookingDate}"
-							disabled style="width: 150px">
+							disabled style="width: 150px" class="input">
 
 <div th:if="${#fields.hasErrors('bookingDate')}" th:errors="*{bookingDate}" class="error"></div>
 
@@ -184,7 +182,7 @@ color: red;
 						<!-- 	<div id="time-buttons"></div> -->
 
 
-						<label for="">備註:</label>
+						<label for="" class="label">備註:</label>
 
 						<textarea id="orderNote" th:field="*{orderNote}" maxlength="50"
 							style="max-height: 150px; height: 70px" placeholder="最多25字......">	</textarea>
@@ -195,10 +193,10 @@ color: red;
 						</div>
 
 						<!--  <label for="">訂單狀態:</label> -->
-						<input type="hidden" th:field="*{reserveOrderState}"><br>
+						<input type="hidden" th:field="*{reserveOrderState}"  class="input"><br>
 						<br>
 						<!-- <label for="">訂單日期:</label>  -->
-						<input type="hidden" th:field="*{reserveOrderDate}"> <br>
+						<input type="hidden" th:field="*{reserveOrderDate}"  class="input"> <br>
 						<br>
 
 					</form>
@@ -210,7 +208,7 @@ color: red;
 				<div style="flex: 1; padding-right: 300px;">
 
 					<div>
-						<label>時間:</label>
+						<label class="label">時間:</label>
 
 						<div style="position: relative;">
 							<div id="time-buttons" style="width: 350px"></div>

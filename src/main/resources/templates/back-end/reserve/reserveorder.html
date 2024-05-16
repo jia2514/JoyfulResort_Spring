@@ -115,17 +115,28 @@ tr:nth-child(even) {
 	justify-content: center; /* 這會在容器中水平居中所有子項目 */
 	flex-wrap: wrap; /* 確保在較小的屏幕上元素可以換行 */
 	gap: 10px; /* 元素之間的間距 */
+}table tr.cancel {
+    
+    font-weight: bold;
+    background-color: 	#FFD2D2		;
 }
 .cancel {
     pointer-events: none;
-    opacity: 0.7;
-    color:#FF5151	;
+    opacity: 0.5;
+  	color: 	red;
+    background-color: #FF0000	;
+}
+table tr.success {
+   
+    font-weight: bold;
+   
+    background-color: #CEFFCE	;
 }
 .success{
 /* 	 opacity: 0.5; */
 /* 	 pointer-events: none; */
 	  font-weight: bold;
-	color: 	#97CBFF	;
+		color: 	blue;
 }
 /*  ------------------------ */
 .G3_content {
@@ -182,17 +193,6 @@ tr:nth-child(even) {
 						</select> <input type="submit" value="查詢">
 					</form>
 				</div>
-
-
-<!-- 						<div style="display: inline-block;"> -->
-<!-- 								<form th:action="@{/total}" method="post"> -->
-<!-- 									<label></label>  -->
-<!-- 									<input type="datetime-local" name="bookingDate" id="test"  -->
-<!-- 									style="width: 100PX"> -->
-<!-- 									<input type="submit" value="測試人數"> -->
-<!-- 								</form> -->
-<!-- 							</div> -->
-
 
 
 
@@ -288,7 +288,9 @@ tr:nth-child(even) {
 						<thead>
 							<tr>
 								<th>餐廳訂單編號</th>
-								<th>餐廳場次編號</th>
+								<th>姓名</th>
+								<th>電話</th>
+								<th>場次編號</th>
 								<th>會員編號</th>
 								<th>訂單日期</th>
 								<th>預定人數</th>
@@ -305,11 +307,11 @@ tr:nth-child(even) {
 							<tr th:block th:each="res : ${ResList}" 
 							    th:class="${res.reserveOrderState == 0 ? 'cancel' : 
 							    			(res.reserveOrderState == 2 ? 'success' : '')}">
-
-
 								<td th:text=" ${res.reserveOrderId} "></td>
-								<td th:text=" ${res.ressionVO.reserveSessionId}"></td>
+								<td th:text=" ${res.memberVO.memberName} "></td>
+								<td th:text=" ${res.memberVO.memberPhone} "></td>
 								<td th:text=" ${res.memberVO.memberId}"></td>
+								<td th:text=" ${res.ressionVO.reserveSessionId}"></td>
 								<td th:text=" ${res.reserveOrderDate}"></td>
 								<td th:text=" ${res.reserveNumber}"></td>
 								<td
