@@ -102,151 +102,19 @@ public class RoomScheduleController {
 	}
 
 	
-	/*
-	 * This method will serve as addEmp.html handler.
-	 */
-//	@GetMapping("addOne")
-//	public String addOne(ModelMap model) {
-//		RoomOrder roomOrder = new RoomOrder();
-//		model.addAttribute("roomOrder", roomOrder);
-//		return "back-end/roomorder/addRoomOrder";
-//	}
-
-	/*
-	 * This method will be called on addEmp.html form submission, handling POST
-	 * request It also validates the user input
-	 */
-//	@PostMapping("insert")
-//	public String insert(@Valid RoomOrder roomOrder, BindingResult result, ModelMap model,
-//			@RequestParam("upFiles") MultipartFile[] parts) throws IOException {
-
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		// 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
-//		result = removeFieldError(roomOrder, result, "upFiles");
-//
-//		if (parts[0].isEmpty()) { // 使用者未選擇要上傳的圖片時
-//			model.addAttribute("errorMessage", "員工照片: 請上傳照片");
-//		} else {
-//			for (MultipartFile multipartFile : parts) {
-//				byte[] buf = multipartFile.getBytes();
-//				roomOrder.setUpFiles(buf);
-//			}
-//		}
-//		if (result.hasErrors() || parts[0].isEmpty()) {
-//			return "back-end/emp/addEmp";
-//		}
-		/*************************** 2.開始新增資料 *****************************************/
-		// EmpService empSvc = new EmpService();
-//		roomOrderSvc.addRoomOrder(roomOrder);
-//		/*************************** 3.新增完成,準備轉交(Send the Success view) **************/
-//		List<RoomOrder> list = roomOrderSvc.getAll();
-//		model.addAttribute("roomOrderListData", list);
-//		model.addAttribute("success", "- (新增成功)");
-//		return "back-end/roomorder/listAllRoomOrder"; // 新增成功後重導至IndexController_inSpringBoot.java的第58行@GetMapping("/emp/listAllEmp")
-//	}
-
-//	/*
-//	 * This method will be called on listAllEmp.html form submission, handling POST request
-//	 */
-//	@PostMapping("getOne_For_Update")
-//	public String getOne_For_Update(@RequestParam("roomorderid") String roomorderid, ModelMap model) {
-//		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-//		/*************************** 2.開始查詢資料 *****************************************/
-//		// EmpService empSvc = new EmpService();
-//		RoomOrder roomOrder = roomOrderSvc.getOneOrder(Integer.valueOf(roomorderid));
-//
-//		/*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
-//		model.addAttribute("roomOrder", roomOrder);
-//		return "back-end/emp/updateRoomOrder"; // 查詢完成後轉交update_emp_input.html
-//	}
-
-	/*
-	 * This method will be called on update_emp_input.html form submission, handling
-	 * POST request It also validates the user input
-	 */
-//	@PostMapping("update")
-//	public String update(@Valid RoomOrder roomOrder, BindingResult result, ModelMap model) throws IOException {
-
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		// 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
-//		result = removeFieldError(empVO, result, "upFiles");
-//
-//		if (parts[0].isEmpty()) { // 使用者未選擇要上傳的新圖片時
-//			// EmpService empSvc = new EmpService();
-//			byte[] upFiles = empSvc.getOneEmp(empVO.getEmpno()).getUpFiles();
-//			empVO.setUpFiles(upFiles);
-//		} else {
-//			for (MultipartFile multipartFile : parts) {
-//				byte[] upFiles = multipartFile.getBytes();
-//				empVO.setUpFiles(upFiles);
-//			}
-//		}
-//		if (result.hasErrors()) {
-//			return "back-end/emp/update_emp_input";
-//		}
-		/*************************** 2.開始修改資料 *****************************************/
-		// EmpService empSvc = new EmpService();
-//		roomOrderSvc.updateRoomOrder(roomOrder);
-//
-//		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/
-//		model.addAttribute("success", "- (修改成功)");
-//		roomOrder = roomOrderSvc.getOneRoomOrder(Integer.valueOf(roomOrder.getRoomOrderId()));
-//		model.addAttribute("roomOrder", roomOrder);
-//		return "back-end/roomorder/listOneRoomOrder"; // 修改成功後轉交listOneEmp.html
-//	}
-
-	/*
-	 * This method will be called on listAllEmp.html form submission, handling POST
-	 * request
-	 */
-//	@PostMapping("delete")
-//	public String delete(@RequestParam("empno") String empno, ModelMap model) {
-//		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-//		/*************************** 2.開始刪除資料 *****************************************/
-//		// EmpService empSvc = new EmpService();
-//		empSvc.deleteEmp(Integer.valueOf(empno));
-//		/*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
-//		List<EmpVO> list = empSvc.getAll();
-//		model.addAttribute("empListData", list);
-//		model.addAttribute("success", "- (刪除成功)");
-//		return "back-end/emp/listAllEmp"; // 刪除完成後轉交listAllEmp.html
-//	}
-
-	/*
-	 * 第一種作法 Method used to populate the List Data in view. 如 : <form:select
-	 * path="deptno" id="deptno" items="${deptListData}" itemValue="deptno"
-	 * itemLabel="dname" />
-	 */
-//	@ModelAttribute("deptListData")
-//	protected List<DeptVO> referenceListData() {
-//		// DeptService deptSvc = new DeptService();
-//		List<DeptVO> list = deptSvc.getAll();
-//		return list;
-//	}
-
-	/*
-	 * 【 第二種作法 】 Method used to populate the Map Data in view. 如 : <form:select
-	 * path="deptno" id="deptno" items="${depMapData}" />
-	 */
-//	@ModelAttribute("deptMapData") //
-//	protected Map<Integer, String> referenceMapData() {
-//		Map<Integer, String> map = new LinkedHashMap<Integer, String>();
-//		map.put(10, "財務部");
-//		map.put(20, "研發部");
-//		map.put(30, "業務部");
-//		map.put(40, "生管部");
-//		return map;
-//	}
-
-	// 去除BindingResult中某個欄位的FieldError紀錄
-	public BindingResult removeFieldError(RoomOrder roomOrder, BindingResult result, String removedFieldname) {
-		List<FieldError> errorsListToKeep = result.getFieldErrors().stream()
-				.filter(fieldname -> !fieldname.getField().equals(removedFieldname)).collect(Collectors.toList());
-		result = new BeanPropertyBindingResult(roomOrder, "roomOrder");
-		for (FieldError fieldError : errorsListToKeep) {
-			result.addError(fieldError);
-		}
-		return result;
+	@PostMapping("roomScheduleQueryList")
+	public String listRoomScheduleByPeopleAmount(@ModelAttribute("roomTypeListData") List<RoomType> roomTypeListData,HttpServletRequest req, Model model) {
+		Map<String, String[]> map = req.getParameterMap();
+		
+		String jsonStr = roomScheduleSvc.getByPeopleAmount(map);
+		model.addAttribute("roomScheduleListCount", jsonStr);
+		return "front-end/roomorder/roomorderselect";
+			
+		
+		
 	}
+	
+	
+
 
 }

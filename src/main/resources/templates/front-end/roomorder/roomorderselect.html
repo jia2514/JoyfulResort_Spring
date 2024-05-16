@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+<meta charset="UTF-8">
+<title>My Page</title>
+<link th:insert="~{/front-end/htmlfile/css.html}" />
+
+<style type="text/css">
+
+    .bookingcontainer {
+        width: 80%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+    .form-control {
+        margin-bottom: 10px;
+    }
+    .submit-btn {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+</style>
+
+
+</head>
+
+<body class="main-layout">
+
+
+	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
+	</section>
+	
+	</header>
+	<div th:fragment="content" class="G3content">
+
+		
+				<form th:action="@{/roomschedule/roomScheduleQueryList}" method="post">
+				<div class="bookingcontainer">
+				    <div class="title">Booking Now</div>
+				    
+					    <div>
+					        <label for="checkin-date">入住日期:</label>
+					        <input type="date" id="checkin-date" class="form-control" name="startquerydate">
+					    </div>
+					    <div>
+					        <label for="checkout-date">退房日期:</label>
+					        <input type="date" id="checkout-date" class="form-control" name="endquerydate">
+					    </div>
+					    <div>
+					        <label for="guests">入住人數:</label>
+					        <select id="guests" class="form-control" name="peopleAmount">
+					            <option value="1">1</option>
+					            <option value="2">2</option>
+					            <option value="3">3</option>
+					            <option value="4">4</option>
+					            <option value="5">5</option>
+					            <option value="6">6</option>
+					            <option value="7">7</option>
+					            <option value="8">8</option>
+					        </select>
+					    </div>
+					    <input type="submit" class="submit-btn" value="查詢" onclick="return submitForm()">
+				</div>
+				</form>
+				
+
+			
+	</div>
+
+	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
+	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
+	
+	<script>
+	
+    var today = new Date();
+    var tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+    var twoMonthsLater = new Date(today.getFullYear(), today.getMonth() + 2, today.getDate());
+    var minDate = tomorrow.toISOString().split('T')[0];
+    var maxDate = twoMonthsLater.toISOString().split('T')[0];
+    
+    document.getElementById('checkin-date').min = minDate;
+    document.getElementById('checkout-date').min = minDate;
+    
+    document.getElementById('checkin-date').max = maxDate;
+    document.getElementById('checkout-date').max = maxDate;
+    
+    function submitForm() {
+        var checkinDateInput = document.getElementById('checkin-date').value;
+        var checkoutDateInput = document.getElementById('checkout-date').value;
+
+        if (checkinDateInput === "" || checkoutDateInput === "") {
+            alert("請選擇入住日期及退房日期");
+            return false;
+        }
+
+        var checkinDate = new Date(checkinDateInput);
+        var checkoutDate = new Date(checkoutDateInput);
+
+        if (checkinDate >= checkoutDate) {
+            alert("退房日期必須在入住日期之後");
+            return false;
+        }
+        if(checkoutDateInput !== ""){
+        	checkoutDate.setDate(checkoutDate.getDate() - 1);
+        	document.getElementById('checkout-date').value = formatDate(checkoutDate);
+        	console.log(checkoutDate);
+        }
+        alert("Form submitted successfully!");
+        return true;  
+    }
+    
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        if (month < 10) month = '0' + month;
+        if (day < 10) day = '0' + day;
+        return year + '-' + month + '-' + day;
+    }
+    
+    
+    
+</script>
+	
+	
+</body>
+
+</html>
