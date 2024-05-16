@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+<meta charset="UTF-8">
+<title>My Page</title>
+<link th:insert="~{/front-end/htmlfile/css.html}" />
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style type="text/css">
+
+/*     放css */
+
+</style>
+</head>
+<body class="main-layout">
+	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
+	</section>
+	</header>
+		<div th:fragment="content" class="G3content">
+	
+			<div class="container mt-5">
+			    <nav style="--bs-breadcrumb-divider: '----'; font-size: smaller;" aria-label="breadcrumb">
+			        <ol class="breadcrumb justify-content-center">
+			            <li class="breadcrumb-item google-icon"><a href="/front_main_page" style="color: #847674; font-size: smaller;"><svg
+			                    xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="24"
+			                    style="margin-top: -5px;">
+			                <path
+			                        d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" />
+			            </svg>首頁</a></li>
+			            <li class="breadcrumb-item"><a href="/activityinfo" style="color: #847674; font-size: smaller;">活動類別</a>
+			            </li>
+			        </ol>
+			    </nav>
+			</div>
+
+
+		<div class="container" style="padding-top: 40px;">
+		
+			<h2 class="text-center p-0 lora-type m-0" style="color: #847674;" data-aos="fade-up" data-aos-duration="1000">ACTIVITY</h2>
+	        <P class="text-center h5 mb-5 fw-bold" data-aos="fade-up" data-aos-duration="2000">活動類別介紹</P>
+			<div class="container mb-5" th:each="activityCategoryVO, iterStat : ${activityCategoryListData}" >
+		        <div class="row">
+		            <div class="col-md-6 content" th:classappend="${iterStat.index % 2 == 0} ? '' : 'order-md-1'">	
+	<!--                 <h3 class="parisienne-regular p-0" style="color: #847674;" th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" -->
+	<!--                     data-aos-duration="1000" th:text="${activityCategoryVO.activityCategoryName}"></h3> -->
+		                <h5 class="fw-bold" th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000" th:text="${activityCategoryVO.activityCategoryName}"></h5>
+		                <p style="font-size:medium;" th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000" th:text="${activityCategoryVO.activityCategoryInfo}"></p><br>
+		            </div>
+		
+		            <div class="col-md-6" data-aos="zoom-in-up" th:classappend="${iterStat.index % 2 == 0} ? 'order-md-1' : ''">
+					    <div id="activityCarousel" class="carousel slide" data-bs-ride="carousel">
+					        <div class="carousel-inner">
+					            <div class="carousel-item active">
+					                <img src="/frontend/images/activity/activity1.jpg" class="d-block w-100" alt="...">
+					            </div>
+					            <div class="carousel-item">
+					                <img src="/frontend/images/activity/activityyoga1.jpg" class="d-block w-100" alt="...">
+					            </div>
+					            <div class="carousel-item">
+					                <img src="/frontend/images/activity/activitymovie.jpg" class="d-block w-100" alt="...">
+					            </div>
+					        </div>
+					        <button class="carousel-control-prev" type="button" data-bs-target="#activityCarousel" data-bs-slide="prev">
+					            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					            <span class="visually-hidden">Previous</span>
+					        </button>
+					        <button class="carousel-control-next" type="button" data-bs-target="#activityCarousel" data-bs-slide="next">
+					            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+					            <span class="visually-hidden">Next</span>
+					        </button>
+					    </div>
+					</div>
+		        </div>
+			</div>
+			
+			<hr class="mt-5" data-aos="zoom-in-up" data-aos-duration="1000">
+        	<div class="mt-4 d-flex justify-content-center" data-aos="zoom-in-up" data-aos-duration="1000">
+				<a href="/joyfulactivity" class="btn btn-primary fw-bold" style="border: 1px solid;">瀏覽活動</a>
+    		</div>
+				
+		</div>
+	</div>
+
+	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
+	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
+
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+	<script>
+	    AOS.init();
+	</script>
+	
+</body>
+</html>

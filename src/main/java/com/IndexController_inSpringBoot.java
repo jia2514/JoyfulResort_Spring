@@ -315,7 +315,17 @@ public class IndexController_inSpringBoot {
 
 	@Autowired
 	ActivityOrderService aoSvc;
-
+	
+	// ======================================== 前台頁面 ======================================== //
+	
+	@GetMapping("/activityinfo")
+	public String activityInfo(Model model) {
+		return "front-end/activity/activityinfo";
+	}
+	
+	
+	// ======================================== 後台控制器 ======================================== //
+	
 	@GetMapping("/activitycategory/activitycategory")
 	public String activityCategory(Model model) {
 		return "back-end/activitycategory/activitycategory";
@@ -341,8 +351,7 @@ public class IndexController_inSpringBoot {
 		return "back-end/activityorder/activityorder";
 	}
 
-	// ============================================================================================
-	// 讓GetMapping的頁面載入資料
+	// ============================== 讓GetMapping的頁面載入資料 ============================== //
 
 	@ModelAttribute("activityCategoryListData")
 	protected List<ActivityCategoryVO> referenceActivityCategoryListData(Model model) {
