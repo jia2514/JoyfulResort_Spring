@@ -118,18 +118,20 @@ input[type="submit"]:hover {
 		<form th:action="@{/roomtypephoto/insert}" method="post" th:object="${roomTypePhoto}" enctype="multipart/form-data">
        
        	<div>
-			<p><label>房型編號:</label><p>
-			<input type="text" th:field="*{roomType.roomTypeId}" /><br/>
-<!-- 			<span  th:if="${#fields.hasErrors('roomTypeId')}" th:errors="*{roomType.roomTypeId}" class="error" id="roomTypeId.errors"> -->
-<!-- 			</span> -->
+    		<p><label>房型編號:</label></p>
+    		<select th:field="*{roomType.roomTypeId}">
+       		<option th:each="roomType : ${roomTypeListData}" th:value="${roomType.roomTypeId}" th:text="${roomType.roomTypeName}" />
+      		</select>
 			</div>
+			
+			<br/>
 			
 			<div>
 			<label>照片:</label>
 			<input type="file" th:field="*{roomTypePhoto}" onclick="previewImage()" multiple="multiple" onchange="hideContent('roomTypePhoto.errors');" />
-<!-- 			<span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> -->
+			<span  th:if="${#fields.hasErrors('roomTypePhoto')}" th:errors="*{roomTypePhoto}" class="error" id="roomTypePhoto.errors"></span>
 			<span class="error" th:utext="${errorMessage}" id="roomTypePhoto.errors">${errorMessage}</span>
-<!-- 			<h2 id="errorMessage">${errorMessage}</h2>  -->
+			<h2 id="errorMessage">${errorMessage}</h2> 
 			<div id="blob_holder"></div>
 			</div>
 			
@@ -141,7 +143,7 @@ input[type="submit"]:hover {
     		<span th:if="${#fields.hasErrors('roomTypePhotoState')}" th:errors="*{roomTypePhotoState}" class="error" id="roomTypePhotoState.errors"></span>
 			</div>
 
-
+			<br/>
 
 <!-- 		<button type="submit" class="btn btn-primary">添加</button> -->
                             <input type="submit" value="完成">
