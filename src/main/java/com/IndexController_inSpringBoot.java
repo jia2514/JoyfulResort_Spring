@@ -574,7 +574,13 @@ public class IndexController_inSpringBoot {
   
   
   
-  
+  @GetMapping("/employee/loginEmployeeFile")
+  public String loginEmployeeFile(Model model) {
+ 
+		
+		System.out.println("測試點index_loginEmployeeFile");
+      return "back-end/employee/loginEmployeeFile"; //view
+  }
   
   
   
@@ -682,6 +688,8 @@ public class IndexController_inSpringBoot {
 		System.out.println("測試點index_allPositionAuthority");
         return "back-end/positionauthority/allPositionAuthority"; //view
     }
+    
+    
     
     
     
