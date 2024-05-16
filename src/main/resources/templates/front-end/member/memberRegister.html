@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+<meta charset="UTF-8">
+<title>My Page</title>
+<link th:insert="~{/front-end/htmlfile/css.html}" />
+
+
+</head>
+
+<body class="main-layout">
+
+
+	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
+	<div th:fragment="content">
+
+		<div class="news-section">
+			<div class="container">
+				<!-- 東西從這裡放 -->
+				    <div style ="display: flex; justify-content: center; margin: 5%;">
+        <div class="card" style="min-width: 600px; ">
+
+            <div class="card-body" style="max-width: 600px; min-width: 500px; text-align:center; background-color: #f3f6f9;">
+                <h4>加入會員</h4>
+                <form th:action="@{/joyfulresort/member/Register}" method="post">
+                    <div class="input-group mb-3" style="width: 100%; height: 60%; display: flex; align-items: center; justify-content: space-around;">
+                        <div class="input-group mb-3" style="width: 80%; margin-top: 10px;">
+                            <span class="input-group-text"><span style="color: red;">*</span>會員名稱</span>
+                            <input id="inputName" name="userName" type="text" class="form-control">
+                            <div id="nameError" class="invalid-feedback"></div>                          
+                        </div>
+                        
+							
+
+                        <div class="input-group mb-3" style="width: 80%; margin-top: 10px;">
+                            <span class="input-group-text"><span style="color: red;">*</span>會員帳號</span>
+                            <input id="inputAccount" name="userAccount" type="text" class="form-control">
+                            <div id="AccountError" class="invalid-feedback"></div>  
+                            
+                        </div>
+                        
+						
+                        
+                        <div class="input-group mb-3" style="width: 80%; margin-top: 10px;">
+                            <span class="input-group-text"><span style="color: red;">*</span>密碼</span>
+                            <input id="inputPassword" name="userPassword" type="text" class="form-control">
+                            <div id="PasswordError" class="invalid-feedback"></div> 
+                        </div> 
+                        
+                           
+                        <div class="input-group mb-3" style="width: 80%; margin-top: 10px;">    
+                            <span class="input-group-text"><span style="color: red;">*</span>確認密碼</span>
+                            <input id="checkPassword" type="text" class="form-control">
+                            <div id="checkPasswordError" class="invalid-feedback"></div> 
+                        </div>
+                        
+                            
+                        <div class="input-group mb-3" style="width: 80%; margin-top: 10px;">
+                            <span class="input-group-text"><span style="color: red;">*</span>電話</span>
+                            <input id="inputPhone" name="userPhone" type="text" class="form-control">
+                            <div id="PhoneError" class="invalid-feedback"></div> 
+                        </div>
+                        
+
+                        <div class="input-group mb-3" style="width: 80%; margin-top: 10px;">
+                            <span class="input-group-text"><span style="color: red;">*</span>信箱</span>
+                            <input id="inputEmail" name="userEmail" type="text" class="form-control"> 
+                            <div id="EmailError" class="invalid-feedback"></div>                            
+                        </div>
+                        
+
+                        <div class="input-group mb-3" style="width: 80%; margin-top: 10px;">
+                            <span class="input-group-text">地址</span>
+                            <input name="userAddress" type="text" class="form-control">
+                        </div>
+                        
+                            
+                        <div class="input-group mb-3" style="width: 70%; margin-top: 10px;">
+                            <span class="input-group-text">生日</span>                                 
+                            <input name="userBirthday" type="date" value="1970-01-01" class="form-control">
+                            <span  class="input-group-text" style="margin-left: 10px;">性別</span> 
+                            <select name="userGender">
+                                <option value="0">男</option>
+                                <option value="1">女</option>
+                            </select>
+                        </div>
+                                                
+                    </div>
+                    <div style="display: flex; justify-content: center;">
+                        <button id="bittonLogin" type="submit" class="btn btn-outline-info"style="width: 70%;padding-top: 1rem; padding-bottom: 1rem">註冊</button>
+                    </div>
+
+                </form>
+
+                </div>
+        </div>
+    </div>
+
+
+
+
+
+
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- Modal  燈箱 -->
+	<div class="modal fade" id="exampleModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body"
+					style="background-color: #f3f6f9; height: 500px;">
+					<div style="text-align: center;">
+						<h1 style="color: rgb(0, 174, 255);">
+							<b>JoyfulResort</b>
+						</h1>
+						<h4 class="card-title">
+							<b>登入</b>
+						</h4>
+						<form>
+							<div class="input-group mb-3"
+								style="width: 100%; height: 60%; display: flex; align-items: center; justify-content: space-around;">
+
+								<div style="width: 80%;">
+									<div class="input-group mb-3">
+										<input type="text" id="userAccount" name="userAccount" class="form-control"
+											placeholder="帳號"
+											style="padding-top: 2rem; padding-bottom: 2rem">
+									</div>
+									
+									<span id="AccountErrorMessage" style="color: red;"></span>
+									
+									<div class="input-group mb-3">
+										<input type="Password" id="userPassword" name="userPassword"
+											class="form-control" placeholder="密碼"
+											style="padding-top: 2rem; padding-bottom: 2rem">
+									</div>
+									
+									<span id="PasswordErrorMessage" style="color: red;"></span>
+								</div>
+							</div>
+							<div>
+								<button type="button" id="Button_Login" class="btn btn-outline-primary"
+									style="width: 70%; padding-top: 1rem; padding-bottom: 1rem">登入</button>
+							</div>
+							<span id="errorMessage" style="color: red;"></span>
+							<div style="margin-top: 35px;">
+								<button type="button" class="btn btn-outline-danger"
+									style="width: 100px; folat: left; margin-right: 80px;">忘記密碼?</button>
+								<button type="button" id="buttonRegister"
+									class="btn btn-outline-success"
+									style="width: 100px; folat: right; margin-left: 80px;"
+									onclick="location.href='/memberRegister'">註冊</button>
+							</div>
+
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
+	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
+	
+	<script>
+	//取得指定Cookie JS無法直接取得指定cookie 的Key-value 需要自己寫function取得 
+	function getCookie(cookieName) {  // 自訂function
+		const strCookie = document.cookie
+		const cookieList = strCookie.split(';')
+
+		for (let i = 0; i < cookieList.length; i++) {
+			const arr = cookieList[i].split('=')
+			if (cookieName === arr[0].trim()) {
+				return arr[1]
+			}
+		}
+	}
+	//判斷登入狀態
+	$(document).ready(function() { //ready事件
+		//判斷後端JAVA 有無寫入登入狀態cookie值 改寫登入/登出按鈕狀態
+		if (getCookie('LogInState') != null) { 
+			$('#LoginButton').css('display', 'none')
+			$('#LogoutButton').css('display', 'block')
+		} else {
+			$('#LoginButton').css('display', 'blocl')
+			$('#LogoutButton').css('display', 'none')
+		}
+	})
+	</script>
+	<script th:src="@{/frontend/js/memberRegister.js}"></script>
+	<script th:src="@{/frontend/js/memberLogin.js}"></script>
+</body>
+
+</html>

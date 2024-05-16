@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 
-                <a th:href="@{/member/blankmember}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>會員管理</a>
+                <a th:href="@{/member/listAllMember}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>會員管理</a>
                 
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-table me-2"></i>房間資料管理</a>
@@ -194,8 +194,8 @@
 							 <span th:text="${session.employees.empName}" class="d-none d-lg-inline-flex"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                        <a href="員工資料頁.jsp" class="dropdown-item">基本資料</a>
-<!--                         <a href="登出.jsp" class="dropdown-item">Log Out</a> -->
+<!--                         <a href="員工資料頁.jsp" class="dropdown-item">基本資料</a> -->
+                         <a th:href="@{/employee/loginEmployeeFile}"  class="dropdown-item">基本資料</a>
                         <a th:href="@{/backend_login}" class="dropdown-item">Log Out</a>
                     </div>
                 </div>

@@ -98,10 +98,12 @@ public class IndexController_inSpringBoot {
 	@Autowired
 	MemberService memSvc;
 
-//	@GetMapping("/")
-//	public String Myfone() {
-//		return "form1";
-//	}
+	@GetMapping("/member/listAllMember")
+	public String listAllMember(Model model) {
+		List<MemberVO> list = memSvc.getAll();
+		model.addAttribute("memListData", list);
+		return "back-end/member/listAllMember";
+	}
 
 	
 	
@@ -572,7 +574,13 @@ public class IndexController_inSpringBoot {
   
   
   
-  
+  @GetMapping("/employee/loginEmployeeFile")
+  public String loginEmployeeFile(Model model) {
+ 
+		
+		System.out.println("測試點index_loginEmployeeFile");
+      return "back-end/employee/loginEmployeeFile"; //view
+  }
   
   
   
@@ -680,6 +688,8 @@ public class IndexController_inSpringBoot {
 		System.out.println("測試點index_allPositionAuthority");
         return "back-end/positionauthority/allPositionAuthority"; //view
     }
+    
+    
     
     
     

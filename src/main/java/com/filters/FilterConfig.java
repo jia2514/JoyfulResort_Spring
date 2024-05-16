@@ -14,7 +14,7 @@ public class FilterConfig {
 		FilterRegistrationBean<LoginFilter> bean = new FilterRegistrationBean<>();
 		bean.setFilter(new LoginFilter());
 		
-		bean.addUrlPatterns("/frontend/member/memberinfo.html");
+		bean.addUrlPatterns("/joyfulresort/member/memberinfo");
 		return bean;
 	}
 }
