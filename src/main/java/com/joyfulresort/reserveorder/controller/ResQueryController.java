@@ -29,7 +29,7 @@ import com.joyfulresort.reservesession.model.RessionService;
 @Validated
 @Controller
 @RequestMapping("/reserve")
-public class ResqueryController {
+public class ResQueryController {
 
 	@Autowired
 	MemberService memberSvc;

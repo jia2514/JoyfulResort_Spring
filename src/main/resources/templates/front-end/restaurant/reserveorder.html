@@ -42,7 +42,7 @@ form {
 
 label {
 	margin-top: 20px;
-	font-size: 20px;
+	font-size: 18px;
 }
 
 input {
@@ -50,7 +50,7 @@ input {
 	margin-bottom: 5px; /* 修改為 15px */
 	border: 1px solid #ddd;
 	border-radius: 5px;
-	width: 20%;
+	width: 50%;
 	box-sizing: border-box; /* 添加這一行 */
 }
 
@@ -59,7 +59,7 @@ textarea {
 	height: 100px; /* 修改為 100px */
 }
 
-button {
+.submit {
 	padding: 10px;
 	margin-top: 20px;
 	background-color: #0056b3;
@@ -93,6 +93,7 @@ button {
 
 .time-button {
 	border: 2px solid #000000;
+	border-radius: 15px;
 	margin: 5px 10px;
 	padding: 5px;
 	font-size: 20px;
@@ -103,6 +104,10 @@ button {
 }
 
 .time-button:focus {
+	background-color: #007BFF; /* 點擊時的背景顏色 */
+	color: white; /* 點擊時的文字顏色 */
+}
+.time-button:hover {
 	background-color: #007BFF; /* 點擊時的背景顏色 */
 	color: white; /* 點擊時的文字顏色 */
 }
@@ -119,7 +124,7 @@ color: red;
 
 	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
 	<div th:fragment="content">
-		<div class="news-section" style="margin-top: 20px;">
+		<div class="news-section" style="margin-top: 100px;">
 			<div class="container" style="display: flex;">
 				<!-- 東西從這裡放 -->
 
@@ -132,11 +137,26 @@ color: red;
 
 						<label for="" style="display: none;">餐廳場次編號:</label> <input
 							type="hidden" id="sessionid"
-							th:field="*{ressionVO.reserveSessionId}"> <label for="">會員編號:</label>
-						<input type="text" th:field="*{memberVO.memberId}"> <label
-							for="reserveNumber">預定人數:(最多10人)</label> <select
-							th:field="*{reserveNumber}" id="reserveNumber"
-							name="reserveNumber" style="width: 80px; height: 30px;">
+							th:field="*{ressionVO.reserveSessionId}"> 
+							
+							<label for="">姓名:</label>
+							<input type="text" th:field="*{resName}">					
+<!-- 						<input type="text" th:field="*{memberVO.memberName}"> -->
+<div th:if="${#fields.hasErrors('resName')}" th:errors="*{resName}" class="error"></div>
+	
+	
+							
+							<label for="">電話:</label>
+							<input type="text"  maxlength="10"  th:field="*{resPhone}">
+<!-- 						<input type="text" th:field="*{memberVO.memberPhone}"> -->
+<div th:if="${#fields.hasErrors('resPhone')}" th:errors="*{resPhone}" class="error"></div>
+
+
+						<label for="">會員編號:</label>
+						<input type="text" th:value="1" 	>
+						
+	 <label	for="reserveNumber">預定人數:(最多10人)</label> 
+	 <select	th:field="*{reserveNumber}" id="reserveNumber"	name="reserveNumber" style="width: 80px; height: 30px;">
 							<option value="">人數</option>
 							<option value="1">1</option>
 							<option value="2">2</option>
@@ -161,7 +181,7 @@ color: red;
 
 
 
-						<!-- 						<div id="time-buttons"></div> -->
+						<!-- 	<div id="time-buttons"></div> -->
 
 
 						<label for="">備註:</label>
@@ -171,7 +191,7 @@ color: red;
 
 						<br>
 						<div class="text-left">
-							<button type="submit" id="submit">送出</button>
+							<button type="submit" id="submit" class="submit">送出</button>
 						</div>
 
 						<!--  <label for="">訂單狀態:</label> -->
@@ -249,7 +269,6 @@ color: red;
 
 		bookingDateInput.value = selectedDateTime;
 		var selectedNumber = $('#reserveNumber').val(); // 獲取選擇的人數
-		console.log(selectedDateTime)
 
 		checkAvailability(selectedDateTime, selectedNumber);
 	}
@@ -320,7 +339,10 @@ color: red;
 				// 將後端返回的總人數與前端所選擇的人數相加
 				var totalNumber = response.number + parseInt(reserveNumber);
 				// 檢查總人數是否超過 100
-				if (totalNumber > 100) {
+// 				console.log(totalNumber	)
+
+// 				console.log(response.maxpart)
+				if (totalNumber > response.maxpart) {
 					// 超過則禁止選擇這個時間
 					$('#error').text('' + response.message + '').show();
 					$('#submit').prop('disabled', true); // 禁用送出欄位

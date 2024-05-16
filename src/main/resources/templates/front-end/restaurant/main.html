@@ -114,17 +114,17 @@
 
 	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
 	<div th:fragment="content">
-		<div class="container" style="padding-top: 50px;">
+		<div class="container" style="padding-top: 130px;">
 
 
-			<div th:if="${success}"
-				class="alert alert-success alert-dismissible fade show" role="alert">
-				<strong>新增成功！</strong> 訂單已成功新增。
-				<button type="button" class="btn-close" data-bs-dismiss="alert"
-					aria-label="Close"></button>
-			</div>
+<!-- 			<div th:if="${success}" -->
+<!-- 				class="alert alert-success alert-dismissible fade show" role="alert"> -->
+<!-- 				<strong>新增成功！</strong> 訂單已成功新增。 -->
+<!-- 				<button type="button" class="btn-close" data-bs-dismiss="alert" -->
+<!-- 					aria-label="Close"></button> -->
+<!-- 			</div> -->
 
-<script th:inline="javascript">
+		<script th:inline="javascript">
 				    
 				    var successMessage = /*[[${success}]]*/ '';
 				    if (successMessage) {
