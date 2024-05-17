@@ -9,7 +9,6 @@ import java.sql.Blob;
 import java.util.Date;
 
 @Entity
-@Data
 @Table(name = "spot_news_list")
 public class SpotNews {
     @Id
@@ -33,5 +32,67 @@ public class SpotNews {
     @Column(name = "spot_news_state")
     private Boolean spotNewsState;
 
+    public Integer getSpotNewsId() {
+        return spotNewsId;
+    }
 
+    public void setSpotNewsId(Integer spotNewsId) {
+        this.spotNewsId = spotNewsId;
+    }
+
+    public String getSpotNewsTitle() {
+        return spotNewsTitle;
+    }
+
+    public void setSpotNewsTitle(String spotNewsTitle) {
+        this.spotNewsTitle = spotNewsTitle;
+    }
+
+    public Date getSpotNewsDate() {
+        return spotNewsDate;
+    }
+
+    public void setSpotNewsDate(Date spotNewsDate) {
+        this.spotNewsDate = spotNewsDate;
+    }
+
+    public String getSpotNewsAbstract() {
+        return spotNewsAbstract;
+    }
+
+    public void setSpotNewsAbstract(String spotNewsAbstract) {
+        this.spotNewsAbstract = spotNewsAbstract;
+    }
+
+    public String getSpotNewsContent() {
+        return spotNewsContent;
+    }
+
+    public void setSpotNewsContent(String spotNewsContent) {
+        this.spotNewsContent = spotNewsContent;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
+    }
+
+    public Blob getSpotNewsPhoto() {
+        return spotNewsPhoto;
+    }
+
+    public void setSpotNewsPhoto(Blob spotNewsPhoto) {
+        this.spotNewsPhoto = spotNewsPhoto;
+    }
+
+    public Boolean getSpotNewsState() {
+        return spotNewsState;
+    }
+
+    public void setSpotNewsState(Boolean spotNewsState) {
+        this.spotNewsState = spotNewsState;
+    }
 }
