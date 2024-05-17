@@ -54,6 +54,7 @@ public class ResVO implements Serializable {
 	@Column(name = "order_note", length = 60)
 	private String orderNote;
 
+	@NotNull(message = "請勿空白")
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "member_id")
 	private MemberVO memberVO;

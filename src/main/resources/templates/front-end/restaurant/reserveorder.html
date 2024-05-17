@@ -160,17 +160,13 @@ textarea {
 
 
 						<label for="" class="label">會員編號:</label>
-						 <input type="text"	class="input1" th:value="${memberVO.memberId}" >
-						<input type="hidden" class="input2" th:value="${memberVO.memberId}"  th:field="*{memberVO.memberId}">
+						<input type="text" class="input1"   th:field="*{memberVO.memberId}">
 						
 						<script>
         window.addEventListener('DOMContentLoaded', (event) => {
-            const firstInput = document.querySelector('.input1');
-            const secondInput = document.querySelector('.input2');
-            secondInput.value = firstInput.value;
-            firstInput.addEventListener('input', (event) => {
-                secondInput.value = event.target.value;
-            });
+            const secondInput = document.querySelector('.input1');
+            secondInput.value = 1;
+           
         });
     </script>
 						

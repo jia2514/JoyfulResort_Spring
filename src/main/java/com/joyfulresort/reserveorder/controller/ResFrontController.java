@@ -47,14 +47,14 @@ public class ResFrontController {
 		ResVO resVO = new ResVO();
 		model.addAttribute("resVO", resVO);
 		MemberVO memberVO = new MemberVO();
-		memberVO.setMemberId(1000);
+		memberVO.setMemberId(1);
 		model.addAttribute("memberVO", memberVO);
 		return "front-end/restaurant/reserveorder";
 	}
 
 	@PostMapping("insertfront")
-	public String insertfront(@Valid ResVO resVO, RedirectAttributes redirectAttributes, BindingResult result,
-			HttpServletRequest request, ModelMap model) throws IOException {
+	public String insertfront(@Valid ResVO resVO, BindingResult result, HttpServletRequest request,
+			RedirectAttributes redirectAttributes, ModelMap model) throws IOException {
 
 		if (result.hasErrors()) {
 
@@ -66,10 +66,9 @@ public class ResFrontController {
 		return "redirect:/joyfulresort/restaurant";
 	}
 //		return "front-end/restaurant/main";
-	 
-	
+
 //		return "back-end/reserve/reserveorder"; 
-	
+
 //		會多報Request method 'GET' not supported]   
 //		在Index控制層76行多設置一個getmapping才不會抱錯
 
