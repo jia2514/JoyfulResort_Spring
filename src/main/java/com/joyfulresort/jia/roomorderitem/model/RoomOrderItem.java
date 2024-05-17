@@ -44,7 +44,7 @@ public class RoomOrderItem {
 	private RoomOrder roomOrder;
 	
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "room_type_id", referencedColumnName = "room_type_id")
 	private RoomType roomType;
 

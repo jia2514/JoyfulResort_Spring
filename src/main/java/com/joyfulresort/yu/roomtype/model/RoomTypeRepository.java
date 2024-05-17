@@ -10,5 +10,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface RoomTypeRepository extends JpaRepository<RoomType, Integer> {
 
-	
+
 }
