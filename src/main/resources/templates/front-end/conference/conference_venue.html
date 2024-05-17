@@ -2,46 +2,22 @@
 <html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <!-- 基本設定 -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- 移動設備基本設定 -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- 網站 Meta 資訊 -->
     <title>會議場地 Conference Venue</title>
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- 引入 Bootstrap CSS -->
-    <link rel="stylesheet" href="/frontend/css/bootstrap.min.css">
-    <!-- 網站主要樣式表 -->
-    <link rel="stylesheet" href="/frontend/css/style.css">
-    <link rel="stylesheet" href="/frontend/css/my.css">
-    <!-- 響應式樣式表 -->
-    <link rel="stylesheet" href="/frontend/css/responsive.css">
-    <!-- 網站圖標 -->
-    <link rel="icon" href="/frontend/images/fevicon.png" type="image/gif" />
-    <!-- 自定義滾動條樣式 -->
-    <link rel="stylesheet" href="/frontend/css/jquery.mCustomScrollbar.min.css">
-    <!-- 較舊IE版本支持 -->
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
-          media="screen">
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
-    <!-- 引入 Bootstrap 和 jQuery -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link th:insert="~{/front-end/htmlfile/css.html}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
     <link
@@ -49,7 +25,34 @@
             rel="stylesheet">
     <link href="/frontend/css/conference.css" rel="stylesheet">
     <style>
+        .header {
+            background-color: transparent;
+            transition: background-color 0.3s ease;
+            border-bottom: 0.5px dashed white;
+        }
 
+        .navigation.navbar-dark .navbar-nav .nav-link {
+            color: white; /* 初始字體顏色 */
+        }
+
+        .nav-hr {
+            border-left: 1px solid white; /* 初始框線顏色 */
+            transition: border-color 0.3s ease;
+        }
+
+        /* 滾動後的狀態 */
+        .header.scrolled {
+            background-color: white; /* 你想要的背景顏色 */
+            border-bottom: 0.5px dashed black;
+        }
+
+        .navigation.navbar-dark .navbar-nav .nav-link.scrolled {
+            color: black; /* 你想要的字體顏色 */
+        }
+
+        .nav-hr.scrolled {
+            border-left: 1px solid black; /* 你想要的框線顏色 */
+        }
     </style>
 </head>
 
@@ -62,14 +65,11 @@
 <div class="loader_bg">
     <div class="loader"></div>
 </div>
-<!--<div class="loader_bg">-->
-<!--    <div class="loader"><img style="width: 80px; height: 80px" src="/frontend/images/Walk.gif" alt="#" /></div>-->
-<!--</div>-->
 
 <!-- 頁面頭部 -->
 <header>
     <!-- 頭部內容 -->
-    <div class="header position-fixed top-0 z-3 bg-black">
+    <div class="header fixed-top top-0 z-3">
         <div class="container">
             <div class="row">
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
@@ -77,7 +77,7 @@
                         <div class="center-desk">
                             <div class="logo">
                                 <a href="index.html">
-                                    <img src="/frontend/images/JOYFUL-logo-white.png" alt="">
+                                    <img id="logo" src="/frontend/images/JoyfulResort3.png" alt="">
                                 </a>
                             </div>
                         </div>
@@ -92,37 +92,37 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarsExample04">
                             <ul class="navbar-nav mr-auto">
-                                <hr style="border-left: 1px solid white; height: 35px; margin-top: 0">
+                                <hr class="nav-hr" style="height: 35px; margin-top: 0">
                                 <li class="nav-item">
-                                    <a class="nav-link fw-bold" style="color: white" href="index.html">首頁</a>
+                                    <a class="nav-link fw-bold nav-link-custom" href="index.html">最新消息</a>
                                     <!-- 包含 關於我們 最新消息 媒體報導...  -->
                                 </li>
-                                <hr style="border-left: 1px solid white; height: 35px; margin-top: 0">
+                                <hr class="nav-hr" style="height: 35px; margin-top: 0">
                                 <li class="nav-item">
-                                    <a class="nav-link fw-bold" style="color: white" href="about.html">關於我們</a>
+                                    <a class="nav-link fw-bold nav-link-custom" href="about.html">關於我們</a>
                                 </li>
-                                <hr style="border-left: 1px solid white; height: 35px; margin-top: 0">
+                                <hr class="nav-hr" style="height: 35px; margin-top: 0">
                                 <li class="nav-item">
-                                    <a class="nav-link fw-bold" style="color: white" href="room.html">飯店設施</a>
+                                    <a class="nav-link fw-bold nav-link-custom" href="room.html">線上訂房</a>
                                 </li>
-                                <hr style="border-left: 1px solid white; height: 35px; margin-top: 0">
+                                <hr class="nav-hr" style="height: 35px; margin-top: 0">
                                 <li class="nav-item">
-                                    <a class="nav-link fw-bold" style="color: white" href="gallery.html">線上訂房</a>
+                                    <a class="nav-link fw-bold nav-link-custom" href="gallery.html">活動資訊</a>
                                 </li>
-                                <hr style="border-left: 1px solid white; height: 35px; margin-top: 0">
+                                <hr class="nav-hr" style="height: 35px; margin-top: 0">
                                 <li class="nav-item">
-                                    <a class="nav-link fw-bold" style="color: white" href="blog.html">活動報名</a>
+                                    <a class="nav-link fw-bold nav-link-custom" href="/conference">宴會會議</a>
                                 </li>
-                                <hr style="border-left: 1px solid white; height: 35px; margin-top: 0">
+                                <hr class="nav-hr" style="height: 35px; margin-top: 0">
                                 <li class="nav-item">
-                                    <a class="nav-link fw-bold" style="color: white" href="/conference">宴會會議</a>
+                                    <a class="nav-link fw-bold nav-link-custom" href="#">餐飲服務</a>
                                     <!-- 包含常見問題 -->
                                 </li>
-                                <hr style="border-left: 1px solid white; height: 35px; margin-top: 0">
+                                <hr class="nav-hr" style="height: 35px; margin-top: 0">
                                 <li class="nav-item">
-                                    <a class="nav-link fw-bold" style="color: white" href="log.html">會員登入</a>
+                                    <a class="nav-link fw-bold nav-link-custom" href="log.html">會員專區</a>
                                 </li>
-                                <hr style="border-left: 1px solid white; height: 35px; margin-top: 0">
+                                <hr class="nav-hr" style="height: 35px; margin-top: 0">
                             </ul>
                         </div>
                     </nav>
@@ -136,16 +136,16 @@
 
 
 <!-- 圖片跑馬燈 & 註解日期 -->
-<section class="banner_main">
-    <div id="carouselExampleFade" class="carousel slide carousel-fade">
-        <div class="carousel-inner" style="height: 500px; margin-top: 86px">
+<section class="banner_main" style="max-height: 650px; position: relative; top: -100px">
+    <div id="carouselExampleFade" class="carousel slide carousel-fade h-100">
+        <div class="carousel-inner h-100" style="height: 500px; margin-top: 86px">
             <div class="carousel-item active">
-                <img src="/frontend/images/notes-3819574_1280.jpg" class="d-block w-100 h-100" alt="...">
+                <img src="/frontend/images/notes1.jpg" class="d-block w-100 h-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                     <h1 class="cardo-regular" style="color: white">CONFERENCE VENUE</h1>
                     <h4 class="conference" style="color: white; margin-top: -15px">會議場地</h4>
                     <p class="fw-bold" style="margin-top: -5px">多樣場地滿足您會議需求</p>
-<!--                    <p style="position: absolute; top: 70%; left: 47%">查看更多</p>-->
+                    <p style="position: absolute; top: 80%; left: 47%">查看更多</p>
                     <div class="down-arrow btn"><svg class="arrow-circle" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#5f6368"><path d="m481-356 119-118-15-15-93 93v-209h-23v209l-93-93-15 15 120 118Zm-.83 224q-72.17 0-135.23-27.39-63.06-27.39-110.57-74.85-47.52-47.46-74.94-110.43Q132-407.65 132-479.83q0-72.17 27.39-135.73 27.39-63.56 74.85-110.57 47.46-47.02 110.43-74.44Q407.65-828 479.83-828q72.17 0 135.73 27.39 63.56 27.39 110.57 74.35 47.02 46.96 74.44 110.43Q828-552.35 828-480.17q0 72.17-27.39 135.23-27.39 63.06-74.35 110.57-46.96 47.52-110.43 74.94Q552.35-132 480.17-132Zm-.17-22q136 0 231-95t95-231q0-136-95-231t-231-95q-136 0-231 95t-95 231q0 136 95 231t231 95Zm0-326Z"/></svg></div>
                 </div>
             </div>
@@ -157,7 +157,7 @@
 
 
 
-<div class="container mt-5">
+<div class="container" style="margin-top: -50px">
     <nav style="--bs-breadcrumb-divider: '----'; font-size: smaller;" aria-label="breadcrumb">
         <ol class="breadcrumb justify-content-center">
             <li class="breadcrumb-item google-icon"><a href="#" style="color: #847674; font-size: smaller;"><svg
@@ -309,11 +309,11 @@
 
 
 <footer> <!-- footer 開始 -->
-    <div class="footer" style="background-color: #3b3636">
+    <div class="footer" style="background-color: #3b3636; margin-top: 50px">
         <div class="container">
             <div class="row">
                 <!-- 聯絡資訊 -->
-                <div class="col-md-4 mb-5">
+                <div class="col-md-4 mb-5 mt-5">
                     <h3>關於我們</h3>
                     <ul class="conta">
                         <li><i class="fa fa-map-marker" aria-hidden="true"></i> 地址</li>
@@ -323,7 +323,7 @@
                     </ul>
                 </div>
                 <!-- 導航連結 -->
-                <div class="col-md-4 mb-5">
+                <div class="col-md-4 mb-5 mt-5">
                     <h3>目錄</h3>
                     <ul class="link_menu">
                         <li><a href="#">首頁</a></li>
@@ -335,7 +335,7 @@
                     </ul>
                 </div>
                 <!-- 最新消息與社交媒體連結 -->
-                <div class="col-md-4 mb-5">
+                <div class="col-md-4 mb-5 mt-5">
                     <h3>最新消息</h3>
                     <form class="bottom_form">
                         <input class="enter" placeholder="電子郵件" type="text" name="Enter your email">
@@ -393,6 +393,28 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     AOS.init();
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        window.addEventListener("scroll", function() {
+            var header = document.querySelector(".header");
+            var links = document.querySelectorAll(".nav-link-custom");
+            var hrs = document.querySelectorAll(".nav-hr");
+            var logo = document.getElementById("logo");
+
+            if (window.scrollY > 400) { // 當滾動超過100px時
+                header.classList.add("scrolled");
+                links.forEach(link => link.classList.add("scrolled"));
+                hrs.forEach(hr => hr.classList.add("scrolled"));
+                logo.src = "/frontend/images/JoyfulResort2.png";
+            } else {
+                header.classList.remove("scrolled");
+                links.forEach(link => link.classList.remove("scrolled"));
+                hrs.forEach(hr => hr.classList.remove("scrolled"));
+                logo.src = "/frontend/images/JoyfulResort3.png";
+            }
+        });
+    });
 </script>
 </body>
 

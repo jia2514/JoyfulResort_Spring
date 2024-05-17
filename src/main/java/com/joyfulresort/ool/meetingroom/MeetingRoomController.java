@@ -42,7 +42,7 @@ public class MeetingRoomController {
         List<MeetingRoom> meetingRooms = meetingRoomRepository.findAll();
         model.addAttribute("meetingRooms", meetingRooms);
 
-        return "frontend/conference_order";
+        return "front-end/conference/conference_order";
     }
     @GetMapping("/conference/calendar/{meetingRoomId}")
     public ResponseEntity<List<MeetingRoomOrder>> calendar(@PathVariable Integer meetingRoomId){
@@ -72,20 +72,20 @@ public class MeetingRoomController {
         List<MeetingRoom> meetingRooms = meetingRoomRepository.findAll();
         model.addAttribute("meetingRooms", meetingRooms);
 
-        return "front-end/conference_venue";
+        return "front-end/conference/conference_venue";
     }
 
     @GetMapping("/conference/backend/list")
     public String getAllMeetingRooms(Model model) {
         List<MeetingRoom> meetingRooms = meetingRoomRepository.findAll();
         model.addAttribute("meetingRooms", meetingRooms);
-        return "back-end/conference";
+        return "back-end/conference/conference";
     }
 
     @GetMapping("/conference/backend/add")
     public String showAddForm(Model model) {
         model.addAttribute("meetingRoom", new MeetingRoom());
-        return "backend/add";
+        return "back-end/conference/add";
     }
 
     @PostMapping("/conference/backend/add")
@@ -106,7 +106,7 @@ public class MeetingRoomController {
         MeetingRoom meetingRoom = meetingRoomRepository.findById(meetingRoomId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Meeting Room ID:" + meetingRoomId));
         model.addAttribute("meetingRoom", meetingRoom);
-        return "backend/detail";
+        return "back-end/conference/detail";
     }
 
 
@@ -116,14 +116,14 @@ public class MeetingRoomController {
             MeetingRoom meetingRoom = meetingRoomRepository.findById(meetingRoomId)
                     .orElseThrow(() -> new IllegalArgumentException("Invalid Meeting Room ID:" + meetingRoomId));
             model.addAttribute("meetingRoom", meetingRoom);
-            return "/backend/edit";
+            return "/back-end/conference/edit";
         } else if (meetingRoomPhotoRepository.existsById(meetingRoomId)) {
             MeetingRoomPhoto existingImage = meetingRoomPhotoRepository.findById(meetingRoomId).orElse(null);
             if (existingImage == null) {
                 return "redirect:/conference/backend/list";
             }
             model.addAttribute("image", existingImage);
-            return "/backend/edit";
+            return "/back-end/conference/edit";
         } else {
             throw new IllegalArgumentException("Invalid ID:" + meetingRoomId);
         }

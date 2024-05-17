@@ -2,5 +2,5 @@ package com.joyfulresort.ool.news;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface NewsRepository extends JpaRepository<News, Integer> {
+public interface SpotNewsRepository extends JpaRepository<SpotNews, Integer> {
 }
