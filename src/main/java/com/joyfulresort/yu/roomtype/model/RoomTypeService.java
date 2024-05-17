@@ -58,6 +58,8 @@ public class RoomTypeService {
 //		return optional.get();
 		return optional.orElse(null);  // public T orElse(T other) : 如果值存在就回傳其值，否則回傳other的值
 		
+		
+		
 //	public List<RoomType> getAll(Map<String, String[]> map) {
 //		return HibernateUtil_CompositeQuery_RoomType.getAllC(map,sessionFactory.openSession()); 
 //		//**重要!!關鍵行
