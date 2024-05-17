@@ -10,17 +10,17 @@ function getCookie(cookieName) {  // 自訂function
     }
   }
 }
-//判斷登入狀態
-$(document).ready(function () { //ready事件
-  //判斷後端JAVA 有無寫入登入狀態cookie值 改寫登入/登出按鈕狀態
-  if (getCookie('LogInState') != null) {
-    $('#LoginButton').css('display', 'none')
-    $('#LogoutButton').css('display', 'block')
-  } else {
-    $('#LoginButton').css('display', 'blocl')
-    $('#LogoutButton').css('display', 'none')
-  }
-})
+//判斷登入狀態 改用Spring th:switch 判斷
+// $(document).ready(function () { //ready事件
+//   //判斷後端JAVA 有無寫入登入狀態cookie值 改寫登入/登出按鈕狀態
+//   if (getCookie('LogInState') != null) {
+//     $('#LoginButton').css('display', 'none')
+//     $('#LogoutButton').css('display', 'block')
+//   } else {
+//     $('#LoginButton').css('display', 'blocl')
+//     $('#LogoutButton').css('display', 'none')
+//   }
+// })
 
 //登入
 $('#Button_Login').click(function () {
