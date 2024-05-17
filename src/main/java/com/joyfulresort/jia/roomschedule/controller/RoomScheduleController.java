@@ -108,10 +108,17 @@ public class RoomScheduleController {
 		Map<String, String[]> map = req.getParameterMap();
 		Date startquerydate = Date.valueOf(req.getParameter("startquerydate"));
 		Date endquerydate = Date.valueOf(req.getParameter("endquerydate"));
+		
+		 long startTime = startquerydate.getTime();
+         long endTime = endquerydate.getTime();
+         long differenceInMilliSeconds = endTime - startTime;
+         long bookingNight = differenceInMilliSeconds / (1000 * 60 * 60 * 24);
+		
 		Integer peopleAmount = Integer.valueOf(req.getParameter("peopleAmount"));
 		List<Map<RoomType, Integer>> listRoomSchedule = roomScheduleSvc.getByPeopleAmount(map);
 		model.addAttribute("listRoomSchedule", listRoomSchedule);
 		model.addAttribute("startquerydate", startquerydate);
+		model.addAttribute("bookingNight", bookingNight);
 		model.addAttribute("endquerydate", endquerydate);
 		model.addAttribute("peopleAmount", peopleAmount);
 		return "front-end/roomorder/roomorderselect";

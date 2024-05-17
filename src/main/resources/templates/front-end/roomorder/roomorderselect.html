@@ -80,6 +80,41 @@
     background-color: #f9f9f9; /* 背景顏色用於示例，根據需要調整 */
     padding: 20px;
   }
+  
+  .room-order-select {
+    display: flex;
+	}
+	
+	.left {
+	    flex: 1;
+	}
+	
+	.right {
+	    flex: 1;
+	    position: relative; /* 确保相对定位 */
+	    padding: 10px;
+	}
+	
+	.book-now-container {
+	    position: absolute;
+	    bottom: 10px; /* 距离底部的距离，根据需要调整 */
+	    right: 10px; /* 距离右侧的距离，根据需要调整 */
+	}
+	
+	.book-now-button {
+	    padding: 10px 20px;
+	    background-color: #007bff; /* 按钮背景颜色 */
+	    color: #fff; /* 按钮文本颜色 */
+	    border: none;
+	    border-radius: 5px;
+	    cursor: pointer;
+	}
+	
+	.book-now-button:hover {
+	    background-color: #0056b3; /* 按钮悬停时的背景颜色 */
+	}
+  
+  
 </style>
 
 
@@ -125,24 +160,44 @@
 				</form>
 				
 				<hr style="border-color: grey;">
+				<div style="text-align: center;">
+					<span>入住日期 : </span><span th:text="${startquerydate}"></span>
+					<span>  / 退房日期 : </span><span th:text="${endquerydate}"></span>
+					<span>  / 共入住 </span><span th:text="${bookingNight}"></span><span> 晚</span> 
+				</div>
+				<br>
+				
 			<div th:if="${#lists.isEmpty(listRoomSchedule)}" style="text-align: center;">
     			<div>選擇入住期間已無適合的房型組合, 請選擇其他入住時間進行查詢, 或查詢近兩個月的空房進行下訂</div>
 			</div>	
-			<div th:if="${listRoomSchedule != null}" th:each="roomList: ${listRoomSchedule}" >
-				<div class="room-order-select">
-				    <div class="left">
-				    	<img class="room-photo" alt="Room Photo">
-			    	</div>
-					<div class="right">
-				        <div th:each="entry, iterStat : ${roomList}">
-				            <div th:text="${entry.key.roomTypeName}"></div>
-				            <div th:text="${entry.value}"></div>
-<!-- 				            <div class="room-type-id" th:text="${entry.key.roomTypeId}"></div> -->
-				                <!-- Check if it's the last iteration --> 
-				            <div class="last-room-type-id" th:if="${iterStat.last}" th:text="${entry.key.roomTypeId}" style="display:none;"></div>
-				        </div>   
-				    </div>
-				</div>
+			<div th:each="roomList: ${listRoomSchedule}" >
+				<form th:action="@{/roomorder/frontendAddOne}" method="post">
+					<div class="room-order-select">
+					    <div class="left" th:each="entry, iterStat : ${roomList}">
+					    	
+					    	<img th:if="${iterStat.last}" th:src="@{/roomtypephoto/DBGifReader} + '?roomTypePhotoId=' + ${entry.key.roomTypePhotoIdList[0]}" >
+			    		
+				    	</div>
+						<div class="right">
+					        <div th:each="entry, iterStat : ${roomList}" th:with="i=${iterStat.index}+1">
+					            <div th:text="${entry.key.roomTypeName}"></div>
+					            <input type="hidden" th:name="roomTypeId+${i}" th:value="${entry.key.roomTypeId}">
+					            <div th:text="${entry.value}"></div>
+					            <input type="hidden" th:name="roomAmount+${i}" th:value="${entry.value}">
+        						<input type="hidden" th:if="${iterStat.last}"  th:name="paramCount" th:value="${i}">
+					        
+					        </div>
+
+					        
+					        <div class="book-now-container">
+			                    <input type="submit" value="訂房" class="book-now-button">
+			                    <input type="hidden" name="checkInDate" th:value="${startquerydate}">
+			                    <input type="hidden" name="checkOutDate" th:value="${endquerydate}">
+			                </div>
+					           
+					    </div>
+					</div>
+				</form>
 			</div>
 			
 			
@@ -187,27 +242,6 @@
     
 </script>
 
-<script th:inline="javascript">
-    $(document).ready(function() {
-        $('.room-order-select').each(function() {
-            var roomTypeId = $(this).find('.last-room-type-id').text();
-            $.ajax({
-                url: '/roomtypephotojia/getPhotosByRoomTypeId',
-                type: 'POST',
-                data: {
-                    roomTypeId: roomTypeId
-                },
-                success: function(data) {
-                    var roomTypePhotoId = data[0]; // Assuming you only receive one photo id
-                    $(this).find('.room-photo').attr('src', '/roomtypephoto/DBGifReader?roomTypePhotoId=' + roomTypePhotoId);
-                }.bind(this),
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        });
-    });
-</script>	
 	
 </body>
 

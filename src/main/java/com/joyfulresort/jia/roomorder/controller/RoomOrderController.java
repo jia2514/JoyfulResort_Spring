@@ -147,12 +147,24 @@ public class RoomOrderController {
 		return ResponseEntity.ok(roomOrderInfo);
 	}
 
-	@GetMapping("addOne")
-	public String addOne(ModelMap model) {
-		RoomOrder roomOrder = new RoomOrder();
-		model.addAttribute("roomOrder", roomOrder);
-		return "back-end/roomorder/addRoomOrder";
+//	@GetMapping("addOne")
+//	public String addOne(ModelMap model) {
+//		RoomOrder roomOrder = new RoomOrder();
+//		model.addAttribute("roomOrder", roomOrder);
+//		return "back-end/roomorder/addRoomOrder";
+//	}
+	
+	@PostMapping("frontendAddOne")
+	public String frontendAddOne(@RequestParam Map<String, String> formData, Model model) {
+		System.out.println("formData"+formData);
+	    model.addAttribute("roomOrder", formData);
+	    List<RoomType> list = roomTypeSvc.getAll();
+	    model.addAttribute("roomTypeListData", list);
+
+	    return "front-end/roomorder/addRoomOrder";
 	}
+	
+	
 
 	@PostMapping("insert")
 	public String insert(HttpServletRequest req, Model model) throws IOException {
