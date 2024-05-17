@@ -57,6 +57,10 @@ public class ResVO implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "member_id")
 	private MemberVO memberVO;
+	
+
+	
+	
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "reserve_session_id")

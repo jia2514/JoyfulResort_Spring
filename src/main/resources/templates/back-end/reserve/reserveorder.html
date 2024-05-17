@@ -290,8 +290,8 @@ table tr.success {
 								<th>餐廳訂單編號</th>
 								<th>姓名</th>
 								<th>電話</th>
-								<th>場次編號</th>
 								<th>會員編號</th>
+								<th>場次編號</th>
 								<th>訂單日期</th>
 								<th>預定人數</th>
 								<th>預定日期</th>
@@ -308,8 +308,14 @@ table tr.success {
 							    th:class="${res.reserveOrderState == 0 ? 'cancel' : 
 							    			(res.reserveOrderState == 2 ? 'success' : '')}">
 								<td th:text=" ${res.reserveOrderId} "></td>
-								<td th:text=" ${res.memberVO.memberName} "></td>
-								<td th:text=" ${res.memberVO.memberPhone} "></td>
+<td > 
+	<span th:text="${res.memberVO.memberName}"></span>											
+<span th:text="${res.resName != null ? res.resName : '' } " ></span>
+</td>
+
+
+<td th:text="${res.resPhone != null  and res.resPhone != '' ? res.resPhone : res.memberVO.memberPhone }"></td>
+
 								<td th:text=" ${res.memberVO.memberId}"></td>
 								<td th:text=" ${res.ressionVO.reserveSessionId}"></td>
 								<td th:text=" ${res.reserveOrderDate}"></td>
@@ -356,7 +362,7 @@ table tr.success {
 		$(function() { //--------------------分頁顯示
 			var $table = $("table ");
 			var currentPage = 0; //當前頁默認值為0  
-			var pageSize = 8; //每一頁顯示的數目  
+			var pageSize = 10; //每一頁顯示的數目  
 			$table.bind('paging', function() {
 				$table.find('tbody tr').hide().slice(currentPage * pageSize,
 						(currentPage + 1) * pageSize).show();
