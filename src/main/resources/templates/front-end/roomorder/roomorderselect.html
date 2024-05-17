@@ -16,11 +16,13 @@
         justify-content: space-between;
         align-items: center;
         border: 1px solid #ccc;
-        padding: 20px;
+        padding: 10px 20px;
         border-radius: 10px;
+        height:50%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
     .title {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: bold;
     }
     .form-control {
@@ -34,7 +36,50 @@
         border-radius: 5px;
         cursor: pointer;
     }
+	
+	.bookingcontainer > div {
+	    flex: 1;
+	    margin-right: 20px; /* 调整元素之间的水平间距 */
+	}
 
+	.bookingcontainer > div:first-child {
+    	margin-left: 20px; /* 最后一个元素不需要右侧的间距 */
+	}
+    
+    .room-order-select {
+    position: relative;
+    width: 60%;
+    padding-bottom: 20%; /* 10:3 的比例 (3 / 10 * 100%) */
+    margin: 0 auto; /* 置中 */
+    margin-bottom: 20px; /* 區塊之間的距離 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 加強顯示 */
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  
+  .room-order-select .left,
+  .room-order-select .right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%; /* 調整左右區塊的寬度，這裡設為50% */
+  }
+  .room-order-select .left {
+    left: 0;
+  }
+  .room-order-select .right {
+    right: 0;
+  }
+  .room-order-select img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .room-order-select .right {
+    background-color: #f9f9f9; /* 背景顏色用於示例，根據需要調整 */
+    padding: 20px;
+  }
 </style>
 
 
@@ -56,30 +101,50 @@
 				    
 					    <div>
 					        <label for="checkin-date">入住日期:</label>
-					        <input type="date" id="checkin-date" class="form-control" name="startquerydate">
+					        <input type="date" id="checkin-date" class="form-control" name="startquerydate" th:value="${startquerydate}">
 					    </div>
 					    <div>
 					        <label for="checkout-date">退房日期:</label>
-					        <input type="date" id="checkout-date" class="form-control" name="endquerydate">
+					        <input type="date" id="checkout-date" class="form-control" name="endquerydate" th:value="${endquerydate}">
 					    </div>
 					    <div>
 					        <label for="guests">入住人數:</label>
-					        <select id="guests" class="form-control" name="peopleAmount">
-					            <option value="1">1</option>
-					            <option value="2">2</option>
-					            <option value="3">3</option>
-					            <option value="4">4</option>
-					            <option value="5">5</option>
-					            <option value="6">6</option>
-					            <option value="7">7</option>
-					            <option value="8">8</option>
+					        <select id="guests" class="form-control" name="peopleAmount" >
+					            <option value="1" th:selected="${peopleAmount == 1}">1</option>
+							    <option value="2" th:selected="${peopleAmount == 2}">2</option>
+							    <option value="3" th:selected="${peopleAmount == 3}">3</option>
+							    <option value="4" th:selected="${peopleAmount == 4}">4</option>
+							    <option value="5" th:selected="${peopleAmount == 5}">5</option>
+							    <option value="6" th:selected="${peopleAmount == 6}">6</option>
+							    <option value="7" th:selected="${peopleAmount == 7}">7</option>
+							    <option value="8" th:selected="${peopleAmount == 8}">8</option>
 					        </select>
 					    </div>
 					    <input type="submit" class="submit-btn" value="查詢" onclick="return submitForm()">
 				</div>
 				</form>
 				
-
+				<hr style="border-color: grey;">
+			<div th:if="${#lists.isEmpty(listRoomSchedule)}" style="text-align: center;">
+    			<div>選擇入住期間已無適合的房型組合, 請選擇其他入住時間進行查詢, 或查詢近兩個月的空房進行下訂</div>
+			</div>	
+			<div th:if="${listRoomSchedule != null}" th:each="roomList: ${listRoomSchedule}" >
+				<div class="room-order-select">
+				    <div class="left">
+				    	<img class="room-photo" alt="Room Photo">
+			    	</div>
+					<div class="right">
+				        <div th:each="entry, iterStat : ${roomList}">
+				            <div th:text="${entry.key.roomTypeName}"></div>
+				            <div th:text="${entry.value}"></div>
+<!-- 				            <div class="room-type-id" th:text="${entry.key.roomTypeId}"></div> -->
+				                <!-- Check if it's the last iteration --> 
+				            <div class="last-room-type-id" th:if="${iterStat.last}" th:text="${entry.key.roomTypeId}" style="display:none;"></div>
+				        </div>   
+				    </div>
+				</div>
+			</div>
+			
 			
 	</div>
 
@@ -117,28 +182,32 @@
             alert("退房日期必須在入住日期之後");
             return false;
         }
-        if(checkoutDateInput !== ""){
-        	checkoutDate.setDate(checkoutDate.getDate() - 1);
-        	document.getElementById('checkout-date').value = formatDate(checkoutDate);
-        	console.log(checkoutDate);
-        }
-        alert("Form submitted successfully!");
-        return true;  
+        
     }
-    
-    function formatDate(date) {
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        if (month < 10) month = '0' + month;
-        if (day < 10) day = '0' + day;
-        return year + '-' + month + '-' + day;
-    }
-    
-    
     
 </script>
-	
+
+<script th:inline="javascript">
+    $(document).ready(function() {
+        $('.room-order-select').each(function() {
+            var roomTypeId = $(this).find('.last-room-type-id').text();
+            $.ajax({
+                url: '/roomtypephotojia/getPhotosByRoomTypeId',
+                type: 'POST',
+                data: {
+                    roomTypeId: roomTypeId
+                },
+                success: function(data) {
+                    var roomTypePhotoId = data[0]; // Assuming you only receive one photo id
+                    $(this).find('.room-photo').attr('src', '/roomtypephoto/DBGifReader?roomTypePhotoId=' + roomTypePhotoId);
+                }.bind(this),
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>	
 	
 </body>
 
