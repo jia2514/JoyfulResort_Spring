@@ -183,8 +183,8 @@ tr:nth-child(even) {
 				</td>
 				<td>
 				 <span  th:text="*{resPhone!= null ? resPhone : memberVO.memberPhone}"></span>
-				    <input type="text" th:field="*{memberVO.memberPhone}" />
-				    <input type="text" th:field="*{resPhone}" />
+				    <input type="hidden" th:field="*{memberVO.memberPhone}" />
+				    <input type="hidden" th:field="*{resPhone}" />
 				</td>
 				<td>
 				 <span th:text="*{ressionVO.reserveSessionId}"></span>
