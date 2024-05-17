@@ -105,8 +105,8 @@ input[type="submit"]:hover {
         </tr>
         <tr th:each="roomTypePhoto : ${roomTypePhoto}">
             <td th:text="${roomTypePhoto.roomTypePhotoId}"></td>
-            <td th:text="${roomTypePhoto.roomType.roomTypeId}"></td>
-			<td><img th:src="@{/roomtypephoto/DBGifReader} + '?roomTypePhotoId=' + ${roomTypePhoto.roomTypePhotoId}" width="100px"></td>
+            <td th:text="${roomTypePhoto.roomType.roomTypeName}"></td>
+			<td><img th:src="@{/roomtypephoto/DBGifReader} + '?roomTypePhotoId=' + ${roomTypePhoto.roomTypePhotoId}" width="200px"></td>
             <td th:text="${roomTypePhoto.roomTypePhotoState} ? '上架' : '下架'"></td>
 
             <td>
@@ -116,7 +116,7 @@ input[type="submit"]:hover {
 </td>
         </tr>
     </table>
-        <a th:href="@{/roomtype/roomtypeselect}">回首頁</a>
+        <a th:href="@{/roomtypephoto/roomtypephotoselect}">回首頁</a>
     
       		</div>
         </div>
