@@ -2,6 +2,7 @@ package com.joyfulresort.he.member.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.joyfulresort.he.member.model.MemberService;
 import com.joyfulresort.he.member.model.MemberVO;
+import com.joyfulresort.jia.roomorder.model.RoomOrder;
 
 @Controller
 @RequestMapping("/joyfulresort/member")
@@ -35,10 +37,16 @@ public class FrontendMemberController {
 	// 會員資料頁面
 	@GetMapping("/memberinfo")
 	public String memberInfo(HttpSession session, Model model) {
+		//會員個人資料
 		Integer userId = (Integer) session.getAttribute("memberID"); // 取得session內的值
-
 		MemberVO mem = memSvc.getOneMember(userId); // 查找會員資料
 		model.addAttribute("memberData", mem); // 轉交
+		
+		//會員住宿訂單資料
+		List<RoomOrder> userRoomOrder = memSvc.findMemberRoomOrder(userId); //查找住宿訂單
+		List<Integer> roomType =memSvc.findRoomrTypeByMemberId(userId);
+		model.addAttribute("memberRoomOrder", userRoomOrder);// 轉交
+		model.addAttribute("memberRoomType", roomType);// 轉交
 		return "front-end/member/memberinfo";
 	}
 
@@ -49,7 +57,9 @@ public class FrontendMemberController {
 
 		String inputColumn = req.getParameter("inputColumn");
 //		System.out.println(inputColumn);
-
+		
+		
+		
 		// 檢查輸入欄位
 		switch (inputColumn) {
 		case "Account":
@@ -209,29 +219,31 @@ public class FrontendMemberController {
 		String pw_2 = req.getParameter("password_2");
 		String pw_3 = req.getParameter("password_3");
 		
-		System.out.printf("用戶ID: %s%n密碼: %s%n新密碼: %s%n再輸入: %s%n", ID, pw_1, pw_2, pw_3);
+//		System.out.printf("用戶ID: %s%n密碼: %s%n新密碼: %s%n再輸入: %s%n", ID, pw_1, pw_2, pw_3);
 		
 		MemberVO mem = memSvc.getOneMember(Integer.valueOf(ID));
 		String password = mem.getMemberPassword();
-		System.out.println("資料庫密碼: "+password);
+//		System.out.println("資料庫密碼: "+password);
 		System.out.println("--------------------------");
 		
 		if(password.equals(pw_1)) {
 			if(pw_2.equals(pw_3)) {
-				System.out.println("密碼正確 pw_2,pw_3輸入一致");
+//				System.out.println("密碼正確 pw_2,pw_3輸入一致");
 				//修改會員密碼
 				mem.setMemberPassword(pw_2);
 				memSvc.changePassword(mem);
 				
 				return true;
 			}
-			System.out.println("密碼正確 pw_2,pw_3輸入不一致");
+//			System.out.println("密碼正確 pw_2,pw_3輸入不一致");
 			return false;
 		} else {
-			System.out.println("密碼錯誤");
+//			System.out.println("密碼錯誤");
 			return false;
 		}
 		
 	}
+	
+	
 
 }

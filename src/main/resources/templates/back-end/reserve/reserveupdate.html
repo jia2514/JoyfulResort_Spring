@@ -164,7 +164,8 @@ tr:nth-child(even) {
 								</tr>
 							</thead>
 
-
+<!-- <td th:text="${res.resName != null ? res.resName : res.memberVO.memberName }"></td> -->
+<!-- <td th:text="${res.resPhone != null ? res.resPhone : res.memberVO.memberPhone }"></td> -->
 
 							<tbody>
 								<tr>
@@ -175,11 +176,15 @@ tr:nth-child(even) {
 				</td>
 				<td>
 				 <span th:text="*{memberVO.memberName}"></span>
-				    <input type="hidden" th:field="*{ressionVO.reserveSessionId}" />
+				 <p>
+				 <span  th:text="*{resName}"></span>
+				 	  <input type="hidden" th:field="*{memberVO.memberName}" />
+				     <input type="hidden" th:field="*{resName}" />
 				</td>
 				<td>
-				 <span th:text="*{memberVO.memberPhone}"></span>
-				    <input type="hidden" th:field="*{ressionVO.reserveSessionId}" />
+				 <span  th:text="*{resPhone!= null ? resPhone : memberVO.memberPhone}"></span>
+				    <input type="hidden" th:field="*{memberVO.memberPhone}" />
+				    <input type="hidden" th:field="*{resPhone}" />
 				</td>
 				<td>
 				 <span th:text="*{ressionVO.reserveSessionId}"></span>

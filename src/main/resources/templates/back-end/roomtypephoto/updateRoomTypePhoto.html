@@ -107,62 +107,67 @@ input[type="submit"]:hover {
         <div class="bg-light rounded">
             <div class="G3_content">
          
-    <h1>更新房型</h1>
-         <form th:action="@{/roomtype/update}" method="post" th:object="${roomType}" enctype="multipart/form-data">
-			<div>
-			<p><label>房型編號:</label></p>
-			<input type="text" th:field="*{roomTypeId}" style="border:0px ; font-weight: bold;" readonly /><br/>
-			</div>
+    	<form th:action="@{/roomtypephoto/update}" method="post" th:object="${roomTypePhoto}" enctype="multipart/form-data">
 			
 			<div>
-			<p><label>房型名稱:</label></p>
-			<input type="text" th:field="*{roomTypeName}" onclick="hideContent('roomTypeName.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('roomTypeName')}" th:errors="*{roomTypeName}" class="error" id="roomTypeName.errors"></span>
+			<p><label>房間圖片編號:</label></p>
+			<input type="text" th:field="*{roomTypePhotoId}" style="border:0px ; font-weight: bold;" readonly /><br/>
 			</div>
 			
-			<div>
-			<p><label>可入住人數:</label></p>
-			<input type="text" th:field="*{numberOfPeople}" onclick="hideContent('numberOfPeople.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('numberOfPeople')}" th:errors="*{numberOfPeople}" class="error" id="numberOfPeople.errors"></span>
-			</div>
+			<br/>
 			
 			<div>
-			<p><label>房型數量:</label></p>
-			<input type="text" th:field="*{roomTypeAmount}" onclick="hideContent('roomTypeAmount.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('roomTypeAmount')}" th:errors="*{roomTypeAmount}" class="error" id="roomTypeAmount.errors"></span>
+			<label>房型編號:</label>
+			<select th:field="*{roomType.roomTypeId}">
+				<option th:each="roomType : ${roomTypeListData}" th:value="${roomType.roomTypeId}" th:text="${roomType.roomTypeName}" />
+			</select>
 			</div>
-
+			
+		<br/>
+			
+<!-- 			<div> -->
+<!-- 			<label>照片:</label> -->
+<!-- 			<input type="file" th:field="*{roomTypePhoto}" onclick="previewImage()" multiple="multiple" onchange="hideContent('roomTypePhoto.errors');" /> -->
+<!-- 			<span  th:if="${#fields.hasErrors('roomTypePhoto')}" th:errors="*{roomTypePhoto}" class="error" id="roomTypePhoto.errors"></span> -->
+<!-- 			<span class="error" th:utext="${errorMessage}" id="roomTypePhoto.errors">${errorMessage}</span> -->
+<!--  			<h2 id="errorMessage">${errorMessage}</h2>  --> 
+<!-- 			<div id="blob_holder"></div> -->
+<!-- 			</div> -->
+			
+			
 			<div>
-    		<p><label>房型說明:</label></p>
-    		<textarea th:field="*{roomTypeContent}" rows="10" cols="50" onclick="hideContent('roomTypeContent.errors');"></textarea><br/>
-    		<span th:if="${#fields.hasErrors('roomTypeContent')}" th:errors="*{roomTypeContent}" class="error" id="roomTypeContent.errors"></span>
+			<label>照片:</label>
+			<input type="file" th:field="*{roomTypePhoto}" onclick="previewImage()" multiple="multiple" />
+            <!-- 可以不修改圖片 <span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> -->
+            <br/>
+			<div id="blob_holder"><img th:src="@{/roomtypephoto/DBGifReader} + '?roomTypePhotoId=' + ${roomTypePhoto.roomTypePhotoId}" width="200px"></div>
 			</div>
 			
 			<div>
     		<p><label>上下架狀態:</label></p>
-    		<select th:field="*{roomTypeSaleState}" onclick="hideContent('roomTypeSaleState.errors');">
-    		<option value="1" th:selected="${roomType.roomTypeSaleState == 1}">上架</option>
-        	<option value="0" th:selected="${roomType.roomTypeSaleState == 0}">下架</option></select><br/>
-    		<span th:if="${#fields.hasErrors('roomTypeSaleState')}" th:errors="*{roomTypeSaleState}" class="error" id="roomTypeSaleState.errors"></span>
+    		<select th:field="*{roomTypePhotoState}" onclick="hideContent('roomTypePhotoState.errors');">
+    		<option value="1" th:selected="${roomTypePhoto.roomTypePhotoState == 1}">上架</option>
+        	<option value="0" th:selected="${roomTypePhoto.roomTypePhotoState == 0}">下架</option></select><br/>
+    		<span th:if="${#fields.hasErrors('roomTypePhotoState')}" th:errors="*{roomTypePhotoState}" class="error" id="roomTypePhotoState.errors"></span>
 			</div>
+
+<br/>
+
+<!-- 		<button type="submit" class="btn btn-primary">添加</button> -->
+                            <input type="submit" value="完成">
+                            <input type="hidden" name="roomTypePhotoId" th:value="${roomTypePhoto.roomTypePhotoId}">
+                  
+ </form> 
+		
 			
-			<div>
-    		<p><label>房型價格:</label></p>
-    		<textarea th:field="*{roomTypePrice}" onclick="hideContent('roomTypePrice.errors');"></textarea><br/>
-    		<span th:if="${#fields.hasErrors('roomTypePrice')}" th:errors="*{roomTypePrice}" class="error" id="roomTypePrice.errors"></span>
-			</div>
-			
-		<input type="submit" value="完成">
-        <input type="hidden" name="roomTypeId" th:value="${roomType.roomTypeId}">
-			
-</form>			
-			
-		<a th:href="@{/roomtype/roomtypeselect}">回首頁</a>
+		<a th:href="@{/roomtypephoto/roomtypephotoselect}">回首頁</a>
 			
 			</div>
             </div>
         </div>
     <th:block th:insert="~{/back-end/htmlfile/content2}"/>
     <th:block th:insert="~{/back-end/htmlfile/script}"/>
+    
+    
 </body>
 </html>

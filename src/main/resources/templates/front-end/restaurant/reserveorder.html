@@ -43,7 +43,8 @@ h2 {
 	margin-top: 1px;
 	font-size: 18px;
 }
-.input {
+
+input {
 	padding: 5px; /* 修改為 8px */
 	margin-bottom: 5px; /* 修改為 15px */
 	border: 1px solid #ddd;
@@ -105,12 +106,14 @@ textarea {
 	background-color: #007BFF; /* 點擊時的背景顏色 */
 	color: white; /* 點擊時的文字顏色 */
 }
+
 .time-button:hover {
 	background-color: #007BFF; /* 點擊時的背景顏色 */
 	color: white; /* 點擊時的文字顏色 */
 }
-.error{
-color: red;
+
+.error {
+	color: red;
 }
 </style>
 
@@ -133,28 +136,45 @@ color: red;
 						style="width: 300px;" class="form">
 
 
-						<label for="" class="label" style="display: none;">餐廳場次編號:</label> <input
-							type="hidden" id="sessionid"
-							th:field="*{ressionVO.reserveSessionId}"> 
-							
-							<label for="" class="label">姓名: </label>
-							<input type="text" th:field="*{resName}" class="input">					
-<!-- 						<input type="text" th:field="*{memberVO.memberName}"> -->
-<div th:if="${#fields.hasErrors('resName')}" th:errors="*{resName}" class="error"></div>
-	
-	
-							
-							<label for="" class="label">電話:</label>
-							<input type="text"  maxlength="10"  th:field="*{resPhone}" class="input">
-<!-- 						<input type="text" th:field="*{memberVO.memberPhone}"> -->
-<div th:if="${#fields.hasErrors('resPhone')}" th:errors="*{resPhone}" class="error"></div>
+						<label for="" class="label" style="display: none;">餐廳場次編號:</label>
+						<input type="hidden" id="sessionid"
+							th:field="*{ressionVO.reserveSessionId}"> <label for=""
+							class="label">姓名: </label> <input type="text"
+							th:field="*{resName}" class="input">
+
+
+						<!-- <input type="text" th:field="*{memberVO.memberName}"> -->
+
+						<div th:if="${#fields.hasErrors('resName')}"
+							th:errors="*{resName}" class="error"></div>
+
+
+
+						<label for="" class="label">電話:</label> <input type="text"
+							maxlength="10" th:field="*{resPhone}" class="input">
+						<!-- 	 <input type="text" th:field="*{memberVO.memberPhone}"> -->
+
+
+						<div th:if="${#fields.hasErrors('resPhone')}"
+							th:errors="*{resPhone}" class="error"></div>
 
 
 						<label for="" class="label">會員編號:</label>
-						<input type="text" th:value="1"  class="input"	>
+						<input type="text" class="input1"   th:field="*{memberVO.memberId}">
 						
-	 <label	for="reserveNumber" class="label">預定人數:(最多10人)</label> 
-	 <select	th:field="*{reserveNumber}" id="reserveNumber"	name="reserveNumber" style="width: 80px; height: 30px;">
+						<script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const secondInput = document.querySelector('.input1');
+            secondInput.value = 1;
+           
+        });
+    </script>
+						
+						
+
+						<label for="reserveNumber" class="label">預定人數:(最多10人)</label> <select
+							th:field="*{reserveNumber}" id="reserveNumber"
+							name="reserveNumber" style="width: 80px; height: 30px;">
 							<option value="">人數</option>
 							<option value="1">1</option>
 							<option value="2">2</option>
@@ -166,15 +186,18 @@ color: red;
 							<option value="8">8</option>
 							<option value="9">9</option>
 							<option value="10">10</option>
-							
-						</select> 
-<div th:if="${#fields.hasErrors('reserveNumber')}" th:errors="*{reserveNumber}" class="error"></div>
-						
-						<label for="" class="label">預定日期:</label> <input type="datetime-local"
-							id="bookingDate" name="bookingDate" th:field="*{bookingDate}"
-							disabled style="width: 150px" class="input">
 
-<div th:if="${#fields.hasErrors('bookingDate')}" th:errors="*{bookingDate}" class="error"></div>
+						</select>
+						<div th:if="${#fields.hasErrors('reserveNumber')}"
+							th:errors="*{reserveNumber}" class="error"></div>
+
+						<label for="" class="label">預定日期:</label> <input
+							type="datetime-local" id="bookingDate" name="bookingDate"
+							th:field="*{bookingDate}" disabled style="width: 150px"
+							class="input">
+
+						<div th:if="${#fields.hasErrors('bookingDate')}"
+							th:errors="*{bookingDate}" class="error"></div>
 
 
 
@@ -193,11 +216,11 @@ color: red;
 						</div>
 
 						<!--  <label for="">訂單狀態:</label> -->
-						<input type="hidden" th:field="*{reserveOrderState}"  class="input"><br>
+						<input type="hidden" th:field="*{reserveOrderState}" class="input"><br>
 						<br>
 						<!-- <label for="">訂單日期:</label>  -->
-						<input type="hidden" th:field="*{reserveOrderDate}"  class="input"> <br>
-						<br>
+						<input type="hidden" th:field="*{reserveOrderDate}" class="input">
+						<br> <br>
 
 					</form>
 				</div>
@@ -228,8 +251,8 @@ color: red;
 									此餐價恕不適用於國定假日、農曆除夕、農曆春節、中西情人節、母親節(前一週週末與當週週末)、父親節、耶誕夜、耶誕節、跨年夜及特殊美食節。</li>
 
 							</ul>
-							
-							
+
+
 							<span th:utext="${message}" style="color: red;"></span>
 
 						</div>
@@ -337,9 +360,9 @@ color: red;
 				// 將後端返回的總人數與前端所選擇的人數相加
 				var totalNumber = response.number + parseInt(reserveNumber);
 				// 檢查總人數是否超過 100
-// 				console.log(totalNumber	)
+				// 				console.log(totalNumber	)
 
-// 				console.log(response.maxpart)
+				// 				console.log(response.maxpart)
 				if (totalNumber > response.maxpart) {
 					// 超過則禁止選擇這個時間
 					$('#error').text('' + response.message + '').show();
