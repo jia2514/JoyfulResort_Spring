@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.joyfulresort.reserveorder.model.ResService;
+import com.joyfulresort.reservesession.model.RessionService;
 
 @Controller
 @Validated
@@ -22,9 +23,25 @@ public class ResNumberController {
 
 	@Autowired
 	ResService resSvc;
+	
+	@Autowired
+	RessionService ressionSvc;
 
 	private Integer number;
 	private String message;
+	private Integer maxpart;
+
+	
+
+	
+
+	public Integer getMaxpart() {
+		return maxpart;
+	}
+
+	public void setMaxpart(Integer maxpart) {
+		this.maxpart = maxpart;
+	}
 
 	public void setNumber(Integer number) {
 		this.number = number;
@@ -61,10 +78,12 @@ public class ResNumberController {
 		ResNumberController response = new ResNumberController();
 		Integer hour;
 		hour = bookingDate2.getHour();
-	
+		maxpart = ressionSvc.getMaxPartById(101);
+	 
 
 		if (hour >= 17 && hour < 22) {
 			number = resSvc.countNumber102(bookingDate);
+	        
 			message = "當日晚餐時段已客滿，請選擇午餐時段(11-14)";
 
 		} else if (hour >= 10 && hour < 15) {
@@ -80,6 +99,7 @@ public class ResNumberController {
 		}
 		response.setMessage(message);
 		response.setNumber(number);
+		response.setMaxpart(maxpart);
 //	System.out.println(number);
 		return response;
 	}

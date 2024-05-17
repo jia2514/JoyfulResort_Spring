@@ -18,14 +18,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.joyfulresort.he.member.model.MemberService;
+import com.joyfulresort.he.member.model.MemberVO;
 import com.joyfulresort.reservecontent.model.ResContentService;
 import com.joyfulresort.reserveorder.model.ResService;
 import com.joyfulresort.reserveorder.model.ResVO;
 import com.joyfulresort.reservesession.model.RessionService;
 
-@Validated
+//@Validated
 @Controller
 @RequestMapping("/reserve")
 public class ResController {
@@ -76,19 +78,19 @@ public class ResController {
 	}
 
 	@PostMapping("insert")
-	public String insert(@Valid ResVO resVO, BindingResult result, HttpServletRequest request, ModelMap model)
+	public String insert(@Valid ResVO resVO, BindingResult result, HttpServletRequest request,
+			RedirectAttributes redirectAttributes,ModelMap model)
 			throws IOException {
 
-//		if(result.hasErrors()) {
-//			return"back-end/404";
-//		}
+		if(result.hasErrors()) {
+			return	"back-end/reserve/reserveadd";
+		}
 		resSvc.addRes(resVO);
-
 		List<ResVO> list = resSvc.getAllRes();
 		model.addAttribute("ResList", list);
-		model.addAttribute("success", "新增成功!");
-
-		return "back-end/reserve/reserveorder";
+//		model.addAttribute("success", "新增成功!");
+	    redirectAttributes.addFlashAttribute("success", "新增成功!");
+		return "redirect:/reserve/reserveorder";
 	}
 
 	public BindingResult removeFieldError(ResVO resVO, BindingResult result, String removedFieldname) {

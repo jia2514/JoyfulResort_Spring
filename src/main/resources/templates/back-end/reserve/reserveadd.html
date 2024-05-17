@@ -166,6 +166,9 @@ tr:nth-child(even) {
 .justify-content-center {
 	justify-content: flex-start !important;
 }
+.error{
+color:red;
+}
 </style>
     
 </head>
@@ -181,20 +184,28 @@ tr:nth-child(even) {
 <!-- 				    <input type="text" th:field="*{reserveOrderId}"  ><br><br> -->
 				
 <!-- 				    <label for="">餐廳場次編號:</label> -->
-				    <input type="hidden"   	id="sessionid" th:field="*{ressionVO.reserveSessionId}"  readonly style="background-color: lightgray" > 
+				 <input type="hidden"   	id="sessionid" th:field="*{ressionVO.reserveSessionId}"  readonly style="background-color: lightgray" > 
+				 <input type="hidden" th:field="*{memberVO.memberPhone}">
+				 <input type="hidden" th:field="*{memberVO.memberName}">
+				
+				
 				
 				    <label for="">會員編號:</label>
-				    <input type="text" th:field="*{memberVO.memberId}"><br><br>
+			<div th:if="${#fields.hasErrors('memberVO.memberId')}" th:errors="*{memberVO.memberId}" class="error" ></div>
+				    <input type="text" th:field="*{memberVO.memberId}" required ><br><br>
 				
 				    <label for="">訂單日期:</label>
 				    <input th:text="*{reserveOrderDate}"   type="hidden"   th:field="*{reserveOrderDate}"><br><br>
 				
 				    <label for="">預定人數:</label>
+		<div th:if="${#fields.hasErrors('reserveNumber')}" th:errors="*{reserveNumber}" class="error"></div>
 				    <input type="text" th:field="*{reserveNumber}" ><br><br>
 				
 				    <label for="" >預定日期:</label>
+		<div th:if="${#fields.hasErrors('bookingDate')}" th:errors="*{bookingDate}" class="error"></div>
 				    <input  type="datetime-local" th:field="*{bookingDate}" id="bookingDate" name="bookingDate"><br><br>
-					<div id="error"></div>
+					
+					
 					
 <script type="text/javascript">
 $('#bookingDate').change(function() {
