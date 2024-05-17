@@ -64,7 +64,8 @@ public class ResController {
 	public String update(@Valid ResVO resVO, BindingResult result, ModelMap model) throws IOException {
 		if (result.hasErrors()) {
 			System.out.println(result.getFieldError());
-			return "back-end/404";
+//			return "back-end/404";
+			return "back-end/reserve/reserveupdate";
 		}
 
 		resSvc.updateRes(resVO);

@@ -6,8 +6,9 @@
 <meta charset="UTF-8">
 <title>Joyfulresort 會員管理</title>
 <link th:insert="~{/back-end/htmlfile/css.html}" />
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 
 <style type="text/css">
@@ -115,28 +116,30 @@ tr:nth-child(even) {
 	justify-content: center; /* 這會在容器中水平居中所有子項目 */
 	flex-wrap: wrap; /* 確保在較小的屏幕上元素可以換行 */
 	gap: 10px; /* 元素之間的間距 */
-}table tr.cancel {
-    
-    font-weight: bold;
-    background-color: 	#FFD2D2		;
 }
+
+table tr.cancel {
+	font-weight: bold;
+	background-color: #FFD2D2;
+}
+
 .cancel {
-    pointer-events: none;
-    opacity: 0.5;
-  	color: 	red;
-    background-color: #FF0000	;
+	pointer-events: none;
+	opacity: 0.5;
+	color: red;
+	background-color: #FF0000;
 }
+
 table tr.success {
-   
-    font-weight: bold;
-   
-    background-color: #CEFFCE	;
+	font-weight: bold;
+	background-color: #CEFFCE;
 }
-.success{
-/* 	 opacity: 0.5; */
-/* 	 pointer-events: none; */
-	  font-weight: bold;
-		color: 	blue;
+
+.success {
+	/* 	 opacity: 0.5; */
+	/* 	 pointer-events: none; */
+	font-weight: bold;
+	color: blue;
 }
 /*  ------------------------ */
 .G3_content {
@@ -208,10 +211,8 @@ table tr.success {
 						<!-- 						</select> -->
 
 
-						<label>訂單日期:</label> 
-						<input type="date" name="reserveOrderDate"
-						onkeydown="return false" id="reserveOrderDate" />
-						<label>預定日期:</label>
+						<label>訂單日期:</label> <input type="date" name="reserveOrderDate"
+							onkeydown="return false" id="reserveOrderDate" /> <label>預定日期:</label>
 						<input type="date" name="bookingDate" onkeydown="return false"
 							id="bookingDate" />
 						<button type="button" onclick="clearDate()">清除</button>
@@ -226,25 +227,21 @@ table tr.success {
 								document.getElementById("reserveOrderDate").value = "";
 								document.getElementById("bookingDate").value = "";
 							}
-							
-							
 
 							flatpickr("#test", {
-							    enableTime: true,
-							   
-							    dateFormat: "Y-m-d H:i",
-							    time_24hr: true,
-							    defaultDate : "10:00",
+								enableTime : true,
+
+								dateFormat : "Y-m-d H:i",
+								time_24hr : true,
+								defaultDate : "10:00",
 								minTime : "10:00",
 								maxTime : "20:00",
 								minDate : new Date().fp_incr(3),
 								maxDate : new Date().fp_incr(60),
-								 disable: [
-								        function(date) {
-								         
-								        }
-								    ]
-								});
+								disable : [ function(date) {
+
+								} ]
+							});
 						</script>
 
 
@@ -267,9 +264,9 @@ table tr.success {
 
 				<p>
 
-					<span th:utext="${message}" style="color: red;"></span>
-					<span th:text="${success}" style="color:blue;"></span>
-					
+					<span th:utext="${message}" style="color: red;"></span> <span
+						th:text="${success}" style="color: blue;"></span>
+
 
 
 					<!-- 表格開始 -->
@@ -290,8 +287,8 @@ table tr.success {
 								<th>餐廳訂單編號</th>
 								<th>姓名</th>
 								<th>電話</th>
-								<th>場次編號</th>
 								<th>會員編號</th>
+								<th>場次編號</th>
 								<th>訂單日期</th>
 								<th>預定人數</th>
 								<th>預定日期</th>
@@ -304,24 +301,29 @@ table tr.success {
 
 
 						<tbody>
-							<tr th:block th:each="res : ${ResList}" 
-							    th:class="${res.reserveOrderState == 0 ? 'cancel' : 
+							<tr th:block th:each="res : ${ResList}"
+								th:class="${res.reserveOrderState == 0 ? 'cancel' : 
 							    			(res.reserveOrderState == 2 ? 'success' : '')}">
 								<td th:text=" ${res.reserveOrderId} "></td>
-								<td th:text=" ${res.memberVO.memberName} "></td>
-								<td th:text=" ${res.memberVO.memberPhone} "></td>
+								<td><span th:text="${res.memberVO.memberName}"></span> <span
+									th:text="${res.resName != null ? res.resName : '' } "></span></td>
+
+
+								<td
+									th:text="${res.resPhone != null  and res.resPhone != '' ? res.resPhone : res.memberVO.memberPhone }"></td>
+
 								<td th:text=" ${res.memberVO.memberId}"></td>
-								<td th:text=" ${res.ressionVO.reserveSessionId}"></td>
+							<td th:text="${res.ressionVO.reserveSessionId == 101 ? '101-中午' : (res.ressionVO.reserveSessionId == 102 ? '102-晚上' : '103-例外')}"></td>
+
 								<td th:text=" ${res.reserveOrderDate}"></td>
 								<td th:text=" ${res.reserveNumber}"></td>
 								<td
 									th:text="${#temporals.format(res.bookingDate, 'yyyy-MM-dd HH:mm')}"></td>
 								<td th:text=" ${res.orderNote}"></td>
 								<td
-									th:text=" ${res.reserveOrderState == 0 ? '取消' : (res.reserveOrderState == 1 ? '成立' : '完成')}"
-									>
-									
-									</td>
+									th:text=" ${res.reserveOrderState == 0 ? '取消' : (res.reserveOrderState == 1 ? '成立' : '完成')}">
+
+								</td>
 
 
 
@@ -352,11 +354,10 @@ table tr.success {
 
 
 	<script type="text/javascript">
-	
 		$(function() { //--------------------分頁顯示
 			var $table = $("table ");
 			var currentPage = 0; //當前頁默認值為0  
-			var pageSize = 8; //每一頁顯示的數目  
+			var pageSize = 10; //每一頁顯示的數目  
 			$table.bind('paging', function() {
 				$table.find('tbody tr').hide().slice(currentPage * pageSize,
 						(currentPage + 1) * pageSize).show();
