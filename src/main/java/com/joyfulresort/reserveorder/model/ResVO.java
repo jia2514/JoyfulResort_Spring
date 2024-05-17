@@ -67,14 +67,14 @@ public class ResVO implements Serializable {
 	private RessionVO ressionVO;
 //	======================================
 
-//	@NotEmpty(message = "名字請勿空白")
-//	@Pattern(regexp = "[\\u4e00-\\u9fa5a-zA-Z]+", message = "中文或英文")
+	@NotEmpty(message = "名字請勿空白")
+	@Pattern(regexp = "[\\u4e00-\\u9fa5a-zA-Z]+", message = "中文或英文")
 	@Column(name = "res_name")
 
 	private String resName;
 
-//	@NotEmpty(message = "電話請勿空白")
-//	 @Pattern(regexp = "\\d{10}", message = "電話必須是10位數字")
+	@NotEmpty(message = "電話請勿空白")
+	 @Pattern(regexp = "\\d{10}", message = "電話必須是10位數字")
 	@Column(name = "res_phone")
 	private String  resPhone;
 

@@ -44,7 +44,7 @@ h2 {
 	font-size: 18px;
 }
 
-.input {
+input {
 	padding: 5px; /* 修改為 8px */
 	margin-bottom: 5px; /* 修改為 15px */
 	border: 1px solid #ddd;
@@ -139,12 +139,11 @@ textarea {
 						<label for="" class="label" style="display: none;">餐廳場次編號:</label>
 						<input type="hidden" id="sessionid"
 							th:field="*{ressionVO.reserveSessionId}"> <label for=""
-							class="label">姓名: </label> 
-							
-							<input type="text"		th:field="*{resName}" class="input">
-							   	
-							   	
-<!-- 					<input type="text" th:field="*{memberVO.memberName}"> -->
+							class="label">姓名: </label> <input type="text"
+							th:field="*{resName}" class="input">
+
+
+						<!-- <input type="text" th:field="*{memberVO.memberName}"> -->
 
 						<div th:if="${#fields.hasErrors('resName')}"
 							th:errors="*{resName}" class="error"></div>
@@ -160,8 +159,22 @@ textarea {
 							th:errors="*{resPhone}" class="error"></div>
 
 
-						<label for="" class="label">會員編號:</label> <input type="text"
-							th:value="1" class="input" th:field="*{memberVO.memberId}">
+						<label for="" class="label">會員編號:</label>
+						 <input type="text"	class="input1" th:value="${memberVO.memberId}" >
+						<input type="hidden" class="input2" th:value="${memberVO.memberId}"  th:field="*{memberVO.memberId}">
+						
+						<script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const firstInput = document.querySelector('.input1');
+            const secondInput = document.querySelector('.input2');
+            secondInput.value = firstInput.value;
+            firstInput.addEventListener('input', (event) => {
+                secondInput.value = event.target.value;
+            });
+        });
+    </script>
+						
+						
 
 						<label for="reserveNumber" class="label">預定人數:(最多10人)</label> <select
 							th:field="*{reserveNumber}" id="reserveNumber"
