@@ -186,16 +186,19 @@
 				<!-- 最新消息 -->
 				<div class="news-section">
 					<div class="container">
-						<h2>最新消息</h2>
+						<h2>媒體報導</h2>
 						<!-- 新聞項目 -->
 						<div class="news-item">
 <!-- 							<img th:src="@{/frontend/path-to-your-image.jpg}" -->
 <!-- 								alt="news image"> -->
 							<div class="news-content">
-								<h3>新聞標題一</h3>
+								<h3>媒體報導</h3>
 								<p class="date">2024.04.15 - 2024.12.31</p>
-								<p>這裡是關於新聞標題一的簡要內容，點擊查看全文。</p>
-								<a href="link-to-full-article.html" class="read-more">觀看全文</a>
+								<p>炎炎夏日，joyfulresort邀您一起歡樂一夏，一享童樂</p>
+									
+<!-- 								<a href="link-to-full-article.html" class="read-more">查看詳情</a> -->
+								<a th:href="@{/joyfulresort/newslist/getAll}" method="post">查看詳情</a><br>
+								
 							</div>
 						</div>
 						
