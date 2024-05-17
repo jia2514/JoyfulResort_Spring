@@ -1,20 +1,11 @@
 package com.joyfulresort.fun.positionauthority.model;
 
-import java.io.Serializable;
-import java.util.Objects;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.joyfulresort.fun.*;
 import com.joyfulresort.fun.authorityfunction.model.AuthorityFunction;
 import com.joyfulresort.fun.position.model.Position;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 
 @Entity
