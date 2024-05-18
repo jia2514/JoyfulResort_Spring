@@ -56,16 +56,14 @@
                                 </li>
 
 
-                                <hr style="border-left: 1px solid black; height: 35px; margin-top: 0">
-                                
+
                                 <li class="nav-item">
                                 <div th:switch="${session.memberID==null}">             
                                     <a th:case="true" class="nav-link fw-bold" style="color: black" th:href="@{/joyfulresort}" id="memberField">會員專區</a>
                                     <a th:case="false" class="nav-link fw-bold" style="color: black" th:href="@{/joyfulresort/member/memberinfo}" id="memberField_2">會員專區</a>
                                </div>
                                 </li>
-                                <hr style="border-left: 1px solid black; height: 35px; margin-top: 0">
-                                
+
                                 <li class="nav-item">
 								<div th:switch="${session.memberID==null}">
                                 	<button th:case="true" type="button" id="LoginButton" class="btn btn-primary"

@@ -17,18 +17,22 @@
 }
 .nav-item {
     height: 56.67px;
-    width: 110px;
+    width: 120px;
 }
 .nav-link {
-    width: 88px;
+    width: 100px;
     text-align: center;
 
 
 }
+.navigation.navbar-dark .navbar-nav .nav-link:focus,
+.navigation.navbar-dark .navbar-nav .nav-link:hover {
+    border-bottom: transparent solid 1px;
+}
 
 .footer {
-    background-image: url("/frontend/images/pexels-fwstudio-33348-172288.jpg");
-    background-size: cover;
+    background-color: #1f1f1f;
+
 }
 .loader {
     font-weight: bold;
