@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -38,7 +40,6 @@ public class ResVO implements Serializable {
 	@Column(name = "reserve_order_date")
 	private LocalDate reserveOrderDate = LocalDate.now();
 
-	@Pattern(regexp = "[\\u4e00-\\u9fa5a-zA-Z]+", message = "不能有特殊符號")
 	@NotNull(message = "人數請勿空白")
 	@Column(name = "reserve_number")
 	private Integer reserveNumber;
@@ -56,7 +57,6 @@ public class ResVO implements Serializable {
 	private String orderNote;
 
 	@NotNull(message = "請勿空白")
-	@Pattern(regexp = "[\\u4e00-\\u9fa5a-zA-Z]+", message = "不能有特殊符號")
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "member_id")
 	private MemberVO memberVO;
@@ -71,7 +71,7 @@ public class ResVO implements Serializable {
 //	======================================
 
 	@NotEmpty(message = "名字請勿空白")
-	@Pattern(regexp = "[\\u4e00-\\u9fa5a-zA-Z]+", message = "不能有特殊符號")
+	@Pattern(regexp = "[\\u4e00-\\u9fa5a-zA-Z]+", message = "只能是中英文")
 	@Column(name = "res_name")
 
 	private String resName;

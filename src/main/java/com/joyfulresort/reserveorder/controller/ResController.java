@@ -44,6 +44,7 @@ public class ResController {
 	@GetMapping("reservebackadd") // 後端新增訂單
 	public String reservebackadd(ModelMap model) {
 		ResVO resVO = new ResVO();
+
 		model.addAttribute("resVO", resVO);
 
 		return "back-end/reserve/reserveadd";
@@ -80,17 +81,24 @@ public class ResController {
 
 	@PostMapping("insert")
 	public String insert(@Valid ResVO resVO, BindingResult result, HttpServletRequest request,
-			RedirectAttributes redirectAttributes,ModelMap model)
-			throws IOException {
+			RedirectAttributes redirectAttributes, ModelMap model) throws IOException {
+		MemberVO memvo = memberSvc.getOneMember(resVO.getMemberVO().getMemberId());
+		Integer memberId = (memvo != null) ? memvo.getMemberId() : null;
+		if (memberId == null) {
+			model.addAttribute("message", "沒有這個會員");
+			return "back-end/reserve/reserveadd";
 
-		if(result.hasErrors()) {
-			return	"back-end/reserve/reserveadd";
 		}
+
+		if (result.hasErrors()) {
+			return "back-end/reserve/reserveadd";
+		}
+
 		resSvc.addRes(resVO);
 		List<ResVO> list = resSvc.getAllRes();
 		model.addAttribute("ResList", list);
 //		model.addAttribute("success", "新增成功!");
-	    redirectAttributes.addFlashAttribute("success", "新增成功!");
+		redirectAttributes.addFlashAttribute("success", "新增成功!");
 		return "redirect:/reserve/reserveorder";
 	}
 

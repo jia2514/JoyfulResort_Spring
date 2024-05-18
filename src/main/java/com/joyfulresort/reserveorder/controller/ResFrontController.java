@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.joyfulresort.he.member.model.MemberService;
 import com.joyfulresort.he.member.model.MemberVO;
 import com.joyfulresort.reservecontent.model.ResContentService;
 import com.joyfulresort.reservecontent.model.ResContentVO;
@@ -31,7 +32,8 @@ import com.joyfulresort.reserveorder.model.ResVO;
 @Controller
 @RequestMapping("/joyfulresort")
 public class ResFrontController {
-
+	@Autowired
+	MemberService memberSvc;
 	@Autowired
 	ResService resSvc;
 	@Autowired
@@ -46,29 +48,31 @@ public class ResFrontController {
 	public String reservefrontadd(ModelMap model) {
 		ResVO resVO = new ResVO();
 		model.addAttribute("resVO", resVO);
-		MemberVO memberVO = new MemberVO();
-		memberVO.setMemberId(1);
-		model.addAttribute("memberVO", memberVO);
+
 		return "front-end/restaurant/reserveorder";
 	}
 
 	@PostMapping("insertfront")
 	public String insertfront(@Valid ResVO resVO, BindingResult result, HttpServletRequest request,
 			RedirectAttributes redirectAttributes, ModelMap model) throws IOException {
+		MemberVO memvo = memberSvc.getOneMember(resVO.getMemberVO().getMemberId());
+		Integer memberId = (memvo != null) ? memvo.getMemberId() : null;
+		if (memberId == null) {
+			model.addAttribute("message", "查無此編號!");
+			return "front-end/restaurant/reserveorder";
 
+		}
 		if (result.hasErrors()) {
 
 			return "front-end/restaurant/reserveorder";
 		}
 		resSvc.addRes(resVO);
-//		model.addAttribute("success", "訂位成功");
 		redirectAttributes.addFlashAttribute("success", "新增訂單成功!");
 		return "redirect:/joyfulresort/restaurant";
 	}
 //		return "front-end/restaurant/main";
 
 //		return "back-end/reserve/reserveorder"; 
-
 //		會多報Request method 'GET' not supported]   
 //		在Index控制層76行多設置一個getmapping才不會抱錯
 
@@ -87,7 +91,6 @@ public class ResFrontController {
 			strBuilder.append(violation.getMessage() + "<br>");
 
 		}
-
 //		List<ResVO> list = resSvc.getAllRes();
 //		model.addAttribute("ResListData", list);
 //		model.addAttribute("ResList", list);// 錯誤時顯示所有清單
