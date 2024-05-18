@@ -19,7 +19,21 @@
             height: 50px;
             width: 100px;
         }
-
+        .check{
+        	display:flex;
+        }
+		.check a{
+			background:#009CFF;
+			border-radius:5px;
+			color:#fff;
+			padding:3px 5px;
+		}
+		.check a:nth-child(1){
+			margin-right:5px;
+		}
+		.check a:hover{
+		background:#0062a0;
+		}
         input[type="submit"] {
             margin-top: 5px;
             padding: 5px;
@@ -48,7 +62,7 @@
         <div class="G3_content">
 
             <h2>房間系統</h2>
-            <div>
+            <div class="check">
                 <a th:href="@{/room/getAll}">查詢所有房間</a><br>
                 <a th:href="@{/room/addRoom}">新增一筆房間</a><br>
             </div>

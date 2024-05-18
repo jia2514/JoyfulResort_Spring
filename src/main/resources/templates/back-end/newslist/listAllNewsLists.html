@@ -12,9 +12,14 @@ h1 {
     margin-top: 0; /* 移除标题顶部间距 */
     margin-bottom: 20px; /* 添加标题底部间距 */
 }
+.body{
+	width:100%;
+	height:calc(100% - 71.33px);
+	overflow-x:auto;
+}
 
 table {
-    width: 100%; /* 表格宽度填满父容器 */
+     /* width: 100%;表格宽度填满父容器 */
     text-align: center; /* 居中对齐表格内容 */
     margin-top: 20px; /* 表格顶部间距 */
     border-collapse: collapse; /* 合并表格边框 */
@@ -28,43 +33,15 @@ th, td {
 th {
     background-color: #0056b3; /* 表头背景颜色 */
     color: white; /* 表头文字颜色 */
+    min-width:125px;
+    padding:5px;
+    text-align:center;
 }
 
-th:nth-child(1), td:nth-child(1) {
-    width: 5%; /* 调整媒體報導編號列宽度 */
+th:nth-child(5){
+	min-width:200px;
 }
 
-th:nth-child(2), td:nth-child(2) {
-    width: 10%; /* 调整媒體報導標題宽度 */
-}
-
-th:nth-child(3), td:nth-child(3) {
-    width: 15%; /* 调整媒體報導日期宽度 */
-}
-
-th:nth-child(4), td:nth-child(4) {
-    width: 15%; /* 调整媒體報導摘要宽度 */
-}
-
-th:nth-child(5), td:nth-child(5) {
-    width: 25%; /* 调整媒體報導內容列宽度 */
-}
-
-th:nth-child(6), td:nth-child(6) {
-    width: 10%; /* 调整媒體報導圖片列宽度 */
-}
-
-th:nth-child(7), td:nth-child(7) {
-    width: 5%; /* 调整媒體報導出處列宽度 */
-}
-
-th:nth-child(8), td:nth-child(8) {
-    width: 5%; /* 调整最媒體報導狀態列宽度 */
-}
-
-th:nth-child(9), td:nth-child(9) {
-    width: 5%; /* 调整報導狀態更新列宽度 */
-}
 
 th {
     background-color: #004080; /* 深蓝色表头背景 */
@@ -107,6 +84,7 @@ input[type="submit"]:hover {
             <div class="G3_content">
 
     <h1>所有媒體報導</h1>
+    <div class="body">
     <table style="width:100%; text-align:left;">
 
         <tr>
@@ -141,6 +119,8 @@ input[type="submit"]:hover {
 			
         </tr>
     </table>
+    </div>
+    
         <a th:href="@{/newslist/newslistselect}">回首頁</a>
     
       		</div>

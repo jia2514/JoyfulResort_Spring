@@ -36,6 +36,8 @@ public class RoomTypeController {
 	/*
 	 * This method will serve as addRoomType.html handler.
 	 */
+	
+	
 	@GetMapping("getAll")
 	public String getAll(ModelMap model) {
 		List<RoomType> roomType = roomTypeSvc.getAll();
