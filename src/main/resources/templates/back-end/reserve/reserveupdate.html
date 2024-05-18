@@ -17,14 +17,14 @@ input[type="text"] {
 	/*	position: absolute; 頁碼位置是否跟隨表格底部  */
 	bottom: -100px;
 	text-align: center;
-	width: 80%;
+	width: 100%;
 }
 
 a {
 	display: inline-block;
 	padding: 7px 14px;
 	font-size: 14px;
-	color: black; /* 默认颜色 */
+	color: white; /* 默认颜色 */
 	background-color: transparent; /* 默认背景色 */
 	text-decoration: none;
 	border-radius: 5px; /* 圆角 */
@@ -34,7 +34,7 @@ a {
 input[type="submit"] {
     padding: 5px 10px;
     background-color: #007bff;
-    color: white;
+    color: white;;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -53,22 +53,24 @@ input[type="submit"] {
 }
 
 table {
-	width: 90%;
+	width: 100%;
 	height:150px;
 	border-collapse: collapse;
 	margin-top: 20px;
 	max-width: 100%; /* 確保表格不超過容器寬度 */
 	margin: 20px auto; /* 上下保持20px間距，左右自動（置中） */
 	display: table; /* 確保表格為表格顯示 */
+	
 }
 
 th, td {
 	background: #FFCCCC;
-	width: 200px;
+	width: 400px;
+	color:black;
 	border: 1px solid #dddddd;
 	text-align: center;
-	
-	padding: 10px; /* 增加間距讓表格更易於閱讀 */
+	height: 30px;
+	padding: 5px; /* 增加間距讓表格更易於閱讀 */
 	font-size: 0.9em; /* 統一字體大小 */
 	word-break: break-word;
 }
@@ -76,8 +78,11 @@ th, td {
 .table td {
 	text-align: center; /* 水平居中 */
 	vertical-align: middle; /* 垂直居中 */
-}
 
+}
+td{
+	font-size:15px;
+}
 h1 ,h3{
 	text-align: center;
 	font-size: 30px;
@@ -89,7 +94,8 @@ h1 ,h3{
 th {
 	background-color: #f9f9f9; /* 淡色背景 */
 	color:#FFFFFF	; /* 深色文字 */
-	background: 	#FF3333;
+	background: 	#FF5151	;
+	
 }
 
 tr:nth-child(even) {
@@ -102,35 +108,13 @@ tr:nth-child(even) {
 	background-color: #5cb85c;
 	color: white;
 	border: none;
-	border-radius: 4px;
+	border-radius: 4px ;
 	cursor: pointer;
 	width: 90px;
 }
 
-.search-form {
-	margin-bottom: 20px; /* 為搜尋表格添加間距 */
-	display: flex;
-	align-items: center; /* 這會將所有子項目對齊到同一水平線 */
-	justify-content: center; /* 這會在容器中水平居中所有子項目 */
-	flex-wrap: wrap; /* 確保在較小的屏幕上元素可以換行 */
-	gap: 10px; /* 元素之間的間距 */
-}
-
-.search-form input[type="text"], .search-form select {
-	padding: 5px 0px;
-	margin-right: 10px; /* 為輸入框添加間距 */
-	border: 1px solid #ccc;
-	border-radius: 4px;
-}
-
-.search-form input[type="submit"] {
-	padding: 8px 5px;
-	margin-right: 10px;
-	background-color: #5cb85c;
-	color: white;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
+.form{
+	width: 500px;
 }
 /*  ------------------------ */
 .G3_content {
@@ -140,6 +124,7 @@ tr:nth-child(even) {
 	padding: 20px;
 	overflow: auto; /* 添加滚动条 */
 	text-align: left;
+	
 }
 
 .justify-content-center {
@@ -165,7 +150,9 @@ tr:nth-child(even) {
 							<thead>
 								<tr>
 									<th>餐廳訂單編號</th>
-									<th>餐廳場次編號</th>
+									<th>姓名</th>
+									<th>電話</th>
+									<th>場次編號</th>
 									<th>會員編號</th>
 									<th>訂單日期</th>
 									<th>預定人數</th>
@@ -173,10 +160,12 @@ tr:nth-child(even) {
 									<th>備註</th>
 									<th>訂單狀態</th>
 									<th></th>
+									
 								</tr>
 							</thead>
 
-
+<!-- <td th:text="${res.resName != null ? res.resName : res.memberVO.memberName }"></td> -->
+<!-- <td th:text="${res.resPhone != null ? res.resPhone : res.memberVO.memberPhone }"></td> -->
 
 							<tbody>
 								<tr>
@@ -184,6 +173,18 @@ tr:nth-child(even) {
 									<td>
 					 <span th:text="*{reserveOrderId}"></span>	
 				    <input type="hidden" th:field="*{reserveOrderId}" />
+				</td>
+				<td>
+				 <span th:text="*{memberVO.memberName}"></span>
+				 <p>
+				 <span  th:text="*{resName}"></span>
+				 	  <input type="hidden" th:field="*{memberVO.memberName}" />
+				     <input type="hidden" th:field="*{resName}" />
+				</td>
+				<td>
+				 <span  th:text="*{resPhone!= null ? resPhone : memberVO.memberPhone}"></span>
+				    <input type="hidden" th:field="*{memberVO.memberPhone}" />
+				    <input type="hidden" th:field="*{resPhone}" />
 				</td>
 				<td>
 				 <span th:text="*{ressionVO.reserveSessionId}"></span>

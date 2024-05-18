@@ -19,8 +19,9 @@ label {
     display: inline-block;
     width: 100%;
     text-align: left;
-    margin-right:0px;
-    margin-bottom: 10px;
+    padding-top:10px;
+    margin-top:5px;
+ 	padding-bottom: 10px;
 }
 
 input[type="text"],
@@ -166,6 +167,9 @@ tr:nth-child(even) {
 .justify-content-center {
 	justify-content: flex-start !important;
 }
+.error{
+color:red;
+}
 </style>
     
 </head>
@@ -174,27 +178,56 @@ tr:nth-child(even) {
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded">
             <div class="G3_content">
-            <div>
+           		 <div>
+         		   
+         		   
          		    <form th:action="@{/reserve/insert}" method="post" th:object="${resVO}" enctype="multipary/form-data">
 				
-<!-- 				    <label for="">餐廳訂單編號:</label> -->
-<!-- 				    <input type="text" th:field="*{reserveOrderId}"  ><br><br> -->
+
 				
-<!-- 				    <label for="">餐廳場次編號:</label> -->
-				    <input type="hidden"   	id="sessionid" th:field="*{ressionVO.reserveSessionId}"  readonly style="background-color: lightgray" > 
+						<input type="hidden" id="sessionid"
+							th:field="*{ressionVO.reserveSessionId}" readonly
+							style="background-color: lightgray"> <label for="" class="label">姓名:
+						</label> <input type="text" th:field="*{resName}" class="input">
+
+
+						<!-- <input type="text" th:field="*{memberVO.memberName}"> -->
+						<!--  <input type="text" th:field="*{memberVO.memberPhone}"> -->
+
+						<div th:if="${#fields.hasErrors('resName')}"
+							th:errors="*{resName}" class="error"></div>
+
+
+
+						<label for="" class="label">電話:</label> <input type="text"
+							maxlength="10" th:field="*{resPhone}" class="input">
+
+
+						<div th:if="${#fields.hasErrors('resPhone')}"
+							th:errors="*{resPhone}" class="error"></div>
+				
+				
 				
 				    <label for="">會員編號:</label>
-				    <input type="text" th:field="*{memberVO.memberId}"><br><br>
-				
-				    <label for="">訂單日期:</label>
-				    <input th:text="*{reserveOrderDate}"   type="hidden"   th:field="*{reserveOrderDate}"><br><br>
-				
+					<div th:if="${#fields.hasErrors('memberVO.memberId')}" th:errors="*{memberVO.memberId}" class="error" >	</div>
+				    
+				    <input type="number" min="1" th:field="*{memberVO.memberId}" required >
+				    
+				    <div th:utext="${message}" style="color: red;"></div>
+				    
+					
+				<label  for="reserveOrderDate" style="display: inline;" >訂單日期:</label>
+<span th:text="*{reserveOrderDate}"  	 th:field="*{reserveOrderDate}" style="display: inline;"></span>
+									
 				    <label for="">預定人數:</label>
-				    <input type="text" th:field="*{reserveNumber}" ><br><br>
+		<div th:if="${#fields.hasErrors('reserveNumber')}" th:errors="*{reserveNumber}" class="error"></div>
+				    <input type="number" th:field="*{reserveNumber}" ><br>
 				
 				    <label for="" >預定日期:</label>
-				    <input  type="datetime-local" th:field="*{bookingDate}" id="bookingDate" name="bookingDate"><br><br>
-					<div id="error"></div>
+		<div th:if="${#fields.hasErrors('bookingDate')}" th:errors="*{bookingDate}" class="error"></div>
+				    <input  type="datetime-local" th:field="*{bookingDate}" id="bookingDate" name="bookingDate"><br>
+					
+					
 					
 <script type="text/javascript">
 $('#bookingDate').change(function() {
@@ -237,8 +270,7 @@ $('#bookingDate').change(function() {
 							dateFormat : "Y-m-d H:i",
 							time_24hr : true,
 							minuteIncrement : 30,
-							
-							defaultDate : "10:00",
+												
 							minTime : "10:00",
 							maxTime : "19:00",
 							minDate : new Date().fp_incr(3),

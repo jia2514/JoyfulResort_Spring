@@ -25,7 +25,7 @@ public class RessionVO implements Serializable {
 	private Integer reserveSessionId;
 
 	@Column(name = "reserve_max_part")
-	private Integer reserveMaxPart = 50;
+	private Integer reserveMaxPart = 100;
 
 	@Column(name = "session_time", length = 10)
 	private String sessionTime;

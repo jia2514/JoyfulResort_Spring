@@ -13,7 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -34,16 +38,12 @@ public class ResVO implements Serializable {
 	@NotNull(message = "日期請勿空白")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "reserve_order_date")
-	private LocalDate reserveOrderDate =LocalDate.now() ;
-	
+	private LocalDate reserveOrderDate = LocalDate.now();
 
-	
-	
 	@NotNull(message = "人數請勿空白")
 	@Column(name = "reserve_number")
 	private Integer reserveNumber;
 
-	
 	@NotNull
 	@Column(name = "reserve_order_state")
 	private Byte reserveOrderState = 1;
@@ -56,15 +56,54 @@ public class ResVO implements Serializable {
 	@Column(name = "order_note", length = 60)
 	private String orderNote;
 
+	@NotNull(message = "請勿空白")
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "member_id")
 	private MemberVO memberVO;
+	
+
+	
+	
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "reserve_session_id")
 	private RessionVO ressionVO;
+//	======================================
+
+	@NotEmpty(message = "名字請勿空白")
+	@Pattern(regexp = "[\\u4e00-\\u9fa5a-zA-Z]+", message = "只能是中英文")
+	@Column(name = "res_name")
+
+	private String resName;
+
+	@NotEmpty(message = "電話請勿空白")
+	 @Pattern(regexp = "\\d{10}", message = "電話必須是10位數字")
+	@Column(name = "res_phone")
+	private String  resPhone;
+
+	public String getResName() {
+		return resName;
+	}
 	
+	public void setResName(String resName) {
+		this.resName = resName;
+	}
 	
+	public String  getResPhone() {
+		return resPhone;
+	}
+	
+	public void setResPhone(String  resPhone) {
+		this.resPhone = resPhone;
+	}
+
+//===================================
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public Integer getReserveOrderId() {
 		return reserveOrderId;
 	}
@@ -76,7 +115,7 @@ public class ResVO implements Serializable {
 	public LocalDate getReserveOrderDate() {
 		return reserveOrderDate;
 	}
-		
+
 	public void setReserveOrderDate(LocalDate reserveOrderDate) {
 		this.reserveOrderDate = reserveOrderDate;
 	}

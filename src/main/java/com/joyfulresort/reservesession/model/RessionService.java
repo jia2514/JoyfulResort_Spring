@@ -34,6 +34,14 @@ public class RessionService {
     public List<RessionVO> getAllRessions() {
         return repository.findAll();
     }
+    
+    public Integer getMaxPartById(Integer ressionId) {
+        Optional<RessionVO> optional = repository.findById(ressionId);
+        if (optional.isPresent()) {
+            return optional.get().getReserveMaxPart();
+        }
+    	return -1;
+    }
 }
 	
 

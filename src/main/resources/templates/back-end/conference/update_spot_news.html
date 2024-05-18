@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:action="@{'/spotnews/backend/update/' + ${news.spotNewsId}}" method="post" enctype="multipart/form-data">
+        <label>標題</label>
+        <input type="text" th:value="${news.spotNewsTitle}" name="spotNewsTitle" required>
+        <label>日期</label>
+        <input type="date" th:value="${news.spotNewsDate}" name="spotNewsDate" required>
+        <label>摘要</label>
+        <input type="text" th:value="${news.spotNewsAbstract}" name="spotNewsAbstract" required>
+        <label>內容</label>
+        <input type="text" th:value="${news.spotNewsContent}" name="spotNewsContent" required>
+        <label>上傳照片</label>
+        <input type="file" name="file" required><br>
+        <label>狀態</label>
+        <input type="number" th:value="${news.spotNewsState}" name="spotNewsState" required>
+        <button type="submit">保存修改</button>
+    </form>
+</body>
+</html>

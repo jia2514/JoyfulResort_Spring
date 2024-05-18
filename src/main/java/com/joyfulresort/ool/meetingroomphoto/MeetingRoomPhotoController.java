@@ -32,7 +32,7 @@ public class MeetingRoomPhotoController {
     @GetMapping("/upload/{meetingRoomId}")
     public String showUploadForm(@PathVariable Integer meetingRoomId, Model model) {
         model.addAttribute("meetingRoomId", meetingRoomId);
-        return "backend/add";
+        return "back-end/conference/add";
     }
 
     @PostMapping("/upload/{meetingRoomId}")
@@ -52,7 +52,7 @@ public class MeetingRoomPhotoController {
         List<MeetingRoomPhoto> photos = meetingRoom.getPhotos();
         model.addAttribute("meetingRoom", meetingRoom);
         model.addAttribute("photos", photos);
-        return "backend/conference";
+        return "back-end/conference/conference";
     }
 
 

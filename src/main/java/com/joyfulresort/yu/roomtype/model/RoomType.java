@@ -75,7 +75,7 @@ public class RoomType implements java.io.Serializable {
 	private Set<RoomOrderItem> roomOrderItems;
 	
 	@OneToMany(mappedBy = "roomType", cascade = CascadeType.ALL)
-	@OrderBy("room_photo_id asc")
+	@OrderBy("room_type_photo_id asc")
 	private Set<RoomTypePhoto> roomTypePhotos;
 	
 	@OneToMany(mappedBy = "roomType", cascade = CascadeType.ALL)

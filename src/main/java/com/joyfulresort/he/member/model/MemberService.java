@@ -6,8 +6,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+
+import com.joyfulresort.jia.roomorder.model.RoomOrder;
+import com.joyfulresort.jia.roomorder.model.RoomOrderRepository;
+import com.joyfulresort.jia.roomorderitem.model.RoomOrderItemRepository;
 
 
 @Service("memberService")
@@ -15,6 +17,13 @@ public class MemberService {
 
 	@Autowired
 	MemberRepository repository;
+	
+	@Autowired
+	private RoomOrderRepository reRoomOrder;
+	
+	@Autowired
+	private RoomOrderItemRepository ROIR;
+
 
 	// 所有會員資料
 	public List<MemberVO> getAll() {
@@ -124,6 +133,16 @@ public class MemberService {
 	public MemberVO findByMemberPhone(String memberPhone) {
 		return repository.findByMemberPhone(memberPhone);
 	}
+	
+	//使用會員編號 查詢住宿訂單
+	public List<RoomOrder> findMemberRoomOrder(Integer memberId) {
+		return reRoomOrder.findRoomOrderByMemberId(memberId);
+	}
+	//尋找房型
+	public List<Integer> findRoomrTypeByMemberId(Integer memberId){
+		return reRoomOrder.findRoomrTypeByMemberId(memberId);
+	}
+	
 	
 	
 }

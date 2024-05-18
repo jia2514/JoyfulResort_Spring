@@ -20,16 +20,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.joyfulresort.reservecontent.model.ResContentVO;
+import com.joyfulresort.he.member.model.MemberService;
+import com.joyfulresort.he.member.model.MemberVO;
 import com.joyfulresort.reservecontent.model.ResContentService;
+import com.joyfulresort.reservecontent.model.ResContentVO;
 import com.joyfulresort.reserveorder.model.ResService;
 import com.joyfulresort.reserveorder.model.ResVO;
 
 @Controller
 @RequestMapping("/joyfulresort")
 public class ResFrontController {
-
+	@Autowired
+	MemberService memberSvc;
 	@Autowired
 	ResService resSvc;
 	@Autowired
@@ -49,22 +53,26 @@ public class ResFrontController {
 	}
 
 	@PostMapping("insertfront")
-	public String insertfront(@Valid ResVO resVO, BindingResult result, HttpServletRequest request, ModelMap model)
-			throws IOException {
+	public String insertfront(@Valid ResVO resVO, BindingResult result, HttpServletRequest request,
+			RedirectAttributes redirectAttributes, ModelMap model) throws IOException {
+		MemberVO memvo = memberSvc.getOneMember(resVO.getMemberVO().getMemberId());
+		Integer memberId = (memvo != null) ? memvo.getMemberId() : null;
+		if (memberId == null) {
+			model.addAttribute("message", "查無此編號!");
+			return "front-end/restaurant/reserveorder";
+
+		}
 		if (result.hasErrors()) {
-//			 model.addAttribute("reserveNumberError", result.getFieldError("reserveNumber").getDefaultMessage());
-//		     model.addAttribute("bookingDateError", result.getFieldError("bookingDate").getDefaultMessage());
-//		     model.addAttribute("error", result.getFieldError().getDefaultMessage());
+
 			return "front-end/restaurant/reserveorder";
 		}
 		resSvc.addRes(resVO);
-		model.addAttribute("success", "訂位成功");
-		return "front-end/restaurant/main";
+		redirectAttributes.addFlashAttribute("success", "新增訂單成功!");
+		return "redirect:/joyfulresort/restaurant";
 	}
-//		return "redirect:/joyfulresort/restaurant"  
-	// 也沒問題
+//		return "front-end/restaurant/main";
+
 //		return "back-end/reserve/reserveorder"; 
-	// 沒問題
 //		會多報Request method 'GET' not supported]   
 //		在Index控制層76行多設置一個getmapping才不會抱錯
 
@@ -74,10 +82,7 @@ public class ResFrontController {
 		List<ResContentVO> list = rescontentSvc.getAllContent();
 		return list;
 	}
-	
-	
-	
-	
+
 	@ExceptionHandler(value = { ConstraintViolationException.class })
 	public ModelAndView handleError(HttpServletRequest req, ConstraintViolationException e, Model model) {
 		Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
@@ -86,7 +91,6 @@ public class ResFrontController {
 			strBuilder.append(violation.getMessage() + "<br>");
 
 		}
-
 //		List<ResVO> list = resSvc.getAllRes();
 //		model.addAttribute("ResListData", list);
 //		model.addAttribute("ResList", list);// 錯誤時顯示所有清單

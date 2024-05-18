@@ -32,7 +32,7 @@ public class MeetingRoomOrderController {
     public String showOrderList(Model model) {
         List<MeetingRoomOrder> orders = meetingRoomOrderRepository.findAll();
         model.addAttribute("orders", orders);
-        return "backend/order";
+        return "back-end/conference/order";
     }
 
 
@@ -42,7 +42,7 @@ public class MeetingRoomOrderController {
         List<MeetingRoomOrder> memberOrders = meetingRoomOrderRepository.findByMemberMemberId(memberId);
         model.addAttribute("memberOrders", memberOrders);
 
-        return "frontend/member_order";
+        return "front-end/conference/member_order";
     }
 
 

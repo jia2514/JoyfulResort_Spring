@@ -2,12 +2,14 @@
 <html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <!-- 基本設定 -->
     <meta charset="utf-8">
     <!-- 移動設備基本設定 -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- 網站 Meta 資訊 -->
-    <title>會議場地 Conference Venue</title>
+    <title>會議 Conference</title>
+
     <link th:insert="~{/front-end/htmlfile/css.html}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -25,34 +27,7 @@
             rel="stylesheet">
     <link href="/frontend/css/conference.css" rel="stylesheet">
     <style>
-        .header {
-            background-color: transparent;
-            transition: background-color 0.3s ease;
-            border-bottom: 0.5px dashed white;
-        }
 
-        .navigation.navbar-dark .navbar-nav .nav-link {
-            color: white; /* 初始字體顏色 */
-        }
-
-        .nav-hr {
-            border-left: 1px solid white; /* 初始框線顏色 */
-            transition: border-color 0.3s ease;
-        }
-
-        /* 滾動後的狀態 */
-        .header.scrolled {
-            background-color: white; /* 你想要的背景顏色 */
-            border-bottom: 0.5px dashed black;
-        }
-
-        .navigation.navbar-dark .navbar-nav .nav-link.scrolled {
-            color: black; /* 你想要的字體顏色 */
-        }
-
-        .nav-hr.scrolled {
-            border-left: 1px solid black; /* 你想要的框線顏色 */
-        }
     </style>
 </head>
 
@@ -61,10 +36,10 @@
 <body class="main-layout">
 
 <!-- 頁面加載動畫 -->
+<!--<div class="loader_bg">-->
+<!--    <div class="loader"></div>-->
+<!--</div>-->
 
-<div class="loader_bg">
-    <div class="loader"></div>
-</div>
 
 <!-- 頁面頭部 -->
 <header>
@@ -138,11 +113,11 @@
     <div id="carouselExampleFade" class="carousel slide carousel-fade h-100">
         <div class="carousel-inner h-100" style="height: 500px; margin-top: 86px">
             <div class="carousel-item active">
-                <img src="/frontend/images/notes1.jpg" class="d-block w-100 h-100" alt="...">
+                <img style="height: 650px" src="/frontend/images/spot1.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
-                    <h1 class="cardo-regular" style="color: white">CONFERENCE VENUE</h1>
-                    <h4 class="conference" style="color: white; margin-top: -15px">會議場地</h4>
-                    <p class="fw-bold" style="margin-top: -5px">多樣場地滿足您會議需求</p>
+                    <h1 class="cardo-regular" style="color: white">NEWS</h1>
+                    <h4 class="conference" style="color: white; margin-top: -15px">最新消息</h4>
+                    <p class="fw-bold" style="margin-top: -5px">不是普通的飯店，而是生活的詩篇</p>
                     <p style="position: absolute; top: 80%; left: 47%">查看更多</p>
                     <div class="down-arrow btn"><svg class="arrow-circle" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#5f6368"><path d="m481-356 119-118-15-15-93 93v-209h-23v209l-93-93-15 15 120 118Zm-.83 224q-72.17 0-135.23-27.39-63.06-27.39-110.57-74.85-47.52-47.46-74.94-110.43Q132-407.65 132-479.83q0-72.17 27.39-135.73 27.39-63.56 74.85-110.57 47.46-47.02 110.43-74.44Q407.65-828 479.83-828q72.17 0 135.73 27.39 63.56 27.39 110.57 74.35 47.02 46.96 74.44 110.43Q828-552.35 828-480.17q0 72.17-27.39 135.23-27.39 63.06-74.35 110.57-46.96 47.52-110.43 74.94Q552.35-132 480.17-132Zm-.17-22q136 0 231-95t95-231q0-136-95-231t-231-95q-136 0-231 95t-95 231q0 136 95 231t231 95Zm0-326Z"/></svg></div>
                 </div>
@@ -154,155 +129,51 @@
 </section>
 
 
-
 <div class="container" style="margin-top: -50px">
     <nav style="--bs-breadcrumb-divider: '----'; font-size: smaller;" aria-label="breadcrumb">
         <ol class="breadcrumb justify-content-center">
-            <li class="breadcrumb-item google-icon"><a href="#" style="color: #847674; font-size: smaller;"><svg
-                    xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="24"
-                    style="margin-top: -5px;">
-                <path
-                        d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" />
-            </svg>首頁</a></li>
-            <li class="breadcrumb-item"><a href="/conference" style="color: #847674; font-size: smaller;">會議</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page" style="font-size: smaller;">會議場地</li>
+            <li class="breadcrumb-item google-icon"><a href="#" style="color: #847674; font-size: smaller;"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="24" style="margin-top: -5px;"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>首頁</a></li>
+            <li class="breadcrumb-item active" aria-current="page" style="font-size: smaller;">最新消息</li>
         </ol>
     </nav>
 
 </div>
 
 <!-- 關於我們區域 -->
-<div class="about" style="padding-top: 40px;" >
+<div class="about" style="padding-top: 40px;">
     <div class="container">
-        <h2 class="text-center p-0 lora-type m-0" style="color: #847674;" data-aos="zoom-in-up"
-            data-aos-duration="1000">
-            CONFERENCE ROOM</h2>
-        <P class="text-center h5 mb-5 fw-bold" data-aos="zoom-in-up" data-aos-duration="2000">會議廳一覽</P>
-    </div>
-    <div class="container mb-5" th:each="meetingRooms, iterStat : ${meetingRooms}" >
+        <h2 class="text-center p-0 lora-type m-0" style="color: #847674;" data-aos="zoom-in-up" data-aos-duration="1000">
+            NEWS</h2>
+        <P class="text-center h5 mb-5 fw-bold" data-aos="zoom-in-up" data-aos-duration="2000">最新消息</P>
         <div class="row">
-            <div class="col-md-6 content" th:classappend="${iterStat.index % 2 == 0} ? '' : 'order-md-1'">
-
-                <h3 class="parisienne-regular p-0" style="color: #847674;" th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'"
-                    data-aos-duration="1000" th:text="${meetingRooms.meetingRoomEname}"></h3>
-                <h5 class="fw-bold" th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000" th:text="${meetingRooms.meetingRoomName}"></h5>
-                <p style="font-size:medium;" th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000" th:text="${meetingRooms.meetingRoomContent}"></p><br>
-                <div class="row">
-                    <div class="col hello p-2" th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                             viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path fill="#847674"
-                                  d="M248 48V256h48V58.7c23.9 13.8 40 39.7 40 69.3V256h48V128C384 57.3 326.7 0 256 0H192C121.3 0 64 57.3 64 128V256h48V128c0-29.6 16.1-55.5 40-69.3V256h48V48h48zM48 288c-12.1 0-23.2 6.8-28.6 17.7l-16 32c-5 9.9-4.4 21.7 1.4 31.1S20.9 384 32 384l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32V384H352v96c0 17.7 14.3 32 32 32s32-14.3 32-32V384c11.1 0 21.4-5.7 27.2-15.2s6.4-21.2 1.4-31.1l-16-32C423.2 294.8 412.1 288 400 288H48z" />
-                        </svg>
-                        <br>
-                        <br>
-                        <p th:text="'&nbsp' + ${meetingRooms.meetingRoomChair}"></p>
-                    </div>
-                    <div class="col hello" th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                             class="iicon" viewBox="0 0 16 16">
-                            <path
-                                    d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z" />
-                        </svg>
-                        <br>
-                        <br>
-                        <p th:text="${meetingRooms.meetingRoomSquareMeter}"></p>
-                    </div>
-                    <div class="col hello" th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                             viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path fill="#847674"
-                                  d="M72 88a56 56 0 1 1 112 0A56 56 0 1 1 72 88zM64 245.7C54 256.9 48 271.8 48 288s6 31.1 16 42.3V245.7zm144.4-49.3C178.7 222.7 160 261.2 160 304c0 34.3 12 65.8 32 90.5V416c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V389.2C26.2 371.2 0 332.7 0 288c0-61.9 50.1-112 112-112h32c24 0 46.2 7.5 64.4 20.3zM448 416V394.5c20-24.7 32-56.2 32-90.5c0-42.8-18.7-81.3-48.4-107.7C449.8 183.5 472 176 496 176h32c61.9 0 112 50.1 112 112c0 44.7-26.2 83.2-64 101.2V416c0 17.7-14.3 32-32 32H480c-17.7 0-32-14.3-32-32zm8-328a56 56 0 1 1 112 0A56 56 0 1 1 456 88zM576 245.7v84.7c10-11.3 16-26.1 16-42.3s-6-31.1-16-42.3zM320 32a64 64 0 1 1 0 128 64 64 0 1 1 0-128zM240 304c0 16.2 6 31 16 42.3V261.7c-10 11.3-16 26.1-16 42.3zm144-42.3v84.7c10-11.3 16-26.1 16-42.3s-6-31.1-16-42.3zM448 304c0 44.7-26.2 83.2-64 101.2V448c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32V405.2c-37.8-18-64-56.5-64-101.2c0-61.9 50.1-112 112-112h32c61.9 0 112 50.1 112 112z" />
-                        </svg>
-                        <br>
-                        <br>
-                        <p th:text="${meetingRooms.meetingRoomCapacity}">21~70</p>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <a href="" class="btn btn-primary mt-5 fw-bold" data-aos="zoom-in-up"
-                               data-aos-duration="1000" data-bs-toggle="modal" th:data-bs-target="'#exampleModal' + ${meetingRooms.meetingRoomId}">詳細內容</a>
-                        </div>
-                        <div class="col d-flex justify-content-end ">
-                        </div>
-                    </div>
-
-                    <div class="modal fade modal-lg modal-dialog-scrollable" th:id="'exampleModal' + ${meetingRooms.meetingRoomId}" tabindex="-1"
-                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-
-                                <div class="modal-body">
-                                    <div class="about" style="padding-top: 20px;">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="d-flex justify-content-end">
-                                                    <button type="button" class="btn-close" style="margin-top: -20px;" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                </div>
-
-                                                <h2 class="text-center p-0 lora-type m-0" style="color: #847674;">
-                                                    DETAILED CONTENT</h2>
-                                                <P class="text-center h5 mb-5 fw-bold">詳細內容</P>
-                                                <div class="about_img w-100" th:each="photo : ${meetingRooms.photos}">
-                                                    <figure><img th:src="@{/image/{meetingRoomPhotoId}(meetingRoomPhotoId=${photo.meetingRoomPhotoId})}" alt="#" /></figure>
-                                                </div>
-                                                <h5 class="fw-bold mt-5">設施：</h5>
-                                                <p class="fw-bold">座位：<span
-                                                        class="fw-normal">提供舒適的座椅，每個座位都有鋪設好的寬敞桌面，方便參與者放置文件和筆記。</span>
-                                                </p>
-                                                <p class="fw-bold">音響系統：<span
-                                                        class="fw-normal">先進的音響系統保證清晰的聲音傳遞，並具有調整音量和音調的功能。</span></p>
-                                                <p class="fw-bold">投影設備：<span class="fw-normal">
-                                                            配備高清投影設備和大型投影幕，支援各種多媒體格式，包括電腦投影和DVD播放。</span></p>
-                                                <p class="fw-bold">照明：<span
-                                                        class="fw-normal">具有可調節亮度的照明系統，保證會議期間的舒適度和能見度。</span></p>
-                                                <p class="fw-bold">WiFi連接：<span
-                                                        class="fw-normal">提供穩定的WiFi連接，讓與會者能夠輕鬆訪問網絡和在線資源。</span></p>
-                                                <p class="fw-bold">會議桌：<span
-                                                        class="fw-normal">與會者圍坐的圓桌，方便小組討論和互動。</span></p>
-                                                <p class="fw-bold">空調系統：<span
-                                                        class="fw-normal">提供舒適的溫度控制，確保會議期間的舒適度。</span></p>
-                                                <p class="fw-bold">紀錄設備：<span
-                                                        class="fw-normal">錄音和錄影設備，用於會議記錄和後續分析。</span></p>
-                                                <h5 class="fw-bold mt-3">服務：</h5>
-                                                <p class="fw-bold">會議管理人員：<span
-                                                        class="fw-normal">專業的會議管理人員將提供支持，包括技術支援、會議安排和問題解決。</span>
-                                                </p>
-                                                <p class="fw-bold">飲食服務：<span
-                                                        class="fw-normal">提供多種選擇的餐飲服務，包括茶歇、午餐和輕食。</span></p>
-                                                <p class="fw-bold">接待區：<span class="fw-normal">
-                                                            舒適的接待區域，用於登記、領取會議資料和等候。</span></p>
-                                                <h5 class="fw-bold mt-3">其他資訊：</h5>
-                                                <p class="fw-bold">可定制性：<span
-                                                        class="fw-normal">會議廳可根據需求進行定制，包括座位布局、裝飾和設施設置。</span></p>
-                                                <p class="fw-bold">安全措施：<span
-                                                        class="fw-normal">配備安全監控系統和緊急應對計劃，確保會議期間的安全。</span></p>
-                                                <p class="fw-bold">無障礙設施：<span class="fw-normal">
-                                                            提供無障礙設施，包括無障礙通道和無障礙廁所，以便所有人都能方便參與。</span></p>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+            <div class="col-lg-6 content">
+                <div class="about-text">
+                    <div class="title-frame">
+                        <h2 class="noto-serif lora-type" style="color: #847674;" data-aos="zoom-in-right"
+                            data-aos-duration="1000">JOYFUL CONFERENCE</h2>
+                        <h5 data-aos="zoom-in-right" data-aos-duration="1000">展望國際舞台，精心策劃</h5>
+                        <p class="" style="color: #847674;" data-aos="zoom-in-right" data-aos-duration="1000">
+                            在多變的空間中，童樂渡假飯店發揮都市風範與度假奢華的優勢。我們擁有一系列配備完善的大、中、小型會議場地，滿足不同類型的需求，從親密研討會和展覽活動，到盛大的企業激勵會議。我們的專業團隊擅長安排每一個細節，提供符合地方特色的主題會議。
+                        </p>
+                        <h5 data-aos="zoom-in-right" data-aos-duration="1000">再創輝煌佳績</h5>
+                        <p style="color: #847674;" data-aos="zoom-in-right" data-aos-duration="1000">
+                            童樂渡假飯店持續擴建，提升硬體和軟體服務。我們致力於為企業打造專屬會議行程，或安排度假式會議，確保每次會議都超越預期。我們不斷努力，將會議的品質和效果提升至新的高度。
+                        </p>
                     </div>
                 </div>
-
             </div>
 
-            <div class="col-md-6" th:classappend="${iterStat.index % 2 == 0} ? 'order-md-1' : ''">
-                <div class="about_img w-100" th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000" th:each="photo : ${meetingRooms.photos}">
-                    <figure><img th:src="@{/image/{meetingRoomPhotoId}(meetingRoomPhotoId=${photo.meetingRoomPhotoId})}" alt="#" /></figure>
+            <div class="col-md-6">
+                <div class="about_img w-100" data-aos="zoom-in-right" data-aos-duration="1000">
+                    <figure><img src="/frontend/images/conference1.jpg" alt="#" /></figure>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+
+<!-- 關於我們區域結束 -->
+
 
 
 
@@ -360,17 +231,17 @@
             </div>
         </div>
         <!-- 版權聲明 -->
-<!--        <div class="copyright" style="border-bottom: none; border-top: none; background-color: #2F221C">-->
-<!--            <div class="container">-->
-<!--                <div class="row">-->
-<!--                    <div class="col-md-10 offset-md-1">-->
-<!--                        <p style="color: white">© 2019 All Rights Reserved. Design by <a style="color: white" href="https://html.design/">Free Html-->
-<!--                            Templates</a><br><br>Distributed by <a style="color: white" href="https://themewagon.com/"-->
-<!--                                                                   target="_blank">ThemeWagon</a></p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div class="copyright" style="border-bottom: none; border-top: none; background-color: #2F221C">-->
+        <!--            <div class="container">-->
+        <!--                <div class="row">-->
+        <!--                    <div class="col-md-10 offset-md-1">-->
+        <!--                        <p style="color: white">© 2019 All Rights Reserved. Design by <a style="color: white" href="https://html.design/">Free Html-->
+        <!--                            Templates</a><br><br>Distributed by <a style="color: white" href="https://themewagon.com/"-->
+        <!--                                                                   target="_blank">ThemeWagon</a></p>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
 </footer><!-- footer 結束 -->
 
@@ -393,6 +264,7 @@
     AOS.init();
 </script>
 <script>
+
     document.addEventListener("DOMContentLoaded", function() {
         window.addEventListener("scroll", function() {
             var header = document.querySelector(".header");
