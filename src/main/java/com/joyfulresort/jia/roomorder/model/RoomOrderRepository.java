@@ -26,9 +26,6 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder, Integer> {
 	@Query(nativeQuery = true, value = "SELECT * FROM room_order WHERE member_id=?1")
 	List<RoomOrder> findRoomOrderByMemberId(Integer memberId);
 		
-	//--- 尋找房型編號 ---
-	@Query(nativeQuery = true, value = "SELECT DISTINCT room_type_id FROM room_order_item roi JOIN room_order ro ON ro.room_order_id =roi.room_order_id WHERE member_id=?1")
-	List<Integer> findRoomrTypeByMemberId(Integer memberId);
 				
 		
 		

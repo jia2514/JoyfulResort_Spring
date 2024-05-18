@@ -54,7 +54,7 @@ $('#memberEmail').change(function () {
     $('#buttonUpData').attr('disabled', true)
   } else {
     $.post({
-      url: '/frontend/member/Ajax',
+      url: '/joyfulresort/member/Ajax',
       data: {
         "inputColumn": "Email",
         "inputEmail": inputEmail
@@ -69,7 +69,7 @@ $('#memberEmail').change(function () {
         } else {
           $('#emailError').html('')
           emailState = 0;
-          if (0 === emailState && 0 === phoneState) {
+          if (0 == emailState && 0 == phoneState) {
             $('#buttonUpData').attr('disabled', false)
           }
 
@@ -103,7 +103,7 @@ $('#memberPhone').change(function () {
     $('#buttonUpData').attr('disabled', true)
   } else {
     $.post({
-      url: '/frontend/member/Ajax',
+      url: '/joyfulresort/member/Ajax',
       data: {
         "inputColumn": "Phone",
         "inputPhone": inputPhone
@@ -118,7 +118,7 @@ $('#memberPhone').change(function () {
         } else {
           $('#phoneError').html('')
           phoneState = 0;
-          if (0 === emailState && 0 === phoneState) {
+          if (0 == emailState && 0 == phoneState) {
             $('#buttonUpData').attr('disabled', false)
           }
 

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.joyfulresort.jia.roomorder.model.RoomOrder;
 import com.joyfulresort.jia.roomorder.model.RoomOrderRepository;
 import com.joyfulresort.jia.roomorderitem.model.RoomOrderItemRepository;
+import com.joyfulresort.so.activityorder.model.ActivityOrderRepository;
+import com.joyfulresort.so.activityorder.model.ActivityOrderVO;
 
 
 @Service("memberService")
@@ -22,7 +24,7 @@ public class MemberService {
 	private RoomOrderRepository reRoomOrder;
 	
 	@Autowired
-	private RoomOrderItemRepository ROIR;
+	ActivityOrderRepository AOrepository;
 
 
 	// 所有會員資料
@@ -138,11 +140,11 @@ public class MemberService {
 	public List<RoomOrder> findMemberRoomOrder(Integer memberId) {
 		return reRoomOrder.findRoomOrderByMemberId(memberId);
 	}
-	//尋找房型
-	public List<Integer> findRoomrTypeByMemberId(Integer memberId){
-		return reRoomOrder.findRoomrTypeByMemberId(memberId);
+
+	public List<ActivityOrderVO> findActivityOrderByMemberId(Integer memberID) {
+		return AOrepository.findActivityOrderByMemberId(memberID);
 	}
-	
+
 	
 	
 }

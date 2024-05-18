@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.joyfulresort.he.member.model.MemberService;
 import com.joyfulresort.he.member.model.MemberVO;
 import com.joyfulresort.jia.roomorder.model.RoomOrder;
+import com.joyfulresort.so.activityorder.model.ActivityOrderVO;
 
 @Controller
 @RequestMapping("/joyfulresort/member")
@@ -38,15 +39,18 @@ public class FrontendMemberController {
 	@GetMapping("/memberinfo")
 	public String memberInfo(HttpSession session, Model model) {
 		//會員個人資料
-		Integer userId = (Integer) session.getAttribute("memberID"); // 取得session內的值
-		MemberVO mem = memSvc.getOneMember(userId); // 查找會員資料
+		Integer memberID = (Integer) session.getAttribute("memberID"); // 取得session內的值
+		MemberVO mem = memSvc.getOneMember(memberID); // 查找會員資料
 		model.addAttribute("memberData", mem); // 轉交
 		
 		//會員住宿訂單資料
-		List<RoomOrder> userRoomOrder = memSvc.findMemberRoomOrder(userId); //查找住宿訂單
-		List<Integer> roomType =memSvc.findRoomrTypeByMemberId(userId);
+		List<RoomOrder> userRoomOrder = memSvc.findMemberRoomOrder(memberID); //查找住宿訂單
 		model.addAttribute("memberRoomOrder", userRoomOrder);// 轉交
-		model.addAttribute("memberRoomType", roomType);// 轉交
+		
+		//會員活動訂單
+		List<ActivityOrderVO> memberActivityOrder = memSvc.findActivityOrderByMemberId(memberID);//查找活動訂單
+		model.addAttribute("memberActivityOrder", memberActivityOrder);// 轉交
+		
 		return "front-end/member/memberinfo";
 	}
 
