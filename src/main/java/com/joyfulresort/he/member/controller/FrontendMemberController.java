@@ -23,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.joyfulresort.he.member.model.MemberService;
 import com.joyfulresort.he.member.model.MemberVO;
 import com.joyfulresort.jia.roomorder.model.RoomOrder;
+import com.joyfulresort.ool.meetingroomorder.MeetingRoomOrder;
+import com.joyfulresort.reserveorder.model.ResVO;
 import com.joyfulresort.so.activityorder.model.ActivityOrderVO;
 
 @Controller
@@ -50,6 +52,14 @@ public class FrontendMemberController {
 		//會員活動訂單
 		List<ActivityOrderVO> memberActivityOrder = memSvc.findActivityOrderByMemberId(memberID);//查找活動訂單
 		model.addAttribute("memberActivityOrder", memberActivityOrder);// 轉交
+		
+		//會員會議廳訂單
+		List<MeetingRoomOrder> memberMeetingRoomOrder = memSvc.findMeetingRoomOrderByMemberId(memberID);
+		model.addAttribute("memberMeetingRoomOrder", memberMeetingRoomOrder);// 轉交
+		
+		//會員餐廳訂單
+		List<ResVO> memberReserveOrder = memSvc.findmemberReserveOrderByMemberId(memberID);
+		model.addAttribute("memberReserveOrder", memberReserveOrder);// 轉交
 		
 		return "front-end/member/memberinfo";
 	}

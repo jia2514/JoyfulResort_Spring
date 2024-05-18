@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.joyfulresort.jia.roomorder.model.RoomOrder;
 import com.joyfulresort.jia.roomorder.model.RoomOrderRepository;
-import com.joyfulresort.jia.roomorderitem.model.RoomOrderItemRepository;
+import com.joyfulresort.ool.meetingroomorder.MeetingRoomOrder;
+import com.joyfulresort.ool.meetingroomorder.MeetingRoomOrderRepository;
+import com.joyfulresort.reserveorder.model.ResRepository;
+import com.joyfulresort.reserveorder.model.ResVO;
 import com.joyfulresort.so.activityorder.model.ActivityOrderRepository;
 import com.joyfulresort.so.activityorder.model.ActivityOrderVO;
 
@@ -25,6 +28,12 @@ public class MemberService {
 	
 	@Autowired
 	ActivityOrderRepository AOrepository;
+	
+	@Autowired
+    private MeetingRoomOrderRepository MROrepository;
+	
+	@Autowired
+	private ResRepository Resrepository;
 
 
 	// 所有會員資料
@@ -140,9 +149,17 @@ public class MemberService {
 	public List<RoomOrder> findMemberRoomOrder(Integer memberId) {
 		return reRoomOrder.findRoomOrderByMemberId(memberId);
 	}
-
+	//使用會員編號 查詢活動訂單
 	public List<ActivityOrderVO> findActivityOrderByMemberId(Integer memberID) {
 		return AOrepository.findActivityOrderByMemberId(memberID);
+	}
+	//使用會員編號 查詢會議廳訂單
+	public List<MeetingRoomOrder> findMeetingRoomOrderByMemberId(Integer memberID) {
+		return MROrepository.findByMemberMemberId(memberID);
+	}
+	//使用會員編號 查詢餐廳訂單
+	public List<ResVO> findmemberReserveOrderByMemberId(Integer memberID) {
+		return Resrepository.findmemberReserveOrderByMemberId(memberID);
 	}
 
 	
