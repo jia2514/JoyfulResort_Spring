@@ -69,7 +69,7 @@
                                 <li class="nav-item">
 								<div th:switch="${session.memberID==null}">
                                 	<button th:case="true" type="button" id="LoginButton" class="btn btn-primary"
-										style="display: block;" data-bs-toggle="modal" data-bs-target="#exampleModal">登入</button>          
+										style="display: block;" data-bs-toggle="modal" data-bs-target="#memberLogin">登入</button>          
                                     
 									<button th:case="false" type="button" id="LogoutButton" class="btn btn-primary"
 		                                onclick="location.href='joyfulresort/LogOut'">登出</button>	
@@ -87,7 +87,7 @@
 	</header>
 		<body>
 		<!-- Modal  登入彈窗 -->
-	<div class="modal fade" id="exampleModal" tabindex="-1"
+	<div class="modal fade" id="memberLogin" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
