@@ -25,7 +25,7 @@
     <link
             href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans+TC:wght@100..900&family=Noto+Serif+TC&family=Parisienne&display=swap"
             rel="stylesheet">
-    <link href="/frontend/css/conference.css" rel="stylesheet">
+    <link href="/frontend/css/spot.css" rel="stylesheet">
     <style>
 
     </style>
@@ -52,7 +52,7 @@
                         <div class="center-desk">
                             <div class="logo">
                                 <a href="index.html">
-                                    <img id="logo" src="/frontend/images/JoyfulResort3.png" alt="">
+                                    <img id="logo" src="/frontend/images/JoyfulResort2.png" alt="">
                                 </a>
                             </div>
                         </div>
@@ -268,20 +268,11 @@
     document.addEventListener("DOMContentLoaded", function() {
         window.addEventListener("scroll", function() {
             var header = document.querySelector(".header");
-            var links = document.querySelectorAll(".nav-link-custom");
-            var hrs = document.querySelectorAll(".nav-hr");
-            var logo = document.getElementById("logo");
 
             if (window.scrollY > 400) { // 當滾動超過100px時
                 header.classList.add("scrolled");
-                links.forEach(link => link.classList.add("scrolled"));
-                hrs.forEach(hr => hr.classList.add("scrolled"));
-                logo.src = "/frontend/images/JoyfulResort2.png";
             } else {
                 header.classList.remove("scrolled");
-                links.forEach(link => link.classList.remove("scrolled"));
-                hrs.forEach(hr => hr.classList.remove("scrolled"));
-                logo.src = "/frontend/images/JoyfulResort3.png";
             }
         });
     });

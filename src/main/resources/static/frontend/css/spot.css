@@ -119,7 +119,7 @@
 }
 
 .navigation.navbar-dark .navbar-nav .nav-link {
-    color: white; /* 初始字體顏色 */
+    font-weight: normal;
 }
 
 
@@ -130,5 +130,5 @@
 }
 
 .navigation.navbar-dark .navbar-nav .nav-link.scrolled {
-    color: black; /* 你想要的字體顏色 */
+   font-weight: bold;
 }
