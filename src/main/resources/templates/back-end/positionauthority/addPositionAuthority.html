@@ -7,8 +7,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link th:insert="~{/back-end/htmlfile/css.html}" />
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <style>
 .header {
@@ -22,7 +21,14 @@
 .form-inline {
 	display: flex;
 	justify-content: center;
+	align-items: center; /* 垂直對齊 */
 	width: 100%;
+	margin-bottom: 10px; /* 添加一些間距以便更好地分隔元素 */
+}
+
+.center-container {
+	text-align: center;
+	flex: 1; /* 讓容器佔滿可用空間 */
 }
 
 .form-inline label, .form-inline select {
@@ -74,6 +80,11 @@ button:hover {
 	background-color: #006666; /* 滑鼠懸停時的背景顏色 */
 	transform: scale(1.1); /* 滑鼠懸停時放大 */
 }
+
+.select-all-container {
+	margin-left: auto; /* 將複選框推向右邊 */
+	white-space: nowrap; /* 防止文本換行 */
+}
 </style>
 
 
@@ -88,7 +99,6 @@ button:hover {
 					class="fas fa-pen"></i> 修改
 				</a>
 				
-				
 				<a th:href="@{/positionauthority/allPositionAuthority}" class="edit-link" title="修改職務功能設定"> <i
 					class="fas fa-pen"></i> 職務功能列表
 				</a>
@@ -99,22 +109,22 @@ button:hover {
 				<!-- 表單開始 -->
 				<form th:action="@{/addPositionAuthority}" method="post">
 					<div class="form-inline">
-						<label for="positionId">* 選擇設定職務:</label> <select id="positionId"
-							name="positionId">
-							<option value="" selected>選擇職位</option>
-							<option th:each="position : ${positionListData}"
-								th:value="${position.positionId}"
-								th:text="${position.positionName}"></option>
-						</select>
+						<div class="center-container">
+							<label for="positionId">* 選擇設定職務:</label> 
+							<select id="positionId" name="positionId">
+								<option value="" selected>選擇職位</option>
+								<option th:each="position : ${positionListData}" th:value="${position.positionId}" th:text="${position.positionName}"></option>
+							</select>
+						</div>
+						<div class="select-all-container">
+							<label><input type="checkbox" id="selectAll"> <span>全選所有功能</span></label>
+						</div>
 					</div>
 					<hr>
 					<!-- 確保 <hr> 在表單內但在選項外 -->
 					<div class="checkbox-container">
-						<div th:each="function : ${authorityFunctionListData}"
-							class="checkbox-group">
-							<label> <input type="checkbox"
-								th:value="${function.functionId}" th:name="functionIds" /> <span
-								th:text="${function.functionName}"></span>
+						<div th:each="function : ${authorityFunctionListData}" class="checkbox-group">
+							<label> <input type="checkbox" class="function-checkbox" th:value="${function.functionId}" th:name="functionIds" /> <span th:text="${function.functionName}"></span>
 							</label>
 						</div>
 					</div>
@@ -124,27 +134,25 @@ button:hover {
 
 				<!-- 表單結束 -->
 
-
 				<script>
-					$(document)
-							.ready(
-									function() {
-										$('form')
-												.submit(
-														function(event) {
-															var positionId = $(
-																	'#positionId')
-																	.val(); // 獲取下拉選單的值
-															var isChecked = $('input[type="checkbox"]:checked').length > 0; // 檢查是否有勾選的 checkbox
+					$(document).ready(function() {
+						// 監聽全選複選框的變化事件
+						$('#selectAll').change(function() {
+							var isChecked = $(this).is(':checked');
+							$('.function-checkbox').prop('checked', isChecked);
+						});
 
-															if (positionId === ""
-																	|| !isChecked) {
-																alert("請選擇職位並至少勾選一個權限。");
-																event
-																		.preventDefault(); // 防止表單提交
-															}
-														});
-									});
+						// 表單提交時檢查是否有選擇職位和至少一個權限
+						$('form').submit(function(event) {
+							var positionId = $('#positionId').val(); // 獲取下拉選單的值
+							var isChecked = $('.function-checkbox:checked').length > 0; // 檢查是否有勾選的 checkbox
+
+							if (positionId === "" || !isChecked) {
+								alert("請選擇職位並至少勾選一個權限。");
+								event.preventDefault(); // 防止表單提交
+							}
+						});
+					});
 				</script>
 
 			</div>
