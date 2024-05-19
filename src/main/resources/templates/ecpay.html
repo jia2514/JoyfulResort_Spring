@@ -1,0 +1,20 @@
+<!-- src/main/resources/templates/paymentForm.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment</title>
+</head>
+<body>
+    <div>
+        <!-- 使用th:utext將HTML表單內容插入 -->
+        <div th:utext="${form}"></div>
+    </div>
+    <script type="text/javascript">
+        // 自動提交表單
+        document.forms[0].submit();
+    </script>
+    
+    <input type="sumbit">
+</body>
+</html>

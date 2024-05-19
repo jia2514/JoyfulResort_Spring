@@ -160,7 +160,7 @@ textarea {
 
 
 						<label for="" class="label">會員編號:</label>
-						<input type="number" min="1" class="input1"   th:field="*{memberVO.memberId}">
+						<input type="number" min="1" class="input1"   th:field="*{memberVO.memberId}" required>
 							<span th:utext="${message}" style="color: red;"></span>
 							
 
