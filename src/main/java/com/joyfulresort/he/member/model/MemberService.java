@@ -161,6 +161,16 @@ public class MemberService {
 	public List<ResVO> findmemberReserveOrderByMemberId(Integer memberID) {
 		return Resrepository.findmemberReserveOrderByMemberId(memberID);
 	}
+	
+	//用戶取消活動訂單
+	public ActivityOrderVO activityCancelOrder(Integer orderID) {
+		Optional<ActivityOrderVO> AOV = AOrepository.findById(orderID);
+		ActivityOrderVO memberActivityOrderVO = AOV.get();
+		memberActivityOrderVO.setOrderStatus((byte) 2);
+		memberActivityOrderVO.setRefundStatus((byte) 1);
+		AOrepository.save(memberActivityOrderVO);	
+		return AOrepository.findById(orderID).get();
+	}
 
 	
 	
