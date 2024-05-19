@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/cart")
@@ -28,6 +29,7 @@ public class CartController {
         }
         MeetingRoom meetingRoom = meetingRoomRepository.findById(meetingRoomId).orElseThrow(() -> new IllegalArgumentException("Invalid meeting room ID"));
         CartItem item = new CartItem();
+        item.setCartId(UUID.randomUUID().toString());
         item.setMeetingRoomName(meetingRoom.getMeetingRoomName());
         item.setBookingDate(bookingDate);
         item.setQuantity(quantity);
@@ -36,9 +38,28 @@ public class CartController {
         return cart.getItems();
     }
 
+    @PostMapping("/remove")
+    @ResponseBody
+    public List<CartItem> removeFromCart(@RequestParam String cartId) {
+        cart.removeItem(cartId);
+        return cart.getItems();
+    }
+
     @GetMapping("/items")
     @ResponseBody
     public List<CartItem> getCartItems() {
         return cart.getItems();
+    }
+
+    @GetMapping("/total")
+    @ResponseBody
+    public Integer getCartTotal() {
+        return cart.getTotalPrice();
+    }
+
+    @PostMapping("/clear")
+    @ResponseBody
+    public void clearCart(){
+        cart.clear();
     }
 }
