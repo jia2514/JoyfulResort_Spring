@@ -10,7 +10,25 @@
         body {
             padding-left: 20px;
         }
-
+        .check{
+        	display:flex;
+        	margin-bottom:10px;
+        	padding-bottom:10px;
+        	border-bottom:2px solid #cbcbcb;
+        }
+		.check a{
+			background:#009CFF;
+			border-radius:5px;
+			color:#fff;
+			padding:3px 5px;
+		}
+		.check a:nth-child(1){
+			margin-right:5px;
+		}
+		.check a:hover{
+		background:#0062a0;
+		}
+		
         table, th, td {
             border: 1px solid black;
         }
@@ -20,14 +38,27 @@
             width: 100px;
         }
 
+		form p{
+		font-size:18px;
+		}
+		form:nth-of-type(1){
+			margin-bottom:10px;
+		}
+		select{
+		  margin-right:5px;
+		}
+		select:nth-child(2){
+		  width:100px;
+		  padding-left:5px;
+		}
         input[type="submit"] {
-            margin-top: 5px;
-            padding: 5px;
+            padding:  3px 5px 0;
         }
 
         input[type="submit"] {
             background-color: #007bff;
             color: #ffffff;
+            border-radius:5px;
             border: none;
             cursor: pointer;
         }
@@ -47,29 +78,25 @@
     <div class="bg-light rounded">
         <div class="G3_content">
 
-            <h2>房型系統</h2>
-            <div>
+            <h2>房型系統管理</h2>
+            <div class="check">
                 <a th:href="@{/roomtype/getAll}">查詢所有房型</a><br>
                 <a th:href="@{/roomtype/addRoomType}">新增一筆房型</a><br>
             </div>
-      
              <form method="post" th:action="@{/roomtype/getOne_For_Display}">
-                選擇房型編號:
+               <p>選擇房型編號:</p> 
                 <select name="roomTypeId">
                     <option th:each="roomType : ${roomTypeListData}" th:value="${roomType.roomTypeId}" th:text="${roomType.roomTypeId}"></option>
                 </select>
                 <input type="submit" value="送出">
-            </form><br>
-            
-            
+            </form>
             <form method="post" th:action="@{/roomtype/getOne_For_Display}">
-                選擇房型價格:
+                <p>選擇房型價格:</p> 
                 <select name="roomTypeId">
                     <option th:each="roomType : ${roomTypeListData}" th:value="${roomType.roomTypeId}" th:text="${roomType.roomTypePrice}"></option>
                 </select>
                 <input type="submit" value="送出">
-            </form><br>
-
+            </form>
         </div>
     </div>
 </div>

@@ -31,28 +31,16 @@
 <!-- 			<th>媒體報導圖片</th> -->
 <!-- 			<th>媒體報導出處</th> -->
 <!-- 			<th>媒體報導狀態</th> -->
-<!-- 			<th>報導狀態更新</th> -->
-				
-        </tr>
+<!-- 			<th>報導狀態更新</th> -->     
         
-        
-   <tr th:each="newsList : ${newsList}">
-<!--             <td th:text="${newsList.newsId}"></td> -->
-            <td th:text="${newsList.newsTitle}"></td>
-            <td th:text="${newsList.newsDate}"></td>
-            <td th:text="${newsList.newsAbstract}"></td>
-			<td th:text="${newsList.newsContent}"></td>
-			<td><img th:src="@{/newslist/DBGifReader} + '?newsId=' + ${newsList.newsId}" width="200px"></td>
-            <td th:text="${newsList.newsFrom}"></td>
-<!--             <td th:text="${newsList.newsState} ? '上架' : '下架'"></td> -->
-
-<!--             <td> -->
-<!--     		<form method="post" th:action="@{/newslist/getOne_For_Update}" style="margin-bottom: 0px;"> -->
-<!-- 			<input type="submit" value="修改"> -->
-<!-- 			<input type="hidden" name="newsId" th:value="${newsList.newsId}"></form> -->
-<!-- 			</td> -->
-			
-        </tr>
+   <div th:each="newsItem : ${newsList}">
+	    <div th:text="${newsItem.newsTitle}"></div>
+	    <div th:text="${newsItem.newsDate}"></div>
+	    <div th:text="${newsItem.newsAbstract}"></div>
+	    <div th:text="${newsItem.newsContent}"></div>
+	    <div><img th:src="@{/newslist/DBGifReader} + '?newsId=' + ${newsItem.newsId}" width="200px"></div>
+	    <div th:text="${newsItem.newsFrom}"></div>
+	</div>
     </table>
         <a th:href="@{/joyfulresort}">回首頁</a>
 				
