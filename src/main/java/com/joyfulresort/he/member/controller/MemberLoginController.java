@@ -29,8 +29,16 @@ public class MemberLoginController {
 	
 	// 登入頁面點擊註冊 轉跳至註冊頁面
 	@GetMapping("/memberRegister")
-	public String Repository() {
-		return "front-end/member/memberRegister";
+	public String Repository( HttpSession session) {
+		Object memberID = session.getAttribute("memberID");
+		//判斷用戶有無登入
+		if(memberID == null) { //沒有-->註冊頁面
+			return "front-end/member/memberRegister";
+		} else {   //有-->個人頁面
+			return "redirect:/joyfulresort/member/memberinfo";
+		}
+		
+		
 	}
 	
 	// 用戶登入
