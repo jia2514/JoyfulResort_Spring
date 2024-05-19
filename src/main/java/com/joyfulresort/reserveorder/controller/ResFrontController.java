@@ -69,9 +69,11 @@ public class ResFrontController {
 		resSvc.addRes(resVO);
 		redirectAttributes.addFlashAttribute("success", "新增訂單成功!");
 		return "redirect:/joyfulresort/restaurant";
+//		導回餐飲瀏覽
+//		return "redirect:/joyfulresort/member/memberinfo";
+
 	}
 //		return "front-end/restaurant/main";
-
 //		return "back-end/reserve/reserveorder"; 
 //		會多報Request method 'GET' not supported]   
 //		在Index控制層76行多設置一個getmapping才不會抱錯

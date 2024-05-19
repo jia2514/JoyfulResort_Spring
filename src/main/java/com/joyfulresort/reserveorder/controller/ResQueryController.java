@@ -26,6 +26,7 @@ import com.joyfulresort.he.member.model.MemberService;
 import com.joyfulresort.reserveorder.model.ResService;
 import com.joyfulresort.reserveorder.model.ResVO;
 import com.joyfulresort.reservesession.model.RessionService;
+
 @Validated
 @Controller
 @RequestMapping("/reserve")
@@ -40,10 +41,9 @@ public class ResQueryController {
 
 	@PostMapping("get_query")
 	public String get_query(
-@NotEmpty(message = "單筆搜尋欄位請勿空白")
-@Digits(integer = 4, fraction = 0, message = "只能是數字,且不得超過4位數")
+			@NotEmpty(message = "單筆搜尋欄位請勿空白") @Digits(integer = 4, fraction = 0, message = "只能是數字,且不得超過4位數")
 //@Pattern(regexp = "^$|\\d+", message = "只能是數字") 
-@RequestParam(value = "reserveOrderId") String reserveOrderId, ModelMap model) {
+			@RequestParam(value = "reserveOrderId") String reserveOrderId, ModelMap model) {
 
 		ResVO resVO = resSvc.getOneRes(Integer.valueOf(reserveOrderId));
 
@@ -51,24 +51,22 @@ public class ResQueryController {
 		model.addAttribute("ResList", list);// 為配合顯示所有的表格
 		model.addAttribute("ResListData", list);// 用來顯示下拉選單
 		model.addAttribute("ResList", resVO);
-
-		if (resVO == null) {	
+		if (resVO == null) {
 			model.addAttribute("message", "沒有符合的資料");
 //			return "back-end/reserve/reserveorder"; // 無資料是否返回顯示所有
 		}
-
 		return "back-end/reserve/reserveorder";
 	}
 
 	@PostMapping("get_many_query")
 	public String get_many_query(
-
 			@RequestParam(value = "reserveOrderDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate reserveOrderDate,
 			@RequestParam(value = "bookingDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate bookingDate,
 			ModelMap model) {
 		List<ResVO> resVO = resSvc.findByDates(reserveOrderDate, bookingDate);
-
 		List<ResVO> list = resSvc.getAllRes();
+		System.out.println(reserveOrderDate);
+
 		model.addAttribute("ResList", list);
 		model.addAttribute("ResListData", list);
 		if (resVO.isEmpty()) {
@@ -81,15 +79,41 @@ public class ResQueryController {
 		return "back-end/reserve/reserveorder";
 	}
 
+	@PostMapping("get_date_query")
+	public String get_date_query(
+			@RequestParam(value = "bookingDate1", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate TimeStart,
+			@RequestParam(value = "bookingDate2", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate TimeEnd,
+			ModelMap model) {
+//		if (TimeStart != null) {
+//			TimeStart = TimeStart.minusDays(1);
+//		}
+		if (TimeEnd != null) {
+			TimeEnd = TimeEnd.plusDays(1);
+		}
+		List<ResVO> resVO = resSvc.findByDateBetween(TimeStart, TimeEnd);
+		List<ResVO> list = resSvc.getAllRes();
+		System.out.println(TimeStart);
+		System.out.println(TimeEnd);
+
+		model.addAttribute("ResList", list);
+		model.addAttribute("ResListData", list);
+		if (resVO.isEmpty()) {
+			model.addAttribute("message", "沒有符合這個區間的資料");
+//			return "back-end/reserve/reserveorder"; //無資料是否返回顯示所有
+		}
+		model.addAttribute("ResList", resVO);
+
+		return "back-end/reserve/reserveorder";
+
+	}
+
 	@ExceptionHandler(value = { ConstraintViolationException.class })
 	public ModelAndView handleError(HttpServletRequest req, ConstraintViolationException e, Model model) {
 		Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
 		StringBuilder strBuilder = new StringBuilder();
 		for (ConstraintViolation<?> violation : violations) {
 			strBuilder.append(violation.getMessage() + "<br>");
-
 		}
-
 		List<ResVO> list = resSvc.getAllRes();
 		model.addAttribute("ResListData", list);
 //		model.addAttribute("ResList", list);// 錯誤時顯示所有清單

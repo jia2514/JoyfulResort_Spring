@@ -33,7 +33,7 @@ public class ResVO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "reserve_order_id")
-	private Integer reserveOrderId;
+	private Integer reserveOrderId;	
 
 	@NotNull(message = "日期請勿空白")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -42,7 +42,7 @@ public class ResVO implements Serializable {
 
 	@NotNull(message = "人數請勿空白")
 	@Column(name = "reserve_number")
-	private Integer reserveNumber;
+	private Integer reserveNumber = 1;
 
 	@NotNull
 	@Column(name = "reserve_order_state")
@@ -74,12 +74,12 @@ public class ResVO implements Serializable {
 	@Pattern(regexp = "[\\u4e00-\\u9fa5a-zA-Z]+", message = "只能是中英文")
 	@Column(name = "res_name")
 
-	private String resName;
+	private String resName ;
 
 	@NotEmpty(message = "電話請勿空白")
 	 @Pattern(regexp = "\\d{10}", message = "電話必須是10位數字")
 	@Column(name = "res_phone")
-	private String  resPhone;
+	private String resPhone;
 
 	public String getResName() {
 		return resName;

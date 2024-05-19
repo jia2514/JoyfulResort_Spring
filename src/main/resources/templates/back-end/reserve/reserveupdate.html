@@ -175,14 +175,17 @@ tr:nth-child(even) {
 				    <input type="hidden" th:field="*{reserveOrderId}" />
 				</td>
 				<td>
-				 <span th:text="*{memberVO.memberName}"></span>
+				
+				<span th:text="*{memberVO.memberName != '訪客'  ? memberVO.memberName : memberVO.memberName+'-'+resName} "></span>
 				 <p>
-				 <span  th:text="*{resName}"></span>
+<!-- 					 <span  th:text="*{resName}"></span> -->
 				 	  <input type="hidden" th:field="*{memberVO.memberName}" />
-				     <input type="hidden" th:field="*{resName}" />
+				      <input type="hidden" th:field="*{resName}" />
 				</td>
+				
+				
 				<td>
-				 <span  th:text="*{resPhone!= null ? resPhone : memberVO.memberPhone}"></span>
+					 <span  th:text="*{memberVO.memberPhone != '0' ?  memberVO.memberPhone : resPhone }"></span>
 				    <input type="hidden" th:field="*{memberVO.memberPhone}" />
 				    <input type="hidden" th:field="*{resPhone}" />
 				</td>
