@@ -115,28 +115,20 @@
 .header {
     background-color: transparent;
     transition: background-color 0.3s ease;
-    border-bottom: 0.5px dashed white;
+
 }
 
 .navigation.navbar-dark .navbar-nav .nav-link {
     color: white; /* 初始字體顏色 */
 }
 
-.nav-hr {
-    border-left: 1px solid white; /* 初始框線顏色 */
-    transition: border-color 0.3s ease;
-}
 
 /* 滾動後的狀態 */
 .header.scrolled {
     background-color: white; /* 你想要的背景顏色 */
-    border-bottom: 0.5px dashed black;
+
 }
 
 .navigation.navbar-dark .navbar-nav .nav-link.scrolled {
     color: black; /* 你想要的字體顏色 */
-}
-
-.nav-hr.scrolled {
-    border-left: 1px solid black; /* 你想要的框線顏色 */
 }

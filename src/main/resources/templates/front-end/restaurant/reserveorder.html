@@ -160,15 +160,18 @@ textarea {
 
 
 						<label for="" class="label">會員編號:</label>
-						<input type="text" class="input1"   th:field="*{memberVO.memberId}">
-						
-						<script>
+						<input type="number" min="1" class="input1"   th:field="*{memberVO.memberId}" required>
+							<span th:utext="${message}" style="color: red;"></span>
+							
+
+
+	<script>
         window.addEventListener('DOMContentLoaded', (event) => {
             const secondInput = document.querySelector('.input1');
             secondInput.value = 1;
-           
+//      給編號欄位預設=1      
         });
-    </script>
+   	 </script>
 						
 						
 
@@ -199,10 +202,7 @@ textarea {
 						<div th:if="${#fields.hasErrors('bookingDate')}"
 							th:errors="*{bookingDate}" class="error"></div>
 
-
-
-
-						<!-- 	<div id="time-buttons"></div> -->
+					
 
 
 						<label for="" class="label">備註:</label>
@@ -211,6 +211,7 @@ textarea {
 							style="max-height: 150px; height: 70px" placeholder="最多25字......">	</textarea>
 
 						<br>
+						
 						<div class="text-left">
 							<button type="submit" id="submit" class="submit">送出</button>
 						</div>
@@ -253,7 +254,6 @@ textarea {
 							</ul>
 
 
-							<span th:utext="${message}" style="color: red;"></span>
 
 						</div>
 					</div>

@@ -13,6 +13,7 @@ h1 {
     margin-bottom: 20px; /* 添加标题底部间距 */
 }
 
+
 table {
     width: 100%; /* 表格宽度填满父容器 */
     text-align: center; /* 居中对齐表格内容 */
@@ -28,38 +29,15 @@ th, td {
 th {
     background-color: #0056b3; /* 表头背景颜色 */
     color: white; /* 表头文字颜色 */
+    min-width:95px;
+    padding:5px;
+    text-align:center;
 }
-
-th:nth-child(1), td:nth-child(1) {
-    width: 5%; /* 调整房型編號列宽度 */
+th:nth-child(2){
+	min-width:125px;
 }
-
-th:nth-child(2), td:nth-child(2) {
-    width: 15%; /* 调整房型名稱列宽度 */
-}
-
-th:nth-child(3), td:nth-child(3) {
-    width: 5%; /* 调整可入住人數列宽度 */
-}
-
-th:nth-child(4), td:nth-child(4) {
-    width: 5%; /* 调整房型數量列宽度 */
-}
-
-th:nth-child(5), td:nth-child(5) {
-    width: 40%; /* 调整房型說明列宽度 */
-}
-
-th:nth-child(6), td:nth-child(6) {
-    width: 10%; /* 调整上下架狀態列宽度 */
-}
-
-th:nth-child(7), td:nth-child(7) {
-    width: 10%; /* 调整房型價格列宽度 */
-}
-
-th:nth-child(8), td:nth-child(8) {
-    width: 10%; /* 调整房型狀態更新列宽度 */
+th:nth-child(5){
+	min-width:200px;
 }
 
 th {
@@ -103,6 +81,7 @@ input[type="submit"]:hover {
             <div class="G3_content">
 
     <h1>所有房型</h1>
+
     <table style="width:100%; text-align:left;">
 
         <tr>
@@ -130,6 +109,7 @@ input[type="submit"]:hover {
 </td>
         </tr>
     </table>
+
         <a th:href="@{/roomtype/roomtypeselect}">回首頁</a>
     
       		</div>

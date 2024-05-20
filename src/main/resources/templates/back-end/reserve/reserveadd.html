@@ -192,6 +192,7 @@ color:red;
 
 
 						<!-- <input type="text" th:field="*{memberVO.memberName}"> -->
+						<!--  <input type="text" th:field="*{memberVO.memberPhone}"> -->
 
 						<div th:if="${#fields.hasErrors('resName')}"
 							th:errors="*{resName}" class="error"></div>
@@ -200,7 +201,6 @@ color:red;
 
 						<label for="" class="label">電話:</label> <input type="text"
 							maxlength="10" th:field="*{resPhone}" class="input">
-						<!-- 	 <input type="text" th:field="*{memberVO.memberPhone}"> -->
 
 
 						<div th:if="${#fields.hasErrors('resPhone')}"
@@ -209,15 +209,19 @@ color:red;
 				
 				
 				    <label for="">會員編號:</label>
-					<div th:if="${#fields.hasErrors('memberVO.memberId')}" th:errors="*{memberVO.memberId}" class="error" ></div>
-				    <input type="text" th:field="*{memberVO.memberId}" required ><br><br>
-				
-				<label   for="reserveOrderDate" style="display: inline;" >訂單日期:</label>
+					<div th:if="${#fields.hasErrors('memberVO.memberId')}" th:errors="*{memberVO.memberId}" class="error" >	</div>
+				    
+				    <input type="number" min="1" th:field="*{memberVO.memberId}" required >
+				    
+				    <div th:utext="${message}" style="color: red;"></div>
+				    
+					
+				<label  for="reserveOrderDate" style="display: inline;" >訂單日期:</label>
 <span th:text="*{reserveOrderDate}"  	 th:field="*{reserveOrderDate}" style="display: inline;"></span>
 									
 				    <label for="">預定人數:</label>
 		<div th:if="${#fields.hasErrors('reserveNumber')}" th:errors="*{reserveNumber}" class="error"></div>
-				    <input type="text" th:field="*{reserveNumber}" ><br>
+				    <input type="number" th:field="*{reserveNumber}" ><br>
 				
 				    <label for="" >預定日期:</label>
 		<div th:if="${#fields.hasErrors('bookingDate')}" th:errors="*{bookingDate}" class="error"></div>

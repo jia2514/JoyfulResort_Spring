@@ -92,12 +92,21 @@ input[type="submit"] {
     color: #ffffff; /* 按钮文字颜色 */
     border: none; /* 移除按钮边框 */
     border-radius: 5px; /* 圆角按钮 */
-    padding: 8px 16px; /* 按钮内边距 */
+    padding: 3px 10px; /* 按钮内边距 */
     cursor: pointer; /* 鼠标悬停时显示手型 */
+    margin-bottom:10px;
 }
 
 input[type="submit"]:hover {
     background-color: #4d94ff; /* 鼠标悬停时按钮背景颜色 */
+}
+
+.error{
+color:red;
+}
+
+.price{
+	margin-bottom:10px;
 }
 </style>
 </head>
@@ -148,7 +157,7 @@ input[type="submit"]:hover {
 			
 			<div>
     		<p><label>房型價格:</label></p>
-    		<textarea th:field="*{roomTypePrice}" onclick="hideContent('roomTypePrice.errors');"></textarea><br/>
+    		<input class="price" th:field="*{roomTypePrice}" onclick="hideContent('roomTypePrice.errors');"><br/>
     		<span th:if="${#fields.hasErrors('roomTypePrice')}" th:errors="*{roomTypePrice}" class="error" id="roomTypePrice.errors"></span>
 			</div>
 			

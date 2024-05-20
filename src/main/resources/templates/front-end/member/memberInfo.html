@@ -52,33 +52,40 @@
 								<h5 class="card-header">個人資料</h5>
 
 								<div class="card-body">
-									<form th:action="@{/joyfulresort/member/userUpData}" method="post" enctype="multipart/form-data">
+									<form th:action="@{/joyfulresort/member/userUpData}" method="post"
+										enctype="multipart/form-data">
 										<div class="input-group mb-3">
 											<div style="width: 100%;">
 												<div id="preview" style=" height: 150px; width: 150px; float: left;">
-													<img class="img-thumbnail" th:src="@{/member/DBReader}+'?memberID='+${memberData.memberId}">
+													<img class="img-thumbnail"
+														th:src="@{/member/DBReader}+'?memberID='+${memberData.memberId}">
 												</div>
 												<div>
 													<div class="mb-3 row">
-														<label style="width: 100px;" for="staticAccount" class="col-sm-2 col-form-label">會員帳號
+														<label style="width: 100px;" for="staticAccount"
+															class="col-sm-2 col-form-label">會員帳號
 															:</label>
 														<div style="width: 200px;" class="col-sm-10">
-															<input th:value="${memberData.memberAccount}" type="text" readonly
-																class="form-control-plaintext" id="staticAccount">
+															<input th:value="${memberData.memberAccount}" type="text"
+																readonly class="form-control-plaintext"
+																id="staticAccount">
 														</div>
 													</div>
 
 													<div class="mb-3 row">
-														<label style="width: 100px;" for="memberName" class="col-sm-2 col-form-label">會員名稱 :</label>
+														<label style="width: 100px;" for="memberName"
+															class="col-sm-2 col-form-label">會員名稱 :</label>
 														<div style="width: 200px;" class="col-sm-10">
-															<input type="text" class="form-control" th:value="${memberData.memberName}"
-																id="memberName" name="memberName">
+															<input type="text" class="form-control"
+																th:value="${memberData.memberName}" id="memberName"
+																name="memberName">
 														</div>
 													</div>
 
 													<div class="mb-3">
-														<input style="width: 200px;" name="memberImg" th:fiele="*{memberImg}"
-															class="form-control form-control-sm" id="formFile" type="file">
+														<input style="width: 200px;" name="memberImg"
+															th:fiele="*{memberImg}" class="form-control form-control-sm"
+															id="formFile" type="file">
 													</div>
 
 												</div>
@@ -92,8 +99,8 @@
 												th:value="${memberData.memberEmail}">
 											<!-- Button trigger modal 驗證按鈕-->
 											<div th:switch="${memberData.memberState}" id="div_button_checkAuthCode">
-												<button th:case="0" type="button" class="btn btn-primary" data-bs-toggle="modal"
-													data-bs-target="#staticBackdrop">驗證</button>
+												<button th:case="0" type="button" class="btn btn-primary"
+													data-bs-toggle="modal" data-bs-target="#memberAuthCode">驗證</button>
 												<button th:case="2" type="button" class="btn btn-danger">停權</button>
 												<button th:case="1" type="button" class="btn btn-success">已驗證</button>
 											</div>
@@ -106,11 +113,13 @@
 
 										</div>
 										<div class="input-group mb-3" style="width: 100%;">
-											<span class="input-group-text">地址</span> <input id="memberAddress" name="memberAddress"
-												type="text" class="form-control" th:value="${memberData.memberAddress}">
+											<span class="input-group-text">地址</span> <input id="memberAddress"
+												name="memberAddress" type="text" class="form-control"
+												th:value="${memberData.memberAddress}">
 
 											<span class="input-group-text" style="margin-left: 10px;">生日</span>
-											<input type="date" name="memberBirthday" th:value="${memberData.memberBirthday}">
+											<input type="date" name="memberBirthday"
+												th:value="${memberData.memberBirthday}">
 
 											<span class="input-group-text" style="margin-left: 10px;">性別</span>
 											<select name="userGender" th:value="${memberData.memberGender}">
@@ -120,7 +129,8 @@
 										</div>
 
 										<div style="display: flex; justify-content: center;">
-											<button id="buttonUpData" type="submit" class="btn btn-outline-secondary">送出修改</button>
+											<button id="buttonUpData" type="submit"
+												class="btn btn-outline-secondary">送出修改</button>
 										</div>
 									</form>
 
@@ -139,28 +149,31 @@
 
 								<div class="card-body">
 									<form>
-										<label for="inputPassword1" class="form-label"><span style="color: red;">*</span>請輸入密碼</label>
-										<input type="password" id="inputPassword_1" class="form-control" autocomplete>
+										<label for="inputPassword1" class="form-label"><span
+												style="color: red;">*</span>請輸入密碼</label>
+										<input type="password" id="inputPassword_1" class="form-control">
 										<div id="passwordHelpBlock_1" class="form-text" style="color: red;"></div>
 
 										<label style="margin-top: 20px;" for="inputPassword2" class="form-label"><span
 												style="color: red;">*</span>請輸入新密碼<span class="form-text"
 												style="color: red;">*密碼由英文大小寫加數字共10位組成,不能有空格</span></label>
-										<input type="password" id="inputPassword_2" class="form-control" autocomplete>
+										<input type="password" id="inputPassword_2" class="form-control">
 										<div id="passwordHelpBlock_2" class="form-text" style="color: red;"></div>
 
 										<label style="margin-top: 20px;" for="inputPassword3" class="form-label"><span
 												style="color: red;">*</span>請再輸入一次新密碼</label>
-										<input type="password" id="inputPassword_3" class="form-control" autocomplete>
+										<input type="password" id="inputPassword_3" class="form-control">
 										<div id="passwordHelpBlock_3" class="form-text" style="color: red;"></div>
 
 
 										<div style="display: flex; justify-content: center; margin-top: 20px;">
 
-											<button id="newPassword" type="button" class="btn btn-outline-primary">確認送出</button>
+											<button id="newPassword" type="button"
+												class="btn btn-outline-primary">確認送出</button>
 
 										</div>
-										<div id="passwordHelpBlock_4" class="form-text" style="color: red; text-align: center;"></div>
+										<div id="passwordHelpBlock_4" class="form-text"
+											style="color: red; text-align: center;"></div>
 									</form>
 
 								</div>
@@ -171,37 +184,40 @@
 
 					</div>
 					<!-- 住宿訂單 display: flex; justify-content: center;  -->
-					<div class="tab-pane fade" id="nav-contact" role="tabpanel"
-						aria-labelledby="nav-contact-tab">	
-						
+					<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
 						<div class="accordion" id="accordionExample">
 							<div class="accordion-item">
 								<th:block th:each="RoomOrder : ${memberRoomOrder}">
 
 
 									<h2 class="accordion-header" th:id="'headingOne_'+${RoomOrder.roomOrderId}">
-										<button th:text="'訂單編號#'+${RoomOrder.roomOrderId}" class="accordion-button" type="button"
-											data-bs-toggle="collapse" th:data-bs-target="'#collapseOne_'+${RoomOrder.roomOrderId}"
+										<button th:text="'訂單編號#'+${RoomOrder.roomOrderId}" class="accordion-button"
+											type="button" data-bs-toggle="collapse"
+											th:data-bs-target="'#collapseOne_'+${RoomOrder.roomOrderId}"
 											aria-expanded="true" aria-controls="collapseOne"></button>
 									</h2>
-									<div th:id="'collapseOne_'+${RoomOrder.roomOrderId}" class="accordion-collapse collapse"
-										aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+									<div th:id="'collapseOne_'+${RoomOrder.roomOrderId}"
+										class="accordion-collapse collapse" aria-labelledby="headingOne"
+										data-bs-parent="#accordionExample">
 										<div class="accordion-body">
 
 											<table class="table table-hover table-primary">
 												<thead>
 													<tr>
+														<td>編號</td>
 														<td>訂單日期</td>
 														<td>訂單狀態</td>
 														<td>住房日</td>
 														<td>退房日</td>
 														<td>退款</td>
+														<td></td>
 													</tr>
 												</thead>
 
 												<tbody>
 													<tr>
-
+														<td th:text="${RoomOrder.roomOrderId}"></td>
 														<td th:text="${RoomOrder.OrderDate}"></td>
 														<td th:switch="${RoomOrder.roomOrderState}">
 															<span th:case="0">取消</span>
@@ -214,60 +230,62 @@
 														<td th:text="${RoomOrder.checkOutDate}"></td>
 														<td th:switch="${RoomOrder.refundState}">
 															<span style="color: #0d6efd;" th:case="0">無退款</span>
-															<span style="color: #ffc107;" th:case="0">退款中...</span>
-															<span style="color: #198754;" th:case="0">退款完成</span>
+															<span style="color: #ff4800ad;" th:case="1">退款中...</span>
+															<span style="color: #198754;" th:case="2">退款完成</span>
 														</td>
-														
+														<td><button type="button"
+																class="btn btn-outline-dark">取消訂單</button></td>
 													</tr>
 												</tbody>
-												
+
 											</table>
 											<hr>
 											<th:block th:each="roomOrderItems : ${RoomOrder.roomOrderItems}">
-											<table class="table table-hover table-secondary">
-												<thead>
-													<tr>
-														<td>明細</td>
-														<td>房型</td>
-														<td>金額</td>
-														<td>入住姓名</td>
-														<td>連絡電話</td>
-														<td>特殊需求</td>
-														<td>訂單狀態</td>
-													
-													</tr>															
-												</thead>
-												
-												<tbody>
-													<tr>
-														<td th:text="${'#'+roomOrderItems.roomOrderItemId}"></td>
-														<td th:switch="${roomOrderItems.roomType.roomTypeId}">
-															<span th:case="1">品趣客房</span>
-															<span th:case="2">童旅主題房</span>
-															<span th:case="3">童漾家庭房</span>
-														
-														</td>
-														<td th:text="${roomOrderItems.roomPrice}"></td>
-														<td th:text="${roomOrderItems.roomGuestName}"></td>
-														<td th:text="${roomOrderItems.roomGuestPhone}"></td>
-														<td th:switch="${roomOrderItems.specialREQ}==null">
-															<span th:case="true">無</span>
-															<span th:text="${roomOrderItems.specialREQ}" th:case="false" ></span>
-														</td>
-														<td th:switch="${roomOrderItems.roomOrderItemState}">
-															<span th:case="0">未入住</span>
-															<span th:case="1">checkin</span>
-															<span th:case="2">checkout</span>
-															<span th:case="3">未checkin</span>
-															<span th:case="4">取消入住</span>
-														</td>
-													
-													</tr>
-												</tbody>
-											
-											</table>
+												<table class="table table-hover table-secondary">
+													<thead>
+														<tr>
+															<td>明細</td>
+															<td>房型</td>
+															<td>金額</td>
+															<td>入住姓名</td>
+															<td>連絡電話</td>
+															<td>特殊需求</td>
+															<td>訂單狀態</td>
+
+														</tr>
+													</thead>
+
+													<tbody>
+														<tr>
+															<td th:text="${'#'+roomOrderItems.roomOrderItemId}"></td>
+															<td th:switch="${roomOrderItems.roomType.roomTypeId}">
+																<span th:case="1">品趣客房</span>
+																<span th:case="2">童旅主題房</span>
+																<span th:case="3">童漾家庭房</span>
+
+															</td>
+															<td th:text="${roomOrderItems.roomPrice}"></td>
+															<td th:text="${roomOrderItems.roomGuestName}"></td>
+															<td th:text="${roomOrderItems.roomGuestPhone}"></td>
+															<td th:switch="${roomOrderItems.specialREQ}==null">
+																<span th:case="true">無</span>
+																<span th:text="${roomOrderItems.specialREQ}"
+																	th:case="false"></span>
+															</td>
+															<td th:switch="${roomOrderItems.roomOrderItemState}">
+																<span th:case="0">未入住</span>
+																<span th:case="1">checkin</span>
+																<span th:case="2">checkout</span>
+																<span th:case="3">未checkin</span>
+																<span th:case="4">取消入住</span>
+															</td>
+
+														</tr>
+													</tbody>
+
+												</table>
 											</th:block>
-											
+
 										</div>
 									</div>
 
@@ -279,15 +297,213 @@
 					</div>
 
 					<!-- 活動訂單 -->
-					<div class="tab-pane fade" id="nav-contact2" role="tabpanel" aria-labelledby="nav-contact-tab">活動訂單
+					<div class="tab-pane fade" id="nav-contact2" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+						<h4 th:if="${memberActivityOrder==null}">查無資料</h4>
+						<table class="table table-secondary table-hover">
+							<thead class="table-primary">
+								<tr>
+									<th>訂單編號</th>
+									<th>活動名稱</th>
+									<th>場次</th>
+									<th>報名人數</th>
+									<th>訂單金額</th>
+									<th>訂單狀態</th>
+									<th>訂單日期</th>
+									<th>訂單備註</th>
+									<th>退款狀態</th>
+									<th></th>
+								</tr>
+							</thead>
+							<th:block th:each="ActivityOrder : ${memberActivityOrder}">
+								<tbody>
+									<tr>
+										<th th:text="${ActivityOrder.activityOrderID}"></th>
+										<td th:text="${ActivityOrder.activitySessionVO.activityVO.activityName}"></td>
+										<td th:text="${ActivityOrder.activitySessionVO.activitySessionID}"></td>
+										<td th:text="${ActivityOrder.enteredNumber}"></td>
+										<td th:text="${ActivityOrder.orderAmount}"></td>
+										<td th:switch="${ActivityOrder.orderStatus}">
+											<span th:case="0">訂單成立</span>
+											<span th:case="1">完成訂單</span>
+											<span th:case="2">訂單取消中</span>
+											<span th:case="3">訂單取消</span>
+										</td>
+										<td th:text="${ActivityOrder.orderTime}"></td>
+										<td>
+											<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+												th:data-bs-target="'#memberActivityOrder_'+${ActivityOrder.activityOrderID}">查看</button>
+										</td>
+										<td th:switch="${ActivityOrder.refundStatus}">
+											<span style="color: #0d6efd;" th:case="0">無退款</span>
+											<span style="color: #ff4800ad;" th:case="1">退款中</span>
+											<span style="color: #198754;" th:case="2">退款完成</span>
+										</td>
+										<td>
+											<th:block th:if="${ActivityOrder.orderStatus==0}">
+												<button id="activityCancelOrder" type="button"
+													class="btn btn-outline-dark">取消訂單</button>
+											</th:block>
+											<th:block th:unless="${ActivityOrder.orderStatus==0}">
+												<button id="activityCancelOrder_disabled" type="button"
+													class="btn btn-outline-secondary" disabled>取消訂單</button>
+											</th:block>
+										</td>
+									</tr>
+								</tbody>
+
+								<!-- 活動備註彈窗 -->
+								<div class="modal fade" th:id="'memberActivityOrder_'+${ActivityOrder.activityOrderID}"
+									tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">訂單備註</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal"
+													aria-label="Close"></button>
+											</div>
+											<th:block th:if="${ActivityOrder.orderNote}==null">
+												<div style="text-align: center;">尚無備註</div>
+											</th:block>
+											<div class="modal-body" th:text="${ActivityOrder.orderNote}"></div>
+										</div>
+									</div>
+								</div>
+
+							</th:block>
+						</table>
+
 					</div>
-					
-					<!-- 會議廳訂單 -->
-					<div class="tab-pane fade" id="nav-contact3" role="tabpanel" aria-labelledby="nav-contact-tab">會議廳訂單
+
+					<!-- 會議廳訂單  th:text="${MeetingRoomOrder.orderNote}" -->
+					<div class="tab-pane fade" id="nav-contact3" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+						<h4 th:if="${memberMeetingRoomOrder==null}">查無資料</h4>
+
+						<table class="table table-secondary table-hover">
+							<thead class="table-primary">
+								<tr>
+									<th>訂單編號</th>
+									<th>會議廳編號</th>
+									<th>訂單日期</th>
+									<th>預定日期</th>
+									<th>訂單備註</th>
+									<th>訂單狀態</th>
+									<th>退款狀態</th>
+									<th></th>
+								</tr>
+							</thead>
+							<th:block th:each="MeetingRoomOrder : ${memberMeetingRoomOrder}">
+								<tbody>
+									<tr>
+										<th th:text="${MeetingRoomOrder.meetingRoomOrderId}"></th>
+										<td th:text="${MeetingRoomOrder.meetingRoom.meetingRoomId}"></td>
+										<td th:text="${MeetingRoomOrder.meetingRoomOrderDate}"></td>
+										<td th:text="${MeetingRoomOrder.bookingDate}"></td>
+										<td>
+											<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+												th:data-bs-target="'#memberMeetingRoomOrder_'+${MeetingRoomOrder.meetingRoomOrderId}">查看</button>
+										</td>
+										<td th:switch="${MeetingRoomOrder.orderState}">
+											<span th:case="0">取消</span>
+											<span th:case="1">成立</span>
+											<span th:case="2">完成</span>
+										</td>
+										<td th:switch="${MeetingRoomOrder.refundState}">
+											<span style="color: #0d6efd;" th:case="0">無退款</span>
+											<span style="color: #ff4800ad;" th:case="1">退款中</span>
+											<span style="color: #198754;" th:case="2">完成退款</span>
+										</td>
+										<td><button type="button" class="btn btn-outline-dark">取消訂單</button></td>
+									</tr>
+								</tbody>
+
+								<!-- 會議廳備註 -->
+								<div class="modal fade"
+									th:id="'memberMeetingRoomOrder_'+${MeetingRoomOrder.meetingRoomOrderId}"
+									tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">訂單備註</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal"
+													aria-label="Close"></button>
+											</div>
+											<th:block th:if="${MeetingRoomOrder.orderNote}==null">
+												<div style="text-align: center;">尚無備註</div>
+											</th:block>
+											<div th:text="${MeetingRoomOrder.orderNote}" class="modal-body">
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+							</th:block>
+						</table>
+
 					</div>
-					
-					<!-- 餐廳訂位 -->
-					<div class="tab-pane fade" id="nav-contact4" role="tabpanel" aria-labelledby="nav-contact-tab">餐廳訂位
+
+					<!-- 餐廳訂位 th:text="${ReserveOrder.orderNote}" -->
+					<div class="tab-pane fade" id="nav-contact4" role="tabpanel" aria-labelledby="nav-contact-tab">
+						<h4 th:if="${memberReserveOrder==null}">查無資料</h4>
+
+						<table class="table table-secondary table-hover">
+							<thead class="table-primary">
+								<tr>
+									<th>訂單編號</th>
+									<th>餐廳場次編號</th>
+									<th>訂單日期</th>
+									<th>訂單人數</th>
+									<th>預訂日期</th>
+									<th>訂單備註</th>
+									<th>訂單狀態</th>
+									<th></th>
+								</tr>
+							</thead>
+							<th:block th:each="ReserveOrder : ${memberReserveOrder}">
+								<tbody>
+									<tr>
+										<th th:text="${ReserveOrder.reserveOrderId}"></th>
+										<td th:text="${ReserveOrder.ressionVO.reserveSessionId}"></td>
+										<td th:text="${ReserveOrder.reserveOrderDate}"></td>
+										<td th:text="${ReserveOrder.reserveNumber}"></td>
+										<td th:text="${ReserveOrder.bookingDate}"></td>
+										<td>
+											<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+												th:data-bs-target="'#memberReserveOrder_'+${ReserveOrder.reserveOrderId}">查看</button>
+										</td>
+										<td th:switch="${ReserveOrder.reserveOrderState}">
+											<span th:case="0">取消</span>
+											<span style="color: #0d6efd;" th:case="1">成立</span>
+											<span style="color: #198754;" th:case="2">完成</span>
+										</td>
+										<td><button type="button" class="btn btn-outline-dark">取消訂單</button></td>
+									</tr>
+								</tbody>
+
+								<!-- 餐廳備註 -->
+								<div class="modal fade" th:id="'memberReserveOrder_'+${ReserveOrder.reserveOrderId}"
+									tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">訂單備註</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal"
+													aria-label="Close"></button>
+											</div>
+											<th:block th:if="${ReserveOrder.orderNote}==null">
+												<div style="text-align: center;">尚無備註</div>
+											</th:block>
+											<div th:text="${ReserveOrder.orderNote}" class="modal-body">
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</th:block>
+						</table>
+
 					</div>
 				</div>
 				<!-- 結束 -->
@@ -295,10 +511,35 @@
 		</div>
 	</div>
 
+	<!-- 活動訂單須知 -->
+	<button id="but_checkActivityCancelOrder" type="button" class="btn btn-primary" data-bs-toggle="modal"
+		data-bs-target="#checkActivityCancelOrder" style="display: none;">活動訂單須知</button>
 
+	<!-- Modal -->
+	<div class="modal fade" id="checkActivityCancelOrder" data-bs-backdrop="static" data-bs-keyboard="false"
+		tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div style="text-align: center;">
+						<h5 class="modal-title" id="staticBackdropLabel">用戶須知</h5>
+					</div>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					我還沒想好
+				</div>
+				<div class="modal-footer">
+					<button id="Close_checkActivityCancelOrder" type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+					<button id="makeSureActivityCancelOrder" type="button" class="btn btn-primary">確定取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Modal 驗證 -->
-	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+	<div class="modal fade" id="memberAuthCode" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
 		aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -330,7 +571,8 @@
 
 				</div>
 				<div class="modal-footer">
-					<button id="cloose_button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+					<button id="cloose_button" type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">關閉</button>
 					<button id="checkAuthCode" type="button" class="btn btn-outline-primary">確認送出</button>
 				</div>
 			</div>

@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <title>會議場地 Conference Venue</title>
-    <link th:insert="~{/front-end/htmlfile/css.html}" />
+    <title>訂單首頁 Conference Order</title>
+    <link th:insert="~{/front-end/htmlfile/css.html}"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -24,9 +24,6 @@
     <style>
 
 
-
-
-
     </style>
 </head>
 
@@ -34,11 +31,11 @@
 
 <body class="main-layout">
 
- 頁面加載動畫
+頁面加載動畫
 
-<div class="loader_bg">
-    <div class="loader"></div>
-</div>
+<!--<div class="loader_bg">-->
+<!--    <div class="loader"></div>-->
+<!--</div>-->
 
 
 <!-- 頁面頭部 -->
@@ -69,25 +66,32 @@
                             <ul class="navbar-nav mr-auto">
                                 <br>
 
-                                <li class="nav-item">
-                                    <a class="nav-link fw-bold" style="color: black" href="gallery.html"><svg class="header-icon"
-                                            xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="24"
-                                            style="margin-top: -5px;">
-                                        <path
-                                                d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" />
-                                    </svg>訂房首頁</a>
+                                <li class="nav-item dropdown">
+                                    <a class="btn nav-link fw-bold" data-bs-toggle="modal" data-bs-target="#cartModal"
+                                       style="color: black" href="#">
+                                        <svg class="header-icon" xmlns="http://www.w3.org/2000/svg"
+                                             style="margin-top: -3px" height="20px" viewBox="0 -960 960 960"
+                                             width="24px" fill="#5f6368">
+                                            <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/>
+                                        </svg>
+                                        購物車<span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        0
+                                    </span></a>
+
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link fw-bold" style="color: black" href="blog.html"><svg class="header-icon" xmlns="http://www.w3.org/2000/svg" style="margin-top: -3px" height="20" viewBox="0 -960 960 960" width="24" fill="#5f6368"><path d="M186.67-813.33V-537.67-540v393.33-666.66 190.66-190.66Zm92.66 400h170q10.34-19 23.34-35.67T502-480H279.33v66.67Zm0 166.66h146.34Q422-263.33 420.5-280q-1.5-16.67-.17-33.33h-141v66.66ZM186.67-80q-27 0-46.84-19.83Q120-119.67 120-146.67v-666.66q0-27 19.83-46.84Q159.67-880 186.67-880H534l226 226v136q-15.67-7.33-32.33-12.17-16.67-4.83-34.34-7.5v-85H500.67v-190.66h-314v666.66H477q18.67 22 41.67 38.84Q541.67-91 569-80H186.67ZM660-193.33q45.33 0 76-30.67t30.67-76q0-45.33-30.67-76t-76-30.67q-45.33 0-76 30.67t-30.67 76q0 45.33 30.67 76t76 30.67Zm204 144L756.56-156.67q-20.89 14-45.39 22t-51.17 8q-72.22 0-122.78-50.58-50.55-50.57-50.55-122.83 0-72.25 50.58-122.75 50.57-50.5 122.83-50.5 72.25 0 122.75 50.55 50.5 50.56 50.5 122.78 0 26.67-8 51.17t-22 45.39L910.67-96 864-49.33Z"/></svg>訂單查詢</a>
+                                    <a class="nav-link fw-bold position-relative" style="color: black" href="blog.html">
+                                        <svg class="header-icon" xmlns="http://www.w3.org/2000/svg"
+                                             style="margin-top: -3px" height="20" viewBox="0 -960 960 960" width="24"
+                                             fill="#5f6368">
+                                            <path d="M186.67-813.33V-537.67-540v393.33-666.66 190.66-190.66Zm92.66 400h170q10.34-19 23.34-35.67T502-480H279.33v66.67Zm0 166.66h146.34Q422-263.33 420.5-280q-1.5-16.67-.17-33.33h-141v66.66ZM186.67-80q-27 0-46.84-19.83Q120-119.67 120-146.67v-666.66q0-27 19.83-46.84Q159.67-880 186.67-880H534l226 226v136q-15.67-7.33-32.33-12.17-16.67-4.83-34.34-7.5v-85H500.67v-190.66h-314v666.66H477q18.67 22 41.67 38.84Q541.67-91 569-80H186.67ZM660-193.33q45.33 0 76-30.67t30.67-76q0-45.33-30.67-76t-76-30.67q-45.33 0-76 30.67t-30.67 76q0 45.33 30.67 76t76 30.67Zm204 144L756.56-156.67q-20.89 14-45.39 22t-51.17 8q-72.22 0-122.78-50.58-50.55-50.57-50.55-122.83 0-72.25 50.58-122.75 50.57-50.5 122.83-50.5 72.25 0 122.75 50.55 50.5 50.56 50.5 122.78 0 26.67-8 51.17t-22 45.39L910.67-96 864-49.33Z"/>
+                                        </svg>
+                                        訂單查詢</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link fw-bold" style="color: black" href="/conference"><svg class="header-icon" xmlns="http://www.w3.org/2000/svg" style="margin-top: -3px" height="20" viewBox="0 -960 960 960" width="24" fill="#5f6368"><path d="M480.67-120v-66.67h292.66v-586.66H480.67V-840h292.66q27 0 46.84 19.83Q840-800.33 840-773.33v586.66q0 27-19.83 46.84Q800.33-120 773.33-120H480.67Zm-63.34-176.67-47-48 102-102H120v-66.66h351l-102-102 47-48 184 184-182.67 182.66Z"/></svg>會員登入</a>
-                                    <!-- 包含常見問題 -->
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link fw-bold" style="color: black" href="log.html"><svg class="header-icon" xmlns="http://www.w3.org/2000/svg" style="margin-top: -3px" height="20" viewBox="0 -960 960 960" width="24" fill="#5f6368"><path d="M226-262q59-42.33 121.33-65.5 62.34-23.17 132.67-23.17 70.33 0 133 23.17T734.67-262q41-49.67 59.83-103.67T813.33-480q0-141-96.16-237.17Q621-813.33 480-813.33t-237.17 96.16Q146.67-621 146.67-480q0 60.33 19.16 114.33Q185-311.67 226-262Zm253.88-184.67q-58.21 0-98.05-39.95Q342-526.58 342-584.79t39.96-98.04q39.95-39.84 98.16-39.84 58.21 0 98.05 39.96Q618-642.75 618-584.54t-39.96 98.04q-39.95 39.83-98.16 39.83ZM480.31-80q-82.64 0-155.64-31.5-73-31.5-127.34-85.83Q143-251.67 111.5-324.51T80-480.18q0-82.82 31.5-155.49 31.5-72.66 85.83-127Q251.67-817 324.51-848.5T480.18-880q82.82 0 155.49 31.5 72.66 31.5 127 85.83Q817-708.33 848.5-635.65 880-562.96 880-480.31q0 82.64-31.5 155.64-31.5 73-85.83 127.34Q708.33-143 635.65-111.5 562.96-80 480.31-80Zm-.31-66.67q54.33 0 105-15.83t97.67-52.17q-47-33.66-98-51.5Q533.67-284 480-284t-104.67 17.83q-51 17.84-98 51.5 47 36.34 97.67 52.17 50.67 15.83 105 15.83Zm0-366.66q31.33 0 51.33-20t20-51.34q0-31.33-20-51.33T480-656q-31.33 0-51.33 20t-20 51.33q0 31.34 20 51.34 20 20 51.33 20Zm0-71.34Zm0 369.34Z"/></svg>我的帳戶</a>
-                                </li>
+
+
                             </ul>
+
                         </div>
                     </nav>
                 </div>
@@ -96,10 +100,34 @@
     </div>
 </header>
 <!-- header結束 -->
+<div class="modal fade modal-dialog-scrollable" id="cartModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--             <div class="modal-header">-->
+            <!--                 -->
+            <!--             </div>-->
+            <div class="modal-body">
+                <button type="button" class="btn-close justify-content-end" style="margin-top: -40px"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                <h3 class=" fw-bold mx-auto text-center">購物車</h3>
 
+                <div id="cart-content" class="row d-flex justify-content-center">
+                    <!-- Cart items will be dynamically added here -->
+                </div>
+                <h4 class="fw-bold text-end">總價: $<span id="total-price">0.00</span></h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <a href="/conference/order/pay" class="btn btn-primary">前往付款</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <section class="banner_main">
-    <div id="carouselExampleFade" style="height: 300px; position: relative; top: -24px" class="carousel slide carousel-fade">
+    <div id="carouselExampleFade" style="height: 300px; position: relative; top: -24px"
+         class="carousel slide carousel-fade">
         <div class="carousel-inner" style="height: 500px; margin-top: 86px; z-index: 1">
             <div class="carousel-item active">
                 <img src="/frontend/images/about.png" class="d-block w-100 h-100" alt="...">
@@ -113,59 +141,34 @@
     </div>
 </section>
 
-<!--<div class="container booking">-->
-<!--        <div class="row ">-->
-<!--            <div class="col d-flex justify-content-center">-->
-<!--                <button class="btn btn-outline-dark dropdown-toggle" style="margin-top: 6%; width: 80%" type="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                    入住日期 ~ 退房日期-->
-<!--                </button>-->
-<!--                <ul class="dropdown-menu">-->
-<!--                    <li><a class="dropdown-item" href="#">Action</a></li>-->
-<!--                    <li><a class="dropdown-item" href="#">Another action</a></li>-->
-<!--                    <li><a class="dropdown-item" href="#">Something else here</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--            <div class="col dropdown  d-flex justify-content-center">-->
-<!--                    <button class="btn btn-outline-dark dropdown-toggle" style="margin-top: 6%; width: 80%" type="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                        人數-->
-<!--                    </button>-->
-<!--                    <ul class="dropdown-menu">-->
-<!--                        <li><a class="dropdown-item" href="#">Action</a></li>-->
-<!--                        <li><a class="dropdown-item" href="#">Another action</a></li>-->
-<!--                        <li><a class="dropdown-item" href="#">Something else here</a></li>-->
-<!--                    </ul>-->
-<!--            </div>-->
 
-<!--        </div>-->
-<!--</div>-->
-<!--<div class="container collapse mt-5" id="collapseExample">-->
-<!--    <div class="card card-body">-->
-<!--        Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.-->
-<!--    </div>-->
-<!--</div>-->
-
-<div class="container"  style="margin-top: 5%">
-    <h5 class=" mx-auto" style="color: #847674; border-bottom: #847674 3px solid; width: 80px; margin-bottom: -1px">預訂場地</h5>
+<div class="container" style="margin-top: 5%">
+    <h5 class=" mx-auto" style="color: #847674; border-bottom: #847674 3px solid; width: 80px; margin-bottom: -1px">
+        預訂場地</h5>
     <div class="row">
         <div class="col-12 room">
             <div class="row mt-5 ms-2 me-2 mb-0" th:each=" meetingRooms : ${meetingRooms} ">
                 <div class="col-lg-4 col-12" th:each="photos : ${meetingRooms.photos}">
-                    <img class="w-100" style="height: 256.99px" th:src="@{/image/{meetingRoomPhotoId}(meetingRoomPhotoId=${photos.meetingRoomPhotoId})}" alt="#" />
+                    <img class="w-100" style="height: 256.99px"
+                         th:src="@{/image/{meetingRoomPhotoId}(meetingRoomPhotoId=${photos.meetingRoomPhotoId})}"
+                         alt="#"/>
                 </div>
                 <div class="col-lg-8 col-12">
                     <div class="row">
                         <div class="col-7">
-                            <h3 class="fw-bold lora-type" style="color: #847674" th:text="${meetingRooms.meetingRoomEname}"></h3>
+                            <h3 class="fw-bold lora-type" style="color: #847674"
+                                th:text="${meetingRooms.meetingRoomEname}"></h3>
 
                         </div>
                         <div class="col text-end">
-                            <h3 class="fw-bold text-end" style="color: #847674" th:text="'$' + ${meetingRooms.meetingRoomPrice}"></h3>
+                            <h3 class="fw-bold text-end" style="color: #847674"
+                                th:text="'$' + ${meetingRooms.meetingRoomPrice}"></h3>
 
                         </div>
                     </div>
                     <h5 class="fw-bold" style="margin-top: -10px" th:text="${meetingRooms.meetingRoomName}"></h5>
 
-                        <p th:text="${meetingRooms.meetingRoomContent}"></p>
+                    <p th:text="${meetingRooms.meetingRoomContent}"></p>
 
 
                     <div class="row">
@@ -181,12 +184,17 @@
                             <p class="fw-bold">容納人數</p>
                             <p style="color: #847674" th:text="${meetingRooms.meetingRoomCapacity}"></p>
                         </div>
-                    </div><br>
+                    </div>
+                    <br>
                     <div class="row">
                         <div class="col">
-                            <button class="btn-outline-dark opt" style="width: 150px; height: 40px;border-radius: 0.2rem" data-bs-toggle="modal" th:data-bs-target="'#exampleModal' + ${meetingRooms.meetingRoomId}">詳細內容</button>
+                            <button class="btn-outline-dark opt"
+                                    style="width: 150px; height: 40px;border-radius: 0.2rem" data-bs-toggle="modal"
+                                    th:data-bs-target="'#exampleModal' + ${meetingRooms.meetingRoomId}">詳細內容
+                            </button>
                         </div>
-                        <div class="modal fade modal-lg modal-dialog-scrollable" th:id="'exampleModal' + ${meetingRooms.meetingRoomId}" tabindex="-1"
+                        <div class="modal fade modal-lg modal-dialog-scrollable"
+                             th:id="'exampleModal' + ${meetingRooms.meetingRoomId}" tabindex="-1"
                              aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -196,15 +204,19 @@
                                             <div class="container">
                                                 <div class="row">
                                                     <div class="d-flex justify-content-end">
-                                                        <button type="button" class="btn-close" style="margin-top: -20px;" data-bs-dismiss="modal"
+                                                        <button type="button" class="btn-close"
+                                                                style="margin-top: -20px;" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                     </div>
 
                                                     <h2 class="text-center p-0 lora-type m-0" style="color: #847674;">
                                                         DETAILED CONTENT</h2>
                                                     <P class="text-center h5 mb-5 fw-bold">詳細內容</P>
-                                                    <div class="about_img w-100" th:each="photo : ${meetingRooms.photos}">
-                                                        <figure><img th:src="@{/image/{meetingRoomPhotoId}(meetingRoomPhotoId=${photo.meetingRoomPhotoId})}" alt="#" /></figure>
+                                                    <div class="about_img w-100"
+                                                         th:each="photo : ${meetingRooms.photos}">
+                                                        <figure><img
+                                                                th:src="@{/image/{meetingRoomPhotoId}(meetingRoomPhotoId=${photo.meetingRoomPhotoId})}"
+                                                                alt="#"/></figure>
                                                     </div>
                                                     <hr>
                                                     <h5 class="fw-bold mt-5">設施：</h5>
@@ -212,19 +224,26 @@
                                                             class="fw-normal">提供舒適的座椅，每個座位都有鋪設好的寬敞桌面，方便參與者放置文件和筆記。</span>
                                                     </p>
                                                     <p class="fw-bold">音響系統：<span
-                                                            class="fw-normal">先進的音響系統保證清晰的聲音傳遞，並具有調整音量和音調的功能。</span></p>
+                                                            class="fw-normal">先進的音響系統保證清晰的聲音傳遞，並具有調整音量和音調的功能。</span>
+                                                    </p>
                                                     <p class="fw-bold">投影設備：<span class="fw-normal">
-                                                            配備高清投影設備和大型投影幕，支援各種多媒體格式，包括電腦投影和DVD播放。</span></p>
+                                                            配備高清投影設備和大型投影幕，支援各種多媒體格式，包括電腦投影和DVD播放。</span>
+                                                    </p>
                                                     <p class="fw-bold">照明：<span
-                                                            class="fw-normal">具有可調節亮度的照明系統，保證會議期間的舒適度和能見度。</span></p>
+                                                            class="fw-normal">具有可調節亮度的照明系統，保證會議期間的舒適度和能見度。</span>
+                                                    </p>
                                                     <p class="fw-bold">WiFi連接：<span
-                                                            class="fw-normal">提供穩定的WiFi連接，讓與會者能夠輕鬆訪問網絡和在線資源。</span></p>
+                                                            class="fw-normal">提供穩定的WiFi連接，讓與會者能夠輕鬆訪問網絡和在線資源。</span>
+                                                    </p>
                                                     <p class="fw-bold">會議桌：<span
-                                                            class="fw-normal">與會者圍坐的圓桌，方便小組討論和互動。</span></p>
+                                                            class="fw-normal">與會者圍坐的圓桌，方便小組討論和互動。</span>
+                                                    </p>
                                                     <p class="fw-bold">空調系統：<span
-                                                            class="fw-normal">提供舒適的溫度控制，確保會議期間的舒適度。</span></p>
+                                                            class="fw-normal">提供舒適的溫度控制，確保會議期間的舒適度。</span>
+                                                    </p>
                                                     <p class="fw-bold">紀錄設備：<span
-                                                            class="fw-normal">錄音和錄影設備，用於會議記錄和後續分析。</span></p>
+                                                            class="fw-normal">錄音和錄影設備，用於會議記錄和後續分析。</span>
+                                                    </p>
                                                     <hr>
                                                     <h5 class="fw-bold mt-3">服務：</h5>
                                                     <p class="fw-bold">會議管理人員：<span
@@ -232,17 +251,21 @@
                                                     </p>
 
                                                     <p class="fw-bold">飲食服務：<span
-                                                            class="fw-normal">提供多種選擇的餐飲服務，包括茶歇、午餐和輕食。</span></p>
+                                                            class="fw-normal">提供多種選擇的餐飲服務，包括茶歇、午餐和輕食。</span>
+                                                    </p>
                                                     <p class="fw-bold">接待區：<span class="fw-normal">
                                                             舒適的接待區域，用於登記、領取會議資料和等候。</span></p>
                                                     <hr>
                                                     <h5 class="fw-bold mt-3">其他資訊：</h5>
                                                     <p class="fw-bold">可定制性：<span
-                                                            class="fw-normal">會議廳可根據需求進行定制，包括座位布局、裝飾和設施設置。</span></p>
+                                                            class="fw-normal">會議廳可根據需求進行定制，包括座位布局、裝飾和設施設置。</span>
+                                                    </p>
                                                     <p class="fw-bold">安全措施：<span
-                                                            class="fw-normal">配備安全監控系統和緊急應對計劃，確保會議期間的安全。</span></p>
+                                                            class="fw-normal">配備安全監控系統和緊急應對計劃，確保會議期間的安全。</span>
+                                                    </p>
                                                     <p class="fw-bold">無障礙設施：<span class="fw-normal">
-                                                            提供無障礙設施，包括無障礙通道和無障礙廁所，以便所有人都能方便參與。</span></p>
+                                                            提供無障礙設施，包括無障礙通道和無障礙廁所，以便所有人都能方便參與。</span>
+                                                    </p>
 
                                                 </div>
                                             </div>
@@ -254,36 +277,41 @@
                         </div>
                         <div class="col text-end d-inline-flex gap-1 justify-content-end">
 
-                                <button class="btn-secondary opt" style="width: 150px; height: 40px;background-color: #847674;border-radius: 0.2rem" data-bs-toggle="collapse" th:data-bs-target="'#collapse' + ${meetingRooms.meetingRoomId}" aria-expanded="false" aria-controls="collapseExample">查看空房</button>
+                            <button class="btn-secondary opt"
+                                    style="width: 150px; height: 40px;background-color: #847674;border-radius: 0.2rem"
+                                    data-bs-toggle="collapse"
+                                    th:data-bs-target="'#collapse' + ${meetingRooms.meetingRoomId}"
+                                    aria-expanded="false" aria-controls="collapseExample">查看空房
+                            </button>
                         </div>
                     </div>
 
 
-
-
                 </div>
                 <hr class="mt-5">
-                <div class="collapse"  th:id="'collapse' + ${meetingRooms.meetingRoomId}">
+                <div class="collapse" th:id="'collapse' + ${meetingRooms.meetingRoomId}">
                     <div class="card card-body " style="height: 870px">
                         <div th:id="'calendar' + ${meetingRooms.meetingRoomId}" class="calendar date"></div>
                     </div>
                 </div>
-                <div class="modal fade" th:id="'bookingModal' + ${meetingRooms.meetingRoomId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" th:id="'bookingModal' + ${meetingRooms.meetingRoomId}" tabindex="-1"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="exampleModalLabel">訂單</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 確定要下訂單嗎
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                <form th:action="@{/conference/order/add}" method="post">
+                                <form th:id="'add-to-cart-form' + ${meetingRooms.meetingRoomId}" class="add-to-cart-form" th:action="@{/cart/add}" method="post">
                                     <input type="hidden" id="selectedDateTime" name="selectedDateTime" value="">
                                     <input type="hidden" id="meetingRoomId" name="meetingRoomId" value="">
-                                    <button type="submit" class="btn btn-primary">確定</button>
+                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">確定</button>
 
                                 </form>
                             </div>
@@ -297,8 +325,6 @@
 
     </div>
 </div>
-
-
 
 
 <footer> <!-- footer 開始 -->
@@ -335,42 +361,45 @@
                     </form>
                     <ul class="social_icon p-0">
                         <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                        <li><a href=""><svg xmlns="http://www.w3.org/2000/svg" width="20" height=""
-                                            fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
-                            <path
-                                    d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z" />
-                        </svg></a></li>
-                        <li><a href=""><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                            fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
-                            <path
-                                    d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />
-                        </svg></a></li>
-                        <li><a href=""><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                            fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-                            <path
-                                    d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
-                        </svg></a></li>
+                        <li><a href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height=""
+                                 fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
+                                <path
+                                        d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+                            </svg>
+                        </a></li>
+                        <li><a href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                 fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
+                                <path
+                                        d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
+                            </svg>
+                        </a></li>
+                        <li><a href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                 fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                                <path
+                                        d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+                            </svg>
+                        </a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <!-- 版權聲明 -->
-<!--        <div class="copyright" style="border-bottom: none; border-top: none; background-color: #2F221C">-->
-<!--            <div class="container">-->
-<!--                <div class="row">-->
-<!--                    <div class="col-md-10 offset-md-1">-->
-<!--                        <p style="color: white">© 2019 All Rights Reserved. Design by <a style="color: white" href="https://html.design/">Free Html-->
-<!--                            Templates</a><br><br>Distributed by <a style="color: white" href="https://themewagon.com/"-->
-<!--                                                                   target="_blank">ThemeWagon</a></p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div class="copyright" style="border-bottom: none; border-top: none; background-color: #2F221C">-->
+        <!--            <div class="container">-->
+        <!--                <div class="row">-->
+        <!--                    <div class="col-md-10 offset-md-1">-->
+        <!--                        <p style="color: white">© 2019 All Rights Reserved. Design by <a style="color: white" href="https://html.design/">Free Html-->
+        <!--                            Templates</a><br><br>Distributed by <a style="color: white" href="https://themewagon.com/"-->
+        <!--                                                                   target="_blank">ThemeWagon</a></p>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
 </footer><!-- footer 結束 -->
-
-
-
 
 
 <!-- Javascript 文件 -->
@@ -402,63 +431,146 @@
         $('#collapse' + /*[[${meetingRooms.meetingRoomId}]]*/).on('shown.bs.collapse', function () {
             const meetingRoomId = /*[[${meetingRooms.meetingRoomId}]]*/;
             const calendarEl = document.getElementById('calendar' + meetingRoomId)
-        const calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            locale: 'zh-tw',
-            navLink: true,
-            headerToolbar: {
-                left: 'prev,next',
-                center: 'title',
-                right: 'dayGridMonth'
-            },
-            buttonText: {
-                month: '月'
-            },
-            showNonCurrentDates: false,
-            selectable: true,
-            selectHelper: true,
-            editable: false,
-            select: function (selectionInfo) {
-                const modalId = '#bookingModal' + meetingRoomId;
-                $(modalId).modal('toggle')
-                const selectedDateTime = selectionInfo.startStr;
-                $(modalId).find('#selectedDateTime').val(selectedDateTime);
-                $(modalId).find('#meetingRoomId').val(meetingRoomId);
-                sendData(selectedDateTime, meetingRoomId);
-            },
-            events: function (fetchInfo, successCallback, failureCallback) {
-                fetch('/conference/calendar/json/' + meetingRoomId)
-                    .then(response => response.json())
-                    .then(data => {
-                        const events = data.map(event => ({
-                            title: "已滿",
-                            start: event.start,
-                            allDay: true
-                        }));
-                        successCallback(events);
-                    })
-                    .catch(error => {
-                        console.error('Error fetching events:', error);
-                        failureCallback(error);
-                    });
-            },
-            selectOverlap: false,
-            validRange:{
-                start: today,
-                end: '2024-08-01'
-            },
-            eventDisplay: 'block'
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'zh-tw',
+                navLink: true,
+                headerToolbar: {
+                    left: 'prev,next',
+                    center: 'title',
+                    right: 'dayGridMonth'
+                },
+                buttonText: {
+                    month: '月'
+                },
+                showNonCurrentDates: false,
+                selectable: true,
+                selectHelper: true,
+                editable: false,
+                select: function (selectionInfo) {
+                    const modalId = '#bookingModal' + meetingRoomId;
+                    $(modalId).modal('toggle')
+                    const selectedDateTime = selectionInfo.startStr;
+                    $(modalId).find('#selectedDateTime').val(selectedDateTime);
+                    $(modalId).find('#meetingRoomId').val(meetingRoomId);
+                    sendData(selectedDateTime, meetingRoomId);
+                    localStorage.setItem('selectedDateTime', selectedDateTime);
+                    localStorage.setItem('meetingRoomId', meetingRoomId);
+                },
+                events: function (fetchInfo, successCallback, failureCallback) {
+                    fetch('/conference/calendar/json/' + meetingRoomId)
+                        .then(response => response.json())
+                        .then(data => {
+                            const events = data.map(event => ({
+                                title: "已滿",
+                                start: event.start,
+                                allDay: true
+                            }));
+                            successCallback(events);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching events:', error);
+                            failureCallback(error);
+                        });
+                },
+                selectOverlap: false,
+                validRange: {
+                    start: today,
+                    end: '2024-08-01'
+                },
+                eventDisplay: 'block'
 
 
-        })
-        calendar.render()
+            })
+            calendar.render()
         })
     })
+
     function sendData(selectedDateTime, meetingRoomId) {
         document.getElementById('selectedDateTime').value = selectedDateTime;
         document.getElementById('meetingRoomId').value = meetingRoomId;
     }
+
     /*[/]*/
+    /*]]>*/
+</script>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function () {
+        /*[# th:each="meetingRooms : ${meetingRooms}"]*/
+        $('#add-to-cart-form' + /*[[${meetingRooms.meetingRoomId}]]*/).on("submit", function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '/cart/add',
+                type: 'POST',
+                data: {
+                    meetingRoomId: $("#meetingRoomId").val(),
+                    bookingDate: $("#selectedDateTime").val(),
+                    quantity: 1
+                },
+                success: function (cartItems) {
+                    updateCart(cartItems);
+                },
+                error: function(xhr, status, error) {
+                    alert("Error: " + xhr.responseText);
+                }
+            });
+        });
+        $(document).on("click", ".remove-from-cart", function(event) {
+            var button = $(this);
+            var cartId = button.data('cart-id');
+            $.ajax({
+                url: '/cart/remove',
+                type: 'POST',
+                data: { cartId: cartId },
+                success: function(cartItems) {
+                    updateCart(cartItems);
+                },
+                error: function(xhr, status, error) {
+                    alert("Error: " + xhr.responseText);
+                }
+            });
+        });
+        /*[/]*/
+        function updateCart(cartItems) {
+            var cartContent = $("#cart-content");
+            cartContent.empty();
+            var total = 0;
+            var itemCount = 0;
+            cartItems.forEach(function (item) {
+                var price = parseInt(item.meetingRoomPrice);
+                var bookingDate = new Date(item.bookingDate).toLocaleDateString('en-CA');
+                var card = '<div class="col-md-12">' +
+                    '<div class="card mb-4">' +
+                    '<div class="card-body" style="position: relative">' +
+                    '<button style="position: absolute; top: 10px; right: 10px" type="button" class="btn remove-from-cart p-0" data-cart-id="' + item.cartId + '"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">\n' +
+                    '  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>\n' +
+                    '  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>\n' +
+                    '</svg></button>' +
+                    '<h5 class="card-title fw-bold">' + item.meetingRoomName + '</h5>' +
+                    '<p class="card-text fw-bold">預訂日期： ' + bookingDate + '</p>' +
+                    '<p class="card-text fw-bold">數量： ' + item.quantity + '</p>' +
+                    '<p class="card-text fw-bold">價錢： $' + (price).toFixed(2) + '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+                cartContent.append(card);
+                total += price;
+                itemCount++;
+            });
+            $("#total-price").html(total.toFixed(2));
+            $("#cart-count").html(itemCount);
+        }
+
+        // Initialize the cart items
+        $.ajax({
+            url: '/cart/items',
+            type: 'GET',
+            success: function (cartItems) {
+                updateCart(cartItems);
+            }
+        });
+    });
     /*]]>*/
 </script>
 </body>

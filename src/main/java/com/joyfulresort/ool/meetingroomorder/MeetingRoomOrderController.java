@@ -35,7 +35,10 @@ public class MeetingRoomOrderController {
         return "back-end/conference/order";
     }
 
-
+    @GetMapping("/conference/order/pay")
+    public String pay(){
+        return "front-end/conference/pay";
+    }
 
     @GetMapping("/member/order/{memberId}")
     public String getMemberOrder(@PathVariable Integer memberId, Model model){
