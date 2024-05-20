@@ -33,34 +33,34 @@ public class FrontendMemberController {
 
 	@Autowired
 	MemberService memSvc;
-	
+
 	@Autowired
 	StringRedisTemplate redis;
-	
+
 	// 會員資料頁面
 	@GetMapping("/memberinfo")
 	public String memberInfo(HttpSession session, Model model) {
-		//會員個人資料
+		// 會員個人資料
 		Integer memberID = (Integer) session.getAttribute("memberID"); // 取得session內的值
 		MemberVO mem = memSvc.getOneMember(memberID); // 查找會員資料
 		model.addAttribute("memberData", mem); // 轉交
-		
-		//會員住宿訂單資料
-		List<RoomOrder> userRoomOrder = memSvc.findMemberRoomOrder(memberID); //查找住宿訂單
+
+		// 會員住宿訂單資料
+		List<RoomOrder> userRoomOrder = memSvc.findMemberRoomOrder(memberID); // 查找住宿訂單
 		model.addAttribute("memberRoomOrder", userRoomOrder);// 轉交
-		
-		//會員活動訂單
-		List<ActivityOrderVO> memberActivityOrder = memSvc.findActivityOrderByMemberId(memberID);//查找活動訂單
+
+		// 會員活動訂單
+		List<ActivityOrderVO> memberActivityOrder = memSvc.findActivityOrderByMemberId(memberID);// 查找活動訂單
 		model.addAttribute("memberActivityOrder", memberActivityOrder);// 轉交
-		
-		//會員會議廳訂單
+
+		// 會員會議廳訂單
 		List<MeetingRoomOrder> memberMeetingRoomOrder = memSvc.findMeetingRoomOrderByMemberId(memberID);
 		model.addAttribute("memberMeetingRoomOrder", memberMeetingRoomOrder);// 轉交
-		
-		//會員餐廳訂單
+
+		// 會員餐廳訂單
 		List<ResVO> memberReserveOrder = memSvc.findmemberReserveOrderByMemberId(memberID);
 		model.addAttribute("memberReserveOrder", memberReserveOrder);// 轉交
-		
+
 		return "front-end/member/memberinfo";
 	}
 
@@ -71,9 +71,7 @@ public class FrontendMemberController {
 
 		String inputColumn = req.getParameter("inputColumn");
 //		System.out.println(inputColumn);
-		
-		
-		
+
 		// 檢查輸入欄位
 		switch (inputColumn) {
 		case "Account":
@@ -118,8 +116,6 @@ public class FrontendMemberController {
 		}
 
 	}
-
-
 
 	// USER修改資料
 	@PostMapping("/userUpData")
@@ -190,63 +186,64 @@ public class FrontendMemberController {
 
 		return "front-end/member/memberinfo.html";
 	}
-	
-	//檢查驗證碼
+
+	// 檢查驗證碼
 	@PostMapping("/checkAuthCode")
 	@ResponseBody
 	public void checkAuthCode(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		res.setContentType("application/json; charset=UTF-8");
-		//取得用戶輸入驗證碼
+		// 取得用戶輸入驗證碼
 		String inputAuthCode = req.getParameter("inputAuthCode");
 //		System.out.println("用戶輸入:"+inputAuthCode);
-		//取得用戶ID
+		// 取得用戶ID
 		String id = req.getParameter("MemberID");
 //		System.out.println("ID:"+id);
-		//取得Redis內驗證碼
+		// 取得Redis內驗證碼
 		String authCode = redis.opsForValue().get("AuthCode");
 //		System.out.println("redis資料:"+authCode);
-				
+
 		JSONObject obj = new JSONObject();
-		if(authCode == null) { //Redis 值為空 超時
+		if (authCode == null) { // Redis 值為空 超時
 			obj.put("checkAuthCode", "404");
 			res.getWriter().print(obj);
-		} else if (inputAuthCode.equals(authCode)) { //輸入正確
-			
+		} else if (inputAuthCode.equals(authCode)) { // 輸入正確
+
 			memSvc.memberStateUpData(Integer.valueOf(id)); // 檢查會員狀態並修改狀態
-						
+
 			obj.put("checkAuthCode", "200");
 			res.getWriter().print(obj);
-		} else {  //輸入錯誤
+		} else { // 輸入錯誤
 			obj.put("checkAuthCode", "400");
 			res.getWriter().print(obj);
 		}
 		return;
 	}
-	//修改密碼
+
+	// 修改密碼
 	@PostMapping("/passwordRevise")
 	@ResponseBody
 	public boolean revisePassword(HttpServletRequest req, HttpServletResponse res) {
 		res.setContentType("application/json; charset=UTF-8");
-		//取得用戶輸入資料
+		// 取得用戶輸入資料
 		String ID = req.getParameter("MemberID");
 		String pw_1 = req.getParameter("password_1");
 		String pw_2 = req.getParameter("password_2");
 		String pw_3 = req.getParameter("password_3");
-		
+
 //		System.out.printf("用戶ID: %s%n密碼: %s%n新密碼: %s%n再輸入: %s%n", ID, pw_1, pw_2, pw_3);
-		
+
 		MemberVO mem = memSvc.getOneMember(Integer.valueOf(ID));
 		String password = mem.getMemberPassword();
 //		System.out.println("資料庫密碼: "+password);
-		System.out.println("--------------------------");
-		
-		if(password.equals(pw_1)) {
-			if(pw_2.equals(pw_3)) {
+//		System.out.println("--------------------------");
+
+		if (password.equals(pw_1)) {
+			if (pw_2.equals(pw_3)) {
 //				System.out.println("密碼正確 pw_2,pw_3輸入一致");
-				//修改會員密碼
+				// 修改會員密碼
 				mem.setMemberPassword(pw_2);
 				memSvc.changePassword(mem);
-				
+
 				return true;
 			}
 //			System.out.println("密碼正確 pw_2,pw_3輸入不一致");
@@ -255,9 +252,27 @@ public class FrontendMemberController {
 //			System.out.println("密碼錯誤");
 			return false;
 		}
-		
+
 	}
-	
-	
+
+	// 用戶取消訂單
+	@PostMapping("/CancelOrder")
+	@ResponseBody
+	public void CancelOrder(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		res.setContentType("application/json; charset=UTF-8");
+
+		String CancelOrder = req.getParameter("CancelOrder");
+
+		switch (CancelOrder) {
+		case "activity":
+			Integer OrderID =Integer.valueOf(req.getParameter("activityOrderID")); 
+//			System.out.println(OrderID);
+			//取消訂單
+			ActivityOrderVO activityCancelOrder = memSvc.activityCancelOrder(OrderID);
+
+			res.getWriter().print(true);
+			break;
+		}
+	}
 
 }

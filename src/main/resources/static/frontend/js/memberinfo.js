@@ -200,48 +200,50 @@ var pw_1 = 1;
 var pw_2 = 1;
 var pw_3 = 1;
 //用戶密碼
-$('#inputPassword_1').change(function(){
+$('#inputPassword_1').change(function () {
   let password_1 = $('#inputPassword_1').val()
-  
-  if(password_1 == ""){
-	$('#passwordHelpBlock_1').html('密碼欄位不能為空')
-	pw_1 = 1;
+
+  if (password_1 == "") {
+    $('#passwordHelpBlock_1').html('密碼欄位不能為空')
+    pw_1 = 1;
   } else {
-	$('#passwordHelpBlock_1').html('')
-	pw_1 = 0;
-  $('#newPassword').attr('disabled', false)
+    $('#passwordHelpBlock_1').html('')
+    pw_1 = 0;
+    if (pw_2 == 0 && pw_3 == 0 && pw_1 == 0) {
+      $('#newPassword').attr('disabled', false)
+    }
   }
 })
 //新密碼
-$('#inputPassword_2').change(function(){
+$('#inputPassword_2').change(function () {
   let regexPassword = /^\w{1,10}$/g
   let password_2 = $('#inputPassword_2').val()
 
-  if(!regexPassword.test(password_2)){
+  if (!regexPassword.test(password_2)) {
     $('#passwordHelpBlock_2').html('密碼格式錯誤')
     $('#newPassword').attr('disabled', true)
     pw_2 = 1;
   } else {
     $('#passwordHelpBlock_2').html('')
     pw_2 = 0;
-    if(pw_2 == 0 && pw_3 == 0 && pw_1 == 0){
+    if (pw_2 == 0 && pw_3 == 0 && pw_1 == 0) {
       $('#newPassword').attr('disabled', false)
     }
   }
 })
 
 //確認新密碼
-$('#inputPassword_3').change(function(){
+$('#inputPassword_3').change(function () {
   let password_3 = $('#inputPassword_3').val()
   let password_2 = $('#inputPassword_2').val()
-  if(password_2 != password_3){
+  if (password_2 != password_3) {
     $('#passwordHelpBlock_3').html('密碼不一致')
     $('#newPassword').attr('disabled', true)
     pw_3 = 1;
   } else {
     $('#passwordHelpBlock_3').html('')
     pw_3 = 0;
-    if(pw_2 == 0 && pw_3 == 0 && pw_1 == 0){
+    if (pw_2 == 0 && pw_3 == 0 && pw_1 == 0) {
       $('#newPassword').attr('disabled', false)
     }
   }
@@ -287,13 +289,56 @@ $('#newPassword').click(function () {
           alert('密碼已修改,請重新登入')
           $('#LogoutButton').click()
         } else {
-		  $('#passwordHelpBlock_4').html('密碼錯誤')
+          $('#passwordHelpBlock_4').html('密碼錯誤')
           //console.log('錯誤')
         }
 
       }
     })
   }
+})
 
+//活動訂單取消
+var activityOrderID;
+var activity_tr_children;
+$(document).on('click', '#activityCancelOrder', function () {
+  // console.log('KKO')
+  //取得本列表格(tr)資訊
+  let tr = null;
+  tr = this.closest('tr');
+  // console.log(tr);
+  //取得tr內的子元素
+  activity_tr_children = tr.children
+  // console.log(tr_children)
+  //取得訂單編號
+  activityOrderID = activity_tr_children[0].innerText;
+  // console.log('訂單編號='+activityOrderID)
+
+  // let memberID = getCookie('MemberID')
+  // console.log('memberID='+memberID)
+
+  $('#but_checkActivityCancelOrder').click()
+})
+
+$('#makeSureActivityCancelOrder').click(function () {
+  //  console.log('OKKO')
+
+  $.post({
+    url: '/joyfulresort/member/CancelOrder',
+    data: {
+      'CancelOrder': 'activity',
+      'activityOrderID': activityOrderID
+    },
+    datatype: 'json',
+    success: function (data) {
+      if (data) {
+        $(activity_tr_children[5]).html(`<span>訂單取消中</span>`)
+        $(activity_tr_children[8]).html('<span style="color: #ff4800ad;">退款中</span>')
+        $(activity_tr_children[9]).html('<button id="activityCancelOrder_disabled" type="button" class="btn btn-outline-secondary" disabled>取消訂單</button>')
+      }
+    }
+  })
+
+  $('#Close_checkActivityCancelOrder').click()
 
 })
