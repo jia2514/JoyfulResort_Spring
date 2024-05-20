@@ -119,7 +119,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                <a href="/conference/order/pay" class="btn btn-primary">前往付款</a>
+                <a href="/conference/order/pay" class="btn btn-primary disabled" id="pay-button">前往付款</a>
             </div>
         </div>
     </div>
@@ -299,12 +299,12 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">訂單</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">選擇日期</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                確定要下訂單嗎
+                                確定要選擇此日期嗎?
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
@@ -454,8 +454,6 @@
                     $(modalId).find('#selectedDateTime').val(selectedDateTime);
                     $(modalId).find('#meetingRoomId').val(meetingRoomId);
                     sendData(selectedDateTime, meetingRoomId);
-                    localStorage.setItem('selectedDateTime', selectedDateTime);
-                    localStorage.setItem('meetingRoomId', meetingRoomId);
                 },
                 events: function (fetchInfo, successCallback, failureCallback) {
                     fetch('/conference/calendar/json/' + meetingRoomId)
@@ -500,16 +498,20 @@
         /*[# th:each="meetingRooms : ${meetingRooms}"]*/
         $('#add-to-cart-form' + /*[[${meetingRooms.meetingRoomId}]]*/).on("submit", function (event) {
             event.preventDefault();
+            let form = $(this);
+            let selectedDateTime = form.find("#selectedDateTime").val();
+            let meetingRoomId = form.find("#meetingRoomId").val();
             $.ajax({
                 url: '/cart/add',
                 type: 'POST',
                 data: {
-                    meetingRoomId: $("#meetingRoomId").val(),
-                    bookingDate: $("#selectedDateTime").val(),
+                    meetingRoomId: meetingRoomId,
+                    bookingDate: selectedDateTime,
                     quantity: 1
                 },
                 success: function (cartItems) {
                     updateCart(cartItems);
+                    saveData(selectedDateTime, meetingRoomId);
                 },
                 error: function(xhr, status, error) {
                     alert("Error: " + xhr.responseText);
@@ -517,14 +519,16 @@
             });
         });
         $(document).on("click", ".remove-from-cart", function(event) {
-            var button = $(this);
-            var cartId = button.data('cart-id');
+            let button = $(this);
+            let cartId = button.data('cart-id');
+            let selectedDateTime = button.closest('.cart-item').find('.card-text1').text();
             $.ajax({
                 url: '/cart/remove',
                 type: 'POST',
                 data: { cartId: cartId },
                 success: function(cartItems) {
                     updateCart(cartItems);
+                    removeLocalStorageItem(selectedDateTime);
                 },
                 error: function(xhr, status, error) {
                     alert("Error: " + xhr.responseText);
@@ -540,7 +544,7 @@
             cartItems.forEach(function (item) {
                 var price = parseInt(item.meetingRoomPrice);
                 var bookingDate = new Date(item.bookingDate).toLocaleDateString('en-CA');
-                var card = '<div class="col-md-12">' +
+                var card = '<div class="col-md-12 cart-item">' +
                     '<div class="card mb-4">' +
                     '<div class="card-body" style="position: relative">' +
                     '<button style="position: absolute; top: 10px; right: 10px" type="button" class="btn remove-from-cart p-0" data-cart-id="' + item.cartId + '"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">\n' +
@@ -548,7 +552,7 @@
                     '  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>\n' +
                     '</svg></button>' +
                     '<h5 class="card-title fw-bold">' + item.meetingRoomName + '</h5>' +
-                    '<p class="card-text fw-bold">預訂日期： ' + bookingDate + '</p>' +
+                    '<p class="card-text1 fw-bold">預訂日期： ' + bookingDate + '</p>' +
                     '<p class="card-text fw-bold">數量： ' + item.quantity + '</p>' +
                     '<p class="card-text fw-bold">價錢： $' + (price).toFixed(2) + '</p>' +
                     '</div>' +
@@ -560,6 +564,13 @@
             });
             $("#total-price").html(total.toFixed(2));
             $("#cart-count").html(itemCount);
+
+            let payButton = $("#pay-button");
+            if (itemCount > 0) {
+                payButton.removeClass("disabled");
+            } else {
+                payButton.addClass("disabled");
+            }
         }
 
         // Initialize the cart items
@@ -571,7 +582,21 @@
             }
         });
     });
+
+    function saveData(selectedDateTime, meetingRoomId) {
+        let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+        bookings.push({ selectedDateTime, meetingRoomId });
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+    }
+    function removeLocalStorageItem(selectedDateTime) {
+        let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+        bookings = bookings.filter(booking => booking.selectedDateTime === selectedDateTime);
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+    }
     /*]]>*/
+</script>
+<script>
+
 </script>
 </body>
 
