@@ -3,6 +3,7 @@ package com.joyfulresort.ool.cart;
 import java.util.Date;
 
 public class CartItem {
+    private String cartId;
     private String meetingRoomName;
 
     private Date bookingDate;
@@ -12,11 +13,13 @@ public class CartItem {
     public CartItem() {
     }
 
-    public CartItem(String meetingRoomName, Date bookingDate, int quantity, Integer meetingRoomPrice) {
-        this.meetingRoomName = meetingRoomName;
-        this.bookingDate = bookingDate;
-        this.quantity = quantity;
-        this.meetingRoomPrice = meetingRoomPrice;
+
+    public String getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
     }
 
     public String getMeetingRoomName() {

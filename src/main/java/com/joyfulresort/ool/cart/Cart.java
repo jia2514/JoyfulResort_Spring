@@ -18,10 +18,19 @@ public class Cart {
         items.add(item);
     }
 
-    public void removeItem(CartItem item) {
-        items.remove(item);
+    public void removeItem(String cartId) {
+        items.removeIf(item -> item.getCartId().equals(cartId));
+    }
+    public List<CartItem> getItems() {
+        return items;
     }
 
-    // other methods like total price calculation, etc.
+    public Integer getTotalPrice() {
+        return items.stream().mapToInt(CartItem::getMeetingRoomPrice).sum();
+    }
+
+    public void clear() {
+        items.clear();
+    }
 }
 
