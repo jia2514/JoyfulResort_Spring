@@ -163,6 +163,8 @@ public class ActivityOrderController {
 		return "back-end/activityorder/listOneActivityOrder";
 	}
 	
+	// ======================================== 接收前台ajax請求 ========================================
+	
 	@PostMapping("getActivityPrice")
 	public void getActivityPrice(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		res.setContentType("application/json; charset=UTF-8");
@@ -217,5 +219,64 @@ public class ActivityOrderController {
 		List<MemberVO> list = memSvc.getAll();
 		return list;
 	}
+	
+	// ================================================== 前台 ==================================================
+	
+		@PostMapping("addOrder")
+		public String addOrder(ModelMap model) {
+//			ActivitySessionVO activitySessionVO = asSvc.getOneActivitySession(Integer.valueOf(activitySessionID));
+//			model.addAttribute("activitySessionVO", activitySessionVO);
+//			System.out.println(activitySessionVO.getActivitySessionID());
+			
+			// 取得當前時間戳記
+		    long currentTimeMillis = System.currentTimeMillis();
+		    Timestamp orderTime = new Timestamp(currentTimeMillis);
+		    // 將時間戳記設置到模型中
+		    model.addAttribute("orderTime", orderTime);
+			
+		    ActivityOrderVO activityOrderVO = new ActivityOrderVO();	
+			model.addAttribute("activityOrderVO", activityOrderVO);	
+			return "front-end/activity/participate";
+		}
+		
+		@PostMapping("insertOrder")
+		public String insertOrder(@Valid ActivityOrderVO activityOrderVO, BindingResult result, ModelMap model) {
+
+			if (result.hasErrors()) {
+				model.addAttribute("activityOrderVO", activityOrderVO);
+				return "front-end/activity/participate";
+			}
+			
+			// 獲取當前活動場次的報名人數
+		    String activitySessionId = String.valueOf(activityOrderVO.getActivitySessionVO().getActivitySessionID());
+//		    System.out.println(activitySessionId);
+		    int currentTotal = redisService.getEnteredTotal(activitySessionId);
+//		    System.out.println(currentTotal);
+		    int enteredNumber = activityOrderVO.getEnteredNumber();
+		    // 獲取當前活動場次的報名人數上限
+		    ActivitySessionVO asVO = asSvc.getOneActivitySession(Integer.valueOf(activitySessionId));
+		    int maxTotal = asVO.getActivityMaxPart();
+
+		    // 檢查報名人數是否已滿
+		    if (currentTotal + enteredNumber > maxTotal) {
+		        // 已滿，不能新增
+		        // 返回錯誤信息或重定向到適當的頁面
+		    	int leftTotal = maxTotal - currentTotal;
+		        model.addAttribute("errorMessage", "報名人數剩 " + leftTotal + " 人");
+		        return "front-end/activity/participate"; // 需要創建一個錯誤頁面或適當處理
+		    }
+			
+			aoSvc.addActivityOrder(activityOrderVO);
+			
+			// 更新 Redis 中的報名人數
+	        String activitySession = String.valueOf(activityOrderVO.getActivitySessionVO().getActivitySessionID());
+	        redisService.addActivityOrder(activitySession, activityOrderVO.getEnteredNumber());
+			
+			ActivityOrderVO activityOrder = aoSvc.getOneActivityOrder(Integer.valueOf(activityOrderVO.getActivityOrderID()));
+			model.addAttribute("activityOrderVO", activityOrder);
+			
+			// 付款功能還沒寫
+			return null;
+		}
 
 }

@@ -7,8 +7,6 @@
 <link th:insert="~{/front-end/htmlfile/css.html}" />
 <style type="text/css">
 
-
-
 	.activity {
 	    margin: 20px auto;
 	    background-color: #f4f4f4;
@@ -23,20 +21,6 @@
 	
 	.activity h2 {
 	    margin-top: 0;
-	}
-	
-	#participate {
-	    padding: 5px 10px;
-	    background-color: #007bff;
-	    color: #fff;
-	    border: none;
-	    border-radius: 5px;
-	    cursor: pointer;
-	    margin-left: auto; /* 將按鈕推到右側 */
-	}
-	
-	#participate:hover {
-	    background-color: #0056b3;
 	}
 	
 	.activity-photo {
@@ -60,6 +44,26 @@
 	}
 	
 	#notice{
+		margin: 0px;
+		padding: 0px;
+	}
+	
+	
+	#participate {
+	    padding: 5px 10px;
+	    background-color: #007bff;
+	    color: #fff;
+	    border: none;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    margin-left: auto; /* 將按鈕推到右側 */
+	}
+	
+	#participate:hover {
+	    background-color: #0056b3;
+	}
+	
+	p {
 		margin: 0px;
 		padding: 0px;
 	}
@@ -111,6 +115,7 @@
 		                <div>
 		                	<h6 id="notice">*注意事項</h6>
 		                	<p>1. 戶外活動若遇雨天，活動取消</p>
+		                	<p>2. 活動前三天取消報名，恕不退款</p>
 		                </div>
 		                
 		            </div>
@@ -119,7 +124,10 @@
 	            	</div>
 	            </div>
 	            
-	            <button id="participate">我要報名</button>
+	            <form method="post" th:action="@{/activityorder/addOrder}">
+	            	<button id="participate">我要報名</button>
+	            </form>
+	            
 		    </div>
 				
 		</div>
