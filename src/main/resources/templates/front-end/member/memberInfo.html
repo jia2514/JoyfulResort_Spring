@@ -205,13 +205,13 @@
 											<table class="table table-hover table-primary">
 												<thead>
 													<tr>
-														<td>編號</td>
-														<td>訂單日期</td>
-														<td>訂單狀態</td>
-														<td>住房日</td>
-														<td>退房日</td>
-														<td>退款</td>
-														<td></td>
+														<th>編號</th>
+														<th>訂單日期</th>
+														<th>訂單狀態</th>
+														<th>住房日</th>
+														<th>退房日</th>
+														<th>退款</th>
+														<th></th>
 													</tr>
 												</thead>
 
@@ -244,13 +244,13 @@
 												<table class="table table-hover table-secondary">
 													<thead>
 														<tr>
-															<td>明細</td>
-															<td>房型</td>
-															<td>金額</td>
-															<td>入住姓名</td>
-															<td>連絡電話</td>
-															<td>特殊需求</td>
-															<td>訂單狀態</td>
+															<th>明細</th>
+															<th>房型</th>
+															<th>金額</th>
+															<th>入住姓名</th>
+															<th>連絡電話</th>
+															<th>特殊需求</th>
+															<th>訂單狀態</th>
 
 														</tr>
 													</thead>
@@ -300,7 +300,7 @@
 					<div class="tab-pane fade" id="nav-contact2" role="tabpanel" aria-labelledby="nav-contact-tab">
 
 						<h4 th:if="${memberActivityOrder==null}">查無資料</h4>
-						<table class="table table-secondary table-hover">
+						<table id="table_memberActivityOrder" class="table table-secondary table-hover">
 							<thead class="table-primary">
 								<tr>
 									<th>訂單編號</th>
@@ -318,7 +318,7 @@
 							<th:block th:each="ActivityOrder : ${memberActivityOrder}">
 								<tbody>
 									<tr>
-										<th th:text="${ActivityOrder.activityOrderID}"></th>
+										<td th:text="${ActivityOrder.activityOrderID}"></td>
 										<td th:text="${ActivityOrder.activitySessionVO.activityVO.activityName}"></td>
 										<td th:text="${ActivityOrder.activitySessionVO.activitySessionID}"></td>
 										<td th:text="${ActivityOrder.enteredNumber}"></td>
@@ -372,7 +372,7 @@
 
 							</th:block>
 						</table>
-
+						<div style="display: flex; justify-content: center;"><span id='table_memberActivityOrder_page'></span></div>
 					</div>
 
 					<!-- 會議廳訂單  th:text="${MeetingRoomOrder.orderNote}" -->
@@ -396,7 +396,7 @@
 							<th:block th:each="MeetingRoomOrder : ${memberMeetingRoomOrder}">
 								<tbody>
 									<tr>
-										<th th:text="${MeetingRoomOrder.meetingRoomOrderId}"></th>
+										<td th:text="${MeetingRoomOrder.meetingRoomOrderId}"></td>
 										<td th:text="${MeetingRoomOrder.meetingRoom.meetingRoomId}"></td>
 										<td th:text="${MeetingRoomOrder.meetingRoomOrderDate}"></td>
 										<td th:text="${MeetingRoomOrder.bookingDate}"></td>
@@ -414,7 +414,18 @@
 											<span style="color: #ff4800ad;" th:case="1">退款中</span>
 											<span style="color: #198754;" th:case="2">完成退款</span>
 										</td>
-										<td><button type="button" class="btn btn-outline-dark">取消訂單</button></td>
+										<td>
+											
+											<th:block th:if="${MeetingRoomOrder.orderState==1}">
+												<button id="MeetingRoomOrder" type="button"
+													class="btn btn-outline-dark">取消訂單</button>
+											</th:block>
+											<th:block th:unless="${MeetingRoomOrder.orderState==1}">
+												<button id="MeetingRoomOrder_disabled" type="button"
+													class="btn btn-outline-secondary" disabled>取消訂單</button>
+											</th:block>
+										
+										</td>
 									</tr>
 								</tbody>
 
@@ -464,7 +475,7 @@
 							<th:block th:each="ReserveOrder : ${memberReserveOrder}">
 								<tbody>
 									<tr>
-										<th th:text="${ReserveOrder.reserveOrderId}"></th>
+										<td th:text="${ReserveOrder.reserveOrderId}"></td>
 										<td th:text="${ReserveOrder.ressionVO.reserveSessionId}"></td>
 										<td th:text="${ReserveOrder.reserveOrderDate}"></td>
 										<td th:text="${ReserveOrder.reserveNumber}"></td>
@@ -478,7 +489,16 @@
 											<span style="color: #0d6efd;" th:case="1">成立</span>
 											<span style="color: #198754;" th:case="2">完成</span>
 										</td>
-										<td><button type="button" class="btn btn-outline-dark">取消訂單</button></td>
+										<td>
+											<th:block th:if="${ReserveOrder.reserveOrderState==1}">
+												<button id="ReserveOrder" type="button"
+													class="btn btn-outline-dark">取消訂單</button>
+											</th:block>
+											<th:block th:unless="${ReserveOrder.reserveOrderState==1}">
+												<button id="ReserveOrder_disabled" type="button"
+													class="btn btn-outline-secondary" disabled>取消訂單</button>
+											</th:block>
+										</td>
 									</tr>
 								</tbody>
 
@@ -515,24 +535,142 @@
 	<button id="but_checkActivityCancelOrder" type="button" class="btn btn-primary" data-bs-toggle="modal"
 		data-bs-target="#checkActivityCancelOrder" style="display: none;">活動訂單須知</button>
 
-	<!-- Modal -->
+	<!-- 活動訂單須知  -->
 	<div class="modal fade" id="checkActivityCancelOrder" data-bs-backdrop="static" data-bs-keyboard="false"
 		tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<div style="text-align: center;">
-						<h5 class="modal-title" id="staticBackdropLabel">用戶須知</h5>
+						<h5 class="modal-title" id="staticBackdropLabel">活動訂單取消須知</h5>
 					</div>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					我還沒想好
+					<h3>親愛的顧客：</h3>
+
+					<p>感謝您對我們活動的支持和信任。為了確保活動的順利進行和您的利益，我們特此通知您有關活動訂單取消的相關規定：</p>
+					
+					<h5>取消訂單：</h5>
+					
+					<p>活動開始前7天（含）以上取消：您可以全額退款。</p>
+					<p>活動開始前4至6天取消：您將收到50%的退款。</p>
+					<p>活動開始前3天（含）內取消：我們無法提供退款。請您見諒。</p>
+					<h5>聯絡方式：</h5>
+					
+					<p>請通過以下方式聯繫我們的客服團隊：</p>
+					<p>電話：123-456-7890</p>
+					<p>電子郵件：support@yourcompany.com</p>
+					<p>在聯繫時，請提供您的訂單號、姓名和聯絡方式，以便我們及時處理您的取消請求。</p>
+					<h5>退款處理：</h5>
+					
+					<p>符合退款條件的取消請求，我們將在收到您的取消通知後5個工作日內處理退款。
+					退款將原路返回至您的支付賬戶，具體到賬時間取決於銀行或支付平台的處理時間。
+					</p>
+					<p>感謝您的理解與配合！</p>
+					<p>[joyfulResort] 客服團隊</p>
 				</div>
 				<div class="modal-footer">
 					<button id="Close_checkActivityCancelOrder" type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Close</button>
 					<button id="makeSureActivityCancelOrder" type="button" class="btn btn-primary">確定取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 會議廳訂單須知 -->
+	<button id="but_checkMeetingRoomOrder" type="button" class="btn btn-primary" data-bs-toggle="modal"
+		data-bs-target="#checkMeetingRoomOrder" style="display: none;">會議廳訂單須知</button>
+
+	<!-- 會議廳訂單須知  -->
+	<div class="modal fade" id="checkMeetingRoomOrder" data-bs-backdrop="static" data-bs-keyboard="false"
+		tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div style="text-align: center;">
+						<h5 class="modal-title" id="staticBackdropLabel">會議廳租借取消須知</h5>
+					</div>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<h3>親愛的顧客：</h3>
+
+					<p>感謝您選擇我們的會議廳作為您的活動場地。為了確保所有顧客的權益，我們制定了以下取消租借條款。請仔細閱讀並確認</p>
+					
+					<h5>取消租借：</h5>
+					
+					<p>距租借日期超過30天取消，將退還已支付的全部租金，但需支付總租金的10%作為行政處理費。</p>
+					<p>距租借日期8至30天取消，將退還已支付租金的50%。</p>
+					<p>距租借日期7天內取消，已支付的租金將不予退還。</p>
+					<h5>聯絡方式：</h5>
+					
+					<p>請通過以下方式聯繫我們的客服團隊：</p>
+					<p>電話：123-456-7890</p>
+					<p>電子郵件：support@yourcompany.com</p>
+					<p>在聯繫時，請提供您的訂單號、姓名和聯絡方式，以便我們及時處理您的取消請求。</p>
+					<h5>退款處理：</h5>
+					
+					<p>符合退款條件的取消請求，我們將在收到您的取消通知後5個工作日內處理退款。
+					退款將原路返回至您的支付賬戶，具體到賬時間取決於銀行或支付平台的處理時間。
+					</p>
+					<p>感謝您的理解與配合！</p>
+					<p>[joyfulResort] 客服團隊</p>
+				</div>
+				<div class="modal-footer">
+					<button id="Close_checkMeetingRoomOrder" type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+					<button id="makeSureMeetingRoomOrder" type="button" class="btn btn-primary">確定取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+		<!-- 餐廳訂單須知 -->
+	<button id="but_checkReserveOrder" type="button" class="btn btn-primary" data-bs-toggle="modal"
+		data-bs-target="#checkReserveOrder" style="display: none;">餐廳訂單須知</button>
+
+	<!-- 餐廳訂單須知  -->
+	<div class="modal fade" id="checkReserveOrder" data-bs-backdrop="static" data-bs-keyboard="false"
+		tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div style="text-align: center;">
+						<h5 class="modal-title" id="staticBackdropLabel">餐廳訂單取消須知</h5>
+					</div>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<h3>親愛的顧客：</h3>
+
+					<p>感謝您選擇我們餐廳。為了保障您的權益及我們的服務品質，我們制定了以下取消訂單須知。請您仔細閱讀並遵守</p>
+					
+					<h5>訂單取消：</h5>
+					
+					<p>距訂位時間超過24小時取消，將不收取任何費用。</p>
+					<p>距訂位時間不足12小時取消，已支付的定金將不予退還。</p>
+					
+					<h5>訂單更改：</h5>
+					<p>如需更改訂位時間或人數，請至少提前12小時通知我們，我們將盡力協助重新安排，但不保證能夠滿足您的需求。</p>
+					
+					
+					<h5>聯絡方式：</h5>
+					
+					<p>請通過以下方式聯繫我們的客服團隊：</p>
+					<p>電話：123-456-7890</p>
+					<p>電子郵件：support@yourcompany.com</p>
+					<p>在聯繫時，請提供您的訂單號、姓名和聯絡方式，以便我們及時處理您的取消請求。</p>
+	
+					<p>感謝您的理解與配合！</p>
+					<p>[joyfulResort] 客服團隊</p>
+				</div>
+				<div class="modal-footer">
+					<button id="Close_checkReserveOrder" type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+					<button id="makeSureReserveOrder" type="button" class="btn btn-primary">確定取消</button>
 				</div>
 			</div>
 		</div>
@@ -583,7 +721,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
 	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
-
+	<script th:src="@{/frontend/js/jquery-tablepage-1.0.js}"></script>
 	<script th:src="@{/frontend/js/memberinfo.js}"></script>
 </body>
 

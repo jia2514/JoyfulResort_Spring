@@ -262,14 +262,31 @@ public class FrontendMemberController {
 		res.setContentType("application/json; charset=UTF-8");
 
 		String CancelOrder = req.getParameter("CancelOrder");
-
+		System.out.println(CancelOrder);
 		switch (CancelOrder) {
 		case "activity":
-			Integer OrderID =Integer.valueOf(req.getParameter("activityOrderID")); 
+			Integer activityOrderID =Integer.valueOf(req.getParameter("activityOrderID")); 
 //			System.out.println(OrderID);
-			//取消訂單
-			ActivityOrderVO activityCancelOrder = memSvc.activityCancelOrder(OrderID);
+			//取消活動訂單
+			ActivityOrderVO activityCancelOrder = memSvc.activityCancelOrder(activityOrderID);
 
+			res.getWriter().print(true);
+			break;
+		case "meetingRoom":
+			Integer MeetingRoomOrderID =Integer.valueOf(req.getParameter("MeetingRoomOrderID")); 
+//			System.out.println(MeetingRoomOrderID);
+			
+			//取消會議廳訂單
+			MeetingRoomOrder meetingRoomOrder = memSvc.meetingRoomCancelOrder(MeetingRoomOrderID);
+			
+			res.getWriter().print(true);
+			break;
+		case "ReserveOrder":
+			Integer ReserveOrderID =Integer.valueOf(req.getParameter("ReserveOrderID")); 
+//			System.out.println(ReserveOrderID);
+			
+			//取消餐廳訂單
+			ResVO ReserveOrder = memSvc.ReserveCancelOrder(ReserveOrderID);
 			res.getWriter().print(true);
 			break;
 		}

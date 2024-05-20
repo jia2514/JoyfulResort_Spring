@@ -16,25 +16,23 @@ import com.joyfulresort.reserveorder.model.ResVO;
 import com.joyfulresort.so.activityorder.model.ActivityOrderRepository;
 import com.joyfulresort.so.activityorder.model.ActivityOrderVO;
 
-
 @Service("memberService")
 public class MemberService {
 
 	@Autowired
 	MemberRepository repository;
-	
+
 	@Autowired
 	private RoomOrderRepository reRoomOrder;
-	
+
 	@Autowired
 	ActivityOrderRepository AOrepository;
-	
+
 	@Autowired
-    private MeetingRoomOrderRepository MROrepository;
-	
+	private MeetingRoomOrderRepository MROrepository;
+
 	@Autowired
 	private ResRepository Resrepository;
-
 
 	// 所有會員資料
 	public List<MemberVO> getAll() {
@@ -60,7 +58,7 @@ public class MemberService {
 	public MemberVO getOneMember(Integer id) {
 		Optional<MemberVO> mem = repository.findById(id);
 //		MemberVO member = mem.get();
-		return mem.orElse(null); //如果存在值回傳其值 否則回傳other的值
+		return mem.orElse(null); // 如果存在值回傳其值 否則回傳other的值
 	}
 
 	// 透過Account查詢會員資料
@@ -77,18 +75,16 @@ public class MemberService {
 
 	// 用戶修改資料
 	public MemberVO upUserData(String memberId, String inputName, String inputEmail, String inputPhone,
-			String inputAddrsee, String inputBirthday){
+			String inputAddrsee, String inputBirthday) {
 
-		
 		int upData = repository.upData(inputName, inputEmail, inputPhone, inputAddrsee, Date.valueOf(inputBirthday),
 				memberId);
 //		System.out.println(upData);
 		MemberVO newData = repository.findById(Integer.valueOf(memberId)).get();
 		return newData;
 	}
-		
-	
-	//註冊
+
+	// 註冊
 	public MemberVO newMember(String Name, String Account, String Password, String Email, String Phone, String Address,
 			Integer Gender, Date Birthday) {
 		MemberVO mem = new MemberVO();
@@ -106,26 +102,29 @@ public class MemberService {
 		MemberVO newMember = repository.save(mem);
 		return newMember;
 	}
-	
-	//檢查帳號是否存在
+
+	// 檢查帳號是否存在
 	public boolean checkAccount(String account) {
 		return repository.existsBymemberAccount(account);
 	}
-	//檢查電話是否存在
+
+	// 檢查電話是否存在
 	public boolean checkPhone(String phone) {
 		return repository.existsBymemberPhone(phone);
 	}
-	//檢查信箱是否存在
+
+	// 檢查信箱是否存在
 	public boolean checkEmail(String email) {
 		return repository.existsBymemberEmail(email);
 	}
 
-	//圖片上傳
+	// 圖片上傳
 	public void upDataByImg(String ID, byte[] buf) {
 		repository.upImg(buf, ID);
-		return;		
+		return;
 	}
-	//透過驗證更新狀態
+
+	// 透過驗證更新狀態
 	public void memberStateUpData(Integer id) {
 		Optional<MemberVO> mem = repository.findById(id);
 		MemberVO member = mem.get();
@@ -133,45 +132,69 @@ public class MemberService {
 		repository.save(member);
 		return;
 	}
-	//用戶修改密碼
+
+	// 用戶修改密碼
 	public void changePassword(MemberVO mem) {
 		repository.save(mem);
-		
+
 	}
 
-	
 //	--------------------------------------------------------------------------
 	public MemberVO findByMemberPhone(String memberPhone) {
 		return repository.findByMemberPhone(memberPhone);
 	}
-	
-	//使用會員編號 查詢住宿訂單
+
+	// 使用會員編號 查詢住宿訂單
 	public List<RoomOrder> findMemberRoomOrder(Integer memberId) {
 		return reRoomOrder.findRoomOrderByMemberId(memberId);
 	}
-	//使用會員編號 查詢活動訂單
+
+	// 使用會員編號 查詢活動訂單
 	public List<ActivityOrderVO> findActivityOrderByMemberId(Integer memberID) {
 		return AOrepository.findActivityOrderByMemberId(memberID);
 	}
-	//使用會員編號 查詢會議廳訂單
+
+	// 使用會員編號 查詢會議廳訂單
 	public List<MeetingRoomOrder> findMeetingRoomOrderByMemberId(Integer memberID) {
 		return MROrepository.findByMemberMemberId(memberID);
 	}
-	//使用會員編號 查詢餐廳訂單
+
+	// 使用會員編號 查詢餐廳訂單
 	public List<ResVO> findmemberReserveOrderByMemberId(Integer memberID) {
 		return Resrepository.findmemberReserveOrderByMemberId(memberID);
 	}
-	
-	//用戶取消活動訂單
+
+	// 用戶取消活動訂單
 	public ActivityOrderVO activityCancelOrder(Integer orderID) {
 		Optional<ActivityOrderVO> AOV = AOrepository.findById(orderID);
 		ActivityOrderVO memberActivityOrderVO = AOV.get();
 		memberActivityOrderVO.setOrderStatus((byte) 2);
 		memberActivityOrderVO.setRefundStatus((byte) 1);
-		AOrepository.save(memberActivityOrderVO);	
+		AOrepository.save(memberActivityOrderVO);
 		return AOrepository.findById(orderID).get();
 	}
 
-	
-	
+	// 用戶取消會議廳訂單
+	public MeetingRoomOrder meetingRoomCancelOrder(Integer meetingRoomOrderID) {
+		Optional<MeetingRoomOrder> MRO = MROrepository.findById(meetingRoomOrderID);
+		MeetingRoomOrder memberMeetingRoomOrder = MRO.get();
+		memberMeetingRoomOrder.setOrderState(0);
+		memberMeetingRoomOrder.setRefundState(1);
+		MROrepository.save(memberMeetingRoomOrder);
+		return MROrepository.findById(meetingRoomOrderID).get();
+	}
+
+	// 用戶取消餐廳訂單
+	public ResVO ReserveCancelOrder(Integer reserveOrderID) {
+		Optional<ResVO> RES = Resrepository.findById(reserveOrderID);
+		ResVO memberRES = RES.get();
+		String memberName = memberRES.getMemberVO().getMemberName();
+		String memberPhone = memberRES.getMemberVO().getMemberPhone();
+		memberRES.setReserveOrderState((byte) 0);
+		memberRES.setResName(memberName);
+		memberRES.setResPhone(memberPhone);
+		Resrepository.save(memberRES);
+		return Resrepository.findById(reserveOrderID).get();
+	}
+
 }
