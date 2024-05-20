@@ -71,6 +71,9 @@ input[type="submit"]:hover {
     background-color: #4d94ff; /* 鼠标悬停时按钮背景颜色 */
 }
 
+  .info-container {
+            white-space: pre-wrap;
+        }
 </style>	
   
 </head>
@@ -99,7 +102,9 @@ input[type="submit"]:hover {
             <td th:text="${roomType.roomTypeName}"></td>
             <td th:text="${roomType.numberOfPeople}"></td>
             <td th:text="${roomType.roomTypeAmount}"></td>
-            <td th:text="${roomType.roomTypeContent}"></td>
+            <td>
+<div class="info-container" th:utext="${#strings.trim(roomType.roomTypeContent)}"></div>
+            </td>
             <td th:text="${roomType.roomTypeSaleState} ? '上架' : '下架'"></td>
             <td th:text="${roomType.roomTypePrice}"></td>
             <td>
