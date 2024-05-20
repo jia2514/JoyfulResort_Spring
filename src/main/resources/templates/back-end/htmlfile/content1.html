@@ -53,20 +53,20 @@
 			<!-- 以下是員工的修改測試區域 -->
 			<div class="navbar-nav w-100">
 				<div class="nav-item dropdown"
-					th:if="${session.authorityFunctions.contains(2)}">
+					th:if="${session.authorityFunctions.contains(1)}">
 					<a href="#" class="nav-link dropdown-toggle"
 						data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>員工管理</a>
 					<div class="dropdown-menu bg-transparent border-0">
 						<a th:href="@{/employee/listAllEmployee}" class="dropdown-item"
-							th:if="${session.authorityFunctions.contains(2)}">員工資料首頁</a> <a
+							th:if="${session.authorityFunctions.contains(1)}">員工資料首頁</a> <a
 							th:href="@{/positions/positionAdd}" class="dropdown-item"
-							th:if="${session.authorityFunctions.contains(3)}">員工職務管理</a> <a
+							th:if="${session.authorityFunctions.contains(2)}">員工職務管理</a> <a
 							th:href="@{/authorityfunction/listAllAuthorityFunction}"
 							class="dropdown-item"
-							th:if="${session.authorityFunctions.contains(3)}">功能權限管理</a> <a
+							th:if="${session.authorityFunctions.contains(2)}">功能權限管理</a> <a
 							th:href="@{/positionauthority/allPositionAuthority}"
 							class="dropdown-item"
-							th:if="${session.authorityFunctions.contains(3)}">職務權限列表管理</a>
+							th:if="${session.authorityFunctions.contains(2)}">職務權限列表管理</a>
 					</div>
 				</div>
 
@@ -79,7 +79,7 @@
 						
 						
 <!-- 				這邊是測試版的會員管理區域		 -->
-				<a th:href="@{/member/listAllMember}" class="nav-item nav-link" th:if="${session.authorityFunctions.contains(4)}"><i
+				<a th:href="@{/member/listAllMember}" class="nav-item nav-link" th:if="${session.authorityFunctions.contains(3)}"><i
 					class="fa fa-laptop me-2"></i>會員管理</a>
 					
 					
@@ -106,14 +106,14 @@
 
 
 <!-- 		以下是測試房間資料管理 -->
-		<div class="nav-item dropdown" th:if="${session.authorityFunctions.contains(8) or session.authorityFunctions.contains(9) or session.authorityFunctions.contains(10)}">
+		<div class="nav-item dropdown" th:if="${session.authorityFunctions.contains(7) or session.authorityFunctions.contains(8)}">
 					<a href="#" class="nav-link dropdown-toggle"
 						data-bs-toggle="dropdown"><i class="fa fa-table me-2"></i>房間資料管理</a>
 					<div class="dropdown-menu bg-transparent border-0">
-						<a th:href="@{/roomtype/roomtypeselect}" class="dropdown-item" th:if="${session.authorityFunctions.contains(8)}">房型管理</a>
-						<a th:href="@{/room/roomselect}" class="dropdown-item" th:if="${session.authorityFunctions.contains(9)}">房間管理</a> <a
+						<a th:href="@{/roomtype/roomtypeselect}" class="dropdown-item" th:if="${session.authorityFunctions.contains(7)}">房型管理</a>
+						<a th:href="@{/room/roomselect}" class="dropdown-item" th:if="${session.authorityFunctions.contains(8)}">房間管理</a> <a
 							th:href="@{/roomtypephoto/roomtypephotoselect}"
-							class="dropdown-item" th:if="${session.authorityFunctions.contains(8)}">房型圖片管理</a> <a href="element.html"
+							class="dropdown-item" th:if="${session.authorityFunctions.contains(7)}">房型圖片管理</a> <a href="element.html"
 							class="dropdown-item"></a>
 					</div>
 				</div>
@@ -144,14 +144,14 @@
 
 <!-- 以下是測試的房務管理區域 -->
 
-			<div class="nav-item dropdown" th:if="${session.authorityFunctions.contains(10) or session.authorityFunctions.contains(11) or session.authorityFunctions.contains(12)}">
+			<div class="nav-item dropdown" th:if="${session.authorityFunctions.contains(9) or session.authorityFunctions.contains(10) or session.authorityFunctions.contains(11)}">
 					<a href="#" class="nav-link dropdown-toggle"
 						data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>房務管理</a>
 					<div class="dropdown-menu bg-transparent border-0">
-						<a th:href="@{/roomorderitem/checkin}" class="dropdown-item" th:if="${session.authorityFunctions.contains(11)}">check
-							in</a> <a th:href="@{/roomorderitem/checkout}" class="dropdown-item" th:if="${session.authorityFunctions.contains(12)}">check
+						<a th:href="@{/roomorderitem/checkin}" class="dropdown-item" th:if="${session.authorityFunctions.contains(10)}">check
+							in</a> <a th:href="@{/roomorderitem/checkout}" class="dropdown-item" th:if="${session.authorityFunctions.contains(11)}">check
 							out</a> <a th:href="@{/roomorder/roomorderselect}"
-							class="dropdown-item" th:if="${session.authorityFunctions.contains(10)}">住宿訂單管理</a> <a href="element.html"
+							class="dropdown-item" th:if="${session.authorityFunctions.contains(9)}">住宿訂單管理</a> <a href="element.html"
 							class="dropdown-item"></a>
 					</div>
 				</div>
@@ -184,17 +184,17 @@
 <!-- 以下是測試的活動管理區域 -->
 
 
-				<div class="nav-item dropdown" th:if="${session.authorityFunctions.contains(17) or session.authorityFunctions.contains(18) or session.authorityFunctions.contains(19)}">
+				<div class="nav-item dropdown" th:if="${session.authorityFunctions.contains(16) or session.authorityFunctions.contains(17) or session.authorityFunctions.contains(18)}">
 					<a href="#" class="nav-link dropdown-toggle"
 						data-bs-toggle="dropdown"><i class="fa fa-chart-bar me-2"></i>活動管理</a>
 					<div class="dropdown-menu bg-transparent border-0">
 						<a th:href="@{/activitycategory/activitycategory}"
-							class="dropdown-item" th:if="${session.authorityFunctions.contains(19)}">活動類別管理</a> <a
-							th:href="@{/activity/activity}" class="dropdown-item" th:if="${session.authorityFunctions.contains(17)}">活動管理</a> <a
-							th:href="@{/activityphoto/activityphoto}" class="dropdown-item" th:if="${session.authorityFunctions.contains(17)}">活動圖片管理</a>
+							class="dropdown-item" th:if="${session.authorityFunctions.contains(18)}">活動類別管理</a> <a
+							th:href="@{/activity/activity}" class="dropdown-item" th:if="${session.authorityFunctions.contains(16)}">活動管理</a> <a
+							th:href="@{/activityphoto/activityphoto}" class="dropdown-item" th:if="${session.authorityFunctions.contains(16)}">活動圖片管理</a>
 						<a th:href="@{/activitysession/activitysession}"
-							class="dropdown-item" th:if="${session.authorityFunctions.contains(18)}">活動場次管理</a> <a
-							th:href="@{/activityorder/activityorder}" class="dropdown-item" th:if="${session.authorityFunctions.contains(17)}">活動訂單管理</a>
+							class="dropdown-item" th:if="${session.authorityFunctions.contains(17)}">活動場次管理</a> <a
+							th:href="@{/activityorder/activityorder}" class="dropdown-item" th:if="${session.authorityFunctions.contains(16)}">活動訂單管理</a>
 						<a href="element.html" class="dropdown-item"></a>
 					</div>
 				</div>

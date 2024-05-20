@@ -30,5 +30,13 @@ public class LoginController {
 		model.addAttribute("loginError", "該員工無登入權限。");
 		return "back-end/backend_login";
 	}
+	 
+	 
+	 @GetMapping("/loginfailedCaptcha")
+		public String loginfailedCaptcha(Model model) {
+			// 登入驗證失敗回到登入畫面
+			model.addAttribute("loginError", "驗證碼錯誤，請重新輸入");
+			return "back-end/backend_login";
+		}
 
 }
