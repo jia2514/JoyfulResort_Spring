@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>NewsList Demo</title>
     <link th:insert="@{/back-end/htmlfile/css.html}" />
+    
     <style type="text/css">
         body {
             padding-left: 20px;
@@ -35,6 +36,24 @@
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
+.check{
+        	display:flex;
+        	margin-bottom:10px;
+        	padding-bottom:10px;
+        	border-bottom:2px solid #cbcbcb;
+        }
+		.check a{
+			background:#009CFF;
+			border-radius:5px;
+			color:#fff;
+			padding:3px 5px;
+		}
+		.check a:nth-child(1){
+			margin-right:5px;
+		}
+		.check a:hover{
+		background:#0062a0;
+		}
 
     </style>
 </head>
@@ -49,7 +68,7 @@
 
             <h2>媒體報導管理</h2>
              </br> 
-            <div>
+            <div class="check">
                 <a th:href="@{/newslist/getAll}">查詢所有媒體報導</a><br>
                 
                 <a th:href="@{/newslist/addNewsList}">新增一筆媒體報導</a><br>

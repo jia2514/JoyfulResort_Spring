@@ -20,11 +20,11 @@ public class FrontendNewsList {
 		NewsListService newsListSvc;
 		
 		
-		@GetMapping("getAll")
+		@GetMapping("newslistinfo")
 		public String getAll(ModelMap model) {
 			List<NewsList> newsList = newsListSvc.getAll();
 			model.addAttribute("newsList",newsList);
 			System.out.println("測試點1");
-			return "front-end/newslist/listAllNewsLists";
+			return "front-end/newslist/listNewsLists";
 		}
 }
