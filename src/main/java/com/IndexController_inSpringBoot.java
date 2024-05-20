@@ -521,7 +521,7 @@ public class IndexController_inSpringBoot {
 
     
     
-    //原版可以跑得authorityfunction
+//    //原版可以跑得authorityfunction
 //    @GetMapping("/authorityfunction/listAllAuthorityFunction")
 //    public String listAllAuthorityFunction(Model model) {
 //    	Employee employee = new Employee();
@@ -559,6 +559,25 @@ public class IndexController_inSpringBoot {
       return "back-end/authorityfunction/listAllAuthorityFunction"; //view
   }
     
+    
+//    @GetMapping("/authorityfunction/listAllAuthorityFunction")
+//    public String listAllAuthorityFunction(Model model) {
+//        Employee employee = new Employee();
+//        Position position = new Position();
+//        AuthorityFunction authorityFunction = new AuthorityFunction();
+//
+//        model.addAttribute("employee", employee);
+//        model.addAttribute("position", position);
+//        model.addAttribute("authorityFunction", authorityFunction);
+//
+//        // 加載所有功能權限數據到前端
+//        List<AuthorityFunction> allFunctions = authorityFunctionService.getAll();
+//        model.addAttribute("allFunctions", allFunctions);
+//
+//        System.out.println("測試點index_listAllAuthorityFunction");
+//        return "back-end/authorityfunction/listAllAuthorityFunction"; // 確保這是正確的視圖名稱
+//    }
+
   
   
   

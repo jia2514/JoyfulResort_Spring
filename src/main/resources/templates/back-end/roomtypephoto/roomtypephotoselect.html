@@ -35,6 +35,19 @@
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
+        .selectPhoto{
+        display:flex;
+        }
+        .selectPhoto a {
+                background-color: #007bff;
+                padding:3px 5px;
+                border-radius:5px;
+                margin-right:10px;
+                color:#fff;
+        }
+        .selectPhoto a:hover{
+        background-color: #0056b3;
+        }
 
     </style>
 </head>
@@ -48,10 +61,9 @@
         <div class="G3_content">
 
             <h2>房型圖片管理</h2>
-            <div>
+            <div class="selectPhoto">
                 <a th:href="@{/roomtypephoto/getAll}">查詢所有圖片</a><br>
-                <a th:href="@{/roomtypephoto/addRoomTypePhoto}">新增房型圖片</a><br>
-                
+                <a th:href="@{/roomtypephoto/addRoomTypePhoto}">新增房型圖片</a>
             </div>
             
 

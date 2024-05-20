@@ -26,20 +26,6 @@ public class MemberController {
 	@Autowired
 	MemberService memSvc;
 
-	@GetMapping("/listAllMember.html")
-	public String listAllMember(Model model) {
-		List<MemberVO> list = memSvc.getAll();
-		model.addAttribute("memListData", list);
-		return "backend/member/listAllMember";
-	}
-
-	@GetMapping("/blankTest.html")
-	public String blankTest(Model model) {
-		List<MemberVO> list = memSvc.getAll();
-		model.addAttribute("memListData", list);
-		return "backend/member/blankTest";
-	}
-
 	// 進入頁面後給AllMember資料
 	@GetMapping("/blankMember.html")
 	public String blankMember(Model model) {
@@ -55,8 +41,8 @@ public class MemberController {
 
 		Integer id = Integer.valueOf(req.getParameter("memberID")); // 取得Ajax資料
 		MemberVO member = memSvc.memberStateFindById(id); // 檢查會員狀態並修改狀態
-		List<MemberVO> list = memSvc.getAll();
-		model.addAttribute("memListData", list);
+//		List<MemberVO> list = memSvc.getAll();
+//		model.addAttribute("memListData", list);
 //		System.out.println("修改後的狀態:"+memberState.getMemberState());
 
 		return member;

@@ -25,7 +25,7 @@
 	    margin-top: 0;
 	}
 	
-	.activity button {
+	#participate {
 	    padding: 5px 10px;
 	    background-color: #007bff;
 	    color: #fff;
@@ -35,7 +35,7 @@
 	    margin-left: auto; /* 將按鈕推到右側 */
 	}
 	
-	.activity button:hover {
+	#participate:hover {
 	    background-color: #0056b3;
 	}
 	
@@ -101,29 +101,26 @@
 			</div>
 			
 			<div class="container">
-		        <h4>選擇你想參加的活動：</h4>
+		        <h4>活動介紹：</h4>
+		        
 		        <div th:each="activityVO, i : ${activityListData}" class="activity">
 		            <div class="activity-info">
 		                <h3 th:text="${activityVO.activityName}"></h3>
 		                <p th:text="${activityVO.activityInfo}"></p>
-		                
+		                <hr>
 		                <div>
 		                	<h6 id="notice">*注意事項</h6>
 		                	<p>1. 戶外活動若遇雨天，活動取消</p>
-		                	
 		                </div>
 		                
-		                <button>我要報名</button>
 		            </div>
 		            <div th:each="activityPhotoVO, j : ${activityPhotoListData}" th:if="${i.index == j.index}" class="activity-photo">
 		            	<img th:src="@{/activityphoto/DBGifReader} + '?activityPhotoID=' + ${activityPhotoVO.activityPhotoID}" alt="活動圖片" class="activity-image">
 	            	</div>
 	            </div>
+	            
+	            <button id="participate">我要報名</button>
 		    </div>
-	
-			
-	<!-- 				放內容 -->
-	
 				
 		</div>
 

@@ -106,7 +106,8 @@ input[type="submit"]:hover {
             <td th:text="${room.roomId}"></td>
             <td th:text="${room.roomType.roomTypeName}"></td>
             <td th:text="${room.roomSaleState}? '上架' : '下架'"></td>
-            <td th:text="${room.roomState}"></td>
+     <td th:text="${room.roomState == 0 ? '未入住' : (room.roomState == 1 ? '已入住' : '待清潔')}"></td>
+
             
         <td>
     	<form method="post" th:action="@{/room/getOne_For_Update}" style="margin-bottom: 0px;">
