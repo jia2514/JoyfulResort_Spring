@@ -9,7 +9,8 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 
 <style>
 body {
@@ -173,23 +174,37 @@ input[type="text"] {
 	font-size: 0.875em;
 }
 
-   .search-container {
-        display: flex; /* 啟用 Flexbox */
-        align-items: center; /* 垂直居中對齊 */
-        margin-bottom: 10px; /* 下邊距 */
-    }
+.search-container {
+	display: flex; /* 啟用 Flexbox */
+	align-items: center; /* 垂直居中對齊 */
+	margin-bottom: 10px; /* 下邊距 */
+}
 
-    #searchInput {
-        flex-grow: 1; /* 輸入框填充剩餘空間 */
-        padding: 8px;
-    }
+#searchInput {
+	flex-grow: 1; /* 輸入框填充剩餘空間 */
+	padding: 8px;
+}
 
-    label {
-        margin-right: 10px; /* 標籤和輸入框之間的間隔 */
-    }
+label {
+	margin-right: 10px; /* 標籤和輸入框之間的間隔 */
+}
+
+/* 新增CSS */
+.modal-title {
+	text-align: center;
+	width: 100%;
+}
+
+.modal-body {
+	text-align: center;
+	color: red;
+}
+
+.modal-body i {
+	color: red;
+	margin-right: 5px;
+}
 </style>
-
-
 
 </head>
 <body>
@@ -198,12 +213,10 @@ input[type="text"] {
 		<div class="bg-light rounded">
 			<div class="G3_content">
 
-
- <div class="search-container">
-    <label for="searchInput">* 搜索功能權限名稱:</label>
-    <input type="text" id="searchInput" placeholder="搜索功能權限名稱">
-</div>
-
+				<div class="search-container">
+					<label for="searchInput">* 搜索功能權限名稱:</label>
+					<input type="text" id="searchInput" placeholder="搜索功能權限名稱">
+				</div>
 
 				<form th:action="@{/AuthorityFunctionController/insert}"
 					th:object="${authorityFunction}" method="post">
@@ -214,39 +227,24 @@ input[type="text"] {
 					<button type="submit" class="add-button">新增</button>
 				</form>
 
-
-
-
-
-
-
 				<form th:action="@{/AuthorityFunctionController/update}"
 					th:object="${authorityFunction}" method="post">
 					<input type="hidden" th:field="*{functionId}" id="functionIdHidden" />
 					<label>* 修改功能權限名稱:</label> <input type="text"
 						th:field="*{functionName}" placeholder="輸入要修改的權限名稱" required>
-					<button type="submit" class="update-button">修改</button>
+					<button type="submit" class="update-button" onclick="handleUpdate(event)">修改</button>
 				</form>
-
-
-
 
 				<form th:action="@{/AuthorityFunctionController/delete}"
 					method="post">
 					<label>* 刪除功能權限:</label> <input type="hidden" name="functionId"
 						th:value="${selectedAuthorityFunctionId}">
-					<button type="submit" class="delete-button">刪除</button>
+					<button type="submit" class="delete-button" onclick="handleDelete(event)">刪除</button>
 				</form>
 
+				<span class="title-text"><i class="fa-solid fa-rectangle-list"></i>所有功能權限列表</span>
 
-
-
-				<span class="title-text"><i
-					class="fa-solid fa-rectangle-list"></i>所有功能權限列表</span>
-
-
-
-				 <table id="authorityTable">
+				<table id="authorityTable">
 					<thead>
 						<tr>
 							<th>選擇</th>
@@ -255,12 +253,10 @@ input[type="text"] {
 						</tr>
 					</thead>
 					<tbody>
-						<th:block
-							th:each="authorityFunction : ${authorityFunctionPage.content}">
+						<th:block th:each="authorityFunction : ${authorityFunctionPage.content}">
 							<tr>
 								<td><input type="radio" name="selectedAuthorityFunctionId"
 									th:value="${authorityFunction.functionId}"></td>
-								<!-- 								<td th:text="${authorityFunctionStat.count}"></td> -->
 								<td th:text="${authorityFunction.functionId}"></td>
 								<td th:text="${authorityFunction.functionName}"></td>
 							</tr>
@@ -269,84 +265,80 @@ input[type="text"] {
 				</table>
 
 				<!-- 在頁面中顯示分頁按鈕 -->
-
 				<div>
 					<ul class="pagination">
-						<li
-							th:class="${authorityFunctionPage.isFirst()} ? 'disabled' : ''">
-							<a
-							th:href="@{/authorityfunction/listAllAuthorityFunction(page=${authorityFunctionPage.number - 1})}">&laquo;
-								前一頁</a>
+						<li th:class="${authorityFunctionPage.isFirst()} ? 'disabled' : ''">
+							<a th:href="@{/authorityfunction/listAllAuthorityFunction(page=${authorityFunctionPage.number - 1})}">&laquo; 前一頁</a>
 						</li>
-						<li
-							th:each="i : ${#numbers.sequence(0, authorityFunctionPage.totalPages - 1)}"
-							th:class="${i == authorityFunctionPage.number} ? 'active' : ''"><a
-							th:href="@{/authorityfunction/listAllAuthorityFunction(page=${i})}"
-							th:text="${i + 1}"></a></li>
-						<li th:class="${authorityFunctionPage.isLast()} ? 'disabled' : ''"><a
-							th:href="@{/authorityfunction/listAllAuthorityFunction(page=${authorityFunctionPage.number + 1})}">下一頁
-								&raquo;</a></li>
+						<li th:each="i : ${#numbers.sequence(0, authorityFunctionPage.totalPages - 1)}"
+							th:class="${i == authorityFunctionPage.number} ? 'active' : ''">
+							<a th:href="@{/authorityfunction/listAllAuthorityFunction(page=${i})}" th:text="${i + 1}"></a>
+						</li>
+						<li th:class="${authorityFunctionPage.isLast()} ? 'disabled' : ''">
+							<a th:href="@{/authorityfunction/listAllAuthorityFunction(page=${authorityFunctionPage.number + 1})}">下一頁 &raquo;</a>
+						</li>
 					</ul>
+				</div>
+
+				<!-- Modal HTML -->
+				<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="alertModalLabel">提示</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body" id="alertModalBody"><i class="fas fa-exclamation-circle"></i><span id="alertMessage"></span></div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="$('#alertModal').modal('hide');">確定</button>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<script>
 					$(document).ready(function() {
 						$('input[type="radio"]').change(function() {
-						// 當選擇的單選按鈕狀態改變時，取得選中的 radio 值
-						var selectedId = $(this).val();
-						// 將這個值設定給隱藏的 input 欄位
-						$('#functionIdHidden').val(selectedId);
-					});
+							var selectedId = $(this).val();
+							$('#functionIdHidden').val(selectedId);
+						});
 
-				// 將額外提供的 JavaScript 代碼加入
-				$("input").focus(function() {
-					$(this).next(".alert.alert-danger").hide(); // 當聚焦到輸入框時隱藏相鄰的錯誤訊息
-				});
+						$("input").focus(function() {
+							$(this).next(".alert.alert-danger").hide();
+						});
 
-				// 將更新按鈕綁定提交事件
-				$('.update-button').click(function(event) {// 檢查是否選擇了一個 radio 按鈕
-				if (!$('input[name="selectedAuthorityFunctionId"]:checked').val()) {
-						alert('請選擇一個功能權限來修改。');
-						// 阻止表單提交	
-						event.preventDefault(); }
-					});
-				});
-
-					$(document).ready(function() {
-					// 將刪除按鈕綁定點擊事件
-						$('.delete-button').click(function(event) {
-						// 檢查是否選擇了一個 radio 按鈕
-							if (!$('input[name="selectedAuthorityFunctionId"]:checked').val()) {
-								alert('請選擇一個功能權限來刪除。');
-								event.preventDefault(); // 阻止默認行為（即阻止表單提交）
-							} else {
-							// 獲取選中的功能權限的 functionId
-							var selectedFunctionId = $('input[name="selectedAuthorityFunctionId"]:checked').val();
-							// 將 functionId 設置到表單中的隱藏欄位中
-							$('input[name="functionId"]').val(selectedFunctionId);
-							// 繼續執行刪除操作
-							// 如果你的刪除操作是在表單提交後由後端處理的，你可以不用寫任何其他代碼，
-							// 只需確保表單在這裡提交即可。
-							}
+						$("#searchInput").on("keyup", function() {
+							var value = $(this).val().toLowerCase();
+							$("#authorityTable tbody tr").filter(function() {
+								$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+							});
 						});
 					});
-					
-					
-					
-					//搜尋
-					$(document).ready(function(){
-    					$("#searchInput").on("keyup", function() {
-        					var value = $(this).val().toLowerCase();
-        					//針對authorityTable 內的tbody標籤內的tr做過濾
-       						$("#authorityTable tbody tr").filter(function() {
-            					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    						 });
-  						});
-					});
-					
+
+					function showAlertModal(message) {
+						$('#alertMessage').text(message);
+						$('#alertModal').modal('show');
+					}
+
+					function handleUpdate(event) {
+						if (!$('input[name="selectedAuthorityFunctionId"]:checked').val()) {
+							event.preventDefault();
+							showAlertModal('請選擇一個功能權限來修改。');
+						}
+					}
+
+					function handleDelete(event) {
+						if (!$('input[name="selectedAuthorityFunctionId"]:checked').val()) {
+							event.preventDefault();
+							showAlertModal('請選擇一個功能權限來刪除。');
+						} else {
+							var selectedFunctionId = $('input[name="selectedAuthorityFunctionId"]:checked').val();
+							$('input[name="functionId"]').val(selectedFunctionId);
+						}
+					}
 				</script>
-
-
 			</div>
 		</div>
 	</div>

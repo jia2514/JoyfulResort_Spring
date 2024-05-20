@@ -1,5 +1,7 @@
 package com.joyfulresort.fun.authorityfunction.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +11,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.joyfulresort.fun.authorityfunction.model.AuthorityFunction;
 import com.joyfulresort.fun.authorityfunction.model.AuthorityFunctionService;
+import com.joyfulresort.fun.emp.model.EmployeeService;
 
+//@RestController
 @Controller
 public class AuthorityFunctionController {
 	
@@ -22,6 +28,8 @@ public class AuthorityFunctionController {
 	AuthorityFunctionService authorityFunctionService;
 	
 	
+	@Autowired
+	EmployeeService employeeService;
 	
 	@PostMapping("/AuthorityFunctionController/insert")
     public String insertAuthorityFunction(@Valid AuthorityFunction authorityFunction, BindingResult result, ModelMap model, @RequestParam(defaultValue = "0") int page) {
@@ -87,5 +95,25 @@ public class AuthorityFunctionController {
 	    return "redirect:/authorityfunction/listAllAuthorityFunction"; // 確保這是正確的視圖名稱
 	}
 
+	
+
+	
+	 @GetMapping("/AuthorityFunctionController/getAll")
+	    @ResponseBody
+	    public List<AuthorityFunction> getAllAuthorityFunctions() {
+	        return authorityFunctionService.getAll();
+	    }
+
+
+
+	 
+	 
+	 
+
+
+
 
 }
+
+
+

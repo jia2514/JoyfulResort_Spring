@@ -13,6 +13,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.joyfulresort.fun.positionauthority.model.PositionAuthority;
 
 @Entity
@@ -28,7 +29,7 @@ public class AuthorityFunction {
     @Column(name="function_name")
     private String functionName;
     
-    
+//    @JsonManagedReference
     @OneToMany(mappedBy = "authorityFunction", cascade = CascadeType.ALL)
     @OrderBy("positionId asc")
     private Set<PositionAuthority> positionAuthorities;

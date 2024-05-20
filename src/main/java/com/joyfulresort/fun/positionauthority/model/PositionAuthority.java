@@ -1,11 +1,20 @@
 package com.joyfulresort.fun.positionauthority.model;
 
-import com.joyfulresort.fun.authorityfunction.model.AuthorityFunction;
-import com.joyfulresort.fun.position.model.Position;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.joyfulresort.fun.authorityfunction.model.AuthorityFunction;
+import com.joyfulresort.fun.position.model.Position;
 
 
 @Entity
@@ -24,6 +33,7 @@ public class PositionAuthority {
     @JoinColumn(name = "position_id", referencedColumnName = "position_id", insertable = false, updatable = false)
     private Position position;
 
+//    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "function_id", referencedColumnName = "function_id", insertable = false, updatable = false)
     private AuthorityFunction authorityFunction;
