@@ -6,8 +6,51 @@
 <title>My Page</title>
 <link th:insert="~{/front-end/htmlfile/css.html}" />
 <style type="text/css">
+.checkorder {
+    /* 水平居中 */
+    margin: 0 auto;
+    
+    /* 设置宽度和内边距 */
+    width: 70%; /* 或者您可以根据需要设置宽度的百分比 */
+    padding: 20px;
+    
+    /* 添加背景颜色和阴影 */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+    /* 设置字体和文字样式 */
+    font-family: Arial, sans-serif;
+    color: #333333;
+}
 
-/*     放css */
+/* 为输入框和标签设置样式 */
+.checkorder label {
+    font-weight: bold;
+}
+
+.checkorder input[type="text"],
+.checkorder textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}
+
+.checkorder input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.checkorder input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
 
 </style>
 </head>
@@ -16,26 +59,35 @@
 	</section>
 	</header>
 		<div th:fragment="content" class="G3content">
-	
-			<h4>新增住宿訂單</h4>
+		<div class="checkorder">
+			<h4>住宿訂單明細確認</h4>
 		    <hr>
 		    <form action="#" th:action="@{/roomorder/insert}" method="post" onsubmit="return validateForm()">
-		        <label>會員姓名：</label>
-		        <input type="text" id="memberName" name="memberName"> <span class="error-message" id="memberName_error"></span><br>
+		        <input type="hidden" id="memberId" name="memberId" 
+		        	th:each="cookie :${#httpServletRequest.getCookies()}"
+	 			    th:if="${cookie.getName().equals('MemberID')}"
+				    th:value="${cookie.getValue()}"
+		        					>
 		        
-		        <label>會員電話：</label>
-		        <input type="text" id="memberPhone" name="memberPhone"> <span class="error-message" id="memberPhone_error"></span><br>
+		        <label>會員姓名：</label><span id="memberNameSpan"></span>
+		        <input type="hidden" id="memberName" name="memberName"><br>
+		        
+		        <label>會員電話：</label><span id="memberPhoneSpan"></span>
+		        <input type="hidden" id="memberPhone" name="memberPhone"><br>
 		       
 		        
 		        <div><label>預定checkin日期：</label>
-		        <span th:text="${roomOrder.checkInDate}"></span>
-		        <input type="hidden" name="checkInDate" th:value="${roomOrder.checkInDate}">
-		        </div><br>
+			        <span th:text="${roomOrder.checkInDate}"></span>
+			        <input type="hidden" name="checkInDate" th:value="${roomOrder.checkInDate}">
+		        </div>
 		        <div><label>預定checkout日期：</label>
-		        <span th:text="${roomOrder.checkOutDate}"></span>
-		        <input type="hidden" name="checkOutDate" th:value="${roomOrder.checkOutDate}">
-		        </div><br>
-		
+			        <span th:text="${roomOrder.checkOutDate}"></span>
+			        <input type="hidden" name="checkOutDate" th:value="${roomOrder.checkOutDate}">
+		        </div>
+				<div><label>共入住：</label>
+			        <span th:text="${roomOrder.bookingNight}"></span><span>晚</span>
+			        <input type="hidden" name="bookingNight" th:value="${roomOrder.bookingNight}">
+		        </div>
 		
 		        <div th:each="i : ${#numbers.sequence(1, roomOrder.paramCount)}" th:with="rt=${roomOrder.__${'roomTypeId' + i}__}">
 		            <div>
@@ -44,22 +96,34 @@
 							        <label th:text="${roomType.roomTypeName}"></label>
 							    </span>
 						</span>
+						<label> ：</label><span th:text="${roomOrder.__${'roomAmount' + i}__}"></span><span>間</span>
+						<span>&nbsp;&nbsp;&nbsp;&lt;</span><span th:text="${roomOrder.__${'numberOfPeople' + i}__}"></span>
+						<span>人房, 每晚價格: </span><span th:text="${#numbers.formatInteger(roomOrder.__${'roomTypePrice' + i}__,1,'COMMA')}"></span> <span>NTD/1間&gt;</span><br>
 		                <input type="hidden"  th:name="roomType+${i}" th:value="${rt}">
 		                
 		            
-		            <label>間數：</label><span th:text="${roomOrder.__${'roomAmount' + i}__}"></span>
+		            
 		            <input type="hidden"  th:name="roomAmount+${i}" th:value="${roomOrder.__${'roomAmount' + i}__}">
 		            
-		            </div><br>
+		            </div>
 		        </div>
 		        
 		        
 		        <label>特殊需求：</label><br>
-		        <textarea name="specialreq">請輸入訂單特殊需求</textarea>
+		        <textarea name="specialreq"></textarea>
 		        
-		        <hr>
+		        <h5><label style="font-weight:bold;">總價：</label>
+			        <span th:text="${#numbers.formatInteger(roomOrder.totalPrice,1,'COMMA')}" style="font-weight:bold;"></span><span style="font-weight:bold;">&nbsp;NTD</span>
+		        </h5>
+		        
+		        <label>付款方式：</label>
+		        <input  type="radio" name="chart" value="transfer">匯款
+				<input  type="radio" name="chart" value="creditcard">信用卡
+		        <br>
 		        <input type="hidden" id="paramCount" name="paramCount" th:value="${roomOrder.paramCount}">
-		        <input type="submit" value="送出">
+		        <input type="hidden" id="totalPrice" name="totalPrice" th:value="${roomOrder.totalPrice}">
+		        <input type="hidden" id="frontendinsert" name="frontendinsert" value="true">
+		        <input type="submit" value="確認付款">
 		        
 		       
 		    </form>
@@ -67,7 +131,7 @@
 			
 	
 	
-				
+		</div>		
 		</div>
 
 	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
@@ -75,7 +139,32 @@
 
 	<script>
 	
-	<!-- 				放JS -->
+	$(document).ready(function() {
+	    $.ajax({
+	        type: "POST",
+	        url: "/backend/member/Ajax",
+	        data: { memberID: $("#memberId").val() }, 
+	        dataType: "json",
+	        success: function(response) {
+	            if (response != null) {
+	                $("#memberName").val(response.memberName);
+	                $("#memberPhone").val(response.memberPhone);
+	                $("#memberNameSpan").text(response.memberName);
+	                $("#memberPhoneSpan").text(response.memberPhone);
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("An error occurred while fetching member data: " + error);
+	        }
+	    });
+	    
+	    $('form').submit(function(event) {
+	        if ($('input[name="chart"]:checked').length === 0) {
+	            alert('請選擇付款方式');
+	            event.preventDefault(); 
+	        }
+	    });
+	});
     
 	</script>
 	

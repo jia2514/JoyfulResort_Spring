@@ -95,9 +95,6 @@ public class RoomOrderController {
 	}
 	
 	
-	
-	
-	
 	@PostMapping("getAll")
 	public String getAll(ModelMap model) {
 		List<RoomOrder> list = roomOrderSvc.getAll();
@@ -147,12 +144,7 @@ public class RoomOrderController {
 		return ResponseEntity.ok(roomOrderInfo);
 	}
 
-//	@GetMapping("addOne")
-//	public String addOne(ModelMap model) {
-//		RoomOrder roomOrder = new RoomOrder();
-//		model.addAttribute("roomOrder", roomOrder);
-//		return "back-end/roomorder/addRoomOrder";
-//	}
+
 	
 	@PostMapping("frontendAddOne")
 	public String frontendAddOne(@RequestParam Map<String, String> formData, Model model) {
@@ -168,13 +160,7 @@ public class RoomOrderController {
 
 	@PostMapping("insert")
 	public String insert(HttpServletRequest req, Model model) throws IOException {
-
-		Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
-		req.setAttribute("errorMsgs", errorMsgs);
-
-		/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
 		String memberPhone = req.getParameter("memberPhone");
-
 
 		MemberVO member = memberSvc.findByMemberPhone(memberPhone);
 		Date checkInDate = java.sql.Date.valueOf(req.getParameter("checkInDate"));
@@ -221,25 +207,26 @@ public class RoomOrderController {
 
 		roomOrder.setRoomOrderItems(roomOrderItems);
 
-		roomOrderSvc.addRoomOrder(roomOrder);
-
-		List<RoomOrder> listAll = roomOrderSvc.getAll();
-		model.addAttribute("roomOrderList", listAll);
-		return "back-end/roomorder/listAllRoomOrder";
+		RoomOrder newRoomOrder = roomOrderSvc.addRoomOrder(roomOrder);
+		
+		
+		
+		if(req.getParameter("frontendinsert").equals("true")) {
+			model.addAttribute("roomOrder", newRoomOrder);
+			model.addAttribute("totalPrice", req.getParameter("totalPrice"));
+			model.addAttribute("bookingNight", req.getParameter("bookingNight"));
+			System.out.println("model"+model);
+			return "front-end/roomorder/listOneRoomOrder";
+		}else {
+			List<RoomOrder> listAll = roomOrderSvc.getAll();
+			model.addAttribute("roomOrderList", listAll);
+			return "back-end/roomorder/listAllRoomOrder";
+		}
+		
 	}
 
 
-	@PostMapping("update")
-	public String update(@Valid RoomOrder roomOrder, BindingResult result, ModelMap model) throws IOException {
 
-		roomOrderSvc.updateRoomOrder(roomOrder);
-
-		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/
-		model.addAttribute("success", "- (修改成功)");
-		roomOrder = roomOrderSvc.getOneRoomOrder(Integer.valueOf(roomOrder.getRoomOrderId()));
-		model.addAttribute("roomOrder", roomOrder);
-		return "back-end/roomorder/listOneRoomOrder"; // 修改成功後轉交listOneEmp.html
-	}
 
 
 }
