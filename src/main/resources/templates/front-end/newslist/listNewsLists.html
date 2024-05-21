@@ -75,29 +75,23 @@ width:25%;
 <!-- 			<th>報導狀態更新</th> -->     
         
    <div class="content" th:each="newsItem : ${newsList}">
-      <div class="contentItem">
-	    <div th:text="${newsItem.newsTitle}"></div>
-	    <div th:text="${newsItem.newsDate}"></div>
-	    <div th:text="${newsItem.newsAbstract}"></div>
-	    	</div>
-<!-- 	    <div th:text="${newsItem.newsContent}"></div> -->
-	    <div class="img"><img th:src="@{/newslist/DBGifReader} + '?newsId=' + ${newsItem.newsId}" width="200px"></div>
-<!-- 	    <div th:text="${newsItem.newsFrom}"></div> -->
-	</div>
-    </table>
+               <div class="contentItem">
+                    <div th:text="${newsItem.newsTitle}"></div>
+                    <div th:text="${newsItem.newsDate}"></div>
+                    <div th:text="${newsItem.newsAbstract}"></div>
+                    <a th:href="@{/joyfulresort/newslist/getOne_For_Display(newsId=${newsItem.newsId})}" class="btn btn-info">查看詳情</a>
+                </div>
+                <div class="img">
+                    <img th:src="@{/newslist/DBGifReader(newsId=${newsItem.newsId})}" width="200px">
+                </div>
+            </div>
+            <a th:href="@{/joyfulresort}">回首頁</a>
+        </div>
     </div>
-        <a th:href="@{/joyfulresort}">回首頁</a>
-				
-		</div>
-
-	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
-	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
-
-	<script>
-	
-	<!-- 				放JS -->
-    
-	</script>
-	
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <th:block th:insert="~{/front-end/htmlfile/content2.html}" />
+    <th:block th:insert="~{/front-end/htmlfile/script.html}" />
 </body>
 </html>
