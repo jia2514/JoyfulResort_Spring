@@ -72,19 +72,25 @@ public class MeetingRoomOrderController {
 //    }
 
     @PostMapping("/conference/order/add")
-    public String addOrder(@RequestParam("selectedDateTime") @DateTimeFormat(pattern = "yyyy-MM-dd") Date selectedDateTime,
-                           @RequestParam("meetingRoomId") Integer meetingRoomId) throws ParseException {
-        MeetingRoomOrder meetingRoomOrder = new MeetingRoomOrder();
-        MemberVO member = new MemberVO();
-        Integer memberId = (int) (Math.random() * 10 + 1);
-        member.setMemberId(memberId);
-        MeetingRoom meetingRoom = new MeetingRoom();
-        meetingRoom.setMeetingRoomId(meetingRoomId);
-        meetingRoomOrder.setMember(member);
-        meetingRoomOrder.setMeetingRoomOrderDate(new Date());
-        meetingRoomOrder.setMeetingRoom(meetingRoom);
-        meetingRoomOrder.setBookingDate(selectedDateTime);
-        meetingRoomOrderRepository.save(meetingRoomOrder);
+    public String addOrder(@RequestParam("selectedDateTime") @DateTimeFormat(pattern = "yyyy-MM-dd") List<Date> selectedDateTime,
+                           @RequestParam("meetingRoomId") List<Integer> meetingRoomId) throws ParseException {
+        if (selectedDateTime.size() != meetingRoomId.size()) {
+            throw new IllegalArgumentException("Date and Room IDs must have the same number of elements.");
+        }
+        for (int i = 0; i < selectedDateTime.size(); i++) {
+            MeetingRoomOrder meetingRoomOrder = new MeetingRoomOrder();
+            MemberVO member = new MemberVO();
+            Integer memberId = (int) (Math.random() * 10 + 1);
+            member.setMemberId(memberId);
+            MeetingRoom meetingRoom = new MeetingRoom();
+            meetingRoom.setMeetingRoomId(meetingRoomId.get(i));
+            meetingRoomOrder.setMember(member);
+            meetingRoomOrder.setMeetingRoomOrderDate(new Date());
+            meetingRoomOrder.setMeetingRoom(meetingRoom);
+            meetingRoomOrder.setBookingDate(selectedDateTime.get(i));
+            meetingRoomOrderRepository.save(meetingRoomOrder);
+
+        }
         return "redirect:/conference/order";
     }
 

@@ -328,6 +328,11 @@ public class IndexController_inSpringBoot {
 		return "front-end/activity/joyfulactivity";
 	}
 	
+	@GetMapping("/participate")
+	public String participate(Model model) {
+		return "front-end/activity/participate";
+	}
+	
 	// ======================================== 後台控制器 ======================================== //
 	
 	@GetMapping("/activitycategory/activitycategory")
@@ -788,3 +793,5 @@ public class IndexController_inSpringBoot {
 	    return "back-end/newslist/updateNewsList";
 	    }
 }
+
+//======================================== 前台頁面 ======================================== //

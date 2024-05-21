@@ -67,7 +67,7 @@ public class NewsListController {
 		result = removeFieldError(newsList, result, "newsPhoto");
 
 		if (parts[0].isEmpty()) { // 使用者未選擇要上傳的圖片時
-			model.addAttribute("errorMessage", "最新消息照片: 請上傳照片");
+			model.addAttribute("errorMessage", "媒體報導照片: 請上傳照片");
 		} else {
 			for (MultipartFile multipartFile : parts) {
 				byte[] buf = multipartFile.getBytes();

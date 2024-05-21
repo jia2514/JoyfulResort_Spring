@@ -8,7 +8,45 @@
 <style type="text/css">
 
 /*     放css */
+.body{
+padding-top:35px;
+    margin: 40px 38px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:10px;
+}
+.content{
+font-size: 18px;
+    width: 100%;
+    height: 200px;
+	width:100%;
+	display: flex;
+	gap:10px;
+	padding:10px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius:5px;
+}
 
+.contentItem{
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+}
+.contentItem>div:nth-child(1){
+	font-weight:bold;
+
+}
+.img{
+width:25%;
+}
+.img>img{
+	width:100%;
+	height:100%;
+	object-fit: contain;
+}
 </style>
 </head>
 <body class="main-layout">
@@ -19,7 +57,10 @@
 	
 			
 	<!-- 				放內容 -->
-	 <h1>所有媒體報導</h1>
+	<div class="body">
+				<h2 class="text-center p-0 lora-type m-0" style="color: #847674;" data-aos="fade-up" data-aos-duration="1000">NewList</h2>
+	        <P class="text-center h5 mb-5 fw-bold" data-aos="fade-up" data-aos-duration="2000">媒體報導</P>
+
     <table style="width:100%; text-align:left;">
 
 <!--         <tr> -->
@@ -33,15 +74,18 @@
 <!-- 			<th>媒體報導狀態</th> -->
 <!-- 			<th>報導狀態更新</th> -->     
         
-   <div th:each="newsItem : ${newsList}">
+   <div class="content" th:each="newsItem : ${newsList}">
+      <div class="contentItem">
 	    <div th:text="${newsItem.newsTitle}"></div>
 	    <div th:text="${newsItem.newsDate}"></div>
 	    <div th:text="${newsItem.newsAbstract}"></div>
-	    <div th:text="${newsItem.newsContent}"></div>
-	    <div><img th:src="@{/newslist/DBGifReader} + '?newsId=' + ${newsItem.newsId}" width="200px"></div>
-	    <div th:text="${newsItem.newsFrom}"></div>
+	    	</div>
+<!-- 	    <div th:text="${newsItem.newsContent}"></div> -->
+	    <div class="img"><img th:src="@{/newslist/DBGifReader} + '?newsId=' + ${newsItem.newsId}" width="200px"></div>
+<!-- 	    <div th:text="${newsItem.newsFrom}"></div> -->
 	</div>
     </table>
+    </div>
         <a th:href="@{/joyfulresort}">回首頁</a>
 				
 		</div>

@@ -72,10 +72,10 @@ public class MemberLoginController {
 			
 			Cookie cookie = new Cookie("LogInState", "200"); // 寫入Cookie 紀錄登入狀態 給預覽器判斷			
 			cookie.setMaxAge(3600); //設定 cookie 存活時間 單位為秒
-			
+			cookie.setPath("/"); // 確保 Cookie 在整個應用程式都可使用
 			Cookie id = new Cookie("MemberID", String.valueOf(mem.getMemberId()));
 			id.setMaxAge(3600*24);
-			
+			id.setPath("/"); // 確保 Cookie 在整個應用程式都可使用
 			res.addCookie(id);
 			res.addCookie(cookie);
 			
