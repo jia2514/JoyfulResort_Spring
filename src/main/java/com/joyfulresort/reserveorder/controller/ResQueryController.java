@@ -65,7 +65,6 @@ public class ResQueryController {
 			ModelMap model) {
 		List<ResVO> resVO = resSvc.findByDates(reserveOrderDate, bookingDate);
 		List<ResVO> list = resSvc.getAllRes();
-		System.out.println(reserveOrderDate);
 
 		model.addAttribute("ResList", list);
 		model.addAttribute("ResListData", list);
@@ -92,9 +91,7 @@ public class ResQueryController {
 		}
 		List<ResVO> resVO = resSvc.findByDateBetween(TimeStart, TimeEnd);
 		List<ResVO> list = resSvc.getAllRes();
-		System.out.println(TimeStart);
-		System.out.println(TimeEnd);
-
+	
 		model.addAttribute("ResList", list);
 		model.addAttribute("ResListData", list);
 		if (resVO.isEmpty()) {

@@ -84,7 +84,6 @@ public class ResService {
 
 	public List<ResVO> findByDateBetween(LocalDate TimeStart, LocalDate TimeEnd) {
 		if (TimeStart != null && TimeEnd != null) {
-			System.out.println(1);
 			return repository.findByDateBetween(TimeStart, TimeEnd);
 		} else if (TimeStart != null) {
 			return repository.findByDateStart(TimeStart);
