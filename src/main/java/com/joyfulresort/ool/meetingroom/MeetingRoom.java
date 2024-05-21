@@ -11,12 +11,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.joyfulresort.ool.meetingroomorder.MeetingRoomOrder;
 import com.joyfulresort.ool.meetingroomphoto.MeetingRoomPhoto;
 
 @Entity
-
 @Table(name = "meetingroom")
 public class MeetingRoom {
     @Column(name = "meetingroom_id")
@@ -25,25 +27,35 @@ public class MeetingRoom {
     private Integer meetingRoomId;
 
     @Column(name = "meetingroom_name")
+    @NotBlank(message = "*請輸入會議廳名稱")
     private String meetingRoomName;
 
     @Column(name = "meetingroom_ename")
+    @NotBlank(message = "*請輸入會議廳英文")
     private String meetingRoomEname;
 
     @Column(name = "meetingroom_content")
     private String meetingRoomContent;
 
     @Column(name = "meetingroom_sale_state")
+    @NotNull(message = "*請輸入會議廳狀態")
     private Boolean meetingRoomSaleState;
 
     @Column(name = "meetingroom_price")
+    @NotNull(message = "*請輸入會議廳價格")
+    @Min(value = 0, message = "數字不可小於0")
     private Integer meetingRoomPrice;
 
     @Column(name = "meetingroom_chair")
+    @NotNull(message = "*請輸入座位數")
+    @Min(value = 0, message = "數字不可小於0")
     private Integer meetingRoomChair;
     @Column(name = "meetingroom_square_meter")
+    @NotNull(message = "*請輸入場地坪數")
+    @Min(value = 0, message = "數字不可小於0")
     private Integer meetingRoomSquareMeter;
     @Column(name = "meetingroom_capacity")
+    @NotBlank(message = "*請輸入容納人數")
     private String meetingRoomCapacity;
     @OneToMany(mappedBy = "meetingRoom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MeetingRoomPhoto> photos;
