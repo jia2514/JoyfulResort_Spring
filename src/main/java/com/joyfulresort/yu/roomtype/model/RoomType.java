@@ -1,5 +1,7 @@
 package com.joyfulresort.yu.roomtype.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -181,9 +184,27 @@ public class RoomType implements java.io.Serializable {
 		return "RoomType [roomTypeId=" + roomTypeId + ", roomTypeName=" + roomTypeName + ", roomTypeContent="
 				+ roomTypeContent + ", roomTypeSaleState=" + roomTypeSaleState + ", roomTypePrice=" + roomTypePrice
 				+ ", room=" + room + ", roomOrderItems=" + roomOrderItems 
-//				+ ", roomTypePhotos=" + roomTypePhotos
+				+ ", roomTypePhotoIdList=" + roomTypePhotoIdList
 				+ ", roomSchedules=" + roomSchedules + "]";
 	}
+	
+	
+//	------------------------------------------------------------------------------
+	@Transient
+	private List<Integer> roomTypePhotoIdList;
+	
+	
+	public List<Integer> getRoomTypePhotoIdList() {
+		List<Integer> roomTypePhotoIdList = new ArrayList<>();
+		for(RoomTypePhoto roomTypePhoto : roomTypePhotos) {
+			roomTypePhotoIdList.add(roomTypePhoto.getRoomTypePhotoId());
+		}
+		return roomTypePhotoIdList;
+	}
+
+	public void setRoomTypePhotoIdList(List<Integer> roomTypePhotoIdList) {
+		this.roomTypePhotoIdList = roomTypePhotoIdList;
+	}	
 	
 	
 }

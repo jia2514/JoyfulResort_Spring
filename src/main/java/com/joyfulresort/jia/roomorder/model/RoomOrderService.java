@@ -114,20 +114,10 @@ public class RoomOrderService {
 		return repository.saveAndFlush(roomOrder);
 	}
 	
-	public void addRoomOrder(RoomOrder roomOrder) {
-		
-		RoomOrder ro=repository.saveAndFlush(roomOrder);
-		System.out.println("ro+"+ro);
+	public RoomOrder addRoomOrder(RoomOrder roomOrder) {
+		return repository.saveAndFlush(roomOrder);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-
 	public void updateRoomOrder(RoomOrder roomOrder) {
 		repository.save(roomOrder);
 	}

@@ -2,6 +2,7 @@ package com.joyfulresort.jia.roomschedule.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,27 +43,25 @@ public class RoomScheduleController {
 
 	@Autowired
 	RoomTypeService roomTypeSvc;
-	
-	@ModelAttribute("roomTypeListData") 
+
+	@ModelAttribute("roomTypeListData")
 	protected List<RoomType> referenceListData_RoomType(Model model) {
-		model.addAttribute("roomType", new RoomType()); 
+		model.addAttribute("roomType", new RoomType());
 		List<RoomType> list = roomTypeSvc.getAll();
 		return list;
 	}
-	
-	
-	
-	
+
 	@PostMapping("getIn2Month")
 	public String getAll(ModelMap model) {
 		String jsonStr = roomScheduleSvc.getALLIn2Month();
-		System.out.println("41+"+jsonStr);
+		System.out.println("41+" + jsonStr);
 		model.addAttribute("roomScheduleCount", jsonStr);
 		return "back-end/roomschedule/listAllRoomScheduleCalendar";
 	}
 
 	@PostMapping("getCompositeQuery")
-	public String listAllRoomSchedule(@ModelAttribute("roomTypeListData") List<RoomType> roomTypeListData,HttpServletRequest req, Model model) {
+	public String listAllRoomSchedule(@ModelAttribute("roomTypeListData") List<RoomType> roomTypeListData,
+			HttpServletRequest req, Model model) {
 		Map<String, String[]> map = req.getParameterMap();
 		Map<String, String> query = new HashMap<>();
 		// Map.Entry即代表一組key-value
@@ -83,42 +82,57 @@ public class RoomScheduleController {
 
 			query.put(key, value);
 		}
-		
+
 		if (!query.containsKey("roomTypeId") && !query.containsKey("startquerydate")
 				&& !query.containsKey("endquerydate")) {
 			String jsonStr = roomScheduleSvc.getALLIn2Month();
 			model.addAttribute("roomScheduleCount", jsonStr);
 			return "back-end/roomschedule/listAllRoomScheduleCalendar";
-		} else if(!query.containsKey("roomTypeId")){
+		} else if (!query.containsKey("roomTypeId")) {
 			String jsonStr = roomScheduleSvc.getByCompositeQuery(map);
 			model.addAttribute("roomScheduleCount", jsonStr);
 			return "back-end/roomschedule/listAllRoomScheduleCalendar";
-			
-		}else {
+
+		} else {
 			String jsonStr = roomScheduleSvc.getByCompositeQuery(map);
 			model.addAttribute("roomScheduleCount", jsonStr);
 			return "back-end/roomschedule/listCompositeQueryRoomScheduleCalendar";
 		}
-		
+
 	}
 
-	
 	@PostMapping("roomScheduleQueryList")
-	public String listRoomScheduleByPeopleAmount(@ModelAttribute("roomTypeListData") List<RoomType> roomTypeListData,HttpServletRequest req, Model model) {
+	public String listRoomScheduleByPeopleAmount(@ModelAttribute("roomTypeListData") List<RoomType> roomTypeListData,
+			HttpServletRequest req, Model model) {
 		Map<String, String[]> map = req.getParameterMap();
 		Date startquerydate = Date.valueOf(req.getParameter("startquerydate"));
 		Date endquerydate = Date.valueOf(req.getParameter("endquerydate"));
+
+		long startTime = startquerydate.getTime();
+		long endTime = endquerydate.getTime();
+		long differenceInMilliSeconds = endTime - startTime;
+		int bookingNight = (int) (differenceInMilliSeconds / (1000 * 60 * 60 * 24));
+
+		List<Integer> totalPriceList = new ArrayList<>();
 		Integer peopleAmount = Integer.valueOf(req.getParameter("peopleAmount"));
 		List<Map<RoomType, Integer>> listRoomSchedule = roomScheduleSvc.getByPeopleAmount(map);
+		for (Map<RoomType, Integer> roomTypeMap : listRoomSchedule) {
+			int totalPrice = 0;
+			for (Map.Entry<RoomType, Integer> entry : roomTypeMap.entrySet()) {
+				RoomType roomType = entry.getKey();
+				totalPrice += (roomType.getRoomTypePrice() * entry.getValue() * bookingNight);
+			}
+			totalPriceList.add(totalPrice);
+		}
+
 		model.addAttribute("listRoomSchedule", listRoomSchedule);
 		model.addAttribute("startquerydate", startquerydate);
+		model.addAttribute("bookingNight", bookingNight);
 		model.addAttribute("endquerydate", endquerydate);
 		model.addAttribute("peopleAmount", peopleAmount);
+		model.addAttribute("totalPriceList", totalPriceList);
 		return "front-end/roomorder/roomorderselect";
-		
-	}
-	
-	
 
+	}
 
 }
