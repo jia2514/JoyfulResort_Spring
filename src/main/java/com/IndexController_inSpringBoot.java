@@ -815,3 +815,5 @@ public class IndexController_inSpringBoot {
 	    return "back-end/newslist/updateNewsList";
 	    }
 }
+
+//======================================== 前台頁面 ======================================== //
