@@ -96,7 +96,7 @@
 						<label>選擇場次：</label><br>
 		    			<select th:field="*{activitySessionVO.activitySessionID}" id="activitySessionID">
 		    				<option value="">請選擇活動
-		    				<option th:if="${activitySessionVO.activityEnteredStatus == 1}" th:each="activitySessionVO : ${activitySessionListData}" th:value="${activitySessionVO.activitySessionID}" th:text="${activitySessionVO.activitySessionID + ' - ' + activitySessionVO.activityVO.activityName + ' - ' + activitySessionVO.activityDate}" />
+		    				<option th:if="${activitySessionVO.activityEnteredStatus == 1}" th:each="activitySessionVO : ${activitySessionListData}" th:value="${activitySessionVO.activitySessionID}" th:text="${activitySessionVO.activitySessionID + ' - ' + activitySessionVO.activityDate + ' ( ' + (activitySessionVO.activityTime == 0 ? '早上' : '下午') + ' ) ' + ' - ' + activitySessionVO.activityVO.activityName}" />
 		    			</select><br>
 		    			<!-- <span>報名人數剩 <input id="leftTotal"> 人</span> -->
 						<span id="leftTotalSpan">(報名人數剩 <span id="leftTotal"></span> 人)</span>
