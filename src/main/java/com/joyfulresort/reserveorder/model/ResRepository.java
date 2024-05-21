@@ -54,6 +54,6 @@ public interface ResRepository extends JpaRepository<ResVO, Integer> {
 	
 	
 	//使用會員編號 查找餐廳訂單
-	@Query(nativeQuery = true, value = "SELECT * FROM reserve_order WHERE member_id")
+	@Query(nativeQuery = true, value = "SELECT * FROM reserve_order WHERE member_id=?1")
 	List<ResVO> findmemberReserveOrderByMemberId(Integer memberID);
 }

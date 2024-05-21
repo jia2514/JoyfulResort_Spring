@@ -89,17 +89,20 @@ public class MemberLoginController {
 	@GetMapping("/LogOut")
 	public String LogOut(HttpSession session, HttpServletResponse res, HttpServletRequest req) {
 		
+		String memberID = String.valueOf(session.getAttribute("memberID")) ;
 		//移除紀錄登入狀態的session
 		session.removeAttribute("memberID");
 
 		// 移除登入狀態的Cookie
-		Cookie cookie = new Cookie("LogInState", null);
+		Cookie cookie = new Cookie("LogInState", "200");
 		cookie.setMaxAge(0);  //設定 cookie 存活時間 0-->立刻失效
+		cookie.setPath("/");
 		res.addCookie(cookie);
 		
 		
-		Cookie id = new Cookie("MemberID", null);
-		cookie.setMaxAge(0);  //設定 cookie 存活時間 0-->立刻失效
+		Cookie id = new Cookie("MemberID", memberID);
+		id.setMaxAge(0);  //設定 cookie 存活時間 0-->立刻失效
+		id.setPath("/");
 		res.addCookie(id);
 		
 

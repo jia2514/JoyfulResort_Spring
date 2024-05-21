@@ -184,7 +184,7 @@ public class FrontendMemberController {
 //		System.out.println(newMember.getMemberId());
 		session.setAttribute("memberID", newMember.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
 
-		return "front-end/member/memberinfo.html";
+		return "redirect:/joyfulresort/member/memberinfo";
 	}
 
 	// 檢查驗證碼
@@ -230,7 +230,7 @@ public class FrontendMemberController {
 		String pw_2 = req.getParameter("password_2");
 		String pw_3 = req.getParameter("password_3");
 
-//		System.out.printf("用戶ID: %s%n密碼: %s%n新密碼: %s%n再輸入: %s%n", ID, pw_1, pw_2, pw_3);
+		System.out.printf("用戶ID: %s%n密碼: %s%n新密碼: %s%n再輸入: %s%n", ID, pw_1, pw_2, pw_3);
 
 		MemberVO mem = memSvc.getOneMember(Integer.valueOf(ID));
 		String password = mem.getMemberPassword();
