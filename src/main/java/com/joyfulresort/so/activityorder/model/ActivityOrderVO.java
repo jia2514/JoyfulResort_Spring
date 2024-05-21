@@ -45,7 +45,7 @@ public class ActivityOrderVO {
 	private Integer orderAmount;
 	
 	@Column(name = "order_status")
-	private Byte orderStatus;
+	private Byte orderStatus = 1;
 	
 	@Column(name = "order_time")
 	private Timestamp orderTime = new Timestamp(System.currentTimeMillis());
@@ -54,7 +54,7 @@ public class ActivityOrderVO {
 	private String orderNote;
 	
 	@Column(name = "refund_status")
-	private Byte refundStatus;
+	private Byte refundStatus = 0;
 
 	public ActivityOrderVO() {
 		super();
