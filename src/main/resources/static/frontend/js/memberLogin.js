@@ -87,6 +87,11 @@ $('#memberField').click(function (e) {
       alert('請先登入')
       $('#LoginButton').click();
     }
+})
 
-
+$(document).keydown(function(e){
+  // console.log(e.which)
+  if(e.which === 13 ){
+    $('#Button_Login').click()
+  }
 })

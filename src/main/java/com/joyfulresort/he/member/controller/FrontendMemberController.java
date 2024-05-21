@@ -268,7 +268,7 @@ public class FrontendMemberController {
 			Integer activityOrderID =Integer.valueOf(req.getParameter("activityOrderID")); 
 //			System.out.println(OrderID);
 			//取消活動訂單
-			ActivityOrderVO activityCancelOrder = memSvc.activityCancelOrder(activityOrderID);
+			memSvc.activityCancelOrder(activityOrderID);
 
 			res.getWriter().print(true);
 			break;
@@ -277,7 +277,7 @@ public class FrontendMemberController {
 //			System.out.println(MeetingRoomOrderID);
 			
 			//取消會議廳訂單
-			MeetingRoomOrder meetingRoomOrder = memSvc.meetingRoomCancelOrder(MeetingRoomOrderID);
+			memSvc.meetingRoomCancelOrder(MeetingRoomOrderID);
 			
 			res.getWriter().print(true);
 			break;
@@ -286,7 +286,15 @@ public class FrontendMemberController {
 //			System.out.println(ReserveOrderID);
 			
 			//取消餐廳訂單
-			ResVO ReserveOrder = memSvc.ReserveCancelOrder(ReserveOrderID);
+			memSvc.ReserveCancelOrder(ReserveOrderID);
+			res.getWriter().print(true);
+			break;
+		case "RoomOrder":
+			Integer RoomOrderID =Integer.valueOf(req.getParameter("RoomOrderID")); 
+//			System.out.println(RoomOrderID);
+			
+			//取消住宿訂單
+			memSvc.RoomCancelOrder(RoomOrderID);
 			res.getWriter().print(true);
 			break;
 		}
