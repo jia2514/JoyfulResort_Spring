@@ -22,92 +22,92 @@
 
 <style type="text/css">
 h1 {
-	margin-top: 0; /* 移除标题顶部间距 */
-	margin-bottom: 20px; /* 添加标题底部间距 */
+	margin-top: 0; 
+	margin-bottom: 20px; 
 }
 
 table {
-	width: 100%; /* 表格宽度填满父容器 */
-	text-align: center; /* 居中对齐表格内容 */
-	margin-top: 20px; /* 表格顶部间距 */
-	border-collapse: collapse; /* 合并表格边框 */
+	width: 100%; 
+	text-align: center; 
+	margin-top: 20px; 
+	border-collapse: collapse; 
 }
 
 th, td {
-	padding: 10px; /* 单元格内边距 */
-	border: 1px solid #dddddd; /* 单元格边框 */
+	padding: 10px; 
+	border: 1px solid #dddddd; 
 }
 
 th {
-	background-color: #0056b3; /* 表头背景颜色 */
-	color: white; /* 表头文字颜色 */
+	background-color: #0056b3; 
+	color: white; 
 }
 
 th:nth-child(1), td:nth-child(1) {
-	width: 10%; /* 调整订单编号列宽度 */
+	width: 10%; 
 }
 
 th:nth-child(2), td:nth-child(2) {
-	width: 10%; /* 调整会员姓名列宽度 */
+	width: 10%; 
 }
 
 th:nth-child(3), td:nth-child(3) {
-	width: 15%; /* 调整订单成立日期时间列宽度 */
+	width: 15%; 
 }
 
 th:nth-child(4), td:nth-child(4) {
-	width: 10%; /* 调整付款金额列宽度 */
+	width: 10%; 
 }
 
 th:nth-child(5), td:nth-child(5) {
-	width: 12%; /* 调整check in 日期列宽度 */
+	width: 12%; 
 }
 
 th:nth-child(6), td:nth-child(6) {
-	width: 12%; /* 调整check out 日期列宽度 */
+	width: 12%; 
 }
 
 th:nth-child(7), td:nth-child(7) {
-	width: 10%; /* 调整订单状态列宽度 */
+	width: 10%; 
 }
 
 th:nth-child(8), td:nth-child(8) {
-	width: 10%; /* 调整退款状态列宽度 */
+	width: 10%;
 }
 
 th {
-	background-color: #004080; /* 深蓝色表头背景 */
-	color: white; /* 表头文字颜色 */
+	background-color: #004080; 
+	color: white; 
 }
 
 tr:nth-child(even) {
-	background-color: #f2f2f2; /* 偶数行背景颜色 */
+	background-color: #f2f2f2; 
 }
 
 a {
-	text-decoration: none; /* 移除链接下划线 */
-	color: #007bff; /* 链接颜色 */
+	text-decoration: none; 
+	color: #007bff; 
 }
 
 a:hover {
-	text-decoration: underline; /* 鼠标悬停时添加下划线 */
+	text-decoration: underline; 
 }
 
 input[type="submit"] {
-	background-color: #007bff; /* 浅蓝色按钮背景颜色 */
-	color: #ffffff; /* 按钮文字颜色 */
-	border: none; /* 移除按钮边框 */
-	border-radius: 5px; /* 圆角按钮 */
-	padding: 8px 16px; /* 按钮内边距 */
-	cursor: pointer; /* 鼠标悬停时显示手型 */
+	background-color: #007bff; 
+	color: #ffffff; 
+	border: none; 
+	border-radius: 5px; 
+	padding: 8px 16px; 
+	cursor: pointer; 
 }
 
 input[type="submit"]:hover {
-	background-color: #4d94ff; /* 鼠标悬停时按钮背景颜色 */
+	background-color: #4d94ff; 
 }
 
 .order_row:hover{
-    background-color: lightgray; /* 添加一个临时的背景颜色以验证事件绑定 */
+    background-color: lightgray;
 }
 
 
@@ -141,7 +141,7 @@ input[type="submit"]:hover {
         <td th:text="${roomOrder.roomOrderId}"></td>
         <td th:text="${roomOrder.member.memberName}"></td>
         <td th:text="${roomOrder.orderDate}"></td>
-        <td><b th:text="${#aggregates.sum(roomOrder.roomOrderItems.![roomPrice])}" /></td>
+        <td><b th:text="${#numbers.formatInteger(#aggregates.sum(roomOrder.roomOrderItems.![roomPrice])*roomOrder.bookingNight,1,'COMMA')}" /></td>
         <td class="checkin" th:text="${roomOrder.checkInDate}"></td>
         <td th:text="${roomOrder.checkOutDate}"></td>
         <td class="order_state"><span th:switch="${roomOrder.roomOrderState}">
@@ -182,9 +182,9 @@ input[type="submit"]:hover {
             
         </span>
         
-        <!-- 按钮触发模态框 -->
+        
 			<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none;"></button>
-		<!-- 模态框（Modal） -->
+		
 		<input type="hidden" name="memberPhone" th:value="${roomOrder.member.memberPhone}">
 		<input type="hidden" name="roomOrderState" th:value="${roomOrder.roomOrderState}">
 		<input type="hidden" name="checkInDate" th:value="${roomOrder.checkInDate}"> 
@@ -277,16 +277,16 @@ input[type="submit"]:hover {
 	                switch(roomOrder.roomOrderState) {
 	                    case 0:
 	                        orderStateText = '已取消';
-	                        buttonRow.empty(); // 清空按钮行
+	                        buttonRow.empty(); 
 	                        break;
 	                    case 3:
 	                        orderStateText = '取消中';
-	                        buttonRow.empty(); // 清空按钮行
+	                        buttonRow.empty(); 
 	                        var newForm = $('<form method="post" action="@{/roomorder/getOneToRefund}" style="margin-bottom: 0px;">' +
 	                            '<input class="room_order_refund" type="submit" value="退款完成">' +
 	                            '<input type="hidden" name="roomOrderId" value="' + roomOrderId + '">' +
 	                            '</form>');
-	                        buttonRow.append(newForm); // 添加新的表单
+	                        buttonRow.append(newForm);
 	                        console.log(roomOrderId);
 	                        console.log(newForm);
 	                        break;
@@ -322,7 +322,7 @@ input[type="submit"]:hover {
 		
 	        e.preventDefault();
 
-	        // 获取 roomOrderId
+	        
 	        var roomOrderId = $(this).siblings('input[name="roomOrderId"]').val();
 
 	        var formData = {
@@ -330,7 +330,7 @@ input[type="submit"]:hover {
 	        };
 
 
-            var buttonRow = $(this).closest('tr').find('.buttom_row'); // 保存按钮行的引用
+            var buttonRow = $(this).closest('tr').find('.buttom_row'); 
             console.log(buttonRow);
             
 	        $.ajax({
@@ -339,7 +339,7 @@ input[type="submit"]:hover {
 	            data: formData,
 	            success: function(roomOrder) {
 	                console.log(roomOrder);
-	                buttonRow.empty(); // 清空按钮行
+	                buttonRow.empty(); 
 	                var orderStateText = '已取消';
 	                $('.order_' + roomOrder.roomOrderId + ' .order_state').text(orderStateText);
 	                
@@ -386,9 +386,10 @@ input[type="submit"]:hover {
 	                
 	                keys.forEach(function(key) {
 	                    var order = data[key];
+	                    var roomPriceFormatted = parseInt(data[key].roomPrice).toLocaleString();
 	                    html+='<div><label>訂單明細編號：</label><span>' + key + '</span></div>'+
 	                    '<div><label>房型：</label><span>' + data[key].roomType + '</span></div>'+
-	                    '<div><label>付款金額：</label><span>' + data[key].roomPrice + '</span></div>';
+	                    '<div><label>金額：</label><span>' + roomPriceFormatted + '</span></div>';
 	                    if(roomOrderState== 0){
 	                    	html+= '<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
 	                        '<div><label>狀態：</label><span class="order_item_state">訂單已取消</span></div>'+

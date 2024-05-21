@@ -53,7 +53,7 @@ public class HibernateUtil_CompositeQuery_RoomSchedule {
 			list = session.createSQLQuery(sql).addScalar("room_type_id", IntegerType.INSTANCE)
 					.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", IntegerType.INSTANCE)
 					.addScalar("remptyroomtotal", IntegerType.INSTANCE).list();
-			System.err.println("57+"+list);
+			
 			tx.commit();
 		} catch (RuntimeException ex) {
 			if (tx != null)
@@ -116,7 +116,7 @@ public class HibernateUtil_CompositeQuery_RoomSchedule {
 							.addScalar("v_date", DateType.INSTANCE).addScalar("roomtotal", IntegerType.INSTANCE)
 							.addScalar("remptyroomtotal", IntegerType.INSTANCE).setParameter(1, startQueryDate)
 							.setParameter(2, startQueryDate).setParameter(3, roomTypeId).list();
-					System.out.println("104+" + list);
+					
 					return list;
 				}
 

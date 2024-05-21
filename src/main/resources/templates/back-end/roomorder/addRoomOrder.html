@@ -11,54 +11,75 @@
 
 
 <style type="text/css">
+form {
+    margin-bottom: 20px;
+}
+
 label {
+    display: inline-block;
+    width: 150px;
     font-weight: bold;
 }
 
-.error-message {
-    color: red; /* 错误消息文字颜色为红色 */
-}
-
-
-/* 间数选择框样式 */
-select {
-    width: 250px; /* 设置宽度 */
-    padding: 5px; /* 设置内边距 */
-    border: 1px solid #ccc; /* 设置边框 */
-    border-radius: 4px; /* 设置边框圆角 */
-}
-
-/* 提交按钮样式 */
-input[type="submit"] {
-    background-color: #007bff; /* 设置背景颜色 */
-    color: #fff; /* 设置文字颜色 */
-    padding: 10px 20px; /* 设置内边距 */
-    border: none; /* 移除边框 */
-    border-radius: 4px; /* 设置边框圆角 */
-    cursor: pointer; /* 设置鼠标指针样式为手型 */
-}
-
-/* 提交按钮悬停样式 */
-input[type="submit"]:hover {
-    background-color: #0056b3; /* 设置悬停时的背景颜色 */
-}
-
-/* 输入框样式 */
 input[type="text"],
-textarea {
-    width: 200px; /* 设置宽度为200px */
-    padding: 5px; /* 设置内边距 */
-    border: 1px solid #ccc; /* 设置边框 */
-    border-radius: 4px; /* 设置边框圆角 */
-    box-sizing: border-box; /* 设置盒模型为边框盒模型 */
-    margin-bottom: 10px; /* 设置底部边距 */
+textarea,
+select {
+    width: 300px;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
-/* 文本区域样式 */
-textarea {
-    width: 30%; /* 文本区域宽度占据父元素的100% */
+select {
+    width: 320px;
 }
 
+.error-message {
+    color: red;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+
+#totalPriceSpan {
+    color: #007bff;
+}
+
+@media screen and (max-width: 768px) {
+    label {
+        width: auto;
+    }
+    
+    input[type="text"],
+    textarea,
+    select {
+        width: 100%;
+    }
+}
 </style>
 </head>
 <body>
@@ -69,39 +90,46 @@ textarea {
 				<h4>新增住宿訂單</h4>
     <hr>
     <form action="#" th:action="@{/roomorder/insert}" method="post" onsubmit="return validateForm()">
-        <label>會員姓名：</label>
-        <input type="text" id="memberName" name="memberName"> <span class="error-message" id="memberName_error"></span><br>
+        <label>會員編號：</label><span id="memberId">&nbsp;</span><br>
+        <label>會員姓名：</label><span id="memberName">&nbsp;</span><br>
         
         <label>會員電話：</label>
-        <input type="text" id="memberPhone" name="memberPhone"> <span class="error-message" id="memberPhone_error"></span><br>
-       
+        <input type="text" id="memberPhone" name="memberPhone"> 
+        <button type="button" onclick="searchMember()">查詢會員</button><span class="error-message" id="member_error"></span>
         
         <div><label>預定checkin日期：</label>
-        <span th:text="${roomOrder.checkindate}"></span>
-        <input type="hidden" name="checkInDate" th:value="${roomOrder.checkindate}">
-        </div><br>
-        <div><label>預定checkout日期：</label>
-        <span th:text="${roomOrder.checkoutdate}"></span>
-        <input type="hidden" name="checkOutDate" th:value="${roomOrder.checkoutdate}">
-        </div><br>
+			 <span th:text="${roomOrder.checkInDate}"></span>
+			        <input type="hidden" name="checkInDate" th:value="${roomOrder.checkInDate}">
+		</div>
+		<div><label>預定checkout日期：</label>
+			 <span th:text="${roomOrder.checkOutDate}"></span>
+			 <input type="hidden" name="checkOutDate" th:value="${roomOrder.checkOutDate}">
+		</div>               
+		<div><label>共入住：</label>
+			 <span id="bookingNight" th:text="${roomOrder.bookingNight}"></span><span>晚</span>
+			 <input type="hidden" name="bookingNight" th:value="${roomOrder.bookingNight}">
+		</div><br>       
 
-
+		<label>房型數量選擇: </label>
         <div th:each="i : ${#numbers.sequence(1, roomOrder.paramCount)}" th:with="rt=${roomOrder.__${'roomTypeId' + i}__}">
             <div>
                 <span th:each="roomType : ${roomTypeListData}" >
 					    <span class="roomTypeItem" th:if="${#strings.equals(rt, roomType.roomTypeId)}">
-					        <label th:text="${roomType.roomTypeName}"></label>
+					        <span>&diams;&nbsp;</span><span th:text="${roomType.roomTypeName}" style="font-weight:bold;"></span>
+					        <span>&nbsp;&nbsp;&nbsp;&lt;</span><span th:text="${roomType.numberOfPeople}"></span>
+							<span>人房, 每晚價格: </span><span th:id="roomPrice+${i}" th:text="${#numbers.formatInteger(roomType.roomTypePrice,1,'COMMA')}"></span> <span>NTD/1間&gt;</span><br>
 					    </span>
 				</span>
+				
+						
                 <input type="hidden"  th:name="roomType+${i}" th:value="${rt}">
                 
             
-            <label>間數：</label>
-            <select th:id="roomAmount+${i}" th:name="roomAmount+${i}" >
-<!--                 <option value="">選取間數</option> -->
-<!--                 <option th:text="${roomOrder.__${'minEmptyRooms' + i}__}"></option> -->
+            
+            <select th:id="roomAmount+${i}" th:name="roomAmount+${i}" onchange="updateTotalPrice()">
+
                 <option th:if="${#strings.equals(0, roomOrder.__${'minEmptyRooms' + i}__)}" th:value="0">此時間區間無足夠空房可預訂</option>
-                <option th:value="0">請選擇房型數量</option>
+                <option th:unless="${#strings.equals(0, roomOrder.__${'minEmptyRooms' + i}__)}" th:value="0">請選擇房型數量</option>
                 <option th:unless="${#strings.equals(0, roomOrder.__${'minEmptyRooms' + i}__)}"
                         th:each="roomCount : ${#numbers.sequence(1, roomOrder.__${'minEmptyRooms' + i}__)}"
                         th:value="${roomCount}" th:text="${roomCount + '間'}"></option>
@@ -111,10 +139,23 @@ textarea {
         
         
         <label>特殊需求：</label><br>
-        <textarea name="specialreq">請輸入訂單特殊需求</textarea>
+        <textarea name="specialreq"></textarea><br>
         
+        
+        <label>付款方式：</label>
+		        <input  type="radio" name="chart" value="transfer" onchange="clearErrorMessage()">匯款
+				<input  type="radio" name="chart" value="creditcard" onchange="clearErrorMessage()">信用卡
+		        <span class="error-message" id="chart_error"></span>
+		        <br><br>
+        
+        <h5>
+			<label style="font-weight:bold;">總價：</label>
+            <span id="totalPriceSpan" style="font-weight:bold;">0</span><span style="font-weight:bold;">&nbsp;NTD</span>
+        </h5>                        
         <hr>
         <input type="hidden" id="paramCount" name="paramCount" th:value="${roomOrder.paramCount}">
+        <input type="hidden" id="totalPrice" name="totalPrice" >
+        <input type="hidden" id="frontendinsert" name="frontendinsert" value="false">
         <input type="submit" value="送出">
         
        
@@ -129,23 +170,23 @@ textarea {
 
 	<script type="text/javascript">
 	function validateForm() {
-		document.getElementById("memberName_error").innerText = "";
-		document.getElementById("memberPhone_error").innerText = "";
+		
+		document.getElementById("member_error").innerText = "";
+		var paramCount = document.getElementById("paramCount").value;
+		
 		for (var i = 1; i <= paramCount; i++) {
 			document.getElementById("room_error"+i).innerText = ""; 
 	    }
-		var memberName = document.getElementById("memberName").value;
-	    var memberPhone = document.getElementById("memberPhone").value;
+		
+	    var memberName = document.getElementById("memberName").innerText;
 	    
-	    if (memberName.trim() === "" && memberPhone.trim() === "") {
-	    	document.getElementById("memberName_error").innerText = "請填寫姓名或電話";
-	    	document.getElementById("memberPhone_error").innerText = "請填寫姓名或電話";
-	    	alert("請填寫姓名或電話");
-	       
+	    if (memberName.trim() === "") {
+	    	document.getElementById("member_error").innerText = "  請確認會員資料";
+	    	alert("請確認會員資料");	       
 	    }
 		
 		
-		var paramCount = document.getElementById("paramCount").value;
+		
 	    var totalRoomAmount = 0;
 	    var roomAmount;
 	    for (var i = 1; i <= paramCount; i++) {
@@ -161,12 +202,73 @@ textarea {
 		    }
 	    }
 	    
-	    if ((memberName.trim() === "" && memberPhone.trim() === "")||totalRoomAmount==0){
+	    if ($('input[name="chart"]:checked').length === 0) {
+            alert('請選擇付款方式');
+            document.getElementById("chart_error").innerText = "請選擇付款方式"; 
+        }
+	    
+	    if (memberName.trim() === "" ||totalRoomAmount==0 || $('input[name="chart"]:checked').length === 0){
 	    	return false;
 	    }
-	    
-		
-	}	
+	}
+	
+
+	function searchMember() {
+	    var memberPhone = document.getElementById("memberPhone").value;
+	    $.ajax({
+	    	type: 'POST',
+            url: '/roomorder/checkMember', 
+            data: { memberPhone: memberPhone },
+	        success: function(response) {
+	        	document.getElementById("member_error").innerText = "";
+	    		
+	            if(response.memberName =='null'){
+	            	document.getElementById("memberId").innerText = '查無此會員';
+	 	            document.getElementById("memberName").innerText = '查無此會員';
+	 	            document.getElementById("memberId").style.color = 'red'; 
+	                document.getElementById("memberName").style.color = 'red';
+	            }else{
+	            	document.getElementById("memberId").innerText = response.memberId;
+	 	            document.getElementById("memberName").innerText = response.memberName;
+	 	            document.getElementById("memberId").style.color = 'black'; 
+	                document.getElementById("memberName").style.color = 'black';
+	            }
+	            
+	        },
+	        error: function(xhr, status, error) {
+	        	console.error(error);
+	        }
+	    });
+	}
+	
+	function updateTotalPrice() {
+        var paramCount = document.getElementById("paramCount").value;
+        var totalPrice = 0;
+        for (var i = 1; i <= paramCount; i++) {
+			document.getElementById("room_error"+i).innerText = ""; 
+	    }
+        
+        for (var i = 1; i <= paramCount; i++) {
+            var roomAmountSelect = document.getElementById("roomAmount" + i);
+            var roomAmount = parseInt(roomAmountSelect.value);
+            var roomPriceStr = document.getElementById("roomPrice" + i).innerText;
+            var roomPrice = parseInt(roomPriceStr.replace(/,/g, ''));
+            var bookingNight = document.getElementById("bookingNight").innerText;
+            console.log(roomAmount);
+            console.log(roomPrice);
+            console.log(bookingNight);
+            if (!isNaN(roomAmount) && !isNaN(roomPrice)) {
+                totalPrice += roomAmount * roomPrice * bookingNight;
+            }
+        }
+        document.getElementById("totalPriceSpan").innerText = totalPrice.toLocaleString();
+        document.getElementById("totalPrice").value = totalPrice;
+    }
+	
+	function clearErrorMessage() {
+	    document.getElementById("chart_error").innerText = ""; 
+	}
+	
 		
 	</script>
 </body>
