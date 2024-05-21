@@ -109,8 +109,7 @@
             <div class="d-flex justify-content-center">
                 <a class="btn btn-dark text-center mr-1" href="/conference/order">取消</a>
                 <form id="bookingForm1" th:action="@{/conference/order/add}" method="post">
-                    <input type="hidden" id="selectedDateTime1" name="selectedDateTime" value="">
-                    <input type="hidden" id="meetingRoomId1" name="meetingRoomId" value="">
+                    <div id="bookingEntries1"></div>
                     <button type="submit" class="btn btn-primary clear-cart">確定付款</button>
                 </form>
             </div>
@@ -212,8 +211,7 @@
             <div class="d-flex justify-content-center">
                 <a class="btn btn-dark text-center mr-1" href="/conference/order">取消</a>
                 <form id="bookingForm2" th:action="@{/conference/order/add}" method="post">
-                    <input type="hidden" id="selectedDateTime2" name="selectedDateTime" value="">
-                    <input type="hidden" id="meetingRoomId2" name="meetingRoomId" value="">
+                    <div id="bookingEntries2"></div>
                     <button type="submit" class="btn btn-primary clear-cart">確定付款</button>
                 </form>
             </div>
@@ -274,18 +272,45 @@
         document.getElementById('content2').classList.add('active');
         document.getElementById('content1').classList.remove('active');
     });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const selectedDateTime = localStorage.getItem('selectedDateTime');
-        const meetingRoomId = localStorage.getItem('meetingRoomId');
-
-        if (selectedDateTime && meetingRoomId) {
-            document.getElementById('selectedDateTime1').value = selectedDateTime;
-            document.getElementById('meetingRoomId1').value = meetingRoomId;
-            document.getElementById('selectedDateTime2').value = selectedDateTime;
-            document.getElementById('meetingRoomId2').value = meetingRoomId;
-        }
+    document.getElementById('bookingForm1').addEventListener('submit', function() {
+        clearLocalStorage();
     });
+
+    document.getElementById('bookingForm2').addEventListener('submit', function() {
+        clearLocalStorage();
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        loadBookings('bookingEntries1');
+        loadBookings('bookingEntries2');
+    });
+
+    function clearLocalStorage() {
+        localStorage.removeItem('bookings');
+    }
+    function loadBookings(bookingEntriesId) {
+        const bookingEntries = document.getElementById(bookingEntriesId);
+        bookingEntries.innerHTML = ''; // 清空現有的表單項目
+        const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+        bookings.forEach(booking => {
+            const newEntry = document.createElement('div');
+            newEntry.className = 'bookingEntry';
+
+            const newDateInput = document.createElement('input');
+            newDateInput.type = 'hidden';
+            newDateInput.name = 'selectedDateTime';
+            newDateInput.value = booking.selectedDateTime;
+
+            const newRoomInput = document.createElement('input');
+            newRoomInput.type = 'hidden';
+            newRoomInput.name = 'meetingRoomId';
+            newRoomInput.value = booking.meetingRoomId;
+
+            newEntry.appendChild(newDateInput);
+            newEntry.appendChild(newRoomInput);
+
+            bookingEntries.appendChild(newEntry);
+        });
+    }
 </script>
 </body>
 

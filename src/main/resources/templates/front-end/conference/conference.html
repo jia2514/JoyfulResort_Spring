@@ -27,7 +27,9 @@
             rel="stylesheet">
     <link href="/frontend/css/conference.css" rel="stylesheet">
     <style>
-
+        .header {
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+        }
     </style>
 </head>
 
@@ -36,9 +38,9 @@
 <body class="main-layout">
 
 <!-- 頁面加載動畫 -->
-<div class="loader_bg">
-    <div class="loader"></div>
-</div>
+<!--<div class="loader_bg">-->
+<!--    <div class="loader"></div>-->
+<!--</div>-->
 
 
 <!-- 頁面頭部 -->
@@ -52,7 +54,7 @@
                         <div class="center-desk">
                             <div class="logo">
                                 <a href="index.html">
-                                    <img id="logo" src="/frontend/images/JoyfulResort3.png" alt="">
+                                    <img id="logo" src="/frontend/images/JoyfulResort2.png" alt="">
                                 </a>
                             </div>
                         </div>
@@ -68,7 +70,7 @@
                         <div class="collapse navbar-collapse" id="navbarsExample04">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item" style="width: 96px">
-                                    <a class="nav-link fw-bold nav-link-custom" href="index.html" style="; margin-right: 16px; margin-left: 16px">最新消息</a>
+                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/spotnews}" style="; margin-right: 16px; margin-left: 16px">最新消息</a>
                                     <!-- 包含 關於我們 最新消息 媒體報導...  -->
                                 </li>
                                 <li class="nav-item" style="width: 96px">
@@ -78,23 +80,29 @@
                                     <a class="nav-link fw-bold nav-link-custom" href="room.html" style="; margin-right: 16px; margin-left: 16px">線上訂房</a>
                                 </li>
                                 <li class="nav-item" style="width: 96px">
-                                    <a class="nav-link fw-bold nav-link-custom" href="gallery.html" style="; margin-right: 16px; margin-left: 16px">活動資訊</a>
+                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/activityinfo}" style="; margin-right: 16px; margin-left: 16px">活動資訊</a>
                                 </li>
                                 <li class="nav-item" style="width: 96px">
                                     <a class="nav-link fw-bold nav-link-custom" href="/conference" style="; margin-right: 16px; margin-left: 16px">宴會會議</a>
                                 </li>
                                 <li class="nav-item" style="width: 96px">
-                                    <a class="nav-link fw-bold nav-link-custom" href="#" style="; margin-right: 16px; margin-left: 16px">餐飲服務</a>
+                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/joyfulresort/restaurant}" style="; margin-right: 16px; margin-left: 16px">餐飲服務</a>
                                     <!-- 包含常見問題 -->
                                 </li>
                                 <li class="nav-item" style="width: 96px">
-                                    <a class="nav-link fw-bold nav-link-custom" href="log.html" style="; margin-right: 16px; margin-left: 16px">會員專區</a>
+                                    <div th:switch="${session.memberID==null}">
+                                        <a th:case="true" class="nav-link fw-bold nav-link-custom" style="margin-right: 16px; margin-left: 16px" th:href="@{/joyfulresort}" id="memberField">會員專區</a>
+                                        <a th:case="false" class="nav-link fw-bold nav-link-custom" style="margin-right: 16px; margin-left: 16px" th:href="@{/joyfulresort/member/memberinfo}" id="memberField_2">會員專區</a>
+                                    </div>
                                 </li>
                                 <li class="nav-item d-flex justify-content-center h-50" style="width: 96px">
-                                    <button type="button" id="LoginButton" class="btn btn-primary"
-                                            style="display: block;" data-bs-toggle="modal" data-bs-target="#exampleModal">登入</button>
-                                    <button type="button" id="LogoutButton" class="btn btn-primary"
-                                            style="display: none;" onclick="location.href='joyfulresort/LogOut'">登出</button>
+                                    <div th:switch="${session.memberID==null}">
+                                        <button th:case="true" type="button" id="LoginButton" class="btn btn-primary"
+                                                style="display: block;" data-bs-toggle="modal" data-bs-target="#memberLogin">登入</button>
+
+                                        <button th:case="false" type="button" id="LogoutButton" class="btn btn-primary"
+                                                onclick="location.href='joyfulresort/LogOut'">登出</button>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -105,7 +113,63 @@
     </div>
 </header>
 <!-- header結束 -->
+<div class="modal fade" id="memberLogin" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"></div>
+            <div class="modal-body"
+                 style="background-color: #f3f6f9; height: 500px;">
+                <div style="text-align: center;">
+                    <h1 style="color: rgb(0, 174, 255);">
+                        <b>JoyfulResort</b>
+                    </h1>
+                    <h4 class="card-title">
+                        <b>登入</b>
+                    </h4>
+                    <form>
+                        <div class="input-group mb-3"
+                             style="width: 100%; height: 60%; display: flex; align-items: center; justify-content: space-around;">
 
+                            <div style="width: 80%;">
+                                <div class="input-group mb-3">
+                                    <input type="text" id="userAccount" name="userAccount" class="form-control"
+                                           placeholder="帳號"
+                                           style="padding-top: 2rem; padding-bottom: 2rem">
+                                </div>
+
+                                <span id="AccountErrorMessage" style="color: red;"></span>
+
+                                <div class="input-group mb-3">
+                                    <input type="Password" id="userPassword" name="userPassword"
+                                           class="form-control" placeholder="密碼"
+                                           style="padding-top: 2rem; padding-bottom: 2rem">
+                                </div>
+
+                                <span id="PasswordErrorMessage" style="color: red;"></span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 35px;">
+                            <button type="button" id="Button_Login" class="btn btn-outline-primary"
+                                    style="width: 70%; padding-top: 1rem; padding-bottom: 1rem">登入</button>
+                        </div>
+                        <span id="errorMessage" style="color: red;"></span>
+                        <div style="margin-top: 35px;">
+                            <button type="button" class="btn btn-outline-danger"
+                                    style="width: 100px; folat: left; margin-right: 80px;">忘記密碼?</button>
+                            <button type="button" id="buttonRegister"
+                                    class="btn btn-outline-success"
+                                    style="width: 100px; folat: right; margin-left: 80px;"
+                                    onclick="location.href='joyfulresort/memberRegister'">註冊</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
 
 
 <!-- 圖片跑馬燈 & 註解日期 -->
@@ -117,7 +181,6 @@
                 <div class="carousel-caption d-none d-md-block">
                     <h1 class="cardo-regular" style="color: white">CONFERENCE</h1>
                     <h4 class="conference" style="color: white; margin-top: -15px">商務會議</h4>
-                    <p class="fw-bold" style="margin-top: -5px">多樣場地滿足您會議需求</p>
                     <p style="position: absolute; top: 80%; left: 47%">查看更多</p>
                     <div class="down-arrow btn"><svg class="arrow-circle" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#5f6368"><path d="m481-356 119-118-15-15-93 93v-209h-23v209l-93-93-15 15 120 118Zm-.83 224q-72.17 0-135.23-27.39-63.06-27.39-110.57-74.85-47.52-47.46-74.94-110.43Q132-407.65 132-479.83q0-72.17 27.39-135.73 27.39-63.56 74.85-110.57 47.46-47.02 110.43-74.44Q407.65-828 479.83-828q72.17 0 135.73 27.39 63.56 27.39 110.57 74.35 47.02 46.96 74.44 110.43Q828-552.35 828-480.17q0 72.17-27.39 135.23-27.39 63.06-74.35 110.57-46.96 47.52-110.43 74.94Q552.35-132 480.17-132Zm-.17-22q136 0 231-95t95-231q0-136-95-231t-231-95q-136 0-231 95t-95 231q0 136 95 231t231 95Zm0-326Z"/></svg></div>
                 </div>
@@ -272,7 +335,7 @@
         <hr class="mt-5" data-aos="zoom-in-up" data-aos-duration="1000">
         <div class="mt-4 d-flex justify-content-center" data-aos="zoom-in-up" data-aos-duration="1000">
 
-            <a href="/conference/venue" class="btn btn-primary fw-bold"
+            <a href="/conference/venue" class="btn btn-info fw-bold"
                style="border: 1px solid;">會議場地</a>
         </div>
     </div>
