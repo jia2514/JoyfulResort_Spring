@@ -5,70 +5,78 @@
 <meta charset="UTF-8">
 <title>My Page</title>
 <link th:insert="~{/front-end/htmlfile/css.html}" />
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 <style type="text/css">
 
 /*     放css */
+.info-container {
+    white-space: pre-wrap;
+}
 
+     .card-deck {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .card {
+            flex: 1 1 calc(33.333% - 1rem);
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card img {
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-body {
+            text-align: -webkit-left;
+        }
+        .card-footer {
+            text-align: center;
+        }
+        .price {
+            color: green;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        .btn-book {
+            background-color: #007bff;
+            color: white;
+        }
 </style>
 </head>
 <body class="main-layout">
 	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
-	</section>
-	</header>
+
 		<div th:fragment="content" class="G3content">
 	
 			
 	<!-- 				放內容 -->
-<h1>所有房型</h1>
+				<h2 class="text-center p-0 lora-type m-0" style="color: #847674;" data-aos="fade-up" data-aos-duration="1000">Booking Online</h2>
+	        <P class="text-center h5 mb-5 fw-bold" data-aos="fade-up" data-aos-duration="2000">房型介紹</P>  
 
-    <table style="width:100%; text-align:left;">
+<div class="container mt-5">
+        <div class="card-deck">
+	
+  <div class="card" th:each="roomType : ${roomType}">
+                <img th:src="@{/roomtypephoto/DBGifReader(roomTypePhotoId=${roomType.roomTypePhotos.iterator().next().roomTypePhotoId})}" class="card-img-top" alt="Room Image">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${roomType.roomTypeName}">Room Type Name</h5>
+                    <p class="card-text"><i class="fa fa-users"></i> <span th:text="${roomType.numberOfPeople}">4</span> Guests</p>
+                 <div th:utext="${#strings.trim(roomType.roomTypeContent)}" class="info-container"></div>
+                </div>
+                <div class="card-footer">
+                    <p class="price" th:text="'$' + ${roomType.roomTypePrice} + '/每晚'"></p>
+                    
+                    
+                    <a th:href="@{/book(roomTypeId=${roomType.roomTypeId})}" class="btn btn-book">Book now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+			
 
-        <tr>
-            <th>房型編號</th>
-			<th>房型名稱</th>
-			<th>可入住人數</th>
-			<th>房型數量</th>
-			<th>房型說明</th>
-			<th>上下架狀態</th>
-			<th>房型價格</th>
-			<th>狀態更新</th>
-        </tr>
-        <tr th:each="roomType : ${roomType}">
-            <td th:text="${roomType.roomTypeId}"></td>
-            <td th:text="${roomType.roomTypeName}"></td>
-            <td th:text="${roomType.numberOfPeople}"></td>
-            <td th:text="${roomType.roomTypeAmount}"></td>
-            <td>
-                            <button type="button" class="btn btn-info" data-toggle="modal" th:data-target="'#contentModal' + ${roomType.roomTypeId}">
-                                查看詳情
-                            </button>
-                            <!-- Modal -->
-                            <div th:id="'contentModal' + ${roomType.roomTypeId}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="contentModalLabel" th:text="'房型說明 - ' + ${roomType.roomTypeName}"></h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body" th:utext="${#strings.trim(roomType.roomTypeContent)}"></div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-            <td th:text="${roomType.roomTypeSaleState} ? '上架' : '下架'"></td>
-            <td th:text="${roomType.roomTypePrice}"></td>
-            <td>
-    	<form method="post" th:action="@{/roomtype/getOne_For_Update}" style="margin-bottom: 0px;">
-			<input type="submit" value="修改">
-			<input type="hidden" name="roomTypeId" th:value="${roomType.roomTypeId}"></form>
-</td>
-        </tr>
-    </table>
+  
 	
 				
 		</div>
@@ -76,11 +84,10 @@
 	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
 	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
 
-	<script>
-	
-	<!-- 				放JS -->
-    
-	</script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	
 </body>
 </html>
