@@ -22,43 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Autowired
     private EmployeeService employeeService;
 
-
-
-    
-    
-//    @Override
-//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-//            throws Exception {
-//        // 從請求中獲取員工帳號和密碼
-//        String empAccountStr = request.getParameter("empAccount");
-//        String empPassword = request.getParameter("empPassword");
-//
-//        // 检查员工帐号是否只包含数字
-//        if (!empAccountStr.matches("\\d+")) {
-//            // 如果員工帳號不只數字，重定向返回错误信息
-//            response.sendRedirect("/loginfailed"); // 
-//            return false;
-//        }
-//
-//        // 轉換員工照號為整數
-//        Integer empAccount = Integer.valueOf(empAccountStr);
-//
-//        // 根據員工帳號查詢員工信息
-//        Employee employee = employeeService.getOneEmp(empAccount);
-//
-//        // 檢查員工信息是否存在且密碼是否匹配
-//        if (employee != null && employee.getEmpPassword().equals(empPassword)) {
-//            // 員工驗證通過，允許繼續執行後續操作
-//            return true;
-//        } else {
-//            // 員工驗證失敗，重定向到登錄頁面或返回錯誤信息
-//            response.sendRedirect("/loginfailed"); // 假設登錄頁面的路徑是 /login
-//            return false;
-//        }
-//    }
-//    
-    
-    
+ 
     
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -66,8 +30,19 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 從請求中獲取員工帳號和密碼
         String empAccountStr = request.getParameter("empAccount");
         String empPassword = request.getParameter("empPassword");
-
-        // 检查员工帐号是否只包含数字
+//        String captcha = request.getParameter("captcha");
+//        
+//        
+//        HttpSession session = request.getSession();
+//        String sessionCaptcha = (String) session.getAttribute("captcha");
+//
+//        // 檢查驗證碼是否正確
+//        if (sessionCaptcha == null || !sessionCaptcha.equalsIgnoreCase(captcha)) {
+//            response.sendRedirect("/loginfailedCaptcha");
+//            return false;
+//        }
+        
+        // 檢查員工帳號是否只包含數字
         if (!empAccountStr.matches("\\d+")) {
             // 如果員工帳號不只數字，重定向返回错误信息
             response.sendRedirect("/loginfailed"); // 
