@@ -88,10 +88,26 @@ $('#memberField').click(function (e) {
       $('#LoginButton').click();
     }
 })
-
+//按下Enter登入
 $(document).keydown(function(e){
   // console.log(e.which)
   if(e.which === 13 ){
     $('#Button_Login').click()
   }
+})
+
+//取得驗證碼
+$('#but_forgetPassword_getAuthCode').click(function () {
+  // console.log('OK')
+
+  $.get({
+    url: '/redis/getAuthCode',
+    success: function (data) {
+      // console.log(data)
+      let html_AuthCode = `<h5>` + data + `</h5>`;
+
+      $('#forgetPassword_getAuthCode').html(html_AuthCode)
+
+    }
+  })
 })
