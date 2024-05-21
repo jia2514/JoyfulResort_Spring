@@ -8,7 +8,40 @@
 <style type="text/css">
 
 /*     放css */
-
+.content{
+	display:flex;
+	gap:20px;
+}
+.contentItem{
+width:50%;
+	height:100vh;
+}
+.contentItem > h1{
+	display:flex;
+	font-weight:bold;
+}
+h5{
+	margin-bottom:10px;
+}
+.right{
+width:50%;
+}
+.img{
+	width:100%;
+}
+.img>img{
+	width:100%;
+	height:100%;
+	object-fit:contain;
+}
+.articleContent{
+padding:10px 20px;
+    white-space: pre-wrap;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.homePage{
+	margin-left:50px;
+}
 </style>
 </head>
 <body class="main-layout">
@@ -19,17 +52,19 @@
             <p class="text-center h5 mb-5 fw-bold" data-aos="fade-up" data-aos-duration="2000">媒體報導</p>
             <div th:each="newsItem : ${newsList}" class="content">
                 <div class="contentItem">
-                    <div th:text="${newsItem.newsTitle}"></div>
-                    <div th:text="${newsItem.newsDate}"></div>
-                    <div th:text="${newsItem.newsAbstract}"></div>
+                    <h1 th:text="${newsItem.newsTitle}"></h1>
+                    <h5 th:text="${newsItem.newsDate}"></h5>
+<!--                     <div th:text="${newsItem.newsAbstract}"></div> -->
 <!--                     <a th:href="@{/joyfulresort/newslist/getOne_For_Display(newsId=${newsItem.newsId})}" class="btn btn-info">查看詳情</a> -->
-                </div>
-                <div class="img">
+                                <div class="img">
                     <img th:src="@{/newslist/DBGifReader(newsId=${newsItem.newsId})}" width="200px">
                 </div>
-                <div th:utext="${newsItem.newsContent}"></div> <!-- 使用 th:utext 來渲染 HTML 格式的內容 -->
+                </div>
+                <div class="right">
+                <div class="articleContent" th:utext="${newsItem.newsContent}"></div> <!-- 使用 th:utext 來渲染 HTML 格式的內容 -->
+             </div>
             </div>
-            <a th:href="@{/joyfulresort}">回首頁</a>
+            <a class="homePage" th:href="@{/joyfulresort}">回首頁</a>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
