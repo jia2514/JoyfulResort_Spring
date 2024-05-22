@@ -210,7 +210,6 @@ table tr.success {
 						<!-- 								th:text="*{#temporals.format(res.bookingDate, 'yyyy-MM-dd HH:mm')}"> -->
 						<!-- 						</select> -->
 
-
 						<label>訂單日期:</label> <input type="date" name="reserveOrderDate"
 							onkeydown="return false" id="reserveOrderDate" /> <label>預定日期:</label>
 						<input type="date" name="bookingDate" onkeydown="return false"
@@ -222,7 +221,32 @@ table tr.success {
 						<!-- 							<option th:each="res:${ResListData}" -->
 						<!-- 								th:text="${res.reserveOrderDate}"> -->
 						<!-- 						</select> -->
-						<script>
+		
+		
+					
+						<input type="submit" value="查詢">
+					</form>
+				</div>
+
+				<a style="padding-left: 150px"></a>
+				
+				<div style="display: inline-block;">
+					<form th:action="@{/reserve/get_date_query}" method="post">
+					<span>預定日期區間：</span>
+					<a></a>
+						<label>起使日:</label> 
+						<input type="date" name="bookingDate1"	  /> 
+						<label>結束日:</label>
+						<input type="date" name="bookingDate2"   />
+						<input type="submit" value="查詢">
+					</form>
+				</div>
+
+				<p>
+					<span th:utext="${message}" style="color: red;"></span> <span
+						th:text="${success}" style="color: blue;"></span>
+
+	<script>
 							function clearDate() {
 								document.getElementById("reserveOrderDate").value = "";
 								document.getElementById("bookingDate").value = "";
@@ -244,42 +268,14 @@ table tr.success {
 							});
 						</script>
 
-
-
-
-
-						<input type="submit" value="查詢">
-					</form>
-				</div>
-
-
-
-
-				<!-- <div th:if="${res != null}">    單獨顯示查詢資料用-->
-				<!--    	 <p>員工編號: <span th:text="${resVO.reserveOrderId}"></span></p> -->
-				<!--      <p>2: <span th:text="${resVO.memberVO.memId}"></span></p> -->
-				<!--      <p>日期: <span th:text="${resVO.bookingDate}"></span></p> -->
-				<!-- </div> -->
-
-
-				<p>
-
-					<span th:utext="${message}" style="color: red;"></span> <span
-						th:text="${success}" style="color: blue;"></span>
-
-
-
 					<!-- 表格開始 -->
 				<div align="center">
-
-
-
-
 					<!-- 頁碼用 隱藏 -->
-					<b><font color=red style="display: none;"> 第<label
+					<b>
+					<font color=red style="display: none;"> 第<label
 							id="currentPage">1</label> / <label id="pageNumber"></label>頁
-					</font></b>
-
+					</font>
+					</b>
 
 					<table>
 						<thead>
@@ -305,12 +301,13 @@ table tr.success {
 								th:class="${res.reserveOrderState == 0 ? 'cancel' : 
 							    			(res.reserveOrderState == 2 ? 'success' : '')}">
 								<td th:text=" ${res.reserveOrderId} "></td>
-								<td><span th:text="${res.memberVO.memberName}"></span> <span
-									th:text="${res.resName != null ? res.resName : '' } "></span></td>
+								<td>
+<!-- 									<input type="hidden" th:text="${res.memberVO.memberName}"> -->
+									<span th:text="${res.memberVO.memberName != '訪客'  ? res.memberVO.memberName :res.memberVO.memberName+'-'+res.resName} "></span>
 
-
-								<td
-									th:text="${res.resPhone != null  and res.resPhone != '' ? res.resPhone : res.memberVO.memberPhone }"></td>
+<!-- 									<span th:text="${res.resName != null and res.resName != '' ? res.resName : res.memberVO.memberName} "></span> -->
+								</td>
+								<td	th:text="${res.memberVO.memberPhone != '0' ?  res.memberVO.memberPhone : res.resPhone }"></td>
 
 								<td th:text=" ${res.memberVO.memberId}"></td>
 							<td th:text="${res.ressionVO.reserveSessionId == 101 ? '101-中午' : (res.ressionVO.reserveSessionId == 102 ? '102-晚上' : '103-例外')}"></td>
@@ -339,13 +336,6 @@ table tr.success {
 					</table>
 
 				</div>
-
-
-
-
-
-
-
 			</div>
 		</div>
 	</div>
