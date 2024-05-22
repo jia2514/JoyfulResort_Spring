@@ -300,12 +300,12 @@
 								<tbody>
 									<tr>
 										<td th:text="${ActivityOrder.activityOrderID}"></td>
-										<td th:text="${ActivityOrder.activitySessionVO.activitySessionID}"></td>
+										<td th:text="${ActivityOrder.activitySessionVO.activitySessionID}+ ' - ' + ${ActivityOrder.activitySessionVO.activityVO.activityName}"></td>
 										<td th:text="${ActivityOrder.enteredNumber}"></td>
 										<td th:text="${ActivityOrder.orderAmount}"></td>
 										<td th:switch="${ActivityOrder.orderStatus}">
 											<span th:case="0">訂單成立</span>
-											<span th:case="1">完成訂單</span>
+											<span th:case="1">已付款</span>
 											<span th:case="2">訂單取消中</span>
 											<span th:case="3">訂單取消</span>
 										</td>
@@ -320,11 +320,11 @@
 											<span style="color: #198754;" th:case="2">退款完成</span>
 										</td>
 										<td>
-											<th:block th:if="${ActivityOrder.orderStatus==0}">
+											<th:block th:if="${ActivityOrder.orderStatus==1}">
 												<button id="activityCancelOrder" type="button"
 													class="btn btn-outline-dark">取消訂單</button>
 											</th:block>
-											<th:block th:unless="${ActivityOrder.orderStatus==0}">
+											<th:block th:unless="${ActivityOrder.orderStatus==1}">
 												<button id="activityCancelOrder_disabled" type="button"
 													class="btn btn-outline-secondary" disabled>取消訂單</button>
 											</th:block>

@@ -332,9 +332,9 @@ $('#makeSureActivityCancelOrder').click(function () {
     datatype: 'json',
     success: function (data) {
       if (data) {
-        $(activity_tr_children[5]).html(`<span>訂單取消中</span>`)
-        $(activity_tr_children[8]).html('<span style="color: #ff4800ad;">退款中</span>')
-        $(activity_tr_children[9]).html('<button id="activityCancelOrder_disabled" type="button" class="btn btn-outline-secondary" disabled>取消訂單</button>')
+        $(activity_tr_children[4]).html(`<span>訂單取消中</span>`)
+        $(activity_tr_children[7]).html('<span style="color: #ff4800ad;">退款中</span>')
+        $(activity_tr_children[8]).html('<button id="activityCancelOrder_disabled" type="button" class="btn btn-outline-secondary" disabled>取消訂單</button>')
       }
     }
   })
@@ -482,7 +482,7 @@ $('#makeSureRoomOrder').click(function () {
         $(RoomOrder_tr_children[5]).html('<span>取消中</span>')
         $(RoomOrder_tr_children[6]).html('<span>退款中</span>')
         $(RoomOrder_tr_children[7]).html('<button id="RoomOrder_disabled" type="button" class="btn btn-outline-secondary" disabled>取消訂單</button>')
-      }
+      } 
     }
   })
 

@@ -95,3 +95,53 @@ $(document).keydown(function(e){
     $('#Button_Login').click()
   }
 })
+
+//忘記密碼 取得驗證碼
+$('#forgetPassword_getAuthCode').click(function () {
+  // console.log('OK')
+
+  $.get({
+    url: '/redis/getAuthCode',
+    success: function (data) {
+      // console.log(data)
+      let html_AuthCode = `<h5>驗證碼: ` + data + `</h5>`;
+
+      $('#forgetPassword_AuthCode').html(html_AuthCode)
+
+    }
+  })
+})
+
+//忘記密碼 送出資料
+$('#Button_forgetPassword').click(function(){
+  let inputEmail = $('#forgetPassword_inputEmali').val()
+  let authCode = $('#forgetPassword_inPutAuthCode').val()
+
+  // console.log(inputEmail)
+  // console.log(authCode)
+
+  if(inputEmail === "" || authCode === ""){
+    $('#Error_forgetPassword').html('不能有空欄位')
+  } else {
+    $.post({
+      url:'/joyfulresort/member/forgetPassword',
+      data:{
+        'inputEmail' : inputEmail,
+        'authCode' : authCode
+      },
+      datatype:'json',
+      success: function(data){
+        // console.log(data.error)
+        if(data.error == "true"){
+          $('#Error_forgetPassword').html('')
+          // console.log('ok')
+          $('#back_Login').click()
+          alert('已將新密碼寄出')
+        } else {
+          $('#Error_forgetPassword').html(data.error)
+        }
+        
+      }
+    })
+  }
+})
