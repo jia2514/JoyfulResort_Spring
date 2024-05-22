@@ -548,7 +548,7 @@ public class IndexController_inSpringBoot {
   
   	AuthorityFunction authorityFunction = new AuthorityFunction();
 		model.addAttribute("authorityFunction", authorityFunction);
-        int size = 10; // 預設每頁大小
+        int size = 20; // 預設每頁大小
 //      這邊可以理解為查詢第幾頁，而一頁有幾筆資料
       Pageable pageable = PageRequest.of(page, size);
       Page<AuthorityFunction> authorityFunction1 = authorityFunctionService.findAll(pageable);
