@@ -207,4 +207,12 @@ public class MemberService {
 		return reRoomOrder.findById(roomOrderID).get();
 	}
 
+	public MemberVO findMemberByMail(String inuptMail,String authCode) {
+		Optional<MemberVO> member = repository.findByMail(inuptMail);
+		MemberVO setMember =member.get();
+		setMember.setMemberPassword(authCode);
+		repository.save(setMember);
+		return member.get();
+	}
+
 }

@@ -482,7 +482,7 @@ $('#makeSureRoomOrder').click(function () {
         $(RoomOrder_tr_children[5]).html('<span>取消中</span>')
         $(RoomOrder_tr_children[6]).html('<span>退款中</span>')
         $(RoomOrder_tr_children[7]).html('<button id="RoomOrder_disabled" type="button" class="btn btn-outline-secondary" disabled>取消訂單</button>')
-      }
+      } 
     }
   })
 

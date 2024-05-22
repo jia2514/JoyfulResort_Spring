@@ -1,6 +1,7 @@
 package com.joyfulresort.he.member.model;
 
 import java.sql.Date;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -36,6 +37,10 @@ public interface MemberRepository extends JpaRepository<MemberVO, Integer>{
 	@Transactional
 	@Query(value = "select * from member where member_phone =?1", nativeQuery = true)
 	MemberVO findByMemberPhone(String memberPhone);
+	
+	
+	@Query(nativeQuery = true, value = "SELECT * FROM member WHERE member_email =?1")
+	Optional<MemberVO> findByMail(String inuptMail);
 	
 	
 }

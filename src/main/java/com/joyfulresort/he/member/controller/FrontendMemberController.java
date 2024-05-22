@@ -299,5 +299,66 @@ public class FrontendMemberController {
 			break;
 		}
 	}
+	
+	
+	@PostMapping("/forgetPassword")
+	public void forgetPassword(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		res.setContentType("application/json; charset=UTF-8");
+		//取得資料
+		String inuptMail = req.getParameter("inputEmail");
+		String inputAuthCode =  req.getParameter("authCode");
+//		System.out.println(inuptMail);
+//		System.out.println(inputAuthCode);
+		
+		//檢查資料庫信箱
+		Boolean email = memSvc.checkEmail(inuptMail);
+		
+		JSONObject obj = new JSONObject();
+//		System.out.println(email);
+		//檢查有無信箱
+		if(email) {
+			//檢查驗證碼 取得Redis內驗證碼
+			String authCode = redis.opsForValue().get("AuthCode");
+			if(authCode==null) {
+				obj.put("error", "驗證碼過期 請重新取得");
+				res.getWriter().print(obj);
+			} else if(inputAuthCode.equals(authCode)){ //有信箱 驗證碼輸入正確
+				
+				//產生新密碼
+				RedisController AuthCode = new RedisController();			
+				String authCode2 = AuthCode.returnAuthCode();
+				//修改密碼
+				MemberVO member = memSvc.findMemberByMail(inuptMail, authCode2);
+				
+				String member_name = member.getMemberName();
+				String subject = "密碼更改通知";
+				String messageText = "Hello! " + member_name + "您的密碼已修改 請謹記此密碼: " + authCode2 + "\n" + " (已經啟用)";
+				
+				//寄送新密碼
+				MemberJavaMail mailService = new MemberJavaMail();
+				mailService.sendMail(inuptMail, subject, messageText);
+				
+				obj.put("error", "true");
+				res.getWriter().print(obj);
+				
+			} else {
+				obj.put("error", "驗證碼錯誤");
+				res.getWriter().print(obj);
+			}
+			
+		} else {
+			obj.put("error", "無此信箱");
+			res.getWriter().print(obj);
+			
+		}
+
+		
+	}
+	
+	
+	
+	
+	
+	
 
 }

@@ -25,7 +25,7 @@ public class RedisController {
 	
 	
 	//驗證碼生產器
-	private static String returnAuthCode() {
+	 String returnAuthCode() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 1; i <= 8; i++) {
 			int condition = (int) (Math.random() * 3) + 1;
