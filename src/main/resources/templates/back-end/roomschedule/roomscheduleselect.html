@@ -7,33 +7,91 @@
 <link th:insert="~{/back-end/htmlfile/css.html}" />
 
 <style type="text/css">
-body {
-	padding-left: 20px;
+form {
+    margin-bottom: 20px;
 }
 
-table, th, td {
-	border: 1px solid black;
+label {
+    display: inline-block;
+    width: 200px;
+    font-weight: bold;
 }
 
-th, td {
-	height: 50px;
-	width: 100px;
+input[type="text"],
+textarea,
+select {
+    width: 300px;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+select {
+    width: 150px;
+}
+
+.error-message {
+    color: red;
 }
 
 input[type="submit"] {
-	margin-top: 5px; /* 添加输入框和按钮之间的间距 */
-	padding: 5px; /* 添加输入框和按钮的内边距 */
-}
-
-input[type="submit"] {
-	background-color: #007bff; /* 按钮背景颜色 */
-	color: #ffffff; /* 按钮文字颜色 */
-	border: none; /* 移除按钮边框 */
-	cursor: pointer; /* 鼠标悬停时显示手型 */
+    background-color:  #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 input[type="submit"]:hover {
-	background-color: #0056b3; /* 鼠标悬停时按钮背景颜色 */
+    background-color: #0056b3;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button.custom-button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+button.custom-button:hover {
+    background-color:  #45a049;
+}
+
+.button-container {
+    display: flex; /* Use flexbox to align buttons in a row */
+    align-items: center; /* Center align items vertically */
+
+}
+
+
+
+@media screen and (max-width: 768px) {
+    label {
+        width: auto;
+    }
+    
+    input[type="text"],
+    textarea,
+    select {
+        width: 100%;
+    }
 }
 </style>
 
@@ -48,35 +106,44 @@ input[type="submit"]:hover {
 			<div class="G3_content">
 
 
-				<h2>查詢空房</h2>
+				<h2>空房查詢/新增訂單</h2>
+				<hr>
 				<div>
-					<form th:action="@{'/roomschedule/getIn2Month'}" method="post">
-						<button type="submit">查詢兩個月內所有空房</button>
-					</form>
-					<form
-						th:action="@{'/roomschedule/getCompositeQuery'}"
-						method="post">
-						<p>
-							<label>選擇房型：</label>
-						</p>
+					<div class="button-container">
+						<form id="getEmptyRoom" th:action="@{'/roomschedule/getIn2Month'}" method="post" style="display: none;">
+							<button class="custom-button" type="submit">查詢兩個月內所有空房</button>
+							<input type="hidden" id="frontendinsert" name="frontendinsert" value="false">
+						</form>
+						<button class="custom-button" onclick="sendGetEmptyRoom()">查詢兩個月內所有空房</button>
+					</div>
+					<form th:action="@{'/roomschedule/getCompositeQuery'}" method="post">
+						
+						<label>選擇房型查詢空房：</label>
+						
 						<select th:field="*{roomType.roomTypeId}">
 							<option value="">請選擇房型</option>
 							<option th:each="roomType : ${roomTypeListData}" th:value="${roomType.roomTypeId}" th:text="${roomType.roomTypeName}" />
-						</select>
+						</select><br>
 
-						<p>
-							<label>查詢空房</label>
-						</p>
-						<input type="date" name="startquerydate"> ～ <input type="date" name="endquerydate"><br>
-						<p>
-							<input type="submit" value="送出">
+						
+						<label>選擇時間區段查詢空房：</label>
+						<input type="date" name="startquerydate"> ～ <input type="date" name="endquerydate"><br><br>
+						<input type="hidden" id="frontendinsert" name="frontendinsert" value="false">
+						<input type="submit" value="送出"><br>
 				
 					</form>
-					
+					<a th:href="@{/roomorder/roomorderselect}">回住宿訂單管理主頁</a>
 				</div>
 			</div>
 		</div>
 		<th:block th:insert="~{/back-end/htmlfile/content2}" />
 		<th:block th:insert="~{/back-end/htmlfile/script}" />
+		
+		<script>
+	    	function sendGetEmptyRoom() {
+	        	document.getElementById("getEmptyRoom").submit();
+	    	}	
+		</script>
+		
 </body>
 </html>

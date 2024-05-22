@@ -21,74 +21,68 @@
 
 
 <style type="text/css">
-h1 {
-	margin-top: 0; /* 移除标题顶部间距 */
-	margin-bottom: 20px; /* 添加标题底部间距 */
-}
-
-textarea {
-    width: 100%; /* 设置文本区域的宽度为父元素的100% */
-    height: 60px; /* 设置文本区域的高度为150像素 */
-    /* 其他样式属性 */
-}
-
-input[type="text"] {
-    width: 100%; /* 设置输入框宽度为父元素的100% */
-    /* 其他样式属性 */
-}
-
-table {
-    table-layout: auto; /* 使用自动列宽 */
-    width: 100%; /* 表格宽度填满父容器 */
-    text-align: center; /* 居中对齐表格内容 */
-    margin-top: 20px; /* 表格顶部间距 */
-    border-collapse: collapse; /* 合并表格边框 */
-}
-
-th, td {
-	padding: 10px; /* 单元格内边距 */
-	border: 1px solid #dddddd; /* 单元格边框 */
-}
-
-th {
-	background-color: #0056b3; /* 表头背景颜色 */
-	color: white; /* 表头文字颜色 */
-}
-
-
-
-
-
-th {
-	background-color: #004080; /* 深蓝色表头背景 */
-	color: white; /* 表头文字颜色 */
-}
-
-tr:nth-child(even) {
-	background-color: #f2f2f2; /* 偶数行背景颜色 */
-}
-
-a {
-	text-decoration: none; /* 移除链接下划线 */
-	color: #007bff; /* 链接颜色 */
-}
-
-a:hover {
-	text-decoration: underline; /* 鼠标悬停时添加下划线 */
-}
-
-input[type="submit"] {
-	background-color: #007bff; /* 浅蓝色按钮背景颜色 */
-	color: #ffffff; /* 按钮文字颜色 */
-	border: none; /* 移除按钮边框 */
-	border-radius: 5px; /* 圆角按钮 */
-	padding: 8px 16px; /* 按钮内边距 */
-	cursor: pointer; /* 鼠标悬停时显示手型 */
-}
-
-input[type="submit"]:hover {
-	background-color: #4d94ff; /* 鼠标悬停时按钮背景颜色 */
-}
+	h1 {
+		margin-top: 0; 
+		margin-bottom: 20px; 
+	}
+	
+	textarea {
+	    width: 100%; 
+	    height: 60px; 
+	}
+	
+	input[type="text"] {
+	    width: 100%;
+	}
+	
+	table {
+	    table-layout: auto; 
+	    width: 100%; 
+	    text-align: center; 
+	    margin-top: 20px; 
+	    border-collapse: collapse; 
+	}
+	
+	th, td {
+		padding: 10px; 
+		border: 1px solid #dddddd; 
+	}
+	
+	th {
+		background-color: #0056b3; 
+		color: white; 
+	}
+	
+	th {
+		background-color: #004080; 
+		color: white; 
+	}
+	
+	tr:nth-child(even) {
+		background-color: #f2f2f2; 
+	}
+	
+	a {
+		text-decoration: none; 
+		color: #007bff; 
+	}
+	
+	a:hover {
+		text-decoration: underline; 
+	}
+	
+	input[type="submit"] {
+		background-color: #007bff; 
+		color: #ffffff; 
+		border: none; 
+		border-radius: 5px; 
+		padding: 8px 16px; 
+		cursor: pointer; 
+	}
+	
+	input[type="submit"]:hover {
+		background-color: #4d94ff; 
+	}
 </style>
 </head>
 <body>
@@ -118,74 +112,57 @@ input[type="submit"]:hover {
 						</tr>
 					</thead>
 					
-		    <tbody>
-    <!-- 第一个循环迭代 checkInList -->
-    <div th:each="roomOrder : ${checkOutList}">
-        <!-- 第二个循环迭代 roomOrder.roomOrderItems -->
+		    		<tbody>
+
+    					<div th:each="roomOrder : ${checkOutList}">
         
-            <!-- 使用 #lists.size() 函数获取 roomOrder.roomOrderItems 的大小 -->
-            <div th:with="count=${#lists.size(roomOrder.roomOrderItems)}">
-                <!-- 使用内部循环迭代订单项 -->
-                <tr th:each="i : ${#numbers.sequence(0, count-1)}" th:class="'room_' + ${roomOrder.roomOrderItems[i].room.roomId}">
-                    <!-- 在每个订单项中显示房间类型的名称 -->
-                    <td th:text="${roomOrder.roomOrderId}"></td>
-                    <td th:text="${roomOrder.member.memberName}"></td>
-                    <td th:text="${roomOrder.checkInDate}"></td>
-<!--                     <td th:text="${roomOrder.checkOutDate}"></td> -->
-					<td th:text="${roomOrder.roomOrderItems[i].roomType.roomTypeName}"></td>
-                    <td th:text="${roomOrder.roomOrderItems[i].roomGuestName}"></td>
-                    <td th:text="${roomOrder.roomOrderItems[i].roomGuestPhone}"></td>
-                    <td th:text="${roomOrder.roomOrderItems[i].room.roomId}"></td>
-                   
-                    <td class="room_state"><span th:switch="${roomOrder.roomOrderItems[i].room.roomState}">
-			            <span th:case="'0'">未入住</span>
-			            <span th:case="'1'">已入住</span>
-			            <span th:case="'2'">清潔中</span>
-			        </span>
-        			</td>
-                    
-                    
-                    <td class="buttom_row">
-                   <span th:if="${roomOrder.roomOrderItems[i].roomOrderItemState==2 && roomOrder.roomOrderItems[i].room.roomState==0}" th:text="checkout完成"></span>
-                   <span th:unless="${roomOrder.roomOrderItems[i].roomOrderItemState==2 && roomOrder.roomOrderItems[i].room.roomState==0}" >
-                   <span th:switch="${roomOrder.roomOrderItems[i].room.roomState}">
-		            <span th:case="'1'">
-		                <form method="post" action="@{'/room/checkout'}" style="margin-bottom: 0px;">
-		                    <input class="room_check_out" type="submit" value="checkout">
-		                    <input type="hidden" name="roomId" th:value="${roomOrder.roomOrderItems[i].room.roomId}">
-		                    <input type="hidden" name="roomOrderItemId" th:value="${roomOrder.roomOrderItems[i].roomOrderItemId}">
-		                </form>
-		            </span>
-		            <span th:case="'2'">
-		                <form method="post" action="@{'/room/clean'}" style="margin-bottom: 0px;">
-		                    <input class="room_clean" type="submit" value="清潔完成">
-		                    <input type="hidden" name="roomId" th:value="${roomOrder.roomOrderItems[i].room.roomId}">
-		                    <input type="hidden" name="roomOrderItemId" th:value="${roomOrder.roomOrderItems[i].roomOrderItemId}">
-		                </form>
-		            </span>
-		        </span>
-		        </span>
-		        </td>
-		                    
-                    
-                    
-                    
-                    
-                    
-                    
-                </tr>
-            </div>
-        
-    </div>
-</tbody>
-		</table>
-				
-							
-				
-				
-				
-				
-				<a th:href="@{/roomorder/roomorderselect}">回住宿訂單首頁</a>
+            				<div th:with="count=${#lists.size(roomOrder.roomOrderItems)}">
+                
+				                <tr th:each="i : ${#numbers.sequence(0, count-1)}" th:class="'room_' + ${roomOrder.roomOrderItems[i].room.roomId}">
+				                   
+				                    <td th:text="${roomOrder.roomOrderId}"></td>
+				                    <td th:text="${roomOrder.member.memberName}"></td>
+				                    <td th:text="${roomOrder.checkInDate}"></td>
+				<!--                     <td th:text="${roomOrder.checkOutDate}"></td> -->
+									<td th:text="${roomOrder.roomOrderItems[i].roomType.roomTypeName}"></td>
+				                    <td th:text="${roomOrder.roomOrderItems[i].roomGuestName}"></td>
+				                    <td th:text="${roomOrder.roomOrderItems[i].roomGuestPhone}"></td>
+				                    <td th:text="${roomOrder.roomOrderItems[i].room.roomId}"></td>
+				                   
+				                    <td class="room_state"><span th:switch="${roomOrder.roomOrderItems[i].room.roomState}">
+							            <span th:case="'0'">未入住</span>
+							            <span th:case="'1'">已入住</span>
+							            <span th:case="'2'">清潔中</span>
+							        </span>
+				        			</td>
+				                    
+				                    
+				                    <td class="buttom_row">
+					                    <span th:if="${roomOrder.roomOrderItems[i].roomOrderItemState==2 && roomOrder.roomOrderItems[i].room.roomState==0}" th:text="checkout完成"></span>
+					                    <span th:unless="${roomOrder.roomOrderItems[i].roomOrderItemState==2 && roomOrder.roomOrderItems[i].room.roomState==0}" >
+						                   	<span th:switch="${roomOrder.roomOrderItems[i].room.roomState}">
+									            <span th:case="'1'">
+									                <form method="post" action="@{'/room/checkout'}" style="margin-bottom: 0px;">
+									                    <input class="room_check_out" type="submit" value="checkout">
+									                    <input type="hidden" name="roomId" th:value="${roomOrder.roomOrderItems[i].room.roomId}">
+									                    <input type="hidden" name="roomOrderItemId" th:value="${roomOrder.roomOrderItems[i].roomOrderItemId}">
+									                </form>
+									            </span>
+									            <span th:case="'2'">
+									                <form method="post" action="@{'/room/clean'}" style="margin-bottom: 0px;">
+									                    <input class="room_clean" type="submit" value="清潔完成">
+									                    <input type="hidden" name="roomId" th:value="${roomOrder.roomOrderItems[i].room.roomId}">
+									                    <input type="hidden" name="roomOrderItemId" th:value="${roomOrder.roomOrderItems[i].roomOrderItemId}">
+									                </form>
+									            </span>
+								        	</span>
+							        	</span>
+						        	</td>
+				                </tr>
+            				</div>
+    					</div>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -266,10 +243,6 @@ input[type="submit"]:hover {
 	        });
 	    });
 	});
-		
-		
-		
-		
 		
 	</script>
 </body>

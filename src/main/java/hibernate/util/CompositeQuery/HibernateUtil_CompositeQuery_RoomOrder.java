@@ -72,8 +72,18 @@ public class HibernateUtil_CompositeQuery_RoomOrder {
 
 				if ("memberid".equals(row.getKey())) {
 					predicates.add(builder.equal(root.get("member").get("memberId"), row.getValue()));
-					System.out.println("105" + row.getValue());
 				}
+				
+				if ("roomorderstate".equals(row.getKey())) {
+					predicates.add(builder.equal(root.get("roomOrderState"), row.getValue()));
+					System.out.println("roomorderstate" + row.getValue());
+				}
+				
+				if ("refundstate".equals(row.getKey())) {
+					predicates.add(builder.equal(root.get("refundState"), row.getValue()));
+					System.out.println("refundstate" + row.getValue());
+				}
+				
 
 				if ("startcheckindate".equals(row.getKey())) {
 					if (!map.containsKey("endcheckindate"))
@@ -107,11 +117,10 @@ public class HibernateUtil_CompositeQuery_RoomOrder {
 						predicates.add(builder.lessThanOrEqualTo(orderDate, Date.valueOf(row.getValue())));
 				}
 
-				System.out.println("111" + predicates);
 
 			}
 
-			System.out.println("115" + predicates);
+			System.out.println("predicates" + predicates);
 			root.fetch("member", JoinType.LEFT); // 使用 LEFT JOIN 來加載 member
 
 			criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));

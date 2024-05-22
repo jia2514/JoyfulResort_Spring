@@ -136,12 +136,45 @@
 	
 	</header>
 	<div th:fragment="content" class="G3content">
+				    
+<!-- 				    測試用 -->
+	<div class="button-container">
+						<form id="getEmptyRoom" th:action="@{'/roomschedule/getIn2Month'}" method="post" style="display: none;">
+							<button class="custom-button" type="submit">查詢兩個月內所有空房</button>
+							<input type="hidden" name="frontendinsert" value="true">
+						</form>
+						<button class="custom-button" onclick="sendGetEmptyRoom()">查詢兩個月內所有空房</button>
+					</div>
+	
+	<form th:action="@{'/roomschedule/getCompositeQuery'}" method="post">
+						
+		<label>選擇房型查詢空房：</label>
+		
+		<select th:field="*{roomType.roomTypeId}">
+			<option value="">請選擇房型</option>
+			<option th:each="roomType : ${roomTypeListData}" th:value="${roomType.roomTypeId}" th:text="${roomType.roomTypeName}" />
+		</select><br>
 
+		
+		<label>選擇時間區段查詢空房：</label>
+		<input type="date" name="startquerydate"> ～ <input type="date" name="endquerydate"><br><br>
+		<input type="hidden" name="frontendinsert" value="true">
+		<input type="submit" value="送出"><br>
+
+	</form>			    
+				    
+				    
+				    
+				    
+<!-- 				    測試用 -->
+					    
+					    
+					    
 		
 				<form th:action="@{/roomschedule/roomScheduleQueryList}" method="post">
 				<div class="bookingcontainer">
 				    <div class="title">Booking Now</div>
-				    
+
 					    <div>
 					        <label for="checkin-date">入住日期:</label>
 					        <input type="date" id="checkin-date" class="form-control" name="startquerydate" th:value="${startquerydate}">
@@ -257,25 +290,123 @@
         
     }
     
+
+	function checkLoginStatus(event) {
+	    if (!getCookie('LogInState')) {
+	        event.preventDefault();
+	        alert('請先登入');
+	        document.getElementById('LoginButton').click();
+	        return false;
+	    }else{
+	    	return true;
+	    }
+	    
+	}
+
+
+   	function sendGetEmptyRoom() {
+       	document.getElementById("getEmptyRoom").submit();
+   	}	
+   	
+   	$(document).ready(function() {    
+		$(document).on('click','.room-info',function(e)  {
+			var paramCount = $(this).find('input[name="paramCount"]').val();
+			var roomTypeId;
+			for (var i = 1; i <= paramCount; i++) {
+				if($(this).find('input[name="roomTypeId'+i+'"]')!=null){
+					roomTypeId = $(this).find('input[name="roomTypeId'+i+'"]').val();
+				}     
+		    }
+	        
+	        console.log(paramCount);
+	        console.log(roomTypeId);
+	        
+	        
+	        $('#myModal').modal('show');
+	        $.ajax({
+	            type: 'POST',
+	            url: '/roomOrder/getRoomTypeByRoomTypeId', 
+	            data: { roomTypeId: roomTypeId },
+	            success: function(data) {
+	            	console.log(data);
+	            	
+	            	var modalBody = $('#myModal').find('.modal-body');
+	                modalBody.empty(); 
+	                
+	                var html= '<div><label>訂單編號：</label><span>' + roomOrderId + '</span></div>' +
+	                '<div><label>會員姓名：</label><span>' + memberName + '</span></div>'+
+	                '<div><label>會員電話：</label><span>' + memberPhone + '</span></div>'+
+	                '<hr style="border-color:gray, border-width:10px;">';
+	                
+	               
+	                
+	                
+	                keys.forEach(function(key) {
+	                    var order = data[key];
+	                    var roomPriceFormatted = parseInt(data[key].roomPrice).toLocaleString();
+	                    html+='<div><label>訂單明細編號：</label><span>' + key + '</span></div>'+
+	                    '<div><label>房型：</label><span>' + data[key].roomType + '</span></div>'+
+	                    '<div><label>金額：</label><span>' + roomPriceFormatted + '</span></div>';
+	                    if(roomOrderState== 0){
+	                    	html+= '<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
+	                        '<div><label>狀態：</label><span class="order_item_state">訂單已取消</span></div>'+
+	    	                '<hr style="border-color:gray;">';
+		                }else{
+		                	switch (data[key].roomOrderItemState) {
+		                    case 0:
+		                        html+= '<div><label>特殊需求：</label><input style="text" name="specialREQ" id="specialREQ_' + key + '" value="' + data[key].specialREQ + '"></span></div>'+
+		                        '<div><label>狀態：</label><span class="order_item_state" id="roomOrderItemState_' + key + '">尚未入住</span></div>'+
+		                        '<button id="updateOrder_' + key + '" onclick="updateOrder(\'' + key + '\', \'' + data[key].roomType + '\', \'' + data[key].roomPrice + '\')">修改</button>' +
+		                        '<button id="cancelOrder_' + key + '" onclick="cancelOrder(\'' + key + '\', \'' + Object.keys(data).length + '\', \'' + differenceInDays + '\')">取消</button>' +
+		    	                '<hr style="border-color:gray;">';
+		    	                console.log(Object.keys(data).length);
+		    	                break;
+		                    case 1:
+		                    	html+= '<div><label>入住姓名：</label><span>' + data[key].roomGuestName + '</span></div>' +
+		                        '<div><label>入住電話：</label><span>' + data[key].roomGuestPhone + '</span></div>' +
+		                    	'<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
+		                        '<div><label>狀態：</label><span class="order_item_state">已完成checkin, 入住中</span></div>'+
+		    	                '<hr style="border-color:gray;">';
+		    	                break;
+		                    case 2:
+		                    	html+= '<div><label>入住姓名：</label><span>' + data[key].roomGuestName + '</span></div>' +
+		                        '<div><label>入住電話：</label><span>' + data[key].roomGuestPhone + '</span></div>' +
+		                    	'<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
+		                        '<div><label>狀態：</label><span class="order_item_state">已完成checkout</span></div>'+
+		    	                '<hr style="border-color:gray;">'; 
+		    	                break;
+		                    case 3:
+		                    	html+= '<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
+		                        '<div><label>狀態：</label><span class="order_item_state">入住當天未checkin</span></div>'+
+		    	                '<hr style="border-color:gray;">';
+		    	                break;
+		                    default:
+		                    	html+= '<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
+		                        '<div><label>狀態：</label><span class="order_item_state">取消入住</span></div>'+
+		    	                '<hr style="border-color:gray;">';
+		    	                break;
+		                  }
+		                	
+		                	
+		                }
+	                    
+	                    
+	                });
+	               
+	                modalBody.html(html);
+	                
+	                $('#myModal').modal('show');
+	            },
+	            error: function(xhr, status, error) {
+	                console.error(error);
+	            }
+	        });
+	        
+	    });
+	}); 
+   	
+   	
 </script>
-
-<script>
-
-function checkLoginStatus(event) {
-    if (!getCookie('LogInState')) {
-        event.preventDefault();
-        alert('請先登入');
-        document.getElementById('LoginButton').click();
-        return false;
-    }else{
-    	return true;
-    }
-    
-}
-
-</script>
-
-
 
 
 	
