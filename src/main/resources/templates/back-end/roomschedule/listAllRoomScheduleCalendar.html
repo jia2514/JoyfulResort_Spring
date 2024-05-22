@@ -155,12 +155,14 @@ font-size: 1em;
         
     	var calendarEl = document.getElementById('calendar');
         var eventList = [];
-        var first = query[0];
-        var startDate = first[1]; // 第一天
+        var listFirst = query[0];
+        var startDate = new Date(listFirst[1]);
+        
+        var listLast = query[query.length - 1];
+        var endDate = new Date(listLast[1]);
+        
         var eventSort = [];
     	
-		console.log(first); 
-		console.log(startDate); 
         
         query.forEach(function(obj) {
             var roomTypeInfo = [];
@@ -218,14 +220,20 @@ font-size: 1em;
 
             select: function(info) {
             	
-                var startDate = new Date(info.startStr);
-                var endDate = new Date(info.endStr);
+            	var startSelectDate = new Date(info.startStr);
+                var endSelectDate = new Date(info.endStr);
+                var changePage;
+                if(startSelectDate < startDate || endSelectDate > endDate){
+                	changePage=false;
+                }else{
+                	changePage=true;
+                	}
 
-                alert('選擇checkin日期為 ' + info.startStr + '\n checkout日期為 ' + info.endStr+ '\n 共預定 ' + (endDate-startDate)/(24*3600*1000)+' 晚住宿');
+               
                 
                 var selectedData = query.filter(function(obj) {
                     var objDate = new Date(obj[1]);
-                    return objDate >= startDate && objDate < endDate;
+                    return objDate >= startSelectDate && objDate < endSelectDate;
                 });
 
                 var minEmptyRoomsById = {};
@@ -243,16 +251,34 @@ font-size: 1em;
 
                 var emptyRoomURL = '';
                 var paramCount = 0;
+                var emptyCount = 0;
                 for (var roomTypeId in minEmptyRoomsById) {
                     if (minEmptyRoomsById.hasOwnProperty(roomTypeId)) {
                         var minEmptyRooms = minEmptyRoomsById[roomTypeId];
+                        if(minEmptyRooms==0){
+                        	emptyCount++;
+                        }
                         paramCount += 1;
                         emptyRoomURL += ("&roomTypeId"+paramCount+"=" + roomTypeId + "&minEmptyRooms"+paramCount+"=" + minEmptyRooms);
                     }
                 }
-				console.log(emptyRoomURL);
-				var customPageURL = '/roomorder/addRoomOrder?checkindate=' + info.startStr + '&checkoutdate=' + info.endStr + emptyRoomURL + '&paramCount=' + paramCount;
-				window.location.href = customPageURL;
+			
+                
+                if(emptyCount==Object.keys(minEmptyRoomsById).length){
+                	alert("選擇日期區間已無空房, 請重新選擇入住日期");
+                	return;
+                }
+                
+                var bookingNight = (endSelectDate-startSelectDate)/(24*3600*1000);
+				var customPageURL = '/roomorder/addRoomOrder?checkInDate=' + info.startStr + '&checkOutDate=' + info.endStr + emptyRoomURL + '&paramCount=' + paramCount+ '&bookingNight=' + bookingNight;
+				
+				if(changePage){
+					alert('選擇checkin日期為 ' + info.startStr + '\n checkout日期為 ' + info.endStr+ '\n 共預定 ' + bookingNight +' 晚住宿');
+					window.location.href = customPageURL;
+				}else{
+					alert('請選擇有房型資料的日期區段');
+				}
+				
             },
 
             initialDate: startDate,

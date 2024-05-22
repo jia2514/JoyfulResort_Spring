@@ -51,6 +51,9 @@
     background-color: #45a049;
 }
 
+#totalPrice {
+    color: #007bff;
+}
 
 </style>
 </head>
@@ -74,29 +77,28 @@
 			    
 		        <label>預定checkout日期：</label><span th:text="${roomOrder.checkOutDate}"></span><br>
 				
-				<label>共入住：</label><span th:text="${bookingNight}"></span><span>晚</span><br>
-		<span th:text="${roomOrder.roomOrderItems}"></span>
-		        
-<!-- 		        <div th:each="roomOrderItem, iterStat : roomOrder.roomOrderItems"> -->
-<!-- 		            <div> -->
-<!-- 		                <span th:each="roomTypeFromList : ${roomTypeListData}" > -->
-<!-- 							    <span th:if="${#strings.equals(roomOrderItem.roomType.roomTypeId, roomTypeFromList.roomTypeId)}"> -->
-<!-- 							        <label th:text="${roomTypeFromList.roomTypeName}"></label> -->
-<!-- 							    </span> -->
-<!-- 						</span> -->
-<!-- <!-- 						<span>&nbsp;&nbsp;&nbsp;</span><span th:text="${#numbers.formatInteger(roomOrderItem.roomType.roomTypePrice,1,'COMMA')}"></span> <span>NTD</span><br> --> -->
+				<label>共入住：</label><span th:text="${roomOrder.bookingNight}"></span><span>晚</span><br>
+		
+				
+		
+		        <div th:each="roomOrderItem, iterStat : ${roomOrder.roomOrderItems}">
+		            <div>
+		                <span>&diams;&nbsp;下訂明細</span><span th:text="${iterStat.index + 1}"></span><span>:&nbsp;&nbsp;</span>
+		                <span th:each="roomType : ${roomTypeListData}" >
+							    <span th:if="${#strings.equals(roomOrderItem.roomType.roomTypeId, roomType.roomTypeId)}">
+							        <label th:text="${roomType.roomTypeName}"></label>
+							    </span>
+						</span>
+						<span>&nbsp;&nbsp;&nbsp;</span><span th:text="${#numbers.formatInteger(roomOrderItem.roomType.roomTypePrice,1,'COMMA')}"></span> <span>NTD/1晚</span><br> 
 		             	
-<!-- 		             	<div th:if="${iterStat.last}"> -->
-<!-- 		             	<label>特殊需求：</label><span th:text="${roomOrderItem.specialREQ}"></span> -->
-<!-- 		             	</div> -->
+		             	<div th:if="${iterStat.last}">
+			             	<label>特殊需求：</label>
+			             	<span th:if="${roomOrderItem.specialREQ==''}" th:text="無"></span>
+			             	<span th:unless="${roomOrderItem.specialREQ==''}" th:text="${roomOrderItem.specialREQ}"></span>
+		             	</div>
 		             
-<!-- 		            </div> -->
-<!-- 		        </div> -->
-		        
-		        
-		        <h5><label style="font-weight:bold;">總價：</label>
-			        <span th:text="${#numbers.formatInteger(totalPrice,1,'COMMA')}" style="font-weight:bold;"></span><span style="font-weight:bold;">&nbsp;NTD</span>
-		        </h5>
+		            </div>
+		        </div>
 		        
 		        <label>訂單狀態：</label>
 		        <span th:switch="${roomOrder.roomOrderState}">
@@ -112,7 +114,10 @@
 		            <span th:case="'1'">退款中</span>
 		            <span th:case="'2'">退款完成</span>
 		        </span><br>
-		        
+		        <hr>
+		        <h5><label style="font-weight:bold;">訂單總金額：</label>
+			        <span id="totalPrice" th:text="${#numbers.formatInteger(totalPrice,1,'COMMA')}" style="font-weight:bold;"></span><span style="font-weight:bold;">&nbsp;NTD</span>
+		        </h5>
 		</div>		
 		</div>
 

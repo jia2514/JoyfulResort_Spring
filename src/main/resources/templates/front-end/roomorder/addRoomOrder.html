@@ -7,24 +7,21 @@
 <link th:insert="~{/front-end/htmlfile/css.html}" />
 <style type="text/css">
 .checkorder {
-    /* 水平居中 */
+
     margin: 0 auto;
-    
-    /* 设置宽度和内边距 */
-    width: 70%; /* 或者您可以根据需要设置宽度的百分比 */
+
+    width: 70%;
     padding: 20px;
-    
-    /* 添加背景颜色和阴影 */
+
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    
-    /* 设置字体和文字样式 */
+
     font-family: Arial, sans-serif;
     color: #333333;
 }
 
-/* 为输入框和标签设置样式 */
+
 .checkorder label {
     font-weight: bold;
 }
@@ -51,6 +48,9 @@
     background-color: #45a049;
 }
 
+#totalPrice {
+    color: #007bff;
+}
 
 </style>
 </head>
@@ -113,7 +113,7 @@
 		        <textarea name="specialreq"></textarea>
 		        
 		        <h5><label style="font-weight:bold;">總價：</label>
-			        <span th:text="${#numbers.formatInteger(roomOrder.totalPrice,1,'COMMA')}" style="font-weight:bold;"></span><span style="font-weight:bold;">&nbsp;NTD</span>
+			        <span id="totalPrice" th:text="${#numbers.formatInteger(roomOrder.totalPrice,1,'COMMA')}" style="font-weight:bold;"></span><span style="font-weight:bold;">&nbsp;NTD</span>
 		        </h5>
 		        
 		        <label>付款方式：</label>
