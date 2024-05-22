@@ -38,17 +38,10 @@ public class ResService {
 		return repository.findAllRes();
 	}
 
-//	人數判斷	
-
-//	public Integer countNumber(LocalDate date) {
-//		Integer totalNumber = repository.countNumber(date);
-//		return totalNumber;
-//	}
+//	------------------------------------兩種時段的人數總數計算	
 
 	public Integer countNumber101(LocalDate bookingDate) {
 		if (bookingDate != null) {
-
-//			System.out.println(bookingDate);
 			return repository.countNumber101(bookingDate);
 		} else {
 			return -11;
@@ -86,6 +79,19 @@ public class ResService {
 			return repository.findAllRes();
 		}
 
+	}
+// -------------------------------------------起始&結束日查詢	
+
+	public List<ResVO> findByDateBetween(LocalDate TimeStart, LocalDate TimeEnd) {
+		if (TimeStart != null && TimeEnd != null) {
+			return repository.findByDateBetween(TimeStart, TimeEnd);
+		} else if (TimeStart != null) {
+			return repository.findByDateStart(TimeStart);
+		} else if (TimeEnd != null) {
+			return repository.findByDateEnd(TimeEnd);
+		} else {
+			return repository.findAllRes();
+		}
 	}
 
 }

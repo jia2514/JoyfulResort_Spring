@@ -1,10 +1,158 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
 <head>
-<meta charset="BIG5">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>住宿訂單資料</title>
+
+<link th:insert="~{/back-end/htmlfile/css.html}" />
+
+
+<style type="text/css">
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea,
+select {
+    width: 300px;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+select {
+    width: 320px;
+}
+
+.error-message {
+    color: red;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+
+#totalPrice {
+    color: #007bff;
+}
+
+@media screen and (max-width: 768px) {
+    label {
+        width: auto;
+    }
+    
+    input[type="text"],
+    textarea,
+    select {
+        width: 100%;
+    }
+}
+</style>
 </head>
 <body>
+	<th:block th:insert="~{/back-end/htmlfile/content1}" />
+	<div class="container-fluid pt-4 px-4">
+		<div class="bg-light rounded">
+			<div class="G3_content">
+				<h4>住宿訂單明細</h4>
+		    <hr>
+		        <label>訂單編號：</label><span th:text="${roomOrder.roomOrderId}"></span><br>
+		        
+		        <label>會員姓名：</label><span th:text="${roomOrder.member.memberName}"></span><br>
+		        
+		        <label>會員電話：</label><span th:text="${roomOrder.member.memberPhone}"></span><br>
+		       
+		        <label>訂單成立時間：</label><span th:text="${roomOrder.orderDate}"></span><br>
+		        
+		        <label>預定checkin日期：</label><span th:text="${roomOrder.checkInDate}"></span><br>
+			    
+		        <label>預定checkout日期：</label><span th:text="${roomOrder.checkOutDate}"></span><br>
+				
+				<label>共入住：</label><span th:text="${roomOrder.bookingNight}"></span><span>晚</span><br>
+		
+				
+		
+		        <div th:each="roomOrderItem, iterStat : ${roomOrder.roomOrderItems}">
+		            <div>
+		                <span>&diams;&nbsp;下訂明細</span><span th:text="${iterStat.index + 1}"></span><span>:&nbsp;&nbsp;</span>
+		                <span th:each="roomType : ${roomTypeListData}" >
+							    <span th:if="${#strings.equals(roomOrderItem.roomType.roomTypeId, roomType.roomTypeId)}">
+							        <label th:text="${roomType.roomTypeName}"></label>
+							    </span>
+						</span>
+						<span>&nbsp;&nbsp;&nbsp;</span><span th:text="${#numbers.formatInteger(roomOrderItem.roomType.roomTypePrice,1,'COMMA')}"></span> <span>NTD/1晚</span><br> 
+		             	
+		             	<div th:if="${iterStat.last}">
+			             	<label>特殊需求：</label>
+			             	<span th:if="${roomOrderItem.specialREQ==''}" th:text="無"></span>
+			             	<span th:unless="${roomOrderItem.specialREQ==''}" th:text="${roomOrderItem.specialREQ}"></span>
+		             	</div>
+		             
+		            </div>
+		        </div>
+		        
+		        <label>訂單狀態：</label>
+		        <span th:switch="${roomOrder.roomOrderState}">
+		            <span th:case="'0'">已取消</span>
+		            <span th:case="'1'">成立</span>
+		            <span th:case="'2'">完成</span>
+		            <span th:case="'3'">取消中</span>
+		            <span th:case="'4'">已在入住流程中</span>
+		        </span><br>
+		        <label>退款狀態：</label>
+		        <span th:switch="${roomOrder.refundState}">
+		            <span th:case="'0'">無退款</span>
+		            <span th:case="'1'">退款中</span>
+		            <span th:case="'2'">退款完成</span>
+		        </span><br>
+		        <hr>
+		        <h5><label style="font-weight:bold;">訂單總金額：</label>
+			        <span id="totalPrice" th:text="${#numbers.formatInteger(totalPrice,1,'COMMA')}" style="font-weight:bold;"></span><span style="font-weight:bold;">&nbsp;NTD</span>
+		        </h5>
 
+				<a th:href="@{/roomorder/roomorderselect}">回住宿訂單首頁</a>
+			</div>
+		</div>
+	</div>
+	<th:block th:insert="~{/back-end/htmlfile/content2}" />
+	<th:block th:insert="~{/back-end/htmlfile/script}" />
+
+	<script type="text/javascript">
+	
+		
+	</script>
 </body>
 </html>

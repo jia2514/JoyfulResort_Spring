@@ -2,6 +2,8 @@ package com.joyfulresort.jia.roomorder.model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,12 +17,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
 import com.joyfulresort.he.member.model.MemberVO;
 import com.joyfulresort.jia.roomorderitem.model.RoomOrderItem;
+import com.joyfulresort.yu.roomtypephoto.model.RoomTypePhoto;
 
 
 
@@ -125,6 +131,7 @@ public class RoomOrder implements java.io.Serializable {
 
 	public void setCheckInDate(Date checkInDate) {
 		this.checkInDate = checkInDate;
+		calculateBookingNight();
 	}
 
 	public Date getCheckOutDate() {
@@ -133,6 +140,7 @@ public class RoomOrder implements java.io.Serializable {
 
 	public void setCheckOutDate(Date checkOutDate) {
 		this.checkOutDate = checkOutDate;
+		calculateBookingNight();
 	}
 
 	public Byte getRefundState() {
@@ -156,38 +164,30 @@ public class RoomOrder implements java.io.Serializable {
 	public String toString() {
 		return "RoomOrder [roomOrderId=" + roomOrderId + ", orderDate=" + orderDate + ", roomOrderState="
 				+ roomOrderState + ", checkInDate=" + checkInDate + ", checkOutDate=" + checkOutDate + ", refundState="
-				+ refundState + ", roomOrderItems=" + roomOrderItems + "]";
+				+ refundState + ", roomOrderItems=" + roomOrderItems + ", bookingNight=" + bookingNight + "]";
 	}
 
 
+//	------------------------------------------------------------------------------
+	@Transient
+	private Integer bookingNight;
 	
+	
+    @PostLoad
+    @PrePersist
+    private void calculateBookingNight() {
+        if (this.checkInDate != null && this.checkOutDate != null) {
+            long diffInMillies = this.checkOutDate.getTime() - this.checkInDate.getTime();
+            this.bookingNight = (int) (diffInMillies / (1000 * 60 * 60 * 24));
+        }
+    }
 
-	
-//	@NotEmpty(message="員工姓名: 請勿空白")
-//	@Pattern(regexp = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$", message = "員工姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間")
-//	
-//	@NotEmpty(message="員工職位: 請勿空白")
-//	@Size(min=2,max=10,message="員工職位: 長度必需在{min}到{max}之間")
-	
-//	@NotNull(message="雇用日期: 請勿空白")	
-//	@Future(message="日期必須是在今日(不含)之後")
-//	@Past(message="日期必須是在今日(含)之前")
-//	@DateTimeFormat(pattern="yyyy-MM-dd") 
-//	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") 
-	
+    public Integer getBookingNight() {
+        return bookingNight;
+    }
 
-	
-//	@NotNull(message="員工薪水: 請勿空白")
-//	@DecimalMin(value = "10000.00", message = "員工薪水: 不能小於{value}")
-//	@DecimalMax(value = "99999.99", message = "員工薪水: 不能超過{value}")
-//	
-//
-//	
-//	@NotNull(message="員工獎金: 請勿空白")
-//	@DecimalMin(value = "1.00", message = "員工獎金: 不能小於{value}")
-//	@DecimalMax(value = "99999.99", message = "員工獎金: 不能超過{value}")
+    
 	
 	
-//	@NotEmpty(message="員工照片: 請上傳照片") --> 由EmpController.java 第60行處理錯誤信息
 	
 }

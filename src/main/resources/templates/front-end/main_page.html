@@ -7,45 +7,79 @@
 <link th:insert="~{/front-end/htmlfile/css.html}" />
 
 <style type="text/css">
+.bookingcontainer {
+	width: 80%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	border: 1px solid #ccc;
+	padding: 10px 20px;
+	border-radius: 10px;
+	height: 50%;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-    .bookingcontainer {
-        width: 80%;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        border: 1px solid #ccc;
-        padding: 10px 20px;
-        border-radius: 10px;
-        height:50%;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .title {
-        font-size: 20px;
-        font-weight: bold;
-    }
-    .form-control {
-        margin-bottom: 10px;
-    }
-    .submit-btn {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-	
-	.bookingcontainer > div {
-	    flex: 1;
-	    margin-right: 20px; /* 调整元素之间的水平间距 */
-	}
+.title {
+	font-size: 20px;
+	font-weight: bold;
+}
 
-	.bookingcontainer > div:first-child {
-    	margin-left: 20px; /* 最后一个元素不需要右侧的间距 */
-	}
-	
+.form-control {
+	margin-bottom: 10px;
+}
+
+.submit-btn {
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.bookingcontainer>div {
+	flex: 1;
+	margin-right: 20px; /* 调整元素之间的水平间距 */
+}
+
+.bookingcontainer>div:first-child {
+	margin-left: 20px; /* 最后一个元素不需要右侧的间距 */
+}
+
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 20px;
+}
+
+.mail {
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+.form-group label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.form-group input, .form-group textarea {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+
 </style>
 
 
@@ -126,40 +160,42 @@
             </div>
          </div> -->
 	</section>
-	
+
 	</header>
-	
+
 	<div th:fragment="content">
 
 		<div class="news-section">
 			<div class="container">
-				<form th:action="@{/roomschedule/roomScheduleQueryList}" method="post">
-				<div class="bookingcontainer">
-				    <div class="title">Booking Now</div>
-				    
-					    <div>
-					        <label for="checkin-date">入住日期:</label>
-					        <input type="date" id="checkin-date" class="form-control" name="startquerydate">
-					    </div>
-					    <div>
-					        <label for="checkout-date">退房日期:</label>
-					        <input type="date" id="checkout-date" class="form-control" name="endquerydate">
-					    </div>
-					    <div>
-					        <label for="guests">入住人數:</label>
-					        <select id="guests" class="form-control" name="peopleAmount">
-					            <option value="1">1</option>
-					            <option value="2">2</option>
-					            <option value="3">3</option>
-					            <option value="4">4</option>
-					            <option value="5">5</option>
-					            <option value="6">6</option>
-					            <option value="7">7</option>
-					            <option value="8">8</option>
-					        </select>
-					    </div>
-					    <input type="submit" class="submit-btn" value="查詢" onclick="return submitForm()">
-				</div>
+				<form th:action="@{/roomschedule/roomScheduleQueryList}"
+					method="post">
+					<div class="bookingcontainer">
+						<div class="title">Booking Now</div>
+
+						<div>
+							<label for="checkin-date">入住日期:</label> <input type="date"
+								id="checkin-date" class="form-control" name="startquerydate">
+						</div>
+						<div>
+							<label for="checkout-date">退房日期:</label> <input type="date"
+								id="checkout-date" class="form-control" name="endquerydate">
+						</div>
+						<div>
+							<label for="guests">入住人數:</label> <select id="guests"
+								class="form-control" name="peopleAmount">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+							</select>
+						</div>
+						<input type="submit" class="submit-btn" value="查詢"
+							onclick="return submitForm()">
+					</div>
 				</form>
 				<div class="about">
 					<div class="container-fluid">
@@ -189,23 +225,86 @@
 						<h2>媒體報導</h2>
 						<!-- 新聞項目 -->
 						<div class="news-item">
-<!-- 							<img th:src="@{/frontend/path-to-your-image.jpg}" -->
-<!-- 								alt="news image"> -->
+							<!-- 							<img th:src="@{/frontend/path-to-your-image.jpg}" -->
+							<!-- 								alt="news image"> -->
 							<div class="news-content">
 								<h3>媒體報導</h3>
 								<p class="date">2024.04.15 - 2024.12.31</p>
 								<p>炎炎夏日，joyfulresort邀您一起歡樂一夏，一享童樂</p>
-									
-<!-- 								<a href="link-to-full-article.html" class="read-more">查看詳情</a> -->
-								<a th:href="@{/joyfulresort/newslist/newslistinfo}" method="post">查看詳情</a><br>
-								
+
+								<!-- 								<a href="link-to-full-article.html" class="read-more">查看詳情</a> -->
+								<a th:href="@{/joyfulresort/newslist/newslistinfo}"
+									method="post">查看詳情</a><br>
+
 							</div>
 						</div>
-						
+
 					</div>
 				</div>
 
+				<!-- 聯絡我們MAILL區域 -->
+				<div class="mail">
+					<h2>聯絡我們</h2>
+					<form id="contactForm">
+						<div class="form-group">
+							<label for="name">姓名</label> <input type="text" id="name"placeholder="輸入你的名字"
+								name="name" required>
+						</div>
+						<div class="form-group">
+							<label for="email">信箱</label> <input type="email" id="email"  placeholder="輸入你的信箱"
+								name="email" required>
+						</div>
+						<div class="form-group">
+							<label for="subject">主旨</label> <input type="text" id="subject"  maxlength="30" placeholder="最多15個字"
+								name="subject" required>
+						</div>
+						<div class="form-group">
+							<label for="message">你的訊息</label>
+							<textarea id="message" name="message" rows="4" maxlength="200" placeholder="最多100字"  required></textarea>
+						</div>
+						<div class="form-group">
+							<input type="submit" class="submit-btn" value="送出" >
+						</div>
+					</form>
+				</div>
 
+				<script>
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+	
+                 
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            fetch('/api/sendMail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('送出成功!');
+                    setTimeout(function() {
+                        window.location.href = data.redirect;
+                    }, 100);
+                } else {
+                    alert('送出失敗');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('送出失敗');
+            });
+        });
+    </script>
 
 
 
@@ -216,7 +315,7 @@
 
 	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
 	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
-	
+
 	<script>
 	
     var today = new Date();
@@ -252,8 +351,8 @@
     }
    
 </script>
-	
-	
+
+
 </body>
 
 </html>

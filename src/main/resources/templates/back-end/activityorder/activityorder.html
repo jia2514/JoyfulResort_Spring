@@ -130,7 +130,7 @@
 	    		<form method="post" th:action="@{/activityorder/listType}">
 	    			<label>選擇活動場次：</label>
 	    			<select name="activitySessionID">
-	    				<option th:each="activitySessionVO : ${activitySessionListData}" th:value="${activitySessionVO.activitySessionID}" th:text="${activitySessionVO.activitySessionID + ' - ' + activitySessionVO.activityVO.activityName + ' - ' + activitySessionVO.activityDate}" />
+	    				<option th:each="activitySessionVO : ${activitySessionListData}" th:value="${activitySessionVO.activitySessionID}" th:text="${activitySessionVO.activitySessionID + ' - ' + activitySessionVO.activityDate + ' ( ' + (activitySessionVO.activityTime == 0 ? '早上' : '下午') + ' ) ' + ' - ' + activitySessionVO.activityVO.activityName}" />
 	    			</select>
 	    			<input type="submit" id="queryall_btn" value="查詢">
 	    		</form>
@@ -141,7 +141,7 @@
 					<div class="errorblock" th:utext="${errorMessage}" style="color: red">${errorMessage}</div>
 	    			<label>活動場次編號：</label>
 	    			<select name="activitySessionID">
-	    				<option th:each="activitySessionVO : ${activitySessionListData}" th:value="${activitySessionVO.activitySessionID}" th:text="${activitySessionVO.activitySessionID + ' - ' + activitySessionVO.activityVO.activityName + ' - ' + activitySessionVO.activityDate}" />
+	    				<option th:each="activitySessionVO : ${activitySessionListData}" th:value="${activitySessionVO.activitySessionID}" th:text="${activitySessionVO.activitySessionID + ' - ' + activitySessionVO.activityDate + ' ( ' + (activitySessionVO.activityTime == 0 ? '早上' : '下午') + ' ) ' + ' - ' + activitySessionVO.activityVO.activityName}" />
 	    			</select>
 					<br>
 	    			

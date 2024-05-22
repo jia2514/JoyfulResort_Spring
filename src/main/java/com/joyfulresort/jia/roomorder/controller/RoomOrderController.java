@@ -23,6 +23,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,7 +64,14 @@ public class RoomOrderController {
 
 	@Autowired
 	RoomSchedule roomSchedule;
-
+	
+	
+	@ModelAttribute("roomTypeListData")
+	protected List<RoomType> referenceListData_RoomType(Model model) {
+		model.addAttribute("roomType", new RoomType());
+		List<RoomType> list = roomTypeSvc.getAll();
+		return list;
+	}
 	
 	@PostMapping("getByRoomOrderId")
 	public ResponseEntity<Map<Integer, Object>> getByRoomOrderId(@RequestParam("roomOrderId") String roomOrderId) {
@@ -106,7 +114,6 @@ public class RoomOrderController {
 	public String listAllRoomOrder(HttpServletRequest req, Model model) {
 		Map<String, String[]> map = req.getParameterMap();
 		List<RoomOrder> list = roomOrderSvc.getAll(map);
-		System.out.println("65" + list);
 		model.addAttribute("roomOrderList", list);
 		return "back-end/roomorder/listAllRoomOrder";
 	}
@@ -129,7 +136,6 @@ public class RoomOrderController {
 
 	@PostMapping("getOneToRefund")
 	public ResponseEntity<Map<String, Object>> getOneToRefund(@RequestParam("roomOrderId") String roomOrderId) {
-		System.out.println(roomOrderId);
 		Integer orderId = Integer.valueOf(roomOrderId);
 
 		RoomOrder roomOrder = roomOrderSvc.refundRoomOrder(orderId);
@@ -148,7 +154,6 @@ public class RoomOrderController {
 	
 	@PostMapping("frontendAddOne")
 	public String frontendAddOne(@RequestParam Map<String, String> formData, Model model) {
-		System.out.println("formData"+formData);
 	    model.addAttribute("roomOrder", formData);
 	    List<RoomType> list = roomTypeSvc.getAll();
 	    model.addAttribute("roomTypeListData", list);
@@ -209,23 +214,32 @@ public class RoomOrderController {
 
 		RoomOrder newRoomOrder = roomOrderSvc.addRoomOrder(roomOrder);
 		
-		
-		
+		model.addAttribute("roomOrder", newRoomOrder);
+		model.addAttribute("totalPrice", req.getParameter("totalPrice"));
+		System.out.println("totalPrice"+ req.getParameter("totalPrice"));
 		if(req.getParameter("frontendinsert").equals("true")) {
-			model.addAttribute("roomOrder", newRoomOrder);
-			model.addAttribute("totalPrice", req.getParameter("totalPrice"));
-			model.addAttribute("bookingNight", req.getParameter("bookingNight"));
-			System.out.println("model"+model);
 			return "front-end/roomorder/listOneRoomOrder";
 		}else {
-			List<RoomOrder> listAll = roomOrderSvc.getAll();
-			model.addAttribute("roomOrderList", listAll);
-			return "back-end/roomorder/listAllRoomOrder";
+			
+			return "back-end/roomorder/listOneRoomOrder";
 		}
 		
 	}
 
+	
+	@PostMapping("checkMember")
+	public ResponseEntity<Map<String, Object>> checkMember(@RequestParam("memberPhone") String memberPhone) {
+		MemberVO member = memberSvc.findByMemberPhone(memberPhone);
+		Map<String, Object> memberInfo = new HashMap<>();
+		if(member == null) {
+			memberInfo.put("memberName", "null");
+		}else {
+			memberInfo.put("memberName", member.getMemberName());
+			memberInfo.put("memberId", member.getMemberId());
+		}
 
+		return ResponseEntity.ok(memberInfo);
+	}
 
 
 

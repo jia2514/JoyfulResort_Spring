@@ -24,161 +24,65 @@
     <link href="/backend/css/style.css" rel="stylesheet">
     <style>
         form {
-            width: 60%;
-            margin: 20px auto;
-            background-color: #fff;
+            background: #fff;
             padding: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
         }
 
-        label {
+        form label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        form input[type="text"],
+        form input[type="date"],
+        form input[type="number"],
+        form input[type="file"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        form input[type="file"] {
+            padding: 5px;
+        }
+
+        form button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
         }
         .edit input,select {
             width: 100%;
 
         }
-        label {
-            text-align: start;
-            margin-bottom: 5px;
-            margin-top: 5px;
-        }
+
 
     </style>
 </head>
 <body>
-<div class="container-fluid position-relative bg-white d-flex p-0">
-
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div>
-
-
-    <div class="sidebar pe-4 pb-3">
-        <nav class="navbar bg-light navbar-light">
-            <a href="#" class="navbar-brand mx-4 mb-3">
-                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>JoyfulResort</h3>
-            </a>
-            <div class="d-flex align-items-center ms-4 mb-4">
-                <div class="position-relative">
-                    <img class="rounded-circle" src="/backend/picture/user.jpg" alt="" style="width: 40px; height: 40px;">
-                    <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-                </div>
-                <div class="ms-3">
-                    <h6 class="mb-0">員工姓名</h6>
-                    <span>員工職位</span>
-                </div>
-            </div>
-            <div class="navbar-nav w-100">
-                <a href="#" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>員工管理</a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <a href="#" class="dropdown-item">個人資料管理</a>
-                        <a href="#" class="dropdown-item">員工查詢</a>
-                        <a href="#" class="dropdown-item">人資專區</a>
-                        <a href="#" class="dropdown-item"></a>
-                    </div>
-                </div>
-
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>會員管理</a>
-
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-table me-2"></i>房間資料管理</a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <a href="#" class="dropdown-item">房型管理</a>
-                        <a href="#" class="dropdown-item">房間管理</a>
-                        <a href="#" class="dropdown-item"></a>
-                    </div>
-                </div>
-
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>房務管理</a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <a href="#" class="dropdown-item">check in</a>
-                        <a href="#" class="dropdown-item">check out</a>
-                        <a href="#" class="dropdown-item">住宿訂單管理</a>
-                        <a href="#" class="dropdown-item"></a>
-                    </div>
-                </div>
-
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-chart-bar me-2"></i>活動管理</a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <a href="#" class="dropdown-item">活動內容管理</a>
-                        <a href="#" class="dropdown-item">活動訂單管理</a>
-                        <a href="#" class="dropdown-item"></a>
-                    </div>
-                </div>
-
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-keyboard me-2"></i>會議廳管理</a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <a href="/conference/backend/list"  class="dropdown-item">會議廳內容管理</a>
-                        <a href="#" class="dropdown-item active">會議廳訂單管理</a>
-                        <a href="#" class="dropdown-item"></a>
-                    </div>
-                </div>
-
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-table me-2"></i>餐廳管理</a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <a href="#" class="dropdown-item">餐廳內容管理</a>
-                        <a href="#" class="dropdown-item">餐廳訂單管理</a>
-                        <a href="#" class="dropdown-item"></a>
-                    </div>
-                </div>
-
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>圖文管理</a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <a href="#" class="dropdown-item">最新消息管理</a>
-                        <a href="#" class="dropdown-item">媒體報導管理</a>
-                        <a href="#" class="dropdown-item">常見問題管理</a>
-                        <a href="#" class="dropdown-item"></a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
-
-</div>
-
-<div class="content">
-
-    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-        <a href="#" class="navbar-brand d-flex d-lg-none me-4">
-            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-        </a>
-        <a href="#" class="sidebar-toggler flex-shrink-0">
-            <i class="fa fa-bars"></i>
-        </a>
-        <form class="d-none d-md-flex ms-4">
-            <input class="form-control border-0" type="hidden" placeholder="Search">
-        </form>
-        <div class="navbar-nav align-items-center ms-auto">
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img class="rounded-circle me-lg-2" src="/backend/picture/user.jpg" alt="" style="width: 40px; height: 40px;">
-                    <span class="d-none d-lg-inline-flex">John Doe</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">基本資料</a>
-                    <a href="#" class="dropdown-item">Log Out</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+<th:block th:insert="~{/back-end/htmlfile/content1}" />
 
 
     <div class="container-fluid pt-4 px-4 list">
-        <h2 class="fw-bold m-0 text-center" STYLE="color: #a8a8af">會議廳訂單修改</h2>
-        <div class="row vh-100 bg-light">
-            <div class="col-md-12 text-center p-0 edit">
+        <h3 class="fw-bold m-0 text-center" STYLE="color: #757575">會議廳訂單修改</h3>
+        <div class="row bg-light" style="height: auto">
+            <div class="col-md-12 text-center p-0 mt-5 mb-5 edit d-flex justify-content-center">
 
 
                 <form th:action="@{'/conference/backend/edit/' + ${meetingRoom.meetingRoomId}}" method="post" enctype="multipart/form-data">
@@ -204,7 +108,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col text-end">
-                                <button type="submit" class="btn btn-secondary">保存修改</button>
+                                <button type="submit" class="btn btn-primary">保存修改</button>
                             </div>
                             <div class="col text-start">
                                 <a class="btn btn-secondary" style="text-decoration: none" href="/conference/backend/list">取消</a>
@@ -220,18 +124,7 @@
     </div>
 
 
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded-top p-4">
-            <div class="col-12 col-sm-6 text-center text-sm-start">
-                Copyright &copy; 2022.Company name All rights reserved.<a target="_blank" href="https://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
-            </div>
-            <div class="col-12 col-sm-6 text-center text-sm-end">
-
-
-            </div>
-        </div>
-    </div>
-</div>
+<th:block th:insert="~{/back-end/htmlfile/content2}" />
 
 
 

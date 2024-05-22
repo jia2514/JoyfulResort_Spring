@@ -1,6 +1,9 @@
 package com.joyfulresort.fun.authorityfunction.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +33,7 @@ public class AuthorityFunctionService {
 	}
 	
 	
-	public List<AuthorityFunction> getAll(){
-		return repository.findAll();
-	}
+
 	
 	
 	public Page<AuthorityFunction> findAll(Pageable pageable) {
@@ -47,4 +48,28 @@ public class AuthorityFunctionService {
 	 public void deleteAuthorityFunctionById(Integer functionId) {
 	        repository.deleteById(functionId);
 	    }
+	 
+	 
+	 
+		public List<AuthorityFunction> getAll(){
+			return repository.findAll();
+		}
+	 
+	 public List<Map<String, Object>> getAllAuthorityFunctionsAsMap() {
+	        List<AuthorityFunction> authorityFunctions = repository.findAll();
+	        List<Map<String, Object>> authorityFunctionMaps = new ArrayList<>();
+	        
+	        for (AuthorityFunction authorityFunction : authorityFunctions) {
+	            Map<String, Object> authorityFunctionMap = new HashMap<>();
+	            authorityFunctionMap.put("functionId", authorityFunction.getFunctionId());
+	            authorityFunctionMap.put("functionName", authorityFunction.getFunctionName());
+	            // 根据需要添加更多属性
+	            authorityFunctionMaps.add(authorityFunctionMap);
+	        }
+	        return authorityFunctionMaps;
+	    }
+	 
 }
+
+
+

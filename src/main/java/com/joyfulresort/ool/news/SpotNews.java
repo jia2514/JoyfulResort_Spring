@@ -1,6 +1,8 @@
 package com.joyfulresort.ool.news;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,13 +18,17 @@ public class SpotNews {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer spotNewsId;
     @Column(name = "spot_news_title")
+    @NotBlank(message = "*請輸入標題")
     private String spotNewsTitle;
     @Column(name = "spot_news_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "*請選擇日期")
     private Date spotNewsDate;
     @Column(name = "spot_news_abstract")
+    @NotBlank(message = "*請輸入摘要")
     private String spotNewsAbstract;
     @Column(name = "spot_news_content")
+    @NotBlank(message = "*請輸入內容")
     private String spotNewsContent;
     @Column(name = "news_photo_path")
     private String photoPath;
@@ -30,6 +36,7 @@ public class SpotNews {
     @Column(name = "spot_news_photo")
     private Blob spotNewsPhoto;
     @Column(name = "spot_news_state")
+    @NotNull(message = "*請輸入摘要")
     private Boolean spotNewsState;
 
     public Integer getSpotNewsId() {

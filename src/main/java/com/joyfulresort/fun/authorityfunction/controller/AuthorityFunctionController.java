@@ -1,6 +1,9 @@
 package com.joyfulresort.fun.authorityfunction.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -34,7 +38,7 @@ public class AuthorityFunctionController {
 	@PostMapping("/AuthorityFunctionController/insert")
     public String insertAuthorityFunction(@Valid AuthorityFunction authorityFunction, BindingResult result, ModelMap model, @RequestParam(defaultValue = "0") int page) {
         if (result.hasErrors()) {
-            Pageable pageable = PageRequest.of(page, 10);
+            Pageable pageable = PageRequest.of(page, 20);
             Page<AuthorityFunction> authorityFunctionPage = authorityFunctionService.findAll(pageable);
             model.addAttribute("authorityFunctionPage", authorityFunctionPage);
             return "back-end/authorityfunction/listAllAuthorityFunction";
@@ -43,7 +47,7 @@ public class AuthorityFunctionController {
         // 檢查是否存在相同的功能權限名稱
         if (authorityFunctionService.existsByName(authorityFunction.getFunctionName())) {
             result.rejectValue("functionName", "error.authorityFunction", "已存在相同的功能權限名稱。");
-            Pageable pageable = PageRequest.of(page, 10);
+            Pageable pageable = PageRequest.of(page, 20);
             Page<AuthorityFunction> authorityFunctionPage = authorityFunctionService.findAll(pageable);
             model.addAttribute("authorityFunctionPage", authorityFunctionPage);
             return "back-end/authorityfunction/listAllAuthorityFunction";
@@ -61,7 +65,7 @@ public class AuthorityFunctionController {
 	    System.out.println(authorityFunction.getFunctionId());
 	    
 		if (result.hasErrors()) {
-	        Pageable pageable = PageRequest.of(page, 10);
+	        Pageable pageable = PageRequest.of(page, 20);
 	        Page<AuthorityFunction> authorityFunctionPage = authorityFunctionService.findAll(pageable);
 	        model.addAttribute("authorityFunctionPage", authorityFunctionPage);
 	        return "back-end/authorityfunction/listAllAuthorityFunction";
@@ -71,7 +75,7 @@ public class AuthorityFunctionController {
 	    AuthorityFunction existingFunction = authorityFunctionService.getOneAuthorityFunction(authorityFunction.getFunctionId());
 	    if (existingFunction != null && !existingFunction.getFunctionId().equals(authorityFunction.getFunctionId())) {
 	        result.rejectValue("functionName", "error.authorityFunction", "已存在相同的功能權限名稱。");
-	        Pageable pageable = PageRequest.of(page, 10);
+	        Pageable pageable = PageRequest.of(page, 20);
 	        Page<AuthorityFunction> authorityFunctionPage = authorityFunctionService.findAll(pageable);
 	        model.addAttribute("authorityFunctionPage", authorityFunctionPage);
 	        return "back-end/authorityfunction/listAllAuthorityFunction";
@@ -96,18 +100,15 @@ public class AuthorityFunctionController {
 	}
 
 	
+    
+    
+    @GetMapping("/AuthorityFunctionController/getAll")
+    @ResponseBody
+    public ResponseEntity<List<Map<String, Object>>> getAllAuthorityFunctions() {
+        List<Map<String, Object>> authorityFunctions = authorityFunctionService.getAllAuthorityFunctionsAsMap();
+        return ResponseEntity.ok(authorityFunctions);
+    }
 
-	
-	 @GetMapping("/AuthorityFunctionController/getAll")
-	    @ResponseBody
-	    public List<AuthorityFunction> getAllAuthorityFunctions() {
-	        return authorityFunctionService.getAll();
-	    }
-
-
-
-	 
-	 
 	 
 
 

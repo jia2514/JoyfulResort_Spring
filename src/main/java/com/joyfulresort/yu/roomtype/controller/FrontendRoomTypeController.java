@@ -36,11 +36,11 @@ public class FrontendRoomTypeController {
 	/*
 	 * This method will serve as addRoomType.html handler.
 	 */
-	@GetMapping("getAll")
+	@GetMapping("roomtypeinfo")
 	public String getAll(ModelMap model) {
 		List<RoomType> roomType = roomTypeSvc.getAll();
 		model.addAttribute("roomType", roomType);
-		return "back-end/roomtype/listAllRoomTypes";
+		return "front-end/roomtype/listRoomTypes";
 	}
 }
 //	@GetMapping("addRoomType")
