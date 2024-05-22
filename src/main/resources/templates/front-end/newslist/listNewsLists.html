@@ -70,7 +70,7 @@ width:25%;
    <div class="content" th:each="newsItem : ${newsList}">
                <div class="contentItem">
                     <div th:text="${newsItem.newsTitle}"></div>
-                    <div th:text="${newsItem.newsDate}"></div>
+                <div th:text="${#dates.format(newsItem.newsDate, 'yyyy-MM-dd')}"></div>
                     <div th:text="${newsItem.newsAbstract}"></div>
                     <a th:href="@{/joyfulresort/newslist/getOne_For_Display(newsId=${newsItem.newsId})}" class="link">查看詳情</a>
                 </div>
