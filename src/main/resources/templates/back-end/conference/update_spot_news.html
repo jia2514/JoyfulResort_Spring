@@ -1,24 +1,143 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title>DASHMIN - Bootstrap Admin Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="/backend/css/css2.css" rel="stylesheet">
+
+    <link href="/backend/css/all.min.css" rel="stylesheet">
+    <link href="/backend/css/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="/backend/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="/backend/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet">
+
+    <link href="/backend/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/backend/css/style.css" rel="stylesheet">
+    <style>
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        form input[type="text"],
+        form input[type="date"],
+        form input[type="number"],
+        form input[type="file"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        form input[type="file"] {
+            padding: 5px;
+        }
+
+        form button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+        .edit input,select {
+            width: 100%;
+
+        }
+
+
+    </style>
 </head>
 <body>
-    <form th:action="@{'/spotnews/backend/update/' + ${news.spotNewsId}}" method="post" enctype="multipart/form-data">
-        <label>標題</label>
-        <input type="text" th:value="${news.spotNewsTitle}" name="spotNewsTitle" required>
-        <label>日期</label>
-        <input type="date" th:value="${news.spotNewsDate}" name="spotNewsDate" required>
-        <label>摘要</label>
-        <input type="text" th:value="${news.spotNewsAbstract}" name="spotNewsAbstract" required>
-        <label>內容</label>
-        <input type="text" th:value="${news.spotNewsContent}" name="spotNewsContent" required>
-        <label>上傳照片</label>
-        <input type="file" name="file" required><br>
-        <label>狀態</label>
-        <input type="number" th:value="${news.spotNewsState}" name="spotNewsState" required>
-        <button type="submit">保存修改</button>
-    </form>
-</body>
+<th:block th:insert="~{/back-end/htmlfile/content1}" />
+
+
+    <div class="container-fluid pt-4 px-4 list">
+        <h3 class="fw-bold m-0 text-center" STYLE="color: #757575">最新消息修改</h3>
+        <div class="row bg-light" style="height: auto">
+            <div class="col-md-12 text-center p-0 mt-5 mb-5 edit d-flex justify-content-center">
+
+
+                <form th:action="@{'/spotnews/backend/update/' + ${news.spotNewsId}}" method="post" enctype="multipart/form-data">
+                    <label>標題</label>
+                    <input type="text" th:value="${news.spotNewsTitle}" name="spotNewsTitle" required>
+                    <label>日期</label>
+                    <input type="date" th:value="${news.spotNewsDate}" name="spotNewsDate" required>
+                    <label>摘要</label>
+                    <input type="text" th:value="${news.spotNewsAbstract}" name="spotNewsAbstract" required>
+                    <label>內容</label>
+                    <input type="text" th:value="${news.spotNewsContent}" name="spotNewsContent" required>
+                    <label>上傳照片</label>
+                    <input type="file" name="file" required><br>
+                    <label>狀態</label>
+                    <input type="number" th:value="${news.spotNewsState}" name="spotNewsState" required>
+
+
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col text-end">
+                                <button type="submit" class="btn btn-primary">保存修改</button>
+                            </div>
+                            <div class="col text-start">
+                                <a class="btn btn-secondary" style="text-decoration: none" href="/spotnews/backend">取消</a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+<th:block th:insert="~{/back-end/htmlfile/content2}" />
+
+
+
+
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+<script src="/backend/js/jquery-3.4.1.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/js/bootstrap.bundle.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/js/chart.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/js/easing.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/js/waypoints.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/js/owl.carousel.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/js/moment.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/js/moment-timezone.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/js/tempusdominus-bootstrap-4.min.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+
+<script src="/backend/js/main.js" type="f3b0939065fde96a75ea2bd3-text/javascript"></script>
+<script src="/backend/js/rocket-loader.min.js" data-cf-settings="f3b0939065fde96a75ea2bd3-|49" defer=""></script></body>
 </html>
