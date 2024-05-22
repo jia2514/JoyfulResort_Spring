@@ -186,6 +186,21 @@ public class IndexController_inSpringBoot {
 		model.addAttribute("roomOrder", rq);
 		return "back-end/roomorder/addRoomOrder";
 	}
+	
+	@GetMapping("/joyfulresort/roomorder/addRoomOrder")
+	public String frontendAddRoomOrder(@RequestParam Map<String, String> rq, Model model) {
+		
+		 int paramCount = Integer.parseInt(rq.get("paramCount"));
+		for (int i = 1; i <= paramCount; i++) {
+	        Integer id = Integer.parseInt(rq.get("roomTypeId" + i));
+	        RoomType roomType =roomTypeSvc.getOnebyId(id);
+	        rq.put("numberOfPeople" + i, roomType.getNumberOfPeople().toString());
+	        rq.put("roomTypePrice" + i, roomType.getRoomTypePrice().toString());
+	    }
+		System.out.println("進addRoomOrder"+rq);
+		model.addAttribute("roomOrder", rq);
+		return "front-end/roomorder/addRoomOrderBySchedule";
+	}
 
 //-------------------------roomschedule-------------------------
 

@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>住宿訂單資料</title>
+<title>住宿訂單新增完成頁面</title>
 
 <link th:insert="~{/back-end/htmlfile/css.html}" />
 
@@ -143,7 +143,9 @@ a:hover {
 			        <span id="totalPrice" th:text="${#numbers.formatInteger(totalPrice,1,'COMMA')}" style="font-weight:bold;"></span><span style="font-weight:bold;">&nbsp;NTD</span>
 		        </h5>
 
-				<a th:href="@{/roomorder/roomorderselect}">回住宿訂單首頁</a>
+				<br>	
+		        <a th:href="@{/roomschedule/roomscheduleselect}">回空房查詢主頁</a><br>
+		        <a th:href="@{/roomorder/roomorderselect}">回住宿訂單管理主頁</a>
 			</div>
 		</div>
 	</div>

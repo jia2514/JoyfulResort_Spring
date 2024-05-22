@@ -3,12 +3,9 @@
 <base th:href="@{/}">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>近兩個月所有空房查詢</title>
-
-<link th:insert="~{/back-end/htmlfile/css.html}" />
-    <style th:inline="text">
+<title>My Page</title>
+<link th:insert="~{/front-end/htmlfile/css.html}" />
+<style th:inline="text">
 		* {
 		padding: 0;
 		margin: 0;
@@ -23,6 +20,20 @@
 		(1)  定义到根元素  => 页面中都就可以使用
 		      (2)  定义到父元素  => 子元素可以使用*/
 		  --line-height: 40px;
+		}
+		.emptyRoom {
+
+		    margin: 0 auto;
+		
+		    width: 70%;
+		    padding: 20px;
+		
+		    background-color: #ffffff;
+		    border-radius: 10px;
+		    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		
+		    font-family: Arial, sans-serif;
+		    color: #333333;
 		}
 		.calendar {
 		  width: 300px;
@@ -118,44 +129,47 @@
 		   font-size: 1.2em;
 		}
 		
+		.header{
+			z-index: 10 !important;
+		}
+		.my_empty_calendar{
+			z-index: 5 !important;
+		}
 		
     </style>
-
-
 </head>
-<body>
-	<th:block th:insert="~{/back-end/htmlfile/content1}" />
-	<div class="container-fluid pt-4 px-4">
-		<div class="bg-light rounded">
-			<div class="G3_content">
-				<div align="center">
-					<h2>所有空房查詢</h2>
-
-		            <div class="my_empty_calendar">
-		                <div id="calendar"></div>
-		            </div>
-					
-           		</div>
-           		<br>	
-		        <a th:href="@{/roomschedule/roomscheduleselect}">回空房查詢主頁</a><br>
-		        <a th:href="@{/roomorder/roomorderselect}">回住宿訂單管理主頁</a>
-			</div>
+<body class="main-layout">
+	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
+	</section>
+	</header>
+		<div th:fragment="content" class="G3content">
+	
+			
+			<div class="emptyRoom" align="center">
+				<h2>所有空房查詢</h2>
+	
+	            <div class="my_empty_calendar">
+	                <div id="calendar"></div>
+	            </div>
+				
+	        </div>
+	
+				
 		</div>
-	</div>
-	<th:block th:insert="~{/back-end/htmlfile/content2}" />
-	<th:block th:insert="~{/back-end/htmlfile/script}" />
+
+	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
+	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
 
 
-<script th:inline="javascript">
-    var schedule = /*[[${roomScheduleCount}]]*/ [];
-</script>
-
-
-<script th:src="@{/backend/js/index.global.js}"></script>
+	<script th:inline="javascript">
+	    var schedule = /*[[${roomScheduleCount}]]*/ [];
+	</script>
+	
+	<script th:src="@{/backend/js/index.global.js}"></script>
 
 <script th:inline="javascript">
     
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function(event) {
     	var query = JSON.parse(schedule);
         
     	var calendarEl = document.getElementById('calendar');
@@ -267,17 +281,21 @@
                         emptyRoomURL += ("&roomTypeId"+paramCount+"=" + roomTypeId + "&minEmptyRooms"+paramCount+"=" + minEmptyRooms);
                     }
                 }
-    
+			                
                 var bookingNight = (endSelectDate-startSelectDate)/(24*3600*1000);
-				var customPageURL = '/roomorder/addRoomOrder?checkInDate=' + info.startStr + '&checkOutDate=' + info.endStr + emptyRoomURL + '&paramCount=' + paramCount+ '&bookingNight=' + bookingNight;
+				var customPageURL = '/joyfulresort/roomorder/addRoomOrder?checkInDate=' + info.startStr + '&checkOutDate=' + info.endStr + emptyRoomURL + '&paramCount=' + paramCount+ '&bookingNight=' + bookingNight;
 				
 				if(changePage){
 					if(emptyCount==Object.keys(minEmptyRoomsById).length){
 	                	alert("選擇日期區間已無空房, 請重新選擇入住日期");
 	                	return;
 	                }else{
+	                	if(checkLoginStatus(event)){
 	                	alert('選擇checkin日期為 ' + info.startStr + '\n checkout日期為 ' + info.endStr+ '\n 共預定 ' + bookingNight +' 晚住宿');
 						window.location.href = customPageURL;
+	                	}else{
+	                		return;
+	                	}
 	                }
 					
 				}else{
@@ -315,7 +333,20 @@
         calendar.render();
         
     });
+    
+    function checkLoginStatus(event) {
+        if (!getCookie('LogInState')) {
+            event.preventDefault();
+            alert('請先登入');
+            document.getElementById('LoginButton').click();
+            return false;
+        }else{
+        	return true;
+        }
+        
+    }
+    
 </script>
-
+	
 </body>
 </html>

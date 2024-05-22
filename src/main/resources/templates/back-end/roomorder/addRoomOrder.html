@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>住宿訂單資料</title>
+<title>新增住宿訂單</title>
 
 <link th:insert="~{/back-end/htmlfile/css.html}" />
 
@@ -63,7 +63,20 @@ a:hover {
     text-decoration: underline;
 }
 
+button.custom-button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
 
+button.custom-button:hover {
+    background-color:  #45a049;
+}
 
 #totalPriceSpan {
     color: #007bff;
@@ -95,7 +108,7 @@ a:hover {
         
         <label>會員電話：</label>
         <input type="text" id="memberPhone" name="memberPhone"> 
-        <button type="button" onclick="searchMember()">查詢會員</button><span class="error-message" id="member_error"></span>
+        <button class="custom-button" type="button" onclick="searchMember()">查詢會員</button><span class="error-message" id="member_error"></span>
         
         <div><label>預定checkin日期：</label>
 			 <span th:text="${roomOrder.checkInDate}"></span>
@@ -161,7 +174,9 @@ a:hover {
        
     </form>
 
-				<a th:href="@{/roomorder/roomorderselect}">回住宿訂單首頁</a>
+				<br>	
+		        <a th:href="@{/roomschedule/roomscheduleselect}">回空房查詢主頁</a><br>
+		        <a th:href="@{/roomorder/roomorderselect}">回住宿訂單管理主頁</a>
 			</div>
 		</div>
 	</div>

@@ -171,6 +171,7 @@ public class RoomOrderController {
 		Date checkInDate = java.sql.Date.valueOf(req.getParameter("checkInDate"));
 		Date checkOutDate = java.sql.Date.valueOf(req.getParameter("checkOutDate"));
 
+		RoomOrder roomOrder = new RoomOrder();
 		roomOrder.setCheckInDate(checkInDate);
 		roomOrder.setCheckOutDate(checkOutDate);
 		roomOrder.setMember(member);
@@ -241,6 +242,11 @@ public class RoomOrderController {
 		return ResponseEntity.ok(memberInfo);
 	}
 
+	@PostMapping("getRoomTypeByRoomTypeId")
+	public ResponseEntity<RoomType> getRoomTypeByRoomTypeId(@RequestParam("roomTypeId") Integer roomTypeId) {
+		RoomType roomType =roomTypeSvc.getOnebyId(roomTypeId);
+		return ResponseEntity.ok(roomType);
+	}
 
 
 }

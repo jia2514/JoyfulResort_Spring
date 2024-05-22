@@ -52,11 +52,16 @@ public class RoomScheduleController {
 	}
 
 	@PostMapping("getIn2Month")
-	public String getAll(ModelMap model) {
+	public String getAll(HttpServletRequest req, ModelMap model) {
 		String jsonStr = roomScheduleSvc.getALLIn2Month();
 		System.out.println("41+" + jsonStr);
 		model.addAttribute("roomScheduleCount", jsonStr);
-		return "back-end/roomschedule/listAllRoomScheduleCalendar";
+		if(req.getParameter("frontendinsert").equals("true")) {
+			return "front-end/roomschedule/listAllRoomScheduleCalendar";
+		}else {
+			return "back-end/roomschedule/listAllRoomScheduleCalendar";
+		}
+		
 	}
 
 	@PostMapping("getCompositeQuery")
@@ -96,7 +101,13 @@ public class RoomScheduleController {
 		} else {
 			String jsonStr = roomScheduleSvc.getByCompositeQuery(map);
 			model.addAttribute("roomScheduleCount", jsonStr);
-			return "back-end/roomschedule/listCompositeQueryRoomScheduleCalendar";
+			if(req.getParameter("frontendinsert").equals("true")) {
+				return "front-end/roomschedule/listOneRoomScheduleCalendar";
+			}else {
+				return "back-end/roomschedule/listCompositeQueryRoomScheduleCalendar";
+			}
+			
+			
 		}
 
 	}

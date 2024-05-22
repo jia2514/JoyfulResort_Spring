@@ -3,42 +3,94 @@
 <base th:href="@{/}">
 <head>
 <meta charset="UTF-8">
-<title>住宿訂單主頁</title>
+<title>住宿訂單管理主頁</title>
 <link th:insert="~{/back-end/htmlfile/css.html}" />
 <style type="text/css">
-body {
-	padding-left: 20px;
+form {
+    margin-bottom: 20px;
 }
 
-table, th, td {
-	border: 1px solid black;
+label {
+    display: inline-block;
+    width: 200px;
+    font-weight: bold;
 }
 
-th, td {
-	height: 50px;
-	width: 100px;
+input[type="text"],
+textarea,
+select {
+    width: 300px;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+select {
+    width: 150px;
+}
+
+.error-message {
+    color: red;
 }
 
 input[type="submit"] {
-	margin-top: 5px;
-	padding: 5px;
-	background-color: #007bff;
-	color: #ffffff;
-	border: none;
-	cursor: pointer;
+    background-color:  #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 input[type="submit"]:hover {
-	background-color: #0056b3;
+    background-color: #0056b3;
 }
 
 a {
-	text-decoration: none; 
-	color: #007bff; 
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 20px;
 }
 
 a:hover {
-	text-decoration: underline; 
+    text-decoration: underline;
+}
+
+button.custom-button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+button.custom-button:hover {
+    background-color:  #45a049;
+}
+
+.button-container {
+    display: flex; /* Use flexbox to align buttons in a row */
+    align-items: center; /* Center align items vertically */
+
+}
+
+
+
+@media screen and (max-width: 768px) {
+    label {
+        width: auto;
+    }
+    
+    input[type="text"],
+    textarea,
+    select {
+        width: 100%;
+    }
 }
 
 </style>
@@ -48,49 +100,67 @@ a:hover {
 	<div class="container-fluid pt-4 px-4">
 		<div class="bg-light rounded">
 			<div class="G3_content">
-				<h2>住宿訂單系統</h2>
-				<div>
-					<form th:action="@{'/roomorder/getAll'}" method="post">
-						<button type="submit">查詢所有訂單</button>
+				<h2>住宿訂單管理</h2>
+				<hr>
+				<div class="button-container">
+					<form id="getAllForm" th:action="@{'/roomorder/getAll'}" method="post"  style="display: none;">
+						<button type="submit" class="custom-button" ></button>
 					</form>
-					<br>
-					<a th:href="@{/roomschedule/roomscheduleselect}">新增一筆訂單</a>
-					<br>
-					<br>
+					<button class="custom-button" onclick="location.href='/roomschedule/roomscheduleselect'">空房查詢/新增訂單</button>
+					<button class="custom-button" onclick="sendGetAllRequest()">查詢所有訂單</button>
+					
 				</div>
-				<h3>
-					<b>複合查詢 (使用 Criteria Query)：</b>
-				</h3>
+				<h4>
+					<b>訂單複合查詢：</b>
+				</h4>
 				<form th:action="@{/roomorder/list_ByCompositeQuery}" method="post">
-					<p>
-						<label>會員名字模糊查詢：</label>
-					</p>
-					<input type="text" name="membername"><br>
-					<p>
-						<label>會員id查詢：</label>
-					</p>
-					<input type="text" name="memberid">
-					<p>
-						<label>預定checkin日期間範圍</label>
-					</p>
-					<input type="date" name="startcheckindate"> ～ <input type="date" name="endcheckindate"><br>
-					<p>
-						<label>預定checkout日期間範圍</label>
-					</p>
-					<input type="date" name="startcheckoutdate"> ～ <input type="date" name="endcheckoutdate"><br>
-					<p>
-						<label>訂單成立期間範圍</label>
-					</p>
-					<input type="date" name="startorderdate"> ～ <input type="date" name="endorderdate"><br>
-					<p>
-						<input type="submit" value="送出">
-					</p>
+					
+					<label>會員名字模糊查詢：</label><input type="text" name="membername"><br>
+					
+					<label>會員id查詢：</label><input type="text" name="memberid"><br>
+					
+					<label>訂單狀態查詢：</label>
+					<select name="roomorderstate">
+						<option value="">請選擇訂單狀態</option>
+						<option value="0">已取消</option>
+						<option value="1">成立</option>
+						<option value="2">完成</option>
+						<option value="3">取消中</option>
+						<option value="4">已在入住流程中</option>
+					</select><br>
+					
+					<label>退款狀態查詢：</label>
+					<select name="refundstate">
+						<option value="">請選擇退款狀態</option>
+						<option value="0">無退款</option>
+						<option value="1">退款中</option>
+						<option value="2">退款完成</option>
+					</select><br>
+					
+					<label>預定checkin日期間範圍：</label>
+					<input type="date" name="startcheckindate"> ～ <input type="date" name="endcheckindate"><br><br>
+					
+					<label>預定checkout日期間範圍：</label>
+					<input type="date" name="startcheckoutdate"> ～ <input type="date" name="endcheckoutdate"><br><br>
+					
+					<label>訂單成立期間範圍：</label>
+					<input type="date" name="startorderdate"> ～ <input type="date" name="endorderdate"><br><br>
+					
+					<input type="submit" value="送出">
+					
 
 				</form>
+				
 			</div>
 		</div>
 	</div>
 	<th:block th:insert="~{/back-end/htmlfile/content2}" />
 	<th:block th:insert="~{/back-end/htmlfile/script}" />
+	
+	<script>
+    function sendGetAllRequest() {
+        document.getElementById("getAllForm").submit();
+    }
+	</script>
 </body>
 </html>
