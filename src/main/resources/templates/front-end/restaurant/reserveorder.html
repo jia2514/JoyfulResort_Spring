@@ -160,17 +160,18 @@ textarea {
 
 
 						<label for="" class="label">會員編號:</label>
-						<input type="number" min="1" class="input1"   th:field="*{memberVO.memberId}" required>
-							<span th:utext="${message}" style="color: red;"></span>
+						<input type="number" min="1" class="input1"   th:field="*{memberVO.memberId}"  th:value="${memberID}" required>
+						
+						<span th:utext="${message}" style="color: red;"></span>
 							
 
 
 	<script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            const secondInput = document.querySelector('.input1');
-            secondInput.value = 1;
-//      給編號欄位預設=1      
-        });
+//         window.addEventListener('DOMContentLoaded', (event) => {
+//             const secondInput = document.querySelector('.input1');
+//             secondInput.value = 1;
+// //      給編號欄位預設=1      
+//         });
    	 </script>
 						
 						
