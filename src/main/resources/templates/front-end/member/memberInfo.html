@@ -465,7 +465,7 @@
 												th:data-bs-target="'#memberReserveOrder_'+${ReserveOrder.reserveOrderId}">查看</button>
 										</td>
 										<td th:switch="${ReserveOrder.reserveOrderState}">
-											<span th:case="0">取消</span>
+											<span style="color:darkred;"   th:case="0">取消</span>
 											<span style="color: #0d6efd;" th:case="1">成立</span>
 											<span style="color: #198754;" th:case="2">完成</span>
 										</td>
@@ -626,15 +626,12 @@
 				<div class="modal-body">
 					<h3>親愛的顧客：</h3>
 
-					<p>感謝您選擇我們餐廳。為了保障您的權益及我們的服務品質，我們制定了以下取消訂單須知。請您仔細閱讀並遵守</p>
+					<p>感謝您選擇我們餐廳。為了保障您的權益及我們的服務品質，我們制定了以下須知。請您仔細閱讀並遵守</p>
 					
-					<h5>訂單取消：</h5>
 					
-					<p>距訂位時間超過24小時取消，將不收取任何費用。</p>
-					<p>距訂位時間不足12小時取消，已支付的定金將不予退還。</p>
 					
 					<h5>訂單更改：</h5>
-					<p>如需更改訂位時間或人數，請至少提前12小時通知我們，我們將盡力協助重新安排，但不保證能夠滿足您的需求。</p>
+					<p>如需更改訂位時間或人數，請直接取消原本的訂單重新下訂，我們將盡力協助重新安排，但不保證能夠滿足您的需求。</p>
 					
 					
 					<h5>聯絡方式：</h5>

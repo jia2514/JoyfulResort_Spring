@@ -62,7 +62,7 @@ public class ResController {
 	}
 
 	@PostMapping("update")
-	public String update(@Valid ResVO resVO, BindingResult result, ModelMap model) throws IOException {
+	public String update(@Valid ResVO resVO, BindingResult result,RedirectAttributes redirectAttributes, ModelMap model) throws IOException {
 		if (result.hasErrors()) {
 			System.out.println(result.getFieldError());
 //			return "back-end/404";
@@ -75,6 +75,7 @@ public class ResController {
 		model.addAttribute("ResList", resList);
 		resVO = resSvc.getOneRes(Integer.valueOf(resVO.getReserveOrderId()));
 		model.addAttribute("resVO", resVO);
+		redirectAttributes.addFlashAttribute("success", "修改成功!");
 
 		return "redirect:/reserve/reserveorder";
 	}

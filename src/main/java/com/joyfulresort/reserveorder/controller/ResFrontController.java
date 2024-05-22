@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
@@ -45,8 +46,17 @@ public class ResFrontController {
 	}
 
 	@GetMapping("reservefrontadd") // 前端新增訂單
-	public String reservefrontadd(ModelMap model) {
+	public String reservefrontadd(HttpSession session,ModelMap model) {
+		// 會員個人資料
+		
+		Integer memberID = (Integer) session.getAttribute("memberID"); // 取得session內的值
+		
+		MemberVO mem = memberSvc.getOneMember(memberID); // 查找會員資料
+
+		
 		ResVO resVO = new ResVO();
+		resVO.setMemberVO(mem);
+		model.addAttribute("resVO", mem); 
 		model.addAttribute("resVO", resVO);
 
 		return "front-end/restaurant/reserveorder";
