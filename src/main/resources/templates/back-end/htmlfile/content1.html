@@ -205,19 +205,28 @@
 
 
 
-
-				<div class="nav-item dropdown">
+<!-- 以上下是原版的會議廳 -->
+<!-- 				<div class="nav-item dropdown"> -->
+<!-- 					<a href="#" class="nav-link dropdown-toggle" -->
+<!-- 						data-bs-toggle="dropdown"><i class="fa fa-keyboard me-2"></i>會議廳管理</a> -->
+<!-- 					<div class="dropdown-menu bg-transparent border-0"> -->
+<!-- 						<a th:href="@{/conference/backend/list}" class="dropdown-item" th:if="${session.authorityFunctions.contains(16)}">會議廳內容管理</a> -->
+<!-- 						<a th:href="@{/conference/backend/order}" class="dropdown-item" th:if="${session.authorityFunctions.contains(15)}">會議廳訂單管理</a> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 以上是原版的會議廳 -->				
+				
+				
+				<!-- 以下是測試版的會議廳 -->	
+						<div class="nav-item dropdown" th:if="${session.authorityFunctions.contains(14) or session.authorityFunctions.contains(15)}">
 					<a href="#" class="nav-link dropdown-toggle"
 						data-bs-toggle="dropdown"><i class="fa fa-keyboard me-2"></i>會議廳管理</a>
 					<div class="dropdown-menu bg-transparent border-0">
-						<a th:href="@{/conference/backend/list}" class="dropdown-item" th:if="${session.authorityFunctions.contains(16)}">會議廳內容管理</a>
-						<a th:href="@{/conference/backend/order}" class="dropdown-item" th:if="${session.authorityFunctions.contains(15)}">會議廳訂單管理</a>
+						<a th:href="@{/conference/backend/list}" class="dropdown-item" th:if="${session.authorityFunctions.contains(15)}">會議廳內容管理</a>
+						<a th:href="@{/conference/backend/order}" class="dropdown-item" th:if="${session.authorityFunctions.contains(14)}">會議廳訂單管理</a>
 					</div>
 				</div>
-				
-				
-				
-				
+				<!-- 以上是測試版的會議廳 -->			
 				
 
 
@@ -254,20 +263,35 @@
 
 
 
+<!-- 以下是原版的圖文管理管理區域 -->	
+<!-- 				<div class="nav-item dropdown"> -->
+<!-- 					<a href="#" class="nav-link dropdown-toggle" -->
+<!-- 						data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>圖文管理</a> -->
+<!-- 					<div class="dropdown-menu bg-transparent border-0"> -->
+<!-- 						<a th:href="@{/spotnews/backend}" class="dropdown-item" th:if="${session.authorityFunctions.contains(5)}">最新消息管理</a> <a -->
+<!-- 							th:href="@{/newslist/newslistselect}" class="dropdown-item">媒體報導管理</a> -->
+<!-- 						<a href="element.html" class="dropdown-item"></a> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</nav> -->
+<!-- 	</div> -->
+<!-- 以上是原版的圖文管理管理區域 -->	
 
-				<div class="nav-item dropdown">
+<!-- 以下是測試的圖文管理管理區域 -->	
+	<div class="nav-item dropdown" th:if="${session.authorityFunctions.contains(4) or session.authorityFunctions.contains(5)}">
 					<a href="#" class="nav-link dropdown-toggle"
 						data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>圖文管理</a>
 					<div class="dropdown-menu bg-transparent border-0">
-						<a th:href="@{/spotnews/backend}" class="dropdown-item" th:if="${session.authorityFunctions.contains(5)}">最新消息管理</a> <a
-							th:href="@{/newslist/newslistselect}" class="dropdown-item">媒體報導管理</a>
+						<a th:href="@{/spotnews/backend}" class="dropdown-item" th:if="${session.authorityFunctions.contains(4)}">最新消息管理</a> <a
+							th:href="@{/newslist/newslistselect}" class="dropdown-item" th:if="${session.authorityFunctions.contains(5)}">媒體報導管理</a>
 						<a href="element.html" class="dropdown-item"></a>
 					</div>
 				</div>
 			</div>
 		</nav>
 	</div>
-
+<!-- 以上是測試的圖文管理管理區域 -->	
 
 	<div class="content">
 
