@@ -42,11 +42,9 @@
 <!--    <div class="loader"></div>-->
 <!--</div>-->
 
-
-<!-- 頁面頭部 -->
 <header>
     <!-- 頭部內容 -->
-    <div class="header fixed-top top-0 z-3">
+    <div class="header position-fixed top-0 z-3">
         <div class="container">
             <div class="row">
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
@@ -54,7 +52,7 @@
                         <div class="center-desk">
                             <div class="logo">
                                 <a th:href="@{/joyfulresort}">
-                                    <img id="logo" src="/frontend/images/JoyfulResort4.png" alt="">
+                                    <img th:src="@{/frontend/images/JoyfulResort2.png}" alt="">
                                 </a>
                             </div>
                         </div>
@@ -69,40 +67,55 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarsExample04">
                             <ul class="navbar-nav mr-auto">
+                                <!--                                 <hr style="border-left: 1px solid black; height: 35px; margin-top: 0"> -->
+                                <!--                                 <li class="nav-item"> -->
+                                <!--                                     <a class="nav-link fw-bold" style="color: black" th:href="@{/joyfulresort}">首頁</a> -->
+                                <!--                                     包含 關於我們 最新消息 媒體報導...  -->
+                                <!--                                 </li> -->
+
                                 <li class="nav-item" style="width: 96px">
-                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/spotnews}" style="; margin-right: 16px; margin-left: 16px">最新消息</a>
-                                    <!-- 包含 關於我們 最新消息 媒體報導...  -->
+                                    <a class="nav-link fw-bold" style="color: black; margin-right: 16px; margin-left: 16px" th:href="@{/spotnews}">最新消息</a>
                                 </li>
                                 <li class="nav-item" style="width: 96px">
-                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/joyfulresort/newslist/newslistinfo}" style="; margin-right: 16px; margin-left: 16px">媒體報導</a>
+                                    <a class="nav-link fw-bold" style="color: black; margin-right: 16px; margin-left: 16px" th:href="@{/joyfulresort/newslist/newslistinfo}">媒體報導</a>
+                                </li>
+                                <!--                                 <hr style="border-left: 1px solid black; height: 35px; margin-top: 0"> -->
+                                <!--                                 <li class="nav-item"> -->
+                                <!--                                     <a class="nav-link fw-bold" style="color: black" href="room.html">飯店設施</a> -->
+                                <!--                                 </li> -->
+                                <li class="nav-item" style="width: 96px">
+                                    <a class="nav-link fw-bold" style="color: black; margin-right: 16px; margin-left: 16px" th:href="@{/joyfulresort/roomtype/roomtypeinfo}">線上訂房</a>
                                 </li>
                                 <li class="nav-item" style="width: 96px">
-                                    <a class="nav-link fw-bold nav-link-custom" href="room.html" style="; margin-right: 16px; margin-left: 16px">線上訂房</a>
+                                    <a class="nav-link fw-bold" style="color: black; margin-right: 16px; margin-left: 16px" th:href="@{/activityinfo}">活動資訊</a>
                                 </li>
                                 <li class="nav-item" style="width: 96px">
-                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/activityinfo}" style="; margin-right: 16px; margin-left: 16px">活動資訊</a>
-                                </li>
-                                <li class="nav-item" style="width: 96px">
-                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/conference}" style="; margin-right: 16px; margin-left: 16px">宴會會議</a>
-                                </li>
-                                <li class="nav-item" style="width: 96px">
-                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/joyfulresort/restaurant}" style="; margin-right: 16px; margin-left: 16px">餐飲服務</a>
+                                    <a class="nav-link fw-bold" style="color: black; margin-right: 16px; margin-left: 16px" th:href="@{/conference}">宴會會議</a>
                                     <!-- 包含常見問題 -->
                                 </li>
                                 <li class="nav-item" style="width: 96px">
+                                    <a class="nav-link fw-bold" style="color: black; margin-right: 16px; margin-left: 16px" th:href="@{/joyfulresort/restaurant}">餐飲服務</a>
+                                    <!-- 包含常見問題 -->
+                                </li>
+
+
+
+                                <li class="nav-item">
                                     <div th:switch="${session.memberID==null}">
-                                        <a th:case="true" class="nav-link fw-bold nav-link-custom" style="margin-right: 16px; margin-left: 16px" th:href="@{/joyfulresort}" id="memberField">會員專區</a>
-                                        <a th:case="false" class="nav-link fw-bold nav-link-custom" style="margin-right: 16px; margin-left: 16px" th:href="@{/joyfulresort/member/memberinfo}" id="memberField_2">會員專區</a>
+                                        <a th:case="true" class="nav-link fw-bold" style="color: black" th:href="@{/joyfulresort}" id="memberField">會員專區</a>
+                                        <a th:case="false" class="nav-link fw-bold" style="color: black" th:href="@{/joyfulresort/member/memberinfo}" id="memberField_2">會員專區</a>
                                     </div>
                                 </li>
-                                <li class="nav-item d-flex justify-content-center h-50" style="width: 96px">
+
+                                <li class="nav-item">
                                     <div th:switch="${session.memberID==null}">
                                         <button th:case="true" type="button" id="LoginButton" class="btn btn-primary"
                                                 style="display: block;" data-bs-toggle="modal" data-bs-target="#memberLogin">登入</button>
 
                                         <button th:case="false" type="button" id="LogoutButton" class="btn btn-primary"
-                                                onclick="location.href='joyfulresort/LogOut'">登出</button>
+                                                onclick="location.href='/joyfulresort/LogOut'">登出</button>
                                     </div>
+
                                 </li>
                             </ul>
                         </div>
@@ -111,8 +124,9 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </header>
-<!-- header結束 -->
+<!-- Modal  登入彈窗 -->
 <div class="modal fade" id="memberLogin" tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -160,7 +174,7 @@
                             <button type="button" id="buttonRegister"
                                     class="btn btn-outline-success"
                                     style="width: 100px; folat: right; margin-left: 80px;"
-                                    onclick="location.href='joyfulresort/memberRegister'">註冊</button>
+                                    onclick="location.href='/joyfulresort/memberRegister'">註冊</button>
                         </div>
 
                     </form>
@@ -170,29 +184,156 @@
         </div>
     </div>
 </div>
+<!-- 頁面頭部 -->
+<!--<header>-->
+<!--    &lt;!&ndash; 頭部內容 &ndash;&gt;-->
+<!--    <div class="header fixed-top top-0 z-3">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">-->
+<!--                    <div class="full">-->
+<!--                        <div class="center-desk">-->
+<!--                            <div class="logo">-->
+<!--                                <a th:href="@{/joyfulresort}">-->
+<!--                                    <img id="logo" src="/frontend/images/JoyfulResort2.png" alt="">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">-->
+<!--                    <nav class="navigation navbar navbar-expand-md navbar-dark ">-->
+<!--                        <button class="navbar-toggler" type="button" data-toggle="collapse"-->
+<!--                                data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false"-->
+<!--                                aria-label="Toggle navigation">-->
+<!--                            <span class="navbar-toggler-icon"></span>-->
+<!--                        </button>-->
+<!--                        <div class="collapse navbar-collapse" id="navbarsExample04">-->
+<!--                            <ul class="navbar-nav mr-auto">-->
+<!--                                <li class="nav-item" style="width: 96px">-->
+<!--                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/spotnews}" style="; margin-right: 16px; margin-left: 16px">最新消息</a>-->
+<!--                                    &lt;!&ndash; 包含 關於我們 最新消息 媒體報導...  &ndash;&gt;-->
+<!--                                </li>-->
+<!--                                <li class="nav-item" style="width: 96px">-->
+<!--                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/joyfulresort/newslist/newslistinfo}" style="; margin-right: 16px; margin-left: 16px">媒體報導</a>-->
+<!--                                </li>-->
+<!--                                <li class="nav-item" style="width: 96px">-->
+<!--                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/joyfulresort/roomtype/roomtypeinfo}" style="; margin-right: 16px; margin-left: 16px">線上訂房</a>-->
+<!--                                </li>-->
+<!--                                <li class="nav-item" style="width: 96px">-->
+<!--                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/activityinfo}" style="; margin-right: 16px; margin-left: 16px">活動資訊</a>-->
+<!--                                </li>-->
+<!--                                <li class="nav-item" style="width: 96px">-->
+<!--                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/conference}" style="; margin-right: 16px; margin-left: 16px">宴會會議</a>-->
+<!--                                </li>-->
+<!--                                <li class="nav-item" style="width: 96px">-->
+<!--                                    <a class="nav-link fw-bold nav-link-custom" th:href="@{/joyfulresort/restaurant}" style="; margin-right: 16px; margin-left: 16px">餐飲服務</a>-->
+<!--                                    &lt;!&ndash; 包含常見問題 &ndash;&gt;-->
+<!--                                </li>-->
+<!--                                <li class="nav-item" style="width: 96px">-->
+<!--                                    <div th:switch="${session.memberID==null}">-->
+<!--                                        <a th:case="true" class="nav-link fw-bold nav-link-custom" style="margin-right: 16px; margin-left: 16px" th:href="@{/joyfulresort}" id="memberField">會員專區</a>-->
+<!--                                        <a th:case="false" class="nav-link fw-bold nav-link-custom" style="margin-right: 16px; margin-left: 16px" th:href="@{/joyfulresort/member/memberinfo}" id="memberField_2">會員專區</a>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                <li class="nav-item d-flex justify-content-center h-50" style="width: 96px">-->
+<!--                                    <div th:switch="${session.memberID==null}">-->
+<!--                                        <button th:case="true" type="button" id="LoginButton" class="btn btn-primary"-->
+<!--                                                style="display: block;" data-bs-toggle="modal" data-bs-target="#memberLogin">登入</button>-->
+
+<!--                                        <button th:case="false" type="button" id="LogoutButton" class="btn btn-primary"-->
+<!--                                                onclick="location.href='joyfulresort/LogOut'">登出</button>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </nav>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</header>-->
+<!--&lt;!&ndash; header結束 &ndash;&gt;-->
+<!--<div class="modal fade" id="memberLogin" tabindex="-1"-->
+<!--     aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header"></div>-->
+<!--            <div class="modal-body"-->
+<!--                 style="background-color: #f3f6f9; height: 500px;">-->
+<!--                <div style="text-align: center;">-->
+<!--                    <h1 style="color: rgb(0, 174, 255);">-->
+<!--                        <b>JoyfulResort</b>-->
+<!--                    </h1>-->
+<!--                    <h4 class="card-title">-->
+<!--                        <b>登入</b>-->
+<!--                    </h4>-->
+<!--                    <form>-->
+<!--                        <div class="input-group mb-3"-->
+<!--                             style="width: 100%; height: 60%; display: flex; align-items: center; justify-content: space-around;">-->
+
+<!--                            <div style="width: 80%;">-->
+<!--                                <div class="input-group mb-3">-->
+<!--                                    <input type="text" id="userAccount" name="userAccount" class="form-control"-->
+<!--                                           placeholder="帳號"-->
+<!--                                           style="padding-top: 2rem; padding-bottom: 2rem">-->
+<!--                                </div>-->
+
+<!--                                <span id="AccountErrorMessage" style="color: red;"></span>-->
+
+<!--                                <div class="input-group mb-3">-->
+<!--                                    <input type="Password" id="userPassword" name="userPassword"-->
+<!--                                           class="form-control" placeholder="密碼"-->
+<!--                                           style="padding-top: 2rem; padding-bottom: 2rem">-->
+<!--                                </div>-->
+
+<!--                                <span id="PasswordErrorMessage" style="color: red;"></span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div style="margin-top: 35px;">-->
+<!--                            <button type="button" id="Button_Login" class="btn btn-outline-primary"-->
+<!--                                    style="width: 70%; padding-top: 1rem; padding-bottom: 1rem">登入</button>-->
+<!--                        </div>-->
+<!--                        <span id="errorMessage" style="color: red;"></span>-->
+<!--                        <div style="margin-top: 35px;">-->
+<!--                            <button type="button" class="btn btn-outline-danger"-->
+<!--                                    style="width: 100px; folat: left; margin-right: 80px;">忘記密碼?</button>-->
+<!--                            <button type="button" id="buttonRegister"-->
+<!--                                    class="btn btn-outline-success"-->
+<!--                                    style="width: 100px; folat: right; margin-left: 80px;"-->
+<!--                                    onclick="location.href='joyfulresort/memberRegister'">註冊</button>-->
+<!--                        </div>-->
+
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="modal-footer"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 
 <!-- 圖片跑馬燈 & 註解日期 -->
-<section class="banner_main" style="max-height: 650px; position: relative; top: -100px">
-    <div id="carouselExampleFade" class="carousel slide carousel-fade h-100">
-        <div class="carousel-inner h-100" style="height: 500px; margin-top: 86px">
-            <div class="carousel-item active">
-                <img src="/frontend/images/notes1.jpg" class="d-block w-100 h-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h1 class="cardo-regular" style="color: white">CONFERENCE</h1>
-                    <h4 class="conference" style="color: white; margin-top: -15px">商務會議</h4>
-                    <p style="position: absolute; top: 80%; left: 47%">查看更多</p>
-                    <div class="down-arrow btn"><svg class="arrow-circle" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#5f6368"><path d="m481-356 119-118-15-15-93 93v-209h-23v209l-93-93-15 15 120 118Zm-.83 224q-72.17 0-135.23-27.39-63.06-27.39-110.57-74.85-47.52-47.46-74.94-110.43Q132-407.65 132-479.83q0-72.17 27.39-135.73 27.39-63.56 74.85-110.57 47.46-47.02 110.43-74.44Q407.65-828 479.83-828q72.17 0 135.73 27.39 63.56 27.39 110.57 74.35 47.02 46.96 74.44 110.43Q828-552.35 828-480.17q0 72.17-27.39 135.23-27.39 63.06-74.35 110.57-46.96 47.52-110.43 74.94Q552.35-132 480.17-132Zm-.17-22q136 0 231-95t95-231q0-136-95-231t-231-95q-136 0-231 95t-95 231q0 136 95 231t231 95Zm0-326Z"/></svg></div>
-                </div>
-            </div>
+<!--<section class="banner_main" style="max-height: 650px; position: relative; top: -100px">-->
+<!--    <div id="carouselExampleFade" class="carousel slide carousel-fade h-100">-->
+<!--        <div class="carousel-inner h-100" style="height: 500px; margin-top: 86px">-->
+<!--            <div class="carousel-item active">-->
+<!--                <img src="/frontend/images/notes1.jpg" class="d-block w-100 h-100" alt="...">-->
+<!--                <div class="carousel-caption d-none d-md-block">-->
+<!--                    <h1 class="cardo-regular" style="color: white">CONFERENCE</h1>-->
+<!--                    <h4 class="conference" style="color: white; margin-top: -15px">商務會議</h4>-->
+<!--                    <p style="position: absolute; top: 80%; left: 47%">查看更多</p>-->
+<!--                    <div class="down-arrow btn"><svg class="arrow-circle" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#5f6368"><path d="m481-356 119-118-15-15-93 93v-209h-23v209l-93-93-15 15 120 118Zm-.83 224q-72.17 0-135.23-27.39-63.06-27.39-110.57-74.85-47.52-47.46-74.94-110.43Q132-407.65 132-479.83q0-72.17 27.39-135.73 27.39-63.56 74.85-110.57 47.46-47.02 110.43-74.44Q407.65-828 479.83-828q72.17 0 135.73 27.39 63.56 27.39 110.57 74.35 47.02 46.96 74.44 110.43Q828-552.35 828-480.17q0 72.17-27.39 135.23-27.39 63.06-74.35 110.57-46.96 47.52-110.43 74.94Q552.35-132 480.17-132Zm-.17-22q136 0 231-95t95-231q0-136-95-231t-231-95q-136 0-231 95t-95 231q0 136 95 231t231 95Zm0-326Z"/></svg></div>-->
+<!--                </div>-->
+<!--            </div>-->
 
-        </div>
+<!--        </div>-->
 
-    </div>
-</section>
+<!--    </div>-->
+<!--</section>-->
 
-
-<div class="container" style="margin-top: -50px">
+<!--<div class="container mt-5" style="margin-top: -50px">-->
+<div class="container" style="margin-top: 130px">
     <nav style="--bs-breadcrumb-divider: '----'; font-size: smaller;" aria-label="breadcrumb">
         <ol class="breadcrumb justify-content-center">
             <li class="breadcrumb-item google-icon"><a th:href="@{/joyfulresort}" style="color: #847674; font-size: smaller;"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="24" style="margin-top: -5px;"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>首頁</a></li>
@@ -201,9 +342,9 @@
     </nav>
 
 </div>
-
+<!--<div class="about" style="padding-top: 40px;">-->
 <!-- 關於我們區域 -->
-<div class="about" style="padding-top: 40px;">
+<div class="about" style="padding-top: 45px">
     <div class="container">
         <h2 class="text-center p-0 lora-type m-0" style="color: #847674;" data-aos="zoom-in-up" data-aos-duration="1000">
             CONFERENCE OVERVIEW</h2>
@@ -353,13 +494,7 @@
 
 
 
-<!-- Javascript 文件 -->
-<script src="/frontend/js/jquery.min.js"></script>
-<script src="/frontend/js/bootstrap.bundle.min.js"></script>
-<!-- <script src="js/jquery-3.0.0.min.js"></script> -->
-<!-- 側邊欄 -->
-<script src="/frontend/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="/frontend/js/custom.js"></script>
+<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
@@ -369,26 +504,26 @@
 </script>
 <script>
 
-    document.addEventListener("DOMContentLoaded", function() {
-        window.addEventListener("scroll", function() {
-            var header = document.querySelector(".header");
-            var links = document.querySelectorAll(".nav-link-custom");
-            var hrs = document.querySelectorAll(".nav-hr");
-            var logo = document.getElementById("logo");
-
-            if (window.scrollY > 400) { // 當滾動超過100px時
-                header.classList.add("scrolled");
-                links.forEach(link => link.classList.add("scrolled"));
-                hrs.forEach(hr => hr.classList.add("scrolled"));
-                logo.src = "/frontend/images/JoyfulResort2.png";
-            } else {
-                header.classList.remove("scrolled");
-                links.forEach(link => link.classList.remove("scrolled"));
-                hrs.forEach(hr => hr.classList.remove("scrolled"));
-                logo.src = "/frontend/images/JoyfulResort4.png";
-            }
-        });
-    });
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     window.addEventListener("scroll", function() {
+    //         var header = document.querySelector(".header");
+    //         var links = document.querySelectorAll(".nav-link-custom");
+    //         var hrs = document.querySelectorAll(".nav-hr");
+    //         var logo = document.getElementById("logo");
+    //
+    //         if (window.scrollY > 400) { // 當滾動超過100px時
+    //             header.classList.add("scrolled");
+    //             links.forEach(link => link.classList.add("scrolled"));
+    //             hrs.forEach(hr => hr.classList.add("scrolled"));
+    //             logo.src = "/frontend/images/JoyfulResort2.png";
+    //         } else {
+    //             header.classList.remove("scrolled");
+    //             links.forEach(link => link.classList.remove("scrolled"));
+    //             hrs.forEach(hr => hr.classList.remove("scrolled"));
+    //             logo.src = "/frontend/images/JoyfulResort4.png";
+    //         }
+    //     });
+    // });
 </script>
 </body>
 

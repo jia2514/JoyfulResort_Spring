@@ -114,17 +114,24 @@
     font-family: "Noto Serif TC", serif;
 }
 
+/*.header {*/
+/*    background-color: transparent;*/
+/*    transition: background-color 0.3s ease;*/
+
+/*}*/
+
+/*.navigation.navbar-dark .navbar-nav .nav-link {*/
+/*    font-weight: normal;*/
+/*}*/
+
 .header {
-    background-color: transparent;
-    transition: background-color 0.3s ease;
+    background-color: white;
 
 }
 
 .navigation.navbar-dark .navbar-nav .nav-link {
-    font-weight: normal;
+    font-weight: bold;
 }
-
-
 /* 滾動後的狀態 */
 .header.scrolled {
     background-color: white; /* 你想要的背景顏色 */

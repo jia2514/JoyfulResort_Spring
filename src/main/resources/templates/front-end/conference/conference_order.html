@@ -74,13 +74,15 @@
                                              width="24px" fill="#5f6368">
                                             <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/>
                                         </svg>
-                                        購物車<span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        購物車<span id="cart-count"
+                                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                         0
                                     </span></a>
 
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link fw-bold position-relative" style="color: black" th:href="@{/joyfulresort/member/memberinfo}">
+                                    <a class="nav-link fw-bold position-relative" style="color: black"
+                                       th:href="@{/joyfulresort/member/memberinfo}">
                                         <svg class="header-icon" xmlns="http://www.w3.org/2000/svg"
                                              style="margin-top: -3px" height="20" viewBox="0 -960 960 960" width="24"
                                              fill="#5f6368">
@@ -110,21 +112,84 @@
             <div class="modal-body">
                 <button type="button" class="btn-close justify-content-end" style="margin-top: -40px"
                         data-bs-dismiss="modal" aria-label="Close"></button>
-                <h3 class=" fw-bold mx-auto text-center">購物車</h3>
+                <h3 class=" fw-bold mx-auto text-center"><svg class="header-icon" xmlns="http://www.w3.org/2000/svg"
+                                                              height="50px" viewBox="0 -960 960 960"
+                                                              width="50px" fill="#5f6368">
+                    <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/>
+                </svg></h3>
 
                 <div id="cart-content" class="row d-flex justify-content-center">
-                    <!-- Cart items will be dynamically added here -->
+
                 </div>
                 <h4 class="fw-bold text-end">總價: $<span id="total-price">0.00</span></h4>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                <a th:href="@{/conference/order/pay}" class="btn btn-primary disabled" id="pay-button">前往付款</a>
+                <div th:switch="${session.memberID==null}">
+                    <a th:case="true" id="LoginButton" style="color: white" data-bs-toggle="modal" data-bs-target="#memberLogin" class="btn btn-primary">前往付款</a>
+                    <a th:case="false" th:href="@{/conference/order/pay}" class="btn btn-primary disabled" id="pay-button">前往付款</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<div class="modal fade" id="memberLogin" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"></div>
+            <div class="modal-body"
+                 style="background-color: #f3f6f9; height: 500px;">
+                <div style="text-align: center;">
+                    <h1 style="color: rgb(0, 174, 255);">
+                        <b>JoyfulResort</b>
+                    </h1>
+                    <h4 class="card-title">
+                        <b>登入</b>
+                    </h4>
+                    <form>
+                        <div class="input-group mb-3"
+                             style="width: 100%; height: 60%; display: flex; align-items: center; justify-content: space-around;">
 
+                            <div style="width: 80%;">
+                                <div class="input-group mb-3">
+                                    <input type="text" id="userAccount" name="userAccount" class="form-control"
+                                           placeholder="帳號"
+                                           style="padding-top: 2rem; padding-bottom: 2rem">
+                                </div>
+
+                                <span id="AccountErrorMessage" style="color: red;"></span>
+
+                                <div class="input-group mb-3">
+                                    <input type="Password" id="userPassword" name="userPassword"
+                                           class="form-control" placeholder="密碼"
+                                           style="padding-top: 2rem; padding-bottom: 2rem">
+                                </div>
+
+                                <span id="PasswordErrorMessage" style="color: red;"></span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 35px;">
+                            <button type="button" id="Button_Login" class="btn btn-outline-primary"
+                                    style="width: 70%; padding-top: 1rem; padding-bottom: 1rem">登入</button>
+                        </div>
+                        <span id="errorMessage" style="color: red;"></span>
+                        <div style="margin-top: 35px;">
+                            <button type="button" class="btn btn-outline-danger"
+                                    style="width: 100px; folat: left; margin-right: 80px;">忘記密碼?</button>
+                            <button type="button" id="buttonRegister"
+                                    class="btn btn-outline-success"
+                                    style="width: 100px; folat: right; margin-left: 80px;"
+                                    onclick="location.href='/joyfulresort/memberRegister'">註冊</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
 <section class="banner_main">
     <div id="carouselExampleFade" style="height: 300px; position: relative; top: -24px"
          class="carousel slide carousel-fade">
@@ -147,7 +212,8 @@
         預訂場地</h5>
     <div class="row">
         <div class="col-12 room">
-            <div class="row mt-5 ms-2 me-2 mb-0" th:each=" meetingRooms : ${meetingRooms} " th:if="${meetingRooms.meetingRoomSaleState}">
+            <div class="row mt-5 ms-2 me-2 mb-0" th:each=" meetingRooms : ${meetingRooms} "
+                 th:if="${meetingRooms.meetingRoomSaleState}">
                 <div class="col-lg-4 col-12" th:each="photos : ${meetingRooms.photos}">
                     <img class="w-100" style="height: 256.99px"
                          th:src="@{/image/{meetingRoomPhotoId}(meetingRoomPhotoId=${photos.meetingRoomPhotoId})}"
@@ -189,7 +255,8 @@
                     <div class="row">
                         <div class="col">
                             <button class="btn-outline-secondary opt"
-                                    style="width: 150px; height: 40px;border-radius: 0.2rem; border: 2px solid #757575" data-bs-toggle="modal"
+                                    style="width: 150px; height: 40px;border-radius: 0.2rem; border: 2px solid #757575"
+                                    data-bs-toggle="modal"
                                     th:data-bs-target="'#exampleModal' + ${meetingRooms.meetingRoomId}">詳細內容
                             </button>
                         </div>
@@ -308,7 +375,8 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                <form th:id="'add-to-cart-form' + ${meetingRooms.meetingRoomId}" class="add-to-cart-form" th:action="@{/cart/add}" method="post">
+                                <form th:id="'add-to-cart-form' + ${meetingRooms.meetingRoomId}"
+                                      class="add-to-cart-form" th:action="@{/cart/add}" method="post">
                                     <input type="hidden" id="selectedDateTime" name="selectedDateTime" value="">
                                     <input type="hidden" id="meetingRoomId" name="meetingRoomId" value="">
                                     <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">確定</button>
@@ -327,16 +395,10 @@
 </div>
 
 
-<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
+<th:block link th:insert="~{/front-end/htmlfile/content2.html}"/>
 
 
-<!-- Javascript 文件 -->
-<script src="/frontend/js/jquery.min.js"></script>
-<script src="/frontend/js/bootstrap.bundle.min.js"></script>
-<!-- <script src="js/jquery-3.0.0.min.js"></script> -->
-<!-- 側邊欄 -->
-<script src="/frontend/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="/frontend/js/custom.js"></script>
+<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.11/main.min.js"></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
@@ -359,6 +421,7 @@
         $('#collapse' + /*[[${meetingRooms.meetingRoomId}]]*/).on('shown.bs.collapse', function () {
             const meetingRoomId = /*[[${meetingRooms.meetingRoomId}]]*/;
             const calendarEl = document.getElementById('calendar' + meetingRoomId)
+            let selectedDates = [];
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 locale: 'zh-tw',
@@ -375,13 +438,19 @@
                 selectable: true,
                 selectHelper: true,
                 editable: false,
-                selectAllow: function(selectInfo) {
+                selectAllow: function (selectInfo) {
                     return selectInfo.start >= today;
                 },
                 select: function (selectionInfo) {
-                    const modalId = '#bookingModal' + meetingRoomId;
-                    $(modalId).modal('toggle')
                     const selectedDateTime = selectionInfo.startStr;
+                    const modalId = '#bookingModal' + meetingRoomId;
+                    if (selectedDates.includes(selectedDateTime)) {
+                        alert('此日期已選擇');
+                        return;
+                    }
+
+                    selectedDates.push(selectedDateTime);
+                    $(modalId).modal('toggle')
                     $(modalId).find('#selectedDateTime').val(selectedDateTime);
                     $(modalId).find('#meetingRoomId').val(meetingRoomId);
                     sendData(selectedDateTime, meetingRoomId);
@@ -408,7 +477,7 @@
                     end: '2024-08-01'
                 },
                 eventDisplay: 'block',
-                dayCellDidMount: function(info) {
+                dayCellDidMount: function (info) {
                     if (info.date <= today) {
                         info.el.style.backgroundColor = '#f3f3f3'; // 改變今天以前的日期背景顏色
                     }
@@ -448,28 +517,29 @@
                     updateCart(cartItems);
                     saveData(selectedDateTime, meetingRoomId);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     alert("Error: " + xhr.responseText);
                 }
             });
         });
-        $(document).on("click", ".remove-from-cart", function(event) {
+        $(document).on("click", ".remove-from-cart", function (event) {
             let button = $(this);
             let cartId = button.data('cart-id');
             let selectedDateTime = button.closest('.cart-item').find('.card-text1').text();
             $.ajax({
                 url: '/cart/remove',
                 type: 'POST',
-                data: { cartId: cartId },
-                success: function(cartItems) {
+                data: {cartId: cartId},
+                success: function (cartItems) {
                     updateCart(cartItems);
                     removeLocalStorageItem(selectedDateTime);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     alert("Error: " + xhr.responseText);
                 }
             });
         });
+
         /*[/]*/
         function updateCart(cartItems) {
             var cartContent = $("#cart-content");
@@ -520,18 +590,59 @@
 
     function saveData(selectedDateTime, meetingRoomId) {
         let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
-        bookings.push({ selectedDateTime, meetingRoomId });
+        bookings.push({selectedDateTime, meetingRoomId});
         localStorage.setItem('bookings', JSON.stringify(bookings));
     }
+
     function removeLocalStorageItem(selectedDateTime) {
         let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
         bookings = bookings.filter(booking => booking.selectedDateTime === selectedDateTime);
         localStorage.setItem('bookings', JSON.stringify(bookings));
     }
+
     /*]]>*/
 </script>
 <script>
+    $('#Button_Login').click(function () {
 
+        let inputAccount = $('#userAccount').val()
+        let inputPassword = $('#userPassword').val()
+
+        //帳號
+        if (inputAccount == "") {
+            $('#AccountErrorMessage').html('帳號不能為空')
+            $('#buttonUpData').attr('disabled', true)
+        }
+
+        //密碼
+        if (inputPassword == "") {
+            $('#PasswordErrorMessage').html('密碼不能為空')
+            $('#Button_Login').attr('disabled', true)
+        }
+
+        if (inputAccount !== "" && inputPassword !== "") {
+            $.post({
+                url: '/joyfulresort/Login',
+                data: {
+                    'userAccount': inputAccount,
+                    'userPassword': inputPassword
+                },
+                datatype: 'json',
+                success: function (data) {
+
+
+                    if (data.State) {
+                        $('#errorMessage').html('')
+                        window.location.reload()
+                    } else {
+                        $('#errorMessage').html('帳號或密碼錯誤')
+                    }
+                }
+            })
+        }
+
+
+    })
 </script>
 </body>
 
