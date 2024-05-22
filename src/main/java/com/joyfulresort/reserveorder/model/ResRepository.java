@@ -43,7 +43,25 @@ public interface ResRepository extends JpaRepository<ResVO, Integer> {
 	@Query(value = "SELECT SUM(reserve_number) FROM reserve_order WHERE booking_date LIKE %?1% AND (DATE_FORMAT(booking_date, '%H:%i:%s') > '16:00:00' and DATE_FORMAT(booking_date, '%H:%i:%s') < '21:00:00')AND reserve_order_state <> 0", nativeQuery = true)
 	Integer countNumber102(LocalDate bookingDate);
 
-	// 使用會員編號 查找餐廳訂單
-	@Query(nativeQuery = true, value = "SELECT * FROM reserve_order WHERE member_id")
+
+	
+	
+	
+
+//	@Query(value = "SELECT SUM(reserve_number) FROM reserve_order  WHERE booking_date like %?1% AND DATE_FORMAT(booking_date, '%H:%i:%s') < '14:00:00'", nativeQuery = true)
+//	Integer countNumber101(LocalDate bookingDate,Integer reserveNumber);
+//
+//	@Transactional
+//	@Query(value = "SELECT SUM(reserve_number) FROM reserve_order WHERE booking_date LIKE %?1% AND (DATE_FORMAT(booking_date, '%H:%i:%s') > '14:00:00' and DATE_FORMAT(booking_date, '%H:%i:%s') < '22:00:00')", nativeQuery = true)
+//	Integer countNumber102(LocalDate bookingDate,Integer reserveNumber);
+	
+	
+	
+//	List<ResVO> findByTimeBetween(Date TimeStart,Date TimeEnd);
+	
+	
+	//使用會員編號 查找餐廳訂單
+	@Query(nativeQuery = true, value = "SELECT * FROM reserve_order WHERE member_id=?1")
+
 	List<ResVO> findmemberReserveOrderByMemberId(Integer memberID);
 }

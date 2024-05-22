@@ -196,5 +196,15 @@ public class MemberService {
 		Resrepository.save(memberRES);
 		return Resrepository.findById(reserveOrderID).get();
 	}
+	
+	// 用戶取消住宿訂單
+	public RoomOrder RoomCancelOrder(Integer roomOrderID) {
+		Optional<RoomOrder> MRO = reRoomOrder.findById(roomOrderID);
+		RoomOrder memberRoomOrder = MRO.get();
+		memberRoomOrder.setRoomOrderState((byte) 3);
+		memberRoomOrder.setRefundState((byte) 1);
+		reRoomOrder.save(memberRoomOrder);
+		return reRoomOrder.findById(roomOrderID).get();
+	}
 
 }

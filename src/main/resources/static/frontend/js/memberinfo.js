@@ -392,9 +392,12 @@ $('#makeSureMeetingRoomOrder').click(function () {
 
 })
 
+//會議廳分頁
+$('#table_memberMeetingRoomOrder').tablepage($('#table_memberMeetingRoomOrder_page'), 3)
+
 
 //餐廳訂單取消
-var ReserveOrderOrderID;
+var ReserveOrderID;
 var ReserveOrder_tr_children;
 $(document).on('click', '#ReserveOrder', function () {
   // console.log('KKO')
@@ -437,3 +440,55 @@ $('#makeSureReserveOrder').click(function () {
   $('#Close_checkReserveOrder').click()
 
 })
+
+//餐廳分頁
+$('#table_memberReserveOrder').tablepage($('#table_memberReserveOrder_page'), 3)
+
+//住房訂單取消
+var RoomOrderID;
+var RoomOrder_tr_children;
+$(document).on('click', '#RoomOrder', function () {
+  // console.log('KKO')
+  //取得本列表格(tr)資訊
+  let tr = null;
+  tr = this.closest('tr');
+  // console.log(tr);
+  //取得tr內的子元素
+  RoomOrder_tr_children = tr.children
+  // console.log(tr_children)
+  //取得訂單編號
+  RoomOrderID = RoomOrder_tr_children[0].innerText;
+  // console.log('訂單編號='+activityOrderID)
+
+  // let memberID = getCookie('MemberID')
+  // console.log('memberID='+memberID)
+
+  $('#but_checkRoomOrder').click()
+})
+
+$('#makeSureRoomOrder').click(function () {
+  //  console.log('OKKO')
+
+  $.post({
+    url: '/joyfulresort/member/CancelOrder',
+    data: {
+      'CancelOrder': 'RoomOrder',
+      'RoomOrderID': RoomOrderID
+    },
+    datatype: 'json',
+    success: function (data) {
+      if (data) {
+        console.log('OKKKKK')
+        $(RoomOrder_tr_children[5]).html('<span>取消中</span>')
+        $(RoomOrder_tr_children[6]).html('<span>退款中</span>')
+        $(RoomOrder_tr_children[7]).html('<button id="RoomOrder_disabled" type="button" class="btn btn-outline-secondary" disabled>取消訂單</button>')
+      }
+    }
+  })
+
+  $('#Close_checkRoomOrder').click()
+
+})
+
+//住房分頁
+$('#table_memberRoomOrder').tablepage($('#table_memberRoomOrder_page'), 3)

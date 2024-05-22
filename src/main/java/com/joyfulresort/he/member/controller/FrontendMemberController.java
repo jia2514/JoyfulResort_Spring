@@ -184,7 +184,7 @@ public class FrontendMemberController {
 //		System.out.println(newMember.getMemberId());
 		session.setAttribute("memberID", newMember.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
 
-		return "front-end/member/memberinfo.html";
+		return "redirect:/joyfulresort/member/memberinfo";
 	}
 
 	// 檢查驗證碼
@@ -230,7 +230,7 @@ public class FrontendMemberController {
 		String pw_2 = req.getParameter("password_2");
 		String pw_3 = req.getParameter("password_3");
 
-//		System.out.printf("用戶ID: %s%n密碼: %s%n新密碼: %s%n再輸入: %s%n", ID, pw_1, pw_2, pw_3);
+		System.out.printf("用戶ID: %s%n密碼: %s%n新密碼: %s%n再輸入: %s%n", ID, pw_1, pw_2, pw_3);
 
 		MemberVO mem = memSvc.getOneMember(Integer.valueOf(ID));
 		String password = mem.getMemberPassword();
@@ -268,7 +268,7 @@ public class FrontendMemberController {
 			Integer activityOrderID =Integer.valueOf(req.getParameter("activityOrderID")); 
 //			System.out.println(OrderID);
 			//取消活動訂單
-			ActivityOrderVO activityCancelOrder = memSvc.activityCancelOrder(activityOrderID);
+			memSvc.activityCancelOrder(activityOrderID);
 
 			res.getWriter().print(true);
 			break;
@@ -277,7 +277,7 @@ public class FrontendMemberController {
 //			System.out.println(MeetingRoomOrderID);
 			
 			//取消會議廳訂單
-			MeetingRoomOrder meetingRoomOrder = memSvc.meetingRoomCancelOrder(MeetingRoomOrderID);
+			memSvc.meetingRoomCancelOrder(MeetingRoomOrderID);
 			
 			res.getWriter().print(true);
 			break;
@@ -286,7 +286,15 @@ public class FrontendMemberController {
 //			System.out.println(ReserveOrderID);
 			
 			//取消餐廳訂單
-			ResVO ReserveOrder = memSvc.ReserveCancelOrder(ReserveOrderID);
+			memSvc.ReserveCancelOrder(ReserveOrderID);
+			res.getWriter().print(true);
+			break;
+		case "RoomOrder":
+			Integer RoomOrderID =Integer.valueOf(req.getParameter("RoomOrderID")); 
+//			System.out.println(RoomOrderID);
+			
+			//取消住宿訂單
+			memSvc.RoomCancelOrder(RoomOrderID);
 			res.getWriter().print(true);
 			break;
 		}
