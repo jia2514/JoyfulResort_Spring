@@ -343,10 +343,10 @@ public class IndexController_inSpringBoot {
 		return "front-end/activity/joyfulactivity";
 	}
 	
-	@GetMapping("/participate")
-	public String participate(Model model) {
-		return "front-end/activity/participate";
-	}
+//	@GetMapping("/participate")
+//	public String participate(Model model) {
+//		return "front-end/activity/participate";
+//	}
 	
 	// ======================================== 後台控制器 ======================================== //
 	
