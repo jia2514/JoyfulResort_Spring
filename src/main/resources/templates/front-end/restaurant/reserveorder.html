@@ -138,45 +138,46 @@ textarea {
 
 						<label for="" class="label" style="display: none;">餐廳場次編號:</label>
 						<input type="hidden" id="sessionid"
-							th:field="*{ressionVO.reserveSessionId}"> <label for=""
-							class="label">姓名: </label> <input type="text"
-							th:field="*{resName}" class="input">
+							th:field="*{ressionVO.reserveSessionId}">
+						<!------------------------------------>
+						<label for="" class="label">姓名:</label>
 
+						<div th:if="${isMember}">
+							<input type="text" th:field="*{memberVO.memberName}" required />
+						</div>
+						<div th:unless="${isMember}">
+							<input type="text" th:field="*{resName}" required />
+						</div>
 
-						<!-- <input type="text" th:field="*{memberVO.memberName}"> -->
-
+						<!-- 						<input type="text" th:field="*{resName}"   > -->
+						<!-- 						<input type="text" th:field="*{memberVO.memberName}"> -->
 						<div th:if="${#fields.hasErrors('resName')}"
 							th:errors="*{resName}" class="error"></div>
 
+						<!------------------------------------>
 
 
-						<label for="" class="label">電話:</label> <input type="text"
-							maxlength="10" th:field="*{resPhone}" class="input">
-						<!-- 	 <input type="text" th:field="*{memberVO.memberPhone}"> -->
+						<label for="" class="label">電話:</label>
+
+						<div th:if="${isMember}">
+							<input type="text" th:field="*{memberVO.memberPhone}"
+								required />
+						</div>
+						<div th:unless="${isMember}">
+							<input type="text" th:field="*{resPhone}" required />
+						</div>
+
 
 
 						<div th:if="${#fields.hasErrors('resPhone')}"
 							th:errors="*{resPhone}" class="error"></div>
 
-
-						<label for="" class="label">會員編號:</label>
-						<input type="number" min="1" class="input1"   th:field="*{memberVO.memberId}"  th:value="${memberID}" required>
-						
-						<span th:utext="${message}" style="color: red;"></span>
-							
-
-
-	<script>
-//         window.addEventListener('DOMContentLoaded', (event) => {
-//             const secondInput = document.querySelector('.input1');
-//             secondInput.value = 1;
-// //      給編號欄位預設=1      
-//         });
-   	 </script>
-						
-						
-
-						<label for="reserveNumber" class="label">預定人數:(最多10人)</label> <select
+						<!------------------------------------>
+						<label class="label">會員編號:</label> <input type=text min="1"
+							class="input1" th:field="*{memberVO.memberId}"
+							readonly="readonly" required> <span th:utext="${message}"
+							style="color: red;"></span> <label for="reserveNumber"
+							class="label">預定人數:(最多10人)</label> <select
 							th:field="*{reserveNumber}" id="reserveNumber"
 							name="reserveNumber" style="width: 80px; height: 30px;">
 							<option value="">人數</option>
@@ -197,13 +198,12 @@ textarea {
 
 						<label for="" class="label">預定日期:</label> <input
 							type="datetime-local" id="bookingDate" name="bookingDate"
-							th:field="*{bookingDate}" disabled style="width: 150px"
-							class="input">
+							th:field="*{bookingDate}" style="width: 150px" class="input">
 
 						<div th:if="${#fields.hasErrors('bookingDate')}"
 							th:errors="*{bookingDate}" class="error"></div>
 
-					
+
 
 
 						<label for="" class="label">備註:</label>
@@ -212,9 +212,10 @@ textarea {
 							style="max-height: 150px; height: 70px" placeholder="最多25字......">	</textarea>
 
 						<br>
-						
+
 						<div class="text-left">
-							<button type="submit" id="submit" class="submit">送出</button>
+							<button type="submit" id="submit" class="submit"
+								disabled="disabled">送出</button>
 						</div>
 
 						<!--  <label for="">訂單狀態:</label> -->
@@ -282,7 +283,14 @@ textarea {
 	// 	}
 	//獲取用於放置按鈕的元素
 	var timeButtonsContainer = document.getElementById('time-buttons');
+	// 監聽time-buttons元素的點選事件
+	timeButtonsContainer.addEventListener('click', function() {
+		// 當time-buttons被點選時，移除submit按鈕的disabled屬性，讓它可以被點選
+		document.getElementById('submit').removeAttribute('disabled');
+	});
 
+	// 初始設定submit按鈕為無法點選
+	document.getElementById('submit').setAttribute('disabled', 'disabled');
 	//抓取預定時間的日期部分 將選擇時間的值 往預訂送
 	function updateTimeAndCheckAvailability(time) {
 		var bookingDateInput = document.getElementById('bookingDate');
@@ -367,10 +375,10 @@ textarea {
 				if (totalNumber > response.maxpart) {
 					// 超過則禁止選擇這個時間
 					$('#error').text('' + response.message + '').show();
-					$('#submit').prop('disabled', true); // 禁用送出欄位
+					// 					$('#submit').prop('disabled', true); // 禁用送出欄位
 				} else {
 					$('#error').hide();
-					$('#submit').prop('disabled', false); // 啟用
+					// 					$('#submit').prop('disabled', false); // 啟用
 				}
 			}
 		});

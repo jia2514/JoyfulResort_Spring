@@ -42,7 +42,7 @@ public class ResVO implements Serializable {
 
 	@NotNull(message = "人數請勿空白")
 	@Column(name = "reserve_number")
-	private Integer reserveNumber = 1;
+	private Integer reserveNumber ;
 
 	@NotNull
 	@Column(name = "reserve_order_state")
@@ -68,16 +68,15 @@ public class ResVO implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "reserve_session_id")
 	private RessionVO ressionVO;
-//	======================================
 
 //	@NotEmpty(message = "名字請勿空白")
-//	@Pattern(regexp = "[\\u4e00-\\u9fa5a-zA-Z]+", message = "只能是中英文")
+	@Pattern(regexp = "[\\u4e00-\\u9fa5a-zA-Z]+", message = "只能是中英文")
 	@Column(name = "res_name")
 
 	private String resName ;
 
 //	@NotEmpty(message = "電話請勿空白")
-//	 @Pattern(regexp = "\\d{10}", message = "電話必須是10位數字")
+	 @Pattern(regexp = "\\d{10}", message = "電話必須是10位數字")
 	@Column(name = "res_phone")
 	private String resPhone;
 
@@ -177,7 +176,10 @@ public class ResVO implements Serializable {
 	public String toString() {
 		return "ResVO [reserveOrderId=" + reserveOrderId + ", reserveOrderDate=" + reserveOrderDate + ", reserveNumber="
 				+ reserveNumber + ", reserveOrderState=" + reserveOrderState + ", bookingDate=" + bookingDate
-				+ ", orderNote=" + orderNote + ", memberVO=" + memberVO + ", ressionVO=" + ressionVO + "]";
+				+ ", orderNote=" + orderNote + ", memberVO=" + memberVO + ", ressionVO=" + ressionVO + ", resName="
+				+ resName + ", resPhone=" + resPhone + "]";
 	}
+
+	
 
 }
