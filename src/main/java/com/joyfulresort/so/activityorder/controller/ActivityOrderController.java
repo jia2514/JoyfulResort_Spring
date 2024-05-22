@@ -5,8 +5,10 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.json.JSONObject;
@@ -223,7 +225,7 @@ public class ActivityOrderController {
 	// ================================================== 前台 ==================================================
 	
 		@PostMapping("addOrder")
-		public String addOrder(ModelMap model) {
+		public String addOrder(ModelMap model, ServletRequest request) {
 //			ActivitySessionVO activitySessionVO = asSvc.getOneActivitySession(Integer.valueOf(activitySessionID));
 //			model.addAttribute("activitySessionVO", activitySessionVO);
 //			System.out.println(activitySessionVO.getActivitySessionID());
@@ -233,8 +235,14 @@ public class ActivityOrderController {
 		    Timestamp orderTime = new Timestamp(currentTimeMillis);
 		    // 將時間戳記設置到模型中
 		    model.addAttribute("orderTime", orderTime);
+		    
+		    HttpServletRequest req = (HttpServletRequest) request;
+		    HttpSession session = req.getSession();
+		    String memberId = String.valueOf(session.getAttribute("memberID"));
+		    MemberVO member = memSvc.getOneMember(Integer.valueOf(memberId));	
 			
 		    ActivityOrderVO activityOrderVO = new ActivityOrderVO();	
+		    activityOrderVO.setMemberVO(member);
 			model.addAttribute("activityOrderVO", activityOrderVO);	
 			return "front-end/activity/participate";
 		}
@@ -276,7 +284,7 @@ public class ActivityOrderController {
 			model.addAttribute("activityOrderVO", activityOrder);
 			
 			// 付款功能還沒寫
-			return null;
+			return "front-end/activity/orderdetails";
 		}
 
 }

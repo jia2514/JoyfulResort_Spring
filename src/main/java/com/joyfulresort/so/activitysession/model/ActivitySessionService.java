@@ -1,5 +1,6 @@
 package com.joyfulresort.so.activitysession.model;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -38,5 +39,9 @@ public class ActivitySessionService {
 	
 	public List<ActivitySessionVO> getAll(Map<String, String[]> map) {
 		return HibernateUtilCompositeQueryActivitySession.getAllC(map,sessionFactory.openSession());
+	}
+	
+	public List<ActivitySessionVO> getAllByDate(Date activityDate){
+		return repository.findByDate(activityDate);
 	}
 }

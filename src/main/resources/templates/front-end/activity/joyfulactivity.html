@@ -66,6 +66,20 @@
 			background-color: #0056b3;
 		}
 		
+		#login {
+			padding: 5px 10px;
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			margin-left: auto; /* 將按鈕推到右側 */
+		}
+		
+		#login:hover {
+			background-color: #0056b3;
+		}
+		
 		#btn_set {
 			text-align: right; /* 讓內容向右對齊 */
 			margin-top: 10px; /* 這是為了確保與表格之間有一些間距 */
@@ -127,10 +141,16 @@
 	            	</div>
 	            </div>
 	            
+	            <!-- 檢查是否登入 -->
 	            <div id="btn_set">
-	            	<form method="post" th:action="@{/activityorder/addOrder}">
-	            		<button id="participate">我要報名</button>
-	            	</form>
+		            <div th:switch="${session.memberID==null}">
+		            	<!-- 有登入 -->
+		            	<form th:case="false" method="post" th:action="@{/activityorder/addOrder}">
+		            		<button id="participate">我要報名</button>
+		            	</form>
+		            	<!-- 沒有登入 -->
+		            	<button th:case="true" id="login">我要報名</button>
+		            </div>
 	            </div>
 	            
 		    </div>
@@ -140,9 +160,13 @@
 	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
 	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
 
+	<script th:src="@{/backend/js/jquery-3.4.1.min.js}"></script>
 	<script>
 	
-	<!-- 放JS -->
+		$("#login").click(function(){
+			alert("請先登入");
+			$("#LoginButton").click()
+		})
     
 	</script>
 	
