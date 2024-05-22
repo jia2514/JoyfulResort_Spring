@@ -442,7 +442,6 @@ public class IndexController_inSpringBoot {
 	
 	@ModelAttribute("ResList")
 	protected List<ResVO> referenceResList(Model model) {
-
 		List<ResVO> list = resSvc.getAllRes();
 		return list;
 	}
@@ -461,33 +460,7 @@ public class IndexController_inSpringBoot {
 		return list;
 	}
 	
-	@GetMapping("/restaurant")
-	public String restaurant(Model model) {
-		return "front-end/restaurant/main";
-	}
 
-	@GetMapping("reservefrontadd") // 前端新增訂單
-	public String reservefrontadd(ModelMap model) {
-		ResVO resVO = new ResVO();
-		model.addAttribute("resVO", resVO);
-
-		return "front-end/restaurant/reserveorder";
-	}
-
-	@PostMapping("insertfront")
-	public String insertfront(@Valid ResVO resVO, BindingResult result, HttpServletRequest request, ModelMap model)
-			throws IOException {
-		if (result.hasErrors()) {
-			System.out.println("前端新增訂單錯誤");
-		}
-		resSvc.addRes(resVO);
-		model.addAttribute("success", "新增成功");
-	
-		return "redirect:/joyfulresort/restaurant";
-//		return "front-end/restaurant/main"; 會多報Request method 'GET' not supported] 無解 但功能正常
-	}
-
-	
 	
 	/*
 	 * +-----------------------------------------------------------+
