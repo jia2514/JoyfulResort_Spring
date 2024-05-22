@@ -7,7 +7,7 @@
 	<link th:insert="~{/front-end/htmlfile/css.html}" />
 	<script src='/backend/js/index.global.js'></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style type="text/css">
+	<style type="text/css">
 
 		body {
 			margin: 40px 10px;
@@ -20,7 +20,20 @@
 			max-width: 1100px;
 			margin: 0 auto;
 		}
-		/* 活動類別表單容器 */
+		
+		.schedule {
+			max-width: auto;
+			margin: 20px auto;
+			background-color: #fff;
+			border-radius: 8px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			padding: 10px;
+		}
+		.schedule h4 {
+			font-size: 20px;
+			margin: 0px;
+		}
+		
 		.insert {
 			max-width: auto;
 			margin: 20px auto;
@@ -28,10 +41,9 @@
 			border-radius: 8px;
 			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 			padding: 10px;
-			width: 100%;
+			width: 60%;
 		}
 		
-		/* 標題樣式 */
 		.insert h4 {
 			font-size: 20px;
 			margin-bottom: 10px;
@@ -92,7 +104,11 @@
 	</section>
 	</header>
 		<div th:fragment="content" class="G3content">
-			<div id='calendar'></div>
+			
+			<section class="schedule">
+				<h4>請選擇活動日期</h4>
+				<div id='calendar'></div>
+			</section>
 			<hr>
 			<section class="insert">
 				<h4>活動報名</h4>
@@ -205,18 +221,18 @@
 			            //console.log(eventName);
 			            eventDate = obj.asDate;
 			            //console.log(eventDate);
-			            total = (parseInt(obj.asMax) - parseInt(obj.asTotal));
+			            //total = (parseInt(obj.asMax) - parseInt(obj.asTotal));
 			            
 			            eventTime = parseInt(obj.asTime);
 			            // console.log(eventTime);
 			            
 			            // 根據 eventTime 的值确定場次時間
-			            var timeDescription = eventTime === 0 ? '0900-1100' : '1400-1600';
+			            var timeDescription = eventTime === 0 ? '早上 0900-1100' : '下午 1400-1600';
 		
 			            // 從後端獲取的資料以FullCalendar的形式儲存
 			            event = {
 			            	groupId: eventId,
-			                title: eventName + ' 剩' + total + '位 (' + timeDescription + ')',
+			                title: eventId + ' - ' +eventName + ' (' + timeDescription + ')',
 			                start: eventDate,
 			                backgroundColor: 'transparent',
 			                borderColor: 'transparent',
