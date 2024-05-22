@@ -142,7 +142,7 @@ public class FrontendMemberController {
 			MemberVO upUserData = memSvc.upUserData(ID, inputName, inputEmail, inputPhone, inputAddrsee, inputBirthday);
 			// 轉交
 			model.addAttribute("memberData", upUserData);
-			return "front-end/member/memberinfo.html";
+			return "redirect:/joyfulresort/member/memberinfo";
 
 		} else {
 //			System.out.println("img為空");
@@ -150,7 +150,7 @@ public class FrontendMemberController {
 			MemberVO upUserData = memSvc.upUserData(ID, inputName, inputEmail, inputPhone, inputAddrsee, inputBirthday);
 			// 轉交
 			model.addAttribute("memberData", upUserData);
-			return "front-end/member/memberinfo.html";
+			return "redirect:/joyfulresort/member/memberinfo";
 		}
 	}
 

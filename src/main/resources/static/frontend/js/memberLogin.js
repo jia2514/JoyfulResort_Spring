@@ -52,7 +52,7 @@ $('#Button_Login').click(function () {
 
 
         if (data.State) {
-			$('#errorMessage').html('')
+          $('#errorMessage').html('')
           window.location.reload()
         } else {
           $('#errorMessage').html('帳號或密碼錯誤')
@@ -79,19 +79,19 @@ $('#memberField').click(function (e) {
   e.preventDefault();
   console.log(getCookie('LogInState'))
   console.log(document.cookie)
-	
-    //判斷燈入狀態 有-->個人頁面 無-->提示登入
-    if (getCookie('LogInState') != null) {
-      window.location.href = 'joyfulresort/member/memberinfo';
-    } else {
-      alert('請先登入')
-      $('#LoginButton').click();
-    }
+
+  //判斷燈入狀態 有-->個人頁面 無-->提示登入
+  if (getCookie('LogInState') != null) {
+    window.location.href = '/joyfulresort/member/memberinfo';
+  } else {
+    alert('請先登入')
+    $('#LoginButton').click();
+  }
 })
 
-$(document).keydown(function(e){
+$(document).keydown(function (e) {
   // console.log(e.which)
-  if(e.which === 13 ){
+  if (e.which === 13) {
     $('#Button_Login').click()
   }
 })
@@ -113,26 +113,26 @@ $('#forgetPassword_getAuthCode').click(function () {
 })
 
 //忘記密碼 送出資料
-$('#Button_forgetPassword').click(function(){
+$('#Button_forgetPassword').click(function () {
   let inputEmail = $('#forgetPassword_inputEmali').val()
   let authCode = $('#forgetPassword_inPutAuthCode').val()
 
   // console.log(inputEmail)
   // console.log(authCode)
 
-  if(inputEmail === "" || authCode === ""){
+  if (inputEmail === "" || authCode === "") {
     $('#Error_forgetPassword').html('不能有空欄位')
   } else {
     $.post({
-      url:'/joyfulresort/member/forgetPassword',
-      data:{
-        'inputEmail' : inputEmail,
-        'authCode' : authCode
+      url: '/joyfulresort/member/forgetPassword',
+      data: {
+        'inputEmail': inputEmail,
+        'authCode': authCode
       },
-      datatype:'json',
-      success: function(data){
+      datatype: 'json',
+      success: function (data) {
         // console.log(data.error)
-        if(data.error == "true"){
+        if (data.error == "true") {
           $('#Error_forgetPassword').html('')
           // console.log('ok')
           $('#back_Login').click()
@@ -140,7 +140,7 @@ $('#Button_forgetPassword').click(function(){
         } else {
           $('#Error_forgetPassword').html(data.error)
         }
-        
+
       }
     })
   }
