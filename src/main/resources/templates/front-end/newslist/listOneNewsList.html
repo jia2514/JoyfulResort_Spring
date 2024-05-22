@@ -42,6 +42,10 @@ padding:10px 20px;
 .homePage{
 	margin-left:50px;
 }
+
+.news-date {
+    font-size: 18px; /* 調整日期字體大小 */
+}
 </style>
 </head>
 <body class="main-layout">
@@ -53,7 +57,7 @@ padding:10px 20px;
             <div th:each="newsItem : ${newsList}" class="content">
                 <div class="contentItem">
                     <h1 th:text="${newsItem.newsTitle}"></h1>
-                    <h5 th:text="${newsItem.newsDate}"></h5>
+                <div th:text="${#dates.format(newsItem.newsDate, 'yyyy-MM-dd')}" class="news-date"></div>
 <!--                     <div th:text="${newsItem.newsAbstract}"></div> -->
 <!--                     <a th:href="@{/joyfulresort/newslist/getOne_For_Display(newsId=${newsItem.newsId})}" class="btn btn-info">查看詳情</a> -->
                                 <div class="img">

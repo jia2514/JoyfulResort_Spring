@@ -119,7 +119,7 @@ input[type="submit"]:hover {
    <tr th:each="newsList : ${newsList}">
             <td th:text="${newsList.newsId}"></td>
             <td th:text="${newsList.newsTitle}"></td>
-            <td th:text="${newsList.newsDate}"></td>
+            <td th:text="${#dates.format(newsList.newsDate, 'yyyy-MM-dd')}"></td>
             <td th:text="${newsList.newsAbstract}"></td>
 			  <td>
                                 <button type="button" class="btn btn-info" data-toggle="modal" th:data-target="'#contentModal' + ${newsList.newsId}">

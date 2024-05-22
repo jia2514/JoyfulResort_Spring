@@ -35,6 +35,7 @@ public class NewsListService {
 			return repository.findAll();
 		}
 		
+		
 		public NewsList getOneNewsList(Integer newsListId) {
 			Optional<NewsList> optional = repository.findById(newsListId);
 //			return optional.get();

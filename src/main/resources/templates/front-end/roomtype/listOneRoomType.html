@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+<meta charset="UTF-8">
+<title>My Page</title>
+<link th:insert="~{/front-end/htmlfile/css.html}" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+<style type="text/css">
+
+/*     放css */
+.room-info p {
+    white-space: pre-wrap;
+    font-size: 15px;
+    margin-top: 100px; /* 移除多餘的上邊距 */
+}
+.room-details {
+    display: flex;
+    align-items: flex-start;
+}
+.room-details .carousel-container {
+    flex: 3;
+    max-width: 70%; /* 調整carousel的最大寬度 */
+}
+.room-info {
+    flex: 1;
+    margin-left: 20px;
+}
+.room-info .info-item {
+    margin-top: 10px; /* 控制每個信息項之間的距離 */
+}
+.additional-info {
+    margin-top: 20px;
+}
+</style>
+</head>
+<body class="main-layout">
+	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
+
+		<div th:fragment="content" class="G3content">
+	
+			
+	<!-- 				放內容 -->
+
+  <div class="container mt-5">
+        <h2 th:text="${roomType.roomTypeName}">房型名稱</h2>
+        <div class="room-details">
+            <div class="carousel-container">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+                    <div class="carousel-indicators">
+                        <th:block th:each="photo, iterStat : ${roomType.roomTypePhotos}">
+                            <button type="button" data-bs-target="#carouselExampleIndicators" th:attr="data-bs-slide-to=${iterStat.index}" th:classappend="${iterStat.index == 0} ? 'active'" aria-current="true" aria-label="Slide"></button>
+                        </th:block>
+                    </div>
+                    <div class="carousel-inner">
+                        <th:block th:each="photo, iterStat : ${roomType.roomTypePhotos}">
+                            <div th:class="'carousel-item ' + (${iterStat.index == 0} ? 'active' : '')">
+                                <img th:src="@{/roomtypephoto/DBGifReader(roomTypePhotoId=${photo.roomTypePhotoId})}" class="d-block w-100" alt="Room Image">
+                            </div>
+                        </th:block>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="room-info">
+                <div class="info-item">
+                    <p th:utext="${#strings.trim(roomType.roomTypeContent)}">房型說明</p>
+                </div>
+                <div class="info-item">
+                    <p th:text="'價格: $' + ${roomType.roomTypePrice} + ' / 每晚'">房型價格</p>
+                </div>
+                <div class="info-item">
+                    <a th:href="@{/availability-check(roomTypeId=${roomType.roomTypeId})}" class="btn btn-primary">查看空房</a>
+                </div>
+            </div>
+        </div>
+        <div class="additional-info mt-4">
+            <div class="info-item">
+                <h4>設施提供</h4>
+                <ul>
+                    <li>客房設備：電視、無線上網、110V電源、冰箱、快煮壺、環保水瓶</li>
+                    <li>浴室設備：室內泡湯池、吹風機、毛巾、漱口杯</li>
+                </ul>
+            </div>
+            <div class="info-item">
+                <h4>注意事項</h4>
+                <ul>
+                    <li>入住時間15：00，退房時間11：00。</li>
+                    <li>全客房採房客自助辦理入住與退房，請至1館1樓大廳「自助Check-in櫃台」辦理。</li>
+                    <li>兒童收費方式：0-5歲幼童免費；6歲(含)以上~12歲兒童，列為房型容納人數計算。</li>
+                    <li>為維護住宿品質，恕不提供加人加床服務。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
+	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
+
+	<script>
+	
+	<!-- 				放JS -->
+    
+	</script>
+	
+</body>
+</html>

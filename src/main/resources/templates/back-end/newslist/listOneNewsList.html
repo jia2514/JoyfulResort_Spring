@@ -31,7 +31,7 @@
                     </tr>
                     <tr>
                         <th>媒體報導日期</th>
-                        <td th:text="${newsList.newsDate}"></td>
+                        <td th:text="${#dates.format(newsList.newsDate, 'yyyy-MM-dd')}"></td>
                     </tr>
                     <tr>
                         <th>媒體報導摘要</th>

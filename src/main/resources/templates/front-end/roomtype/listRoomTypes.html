@@ -43,6 +43,11 @@
             background-color: #007bff;
             color: white;
         }
+        .back-home {
+   			margin-top: 70px; /* 增加上邊距 */
+    		display: block;
+    		text-align: left;
+		}
 </style>
 </head>
 <body class="main-layout">
@@ -69,7 +74,8 @@
                     <p class="price" th:text="'$' + ${roomType.roomTypePrice} + '/每晚'"></p>
                     
                     
-                    <a th:href="@{/book(roomTypeId=${roomType.roomTypeId})}" class="btn btn-book">Book now</a>
+                    <a th:href="@{/joyfulresort/roomtype/getOne_For_Display(roomTypeId=${roomType.roomTypeId})}" class="btn btn-book">房型介紹</a>
+
                 </div>
             </div>
         </div>
@@ -78,6 +84,8 @@
 
   
 	
+	    <div class="back-home"><a th:href="@{/joyfulresort}">回首頁</a>
+        </div>
 				
 		</div>
 
