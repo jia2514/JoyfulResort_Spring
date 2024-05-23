@@ -73,7 +73,7 @@ public class IndexController_inSpringBoot {
 	@GetMapping("/")
 	public String index(Model model) {
 		model.addAttribute("message", message);
-		return "index"; // view
+		return "front-end/main_page"; // view
 	}
 
 	//
@@ -82,10 +82,10 @@ public class IndexController_inSpringBoot {
 		return "back-end/main_page";
 	}
 
-	@GetMapping("/joyfulresort")
-	public String frontend_main_page(Model model) {
-		return "front-end/main_page";
-	}
+//	@GetMapping("/joyfulresort")
+//	public String frontend_main_page(Model model) {
+//		return "front-end/main_page";
+//	}
 	
 	@GetMapping("/backend_login")
 	public String backend_login(Model model) {
@@ -187,7 +187,7 @@ public class IndexController_inSpringBoot {
 		return "back-end/roomorder/addRoomOrder";
 	}
 	
-	@GetMapping("/joyfulresort/roomorder/addRoomOrder")
+	@GetMapping("/roomorder/addRoomOrderBySchedule")
 	public String frontendAddRoomOrder(@RequestParam Map<String, String> rq, Model model) {
 		
 		 int paramCount = Integer.parseInt(rq.get("paramCount"));

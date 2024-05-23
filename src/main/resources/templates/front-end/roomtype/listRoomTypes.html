@@ -48,6 +48,27 @@
     		display: block;
     		text-align: left;
 		}
+		.getAllEmptyRooms {
+   			margin-top: 20px; /* 增加上邊距 */
+    		display: block;
+    		text-align: center;
+		}
+		button.custom-button {
+		    background-color: #4CAF50;
+		    color: white;
+		    border: none;
+		    padding: 10px 20px;
+		    font-size: 16px;
+		    cursor: pointer;
+		    text-decoration: none;
+		    display: inline-block;
+		    border-radius: 5px;
+		}
+		
+		button.custom-button:hover {
+		    background-color: #45a049;
+		}
+		
 </style>
 </head>
 <body class="main-layout">
@@ -79,10 +100,16 @@
                 </div>
             </div>
         </div>
+        
     </div>
 			
-
-  
+		<div class="getAllEmptyRooms">
+			<form id="getEmptyRoom" th:action="@{'/roomschedule/getIn2Month'}" method="post" style="display: none;">
+					<button class="custom-button" type="submit">查詢兩個月內所有空房</button>
+					<input type="hidden" name="frontendinsert" value="true">
+				</form>
+			<button class="custom-button" onclick="sendGetEmptyRoom()">查詢兩個月內所有空房</button>
+  		</div>
 	
 	    <div class="back-home"><a th:href="@{/joyfulresort}">回首頁</a>
         </div>
@@ -96,6 +123,13 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	
+	<script type="text/javascript">
+	function sendGetEmptyRoom() {
+       	document.getElementById("getEmptyRoom").submit();
+   	}
+	</script>
+	
 	
 </body>
 </html>

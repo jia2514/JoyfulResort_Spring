@@ -170,7 +170,7 @@
 
 <script th:inline="javascript">
     
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function(event) {
     	var listQuery = JSON.parse(schedule);
     	
     	var calendarEl = document.getElementById('calendar');
@@ -240,22 +240,28 @@
                     return Math.min(min, obj[3]);
                 }, Infinity);
                 
-                if(minEmptyRooms==0){
-                	alert("選擇日期區間已無空房, 請重新選擇入住日期");
-                	return;
-                }
+                
                 
                 var paramCount = 1;
                 var bookingNight = (endSelectDate-startSelectDate)/(24*3600*1000);
-                var customPageURL = '/joyfulresort/roomorder/addRoomOrder?checkInDate=' + info.startStr + '&checkOutDate=' + info.endStr +"&roomTypeId"+paramCount+"=" + roomTypeId + "&minEmptyRooms"+paramCount+"=" + minEmptyRooms+ '&paramCount=' + paramCount+ '&bookingNight=' + bookingNight;
+                var customPageURL = '/roomorder/addRoomOrderBySchedule?checkInDate=' + info.startStr + '&checkOutDate=' + info.endStr +"&roomTypeId"+paramCount+"=" + roomTypeId + "&minEmptyRooms"+paramCount+"=" + minEmptyRooms+ '&paramCount=' + paramCount+ '&bookingNight=' + bookingNight;
 				
                
                 
                 if(changePage){
-                	if(checkLoginStatus(info)){
-	                	alert('選擇checkin日期為 ' + info.startStr + '\n checkout日期為 ' + info.endStr+ '\n 共預定 ' + bookingNight +' 晚住宿');
-						window.location.href = customPageURL;
-                	}
+                	if(minEmptyRooms==0){
+                    	alert("選擇日期區間已無空房, 請重新選擇入住日期");
+                    	return;
+                    }else{
+                    	if(checkLoginStatus(event)){
+    	                	alert('選擇checkin日期為 ' + info.startStr + '\n checkout日期為 ' + info.endStr+ '\n 共預定 ' + bookingNight +' 晚住宿');
+    						window.location.href = customPageURL;
+                    	}else{
+                    		return;
+                    	}
+                    }
+                	
+                	
 				}else{
 					alert('請選擇有房型資料的日期區段');
 				}

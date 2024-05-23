@@ -136,41 +136,6 @@
 	
 	</header>
 	<div th:fragment="content" class="G3content">
-				    
-<!-- 				    測試用 -->
-	<div class="button-container">
-						<form id="getEmptyRoom" th:action="@{'/roomschedule/getIn2Month'}" method="post" style="display: none;">
-							<button class="custom-button" type="submit">查詢兩個月內所有空房</button>
-							<input type="hidden" name="frontendinsert" value="true">
-						</form>
-						<button class="custom-button" onclick="sendGetEmptyRoom()">查詢兩個月內所有空房</button>
-					</div>
-	
-	<form th:action="@{'/roomschedule/getCompositeQuery'}" method="post">
-						
-		<label>選擇房型查詢空房：</label>
-		
-		<select th:field="*{roomType.roomTypeId}">
-			<option value="">請選擇房型</option>
-			<option th:each="roomType : ${roomTypeListData}" th:value="${roomType.roomTypeId}" th:text="${roomType.roomTypeName}" />
-		</select><br>
-
-		
-		<label>選擇時間區段查詢空房：</label>
-		<input type="date" name="startquerydate"> ～ <input type="date" name="endquerydate"><br><br>
-		<input type="hidden" name="frontendinsert" value="true">
-		<input type="submit" value="送出"><br>
-
-	</form>			    
-				    
-				    
-				    
-				    
-<!-- 				    測試用 -->
-					    
-					    
-					    
-		
 				<form th:action="@{/roomschedule/roomScheduleQueryList}" method="post">
 				<div class="bookingcontainer">
 				    <div class="title">Booking Now</div>

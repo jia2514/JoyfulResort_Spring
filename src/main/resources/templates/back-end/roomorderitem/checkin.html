@@ -128,65 +128,67 @@
 					        
 						    <div th:with="count=${#lists.size(roomOrder.roomOrderItems)}">
 								<tr th:each="i : ${#numbers.sequence(0, count-1)}" th:class="'roomOrderItem_' + ${roomOrder.roomOrderItems[i].roomOrderItemId}">
-						                    
-			                    	<td th:text="${roomOrder.roomOrderId}"></td>
-			           		    	<td th:text="${roomOrder.member.memberName}"></td>
-				                    <td th:text="${roomOrder.checkOutDate}"></td>
-				                    <td th:text="${roomOrder.roomOrderItems[i].roomType.roomTypeName}"></td>
+						            
+						            <div th:if="${roomOrder.roomOrderState == 1 || roomOrder.roomOrderState == 4}">        
+				                    	<td th:text="${roomOrder.roomOrderId}"></td>
+				           		    	<td th:text="${roomOrder.member.memberName}"></td>
+					                    <td th:text="${roomOrder.checkOutDate}"></td>
+					                    <td th:text="${roomOrder.roomOrderItems[i].roomType.roomTypeName}"></td>
 				                    
-				                    <form id="myForm" th:action="@{'/roomorderItem/checkinUpdate'}" method="post">
-				                    	<div th:if="${roomOrder.roomOrderItems[i].roomOrderItemState == 1}">
-						                    <td class="room_guest_name_row" th:text="${roomOrder.roomOrderItems[i].roomGuestName}"></td>
-											<td class="room_guest_phone_row" th:text="${roomOrder.roomOrderItems[i].roomGuestPhone}"></td>
-					
-											<td class="special_req_row" th:text="${roomOrder.roomOrderItems[i].specialREQ}"></td>
-											<td class="choose_room_row" th:text="${roomOrder.roomOrderItems[i].room.roomId}"></td>
-						                    <td class="buttom_row">已完成checkin</td>
-					                    </div>
-					                  
-					                 	<div th:if="${roomOrder.roomOrderItems[i].roomOrderItemState == 4}">
-						                    <td class="room_guest_name_row"></td>
-											<td class="room_guest_phone_row"></td>
-					
-											<td class="special_req_row" th:text="${roomOrder.roomOrderItems[i].specialREQ}"></td>
-											<td class="choose_room_row"></td>
-						                    <td class="buttom_row">取消入住</td>
-					                    </div> 
-					                    
-					                    <div th:if="${roomOrder.roomOrderItems[i].roomOrderItemState == 0}">
-						                    <td class="room_guest_name_row">
-						                     
-						                     	<input type="text" name="roomGuestName" th:value="${roomOrder.member.memberName}" required>
-						                    	<span class="error-message">姓名請勿空白</span>
-						                    </td>
-											<td class="room_guest_phone_row">
-												<input type="text" name="roomGuestPhone" th:value="${roomOrder.member.memberPhone}" required pattern="09\d{8}">
-											    <span class="error-message ER1">格式09xxxxxxxx</span>
-											    <span class="error-message ER2">電話請勿空白</span>
-											</td>
-					
-											<td class="special_req_row">
-												<textarea type="text" name="specialREQ" th:text="${roomOrder.roomOrderItems[i].specialREQ}"></textarea>
-											</td>
-											<td class="choose_room_row">
-												<select id="mySelect" name="roomId" th:field="*{roomType}" required>
-					                				<option value="">選擇房間</option>
-													<div th:each="roomType : ${roomTypeListData}" th:if="${roomOrder.roomOrderItems[i].roomType.roomTypeId == roomType.roomTypeId}" >
-													<option th:each="room : ${roomType.room}"
-									                th:if="${room.roomSaleState == true && room.roomState == 0}"
-									                th:value="${room.roomId}"
-									                th:text="${room.roomId}" />
-									                
-									                </div>
-					            				</select>
-												<div class="error-message">請選擇房間</div>
-											</td>
-						                    <td class="buttom_row">
-						                    	<input class="room_checkin" type="submit" value="checkin">
-						                    	<input type="hidden" name="roomOrderItemId" th:value="${roomOrder.roomOrderItems[i].roomOrderItemId}">
-						                    </td>
-					                    </div>
-				                    </form>
+					                    <form id="myForm" th:action="@{'/roomorderItem/checkinUpdate'}" method="post">
+					                    	<div th:if="${roomOrder.roomOrderItems[i].roomOrderItemState == 1}">
+							                    <td class="room_guest_name_row" th:text="${roomOrder.roomOrderItems[i].roomGuestName}"></td>
+												<td class="room_guest_phone_row" th:text="${roomOrder.roomOrderItems[i].roomGuestPhone}"></td>
+						
+												<td class="special_req_row" th:text="${roomOrder.roomOrderItems[i].specialREQ}"></td>
+												<td class="choose_room_row" th:text="${roomOrder.roomOrderItems[i].room.roomId}"></td>
+							                    <td class="buttom_row">已完成checkin</td>
+						                    </div>
+						                  
+						                 	<div th:if="${roomOrder.roomOrderItems[i].roomOrderItemState == 4}">
+							                    <td class="room_guest_name_row"></td>
+												<td class="room_guest_phone_row"></td>
+						
+												<td class="special_req_row" th:text="${roomOrder.roomOrderItems[i].specialREQ}"></td>
+												<td class="choose_room_row"></td>
+							                    <td class="buttom_row">取消入住</td>
+						                    </div> 
+						                    
+						                    <div th:if="${roomOrder.roomOrderItems[i].roomOrderItemState == 0}">
+							                    <td class="room_guest_name_row">
+							                     
+							                     	<input type="text" name="roomGuestName" th:value="${roomOrder.member.memberName}" required>
+							                    	<span class="error-message">姓名請勿空白</span>
+							                    </td>
+												<td class="room_guest_phone_row">
+													<input type="text" name="roomGuestPhone" th:value="${roomOrder.member.memberPhone}" required pattern="09\d{8}">
+												    <span class="error-message ER1">格式09xxxxxxxx</span>
+												    <span class="error-message ER2">電話請勿空白</span>
+												</td>
+						
+												<td class="special_req_row">
+													<textarea type="text" name="specialREQ" th:text="${roomOrder.roomOrderItems[i].specialREQ}"></textarea>
+												</td>
+												<td class="choose_room_row">
+													<select id="mySelect" name="roomId" th:field="*{roomType}" required>
+						                				<option value="">選擇房間</option>
+														<div th:each="roomType : ${roomTypeListData}" th:if="${roomOrder.roomOrderItems[i].roomType.roomTypeId == roomType.roomTypeId}" >
+														<option th:each="room : ${roomType.room}"
+										                th:if="${room.roomSaleState == true && room.roomState == 0}"
+										                th:value="${room.roomId}"
+										                th:text="${room.roomId}" />
+										                
+										                </div>
+						            				</select>
+													<div class="error-message">請選擇房間</div>
+												</td>
+							                    <td class="buttom_row">
+							                    	<input class="room_checkin" type="submit" value="checkin">
+							                    	<input type="hidden" name="roomOrderItemId" th:value="${roomOrder.roomOrderItems[i].roomOrderItemId}">
+							                    </td>
+						                    </div>
+					                    </form>
+					            	</div>        
 				                </tr>
 				            </div>			                              
 					    </div>
