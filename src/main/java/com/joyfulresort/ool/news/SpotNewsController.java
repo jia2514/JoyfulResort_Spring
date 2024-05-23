@@ -30,7 +30,6 @@ public class SpotNewsController {
         model.addAttribute("news", news);
         return "front-end/conference/spot_news";
     }
-
     @GetMapping("/spotnews/backend")
     public String newsList(Model model){
         List<SpotNews> news = newsRepository.findAll();
