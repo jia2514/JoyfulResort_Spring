@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- 網站 Meta 資訊 -->
-    <title>News</title>
+    <title>News Content</title>
 
-    <link th:insert="~{/front-end/htmlfile/css.html}" />
+    <link th:insert="~{/front-end/htmlfile/css.html}"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -19,7 +19,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+          rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
     <link
@@ -29,26 +30,20 @@
     <style>
         .header {
             box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-        }
-        #backToTopBtn {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            border: none;
-            outline: none;
-            background-color: #000;
-            color: white;
-            cursor: pointer;
-            padding: 15px;
-            opacity: 0.5; /* 設置透明度，值越小越透明 */
-            transition: opacity 0.3s; /* 添加過渡效果 */
+            background-color: white;
         }
 
-        #backToTopBtn:hover {
-            background-color: #555; /* 當鼠標懸停時變成深灰色 */
+
+        .navigation.navbar-dark .navbar-nav .nav-link {
+            color: black;
         }
+
+        #leftColumn {
+
+            position: sticky;
+            top: 20%;
+        }
+
     </style>
 </head>
 
@@ -71,7 +66,7 @@
                         <div class="center-desk">
                             <div class="logo">
                                 <a th:href="@{/joyfulresort}">
-                                    <img id="logo" src="/frontend/images/JoyfulResort4.png" alt="">
+                                    <img id="logo" src="/frontend/images/JoyfulResort5.png" alt="">
                                 </a>
                             </div>
                         </div>
@@ -129,9 +124,9 @@
                                 <li class="nav-item">
                                     <div th:switch="${session.memberID==null}">
                                         <button th:case="true" type="button" id="LoginButton" class="btn fw-bold nav-link-custom nav-link "
-                                                style="display: block; margin-left: 0; margin-right: 0; border-radius: 0" data-bs-toggle="modal" data-bs-target="#memberLogin">登入</button>
+                                                style="display: block; margin-left: 0; margin-right: 0" data-bs-toggle="modal" data-bs-target="#memberLogin">登入</button>
 
-                                        <button th:case="false" style="margin-left: 0; margin-right: 0; border-radius: 0" type="button" id="LogoutButton" class="btn fw-bold nav-link-custom nav-link "
+                                        <button th:case="false" style="margin-left: 0; margin-right: 0" type="button" id="LogoutButton" class="btn fw-bold nav-link-custom nav-link "
                                                 onclick="location.href='/joyfulresort/LogOut'">登出</button>
                                     </div>
 
@@ -205,128 +200,91 @@
 </div>
 
 
-<section class="banner_main" style="max-height: 650px; position: relative; top: -100px">
-    <div id="carouselExampleFade" class="carousel slide carousel-fade h-100">
-        <div class="carousel-inner h-100" style="height: 500px; margin-top: 86px">
-            <div class="carousel-item active">
-                <img style="height: 650px" src="/frontend/images/spotnews.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h1 class="cardo-regular" style="color: white">NEWS</h1>
-                    <h4 class="conference" style="color: white; margin-top: -15px">最新消息</h4>
-                    <p style="position: absolute; top: 80%; left: 47%">查看更多</p>
-                    <div class="down-arrow btn" id="scrollButton"><svg class="arrow-circle" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#5f6368"><path d="m481-356 119-118-15-15-93 93v-209h-23v209l-93-93-15 15 120 118Zm-.83 224q-72.17 0-135.23-27.39-63.06-27.39-110.57-74.85-47.52-47.46-74.94-110.43Q132-407.65 132-479.83q0-72.17 27.39-135.73 27.39-63.56 74.85-110.57 47.46-47.02 110.43-74.44Q407.65-828 479.83-828q72.17 0 135.73 27.39 63.56 27.39 110.57 74.35 47.02 46.96 74.44 110.43Q828-552.35 828-480.17q0 72.17-27.39 135.23-27.39 63.06-74.35 110.57-46.96 47.52-110.43 74.94Q552.35-132 480.17-132Zm-.17-22q136 0 231-95t95-231q0-136-95-231t-231-95q-136 0-231 95t-95 231q0 136 95 231t231 95Zm0-326Z"/></svg></div>
+<div class="container-fluid">
+    <div class="row" th:each="news : ${news}">
+        <div class="col-5" id="leftColumn" style="margin-top: 100px; height: auto;">
+            <div class="sticky-top" style="top: 100px">
+            <div class="text-center">
+                <img style="width: 80%" th:src="@{/spotnews/images/{spotNewsId}(spotNewsId=${news.spotNewsId})}">
+            </div>
+            <div class="row mt-3">
+                <div class="col-6 text-start" style="padding-left: 11%"><p>最新消息</p></div>
+                <div class="col-6 text-end" style="padding-right: 11%"><p th:text="${#dates.format(news.spotNewsDate, 'MM.dd yyyy')}"></p></div>
+            </div>
+
+            <h4 class="mt-3 fw-bold" style="padding-left: 9%" th:text="${news.getSpotNewsTitle()}"></h4>
+            <div class="row" style="margin-top: 80px">
+                <div class="col-1 text-start" style="padding-left: 11%">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-top: -3px" width="20" height="20"
+                         fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-reply-fill mt-3" viewBox="0 0 16 16" transform="scale(-1, 1)">
+                        <path d="M5.921 11.9 1.353 8.62a.72.72 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z"/>
+                    </svg>
                 </div>
+
+                <div class="col text-start "
+                     style="padding-right: 11%; margin-left: 5%;border-left: #847674 0.2px solid; padding-left: 5%"><p
+                        class="mb-0 h5" th:text="${#dates.format(news.spotNewsDate, 'MM.dd yyyy')} + '&nbsp;-&nbsp;08.01&nbsp;2024'"></p>
+                    <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                               class="bi bi-facebook mr-4 mt-3" viewBox="0 0 16 16">
+                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+                    </svg><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                               class="bi bi-twitter-x mr-4 mt-3" viewBox="0 0 16 16">
+  <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+           class="bi bi-instagram mr-4 mt-3" viewBox="0 0 16 16">
+  <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+</svg><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-line mt-3"
+           viewBox="0 0 16 16">
+  <path d="M8 0c4.411 0 8 2.912 8 6.492 0 1.433-.555 2.723-1.715 3.994-1.678 1.932-5.431 4.285-6.285 4.645-.83.35-.734-.197-.696-.413l.003-.018.114-.685c.027-.204.055-.521-.026-.723-.09-.223-.444-.339-.704-.395C2.846 12.39 0 9.701 0 6.492 0 2.912 3.59 0 8 0M5.022 7.686H3.497V4.918a.156.156 0 0 0-.155-.156H2.78a.156.156 0 0 0-.156.156v3.486c0 .041.017.08.044.107v.001l.002.002.002.002a.15.15 0 0 0 .108.043h2.242c.086 0 .155-.07.155-.156v-.56a.156.156 0 0 0-.155-.157m.791-2.924a.156.156 0 0 0-.156.156v3.486c0 .086.07.155.156.155h.562c.086 0 .155-.07.155-.155V4.918a.156.156 0 0 0-.155-.156zm3.863 0a.156.156 0 0 0-.156.156v2.07L7.923 4.832l-.013-.015v-.001l-.01-.01-.003-.003-.011-.009h-.001L7.88 4.79l-.003-.002-.005-.003-.008-.005h-.002l-.003-.002-.01-.004-.004-.002-.01-.003h-.002l-.003-.001-.009-.002h-.006l-.003-.001h-.004l-.002-.001h-.574a.156.156 0 0 0-.156.155v3.486c0 .086.07.155.156.155h.56c.087 0 .157-.07.157-.155v-2.07l1.6 2.16a.2.2 0 0 0 .039.038l.001.001.01.006.004.002.008.004.007.003.005.002.01.003h.003a.2.2 0 0 0 .04.006h.56c.087 0 .157-.07.157-.155V4.918a.156.156 0 0 0-.156-.156zm3.815.717v-.56a.156.156 0 0 0-.155-.157h-2.242a.16.16 0 0 0-.108.044h-.001l-.001.002-.002.003a.16.16 0 0 0-.044.107v3.486c0 .041.017.08.044.107l.002.003.002.002a.16.16 0 0 0 .108.043h2.242c.086 0 .155-.07.155-.156v-.56a.156.156 0 0 0-.155-.157H11.81v-.589h1.525c.086 0 .155-.07.155-.156v-.56a.156.156 0 0 0-.155-.157H11.81v-.589h1.525c.086 0 .155-.07.155-.156Z"/>
+</svg></span></div>
+            </div>
+            </div>
+        </div>
+        <div class="col-7" style="margin-top: 100px; height: auto; position: relative; margin-left: auto">
+            <div class="text-center mb-5">
+                <h3 class="fw-bold" th:text="${news.spotNewsAbstract}"></h3>
+
+            </div>
+            <p th:utext="${news.getSpotNewsContent()}"></p>
+            <div class="text-center mt-5">
+                <a th:href="@{/spotnews}" style="border-radius: 0" class="btn btn-outline-dark mx-auto">返回列表</a>
             </div>
 
         </div>
-
-    </div>
-</section>
-
-
-<div class="container" id="target" style="margin-top: -50px">
-    <nav style="--bs-breadcrumb-divider: '----'; font-size: smaller;" aria-label="breadcrumb">
-        <ol class="breadcrumb justify-content-center">
-            <li class="breadcrumb-item google-icon"><a href="#" style="color: #847674; font-size: smaller;"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="24" style="margin-top: -5px;"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>首頁</a></li>
-            <li class="breadcrumb-item active" aria-current="page" style="font-size: smaller;">最新消息</li>
-        </ol>
-    </nav>
-
-</div>
-
-<!-- 關於我們區域 -->
-<div class="about" style="padding-top: 45px">
-    <div class="container">
-        <h2 class="text-center p-0 lora-type m-0" style="color: #847674;" data-aos="zoom-in-up" data-aos-duration="1000">
-            NEWS</h2>
-        <P class="text-center h5 mb-5 fw-bold" data-aos="zoom-in-up" data-aos-duration="2000">最新消息</P>
-
-        <div class="row mb-5" th:each="news, iterStat : ${news}" th:if="${news.spotNewsState}">
-            <div class="col-lg-7 content" th:classappend="${iterStat.index % 2 == 0} ? '' : 'order-md-1'">
-                <div class="about-text">
-                    <div class="title-frame mt-3">
-                        <p th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000" style="color: grey; font-size: small" th:text="'活動期間&nbsp;:&nbsp;' + ${#dates.format(news.spotNewsDate, 'yyyy-MM-dd')} + '&nbsp;到&nbsp;2024-08-01'"></p>
-                        <h3 class="fw-bold" style="color: #847674" th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000" th:text="${news.spotNewsTitle}"></h3>
-                        <h5 th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000" th:text="${news.spotNewsAbstract}"></h5>
-                        <br>
-                        <a th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000" style="border-radius: 0" class="btn btn-outline-secondary fw-bold" th:href="@{'/spotnews/content/' + ${news.spotNewsId}}">查看內容</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-5" th:classappend="${iterStat.index % 2 == 0} ? 'order-md-1' : ''">
-                <div class="about_img w-100" th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000">
-                    <figure><img th:src="@{/spotnews/images/{spotNewsId}(spotNewsId=${news.spotNewsId})}" alt="#" /></figure>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
-<button id="backToTopBtn">Top</button>
-<!-- 關於我們區域結束 -->
 
 
+<th:block link th:insert="~{/front-end/htmlfile/content2.html}"/>
 
 
-<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
-
-
-
-
-
-<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
+<th:block link th:insert="~{/front-end/htmlfile/script.html}"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!--<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>-->
+<!--<script>-->
+<!--    AOS.init();-->
+<!--</script>-->
 <script>
-    AOS.init();
+
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     window.addEventListener("scroll", function() {
+    //         var header = document.querySelector(".header");
+    //
+    //         if (window.scrollY > 400) { // 當滾動超過100px時
+    //             header.classList.add("scrolled");
+    //         } else {
+    //             header.classList.remove("scrolled");
+    //         }
+    //     });
+    // });
 </script>
-<script>
 
-    $(document).ready(function() {
-        $(window).on('scroll', function() {
-            let header = $('.header');
-            let links = $('.nav-link-custom');
-            let logo = $('#logo');
-
-            if ($(window).scrollTop() > 450) {
-                header.addClass('scrolled');
-                links.addClass('scrolled');
-                logo.attr('src', '/frontend/images/JoyfulResort5.png');
-            } else {
-                header.removeClass('scrolled');
-                links.removeClass('scrolled');
-                logo.attr('src', '/frontend/images/JoyfulResort4.png');
-            }
-        });
-    });
-
-    $('#scrollButton').on('click', function() {
-        $('html, body').animate({
-            scrollTop: $('#target').offset().top
-        });
-    });
-
-    $(document).ready(function() {
-        let $backToTopBtn = $("#backToTopBtn");
-
-        // 當用戶滾動時，顯示或隱藏按鈕
-        $(window).scroll(function() {
-            if ($(this).scrollTop() > 20) {
-                $backToTopBtn.fadeIn();
-            } else {
-                $backToTopBtn.fadeOut();
-            }
-        });
-
-        // 當用戶點擊按鈕時，滾動回到頁面頂部
-        $backToTopBtn.click(function() {
-            $("html, body").animate({ scrollTop: 0 }, "slow");
-            return false;
-        });
-    });
-</script>
 </body>
 
 </html>

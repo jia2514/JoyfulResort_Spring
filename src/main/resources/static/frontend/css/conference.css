@@ -121,22 +121,17 @@
     font-family: "Noto Serif TC", serif;
 }
 
-/*.header {*/
-/*    background-color: transparent;*/
-/*    transition: background-color 0.3s ease;*/
-
-/*}*/
-
-/*.navigation.navbar-dark .navbar-nav .nav-link {*/
-/*    color: white; !* 初始字體顏色 *!*/
-/*}*/
-
 .header {
-    background-color: white;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+
 }
+
 .navigation.navbar-dark .navbar-nav .nav-link {
-    color: black;
+    color: white;
 }
+
+
 /* 滾動後的狀態 */
 .header.scrolled {
     background-color: white; /* 你想要的背景顏色 */
@@ -145,4 +140,23 @@
 
 .navigation.navbar-dark .navbar-nav .nav-link.scrolled {
     color: black; /* 你想要的字體顏色 */
+}
+#backToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: #000;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    opacity: 0.5; /* 設置透明度，值越小越透明 */
+    transition: opacity 0.3s; /* 添加過渡效果 */
+}
+
+#backToTopBtn:hover {
+    background-color: #555; /* 當鼠標懸停時變成深灰色 */
 }
