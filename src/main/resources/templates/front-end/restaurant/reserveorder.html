@@ -149,8 +149,6 @@ textarea {
 							<input type="text" th:field="*{resName}" required />
 						</div>
 
-						<!-- 						<input type="text" th:field="*{resName}"   > -->
-						<!-- 						<input type="text" th:field="*{memberVO.memberName}"> -->
 						<div th:if="${#fields.hasErrors('resName')}"
 							th:errors="*{resName}" class="error"></div>
 
@@ -160,24 +158,27 @@ textarea {
 						<label for="" class="label">電話:</label>
 
 						<div th:if="${isMember}">
-							<input type="text" th:field="*{memberVO.memberPhone}"
-								required />
+							<input type="text" th:field="*{memberVO.memberPhone}" required
+								maxlength="10" />
 						</div>
 						<div th:unless="${isMember}">
-							<input type="text" th:field="*{resPhone}" required />
+							<input type="text" th:field="*{resPhone}" maxlength="10" required />
 						</div>
-
-
 
 						<div th:if="${#fields.hasErrors('resPhone')}"
 							th:errors="*{resPhone}" class="error"></div>
 
 						<!------------------------------------>
-						<label class="label">會員編號:</label> <input type=text min="1"
-							class="input1" th:field="*{memberVO.memberId}"
-							readonly="readonly" required> <span th:utext="${message}"
-							style="color: red;"></span> <label for="reserveNumber"
-							class="label">預定人數:(最多10人)</label> <select
+						<br>
+						<div>
+							<label class="label">會員編號:</label> <span
+								th:text="*{memberVO.memberId}" class="input1"></span>
+						</div>
+						<br> <input type=hidden min="1" class="input1"
+							th:field="*{memberVO.memberId}" readonly="readonly" required>
+
+						<span th:utext="${message}" style="color: red;"></span> <label
+							for="reserveNumber" class="label">預定人數:(最多10人)</label> <select
 							th:field="*{reserveNumber}" id="reserveNumber"
 							name="reserveNumber" style="width: 80px; height: 30px;">
 							<option value="">人數</option>
@@ -198,7 +199,8 @@ textarea {
 
 						<label for="" class="label">預定日期:</label> <input
 							type="datetime-local" id="bookingDate" name="bookingDate"
-							th:field="*{bookingDate}" style="width: 150px" class="input">
+							th:field="*{bookingDate}" style="width: 150px" class="input"
+							disabled="disabled">
 
 						<div th:if="${#fields.hasErrors('bookingDate')}"
 							th:errors="*{bookingDate}" class="error"></div>
@@ -237,12 +239,11 @@ textarea {
 						<label class="label">時間:</label>
 
 						<div style="position: relative;">
-							<div id="time-buttons" style="width: 350px"></div>
+							<div id="time-buttons" style="width: 300px"></div>
 							<div id="error"
 								style="color: red; position: absolute; font-size: 18px"></div>
 						</div>
-
-						<br>
+						<br> <br>
 						<div style="overflow: auto; width: 150%;">
 							<label style="padding-top: 20px">說明:</label>
 							<ul style="padding-left: 0px">
@@ -274,53 +275,47 @@ textarea {
 	// 時間按鈕的時間列表
 	var times = [ '11:00', '12:00', '13:00', '14:00', '17:00', '18:00',
 			'19:00', '20:00' ];
-
-	// 	for (var i = 11; i <= 20; i++) {
-	// 	    if (i !== 15 && i !== 16) {
-	// 		var time = i.toString().padStart(2, '0') + ':00';
-	// 		times.push(time);
-	// 	}
-	// 	}
-	//獲取用於放置按鈕的元素
 	var timeButtonsContainer = document.getElementById('time-buttons');
-	// 監聽time-buttons元素的點選事件
-	timeButtonsContainer.addEventListener('click', function() {
-		// 當time-buttons被點選時，移除submit按鈕的disabled屬性，讓它可以被點選
-		document.getElementById('submit').removeAttribute('disabled');
-	});
 
 	// 初始設定submit按鈕為無法點選
 	document.getElementById('submit').setAttribute('disabled', 'disabled');
+
+	var selecthour;
+	const enableButtons = timeButtonsContainer
+			.getElementsByClassName('enable-button');
+
+	const submitButton = document.getElementById('submit');
+
 	//抓取預定時間的日期部分 將選擇時間的值 往預訂送
 	function updateTimeAndCheckAvailability(time) {
 		var bookingDateInput = document.getElementById('bookingDate');
 		var currentDateTime = bookingDateInput.value; // 獲取當前日期時間
 		var selectedDateTime = currentDateTime.split(' ')[0] + ' ' + time; //抓取日期部分
-
+		selecthour = time;
 		bookingDateInput.value = selectedDateTime;
 		var selectedNumber = $('#reserveNumber').val(); // 獲取選擇的人數
-
 		checkAvailability(selectedDateTime, selectedNumber);
 	}
-
 	// 創建並添加時間按鈕
 	times.forEach(function(time) {
+		
 		var button = document.createElement('button');
 		button.disabled = true; // 初始狀態為禁用
 		button.style.opacity = button.disabled ? '0.5' : '1'; // 設定透明度
+	    button.setAttribute('data-time', time); // 用於查找按鈕
 		button.textContent = time;
 		button.classList.add('time-button');
 		button.addEventListener('click', function() {
 			event.preventDefault();
 			var hours = parseInt(time.split(':')[0]); //
+
 			var sessionidValue = hours < 15 ? "101" : "102";
 			document.getElementById("sessionid").value = sessionidValue;
 			updateTimeAndCheckAvailability(time);
 		});
 		timeButtonsContainer.appendChild(button);
-
 	});
-
+	
 	//-------------------------------------------------日期樣式
 	flatpickr("#bookingDate", {
 		enableTime : false,
@@ -331,26 +326,19 @@ textarea {
 		// 	inline: true ,
 		minDate : new Date().fp_incr(3),
 		maxDate : new Date().fp_incr(60),
-
 		minuteIncrement : 60,
-
 		onClose : function(selectedDates) {
 			const hour = selectedDates[0].getHours();
 			const sessionidValue = hour < 15 ? "101" : "102";
-
 			document.getElementById("sessionid").value = sessionidValue;
-
 		},
-
 	});
 	//-------------------------------------------------日期樣式
 	$('#bookingDate').change(function() {
 		var selectedDate = $(this).val();
 		var selectedNumber = $('#reserveNumber').val(); // 獲取選擇的人數
 		checkAvailability(selectedDate, selectedNumber);
-
 	});
-
 	$('#reserveNumber').change(function() {
 		var selectedNumber = $(this).val();
 		var selectedDate = $('#bookingDate').val(); //獲取選擇的日期
@@ -367,22 +355,42 @@ textarea {
 			},
 			success : function(response) {
 				// 將後端返回的總人數與前端所選擇的人數相加
+				var number = response.number
 				var totalNumber = response.number + parseInt(reserveNumber);
 				// 檢查總人數是否超過 100
-				// 				console.log(totalNumber	)
+// 				console.log(number)
+// 				console.log(totalNumber)
 
-				// 				console.log(response.maxpart)
+  // 根據後端回應更新按鈕狀態
+//             times.forEach(function(time) {
+//                 var button = document.querySelector('button[data-time="' + time + '"]');
+//                 if (!button) return;
+//                 var hours = parseInt(time.split(':')[0]);
+// 							console.log(hours)
+// || (hours >= 17 && hours <= 22))
+
 				if (totalNumber > response.maxpart) {
-					// 超過則禁止選擇這個時間
-					$('#error').text('' + response.message + '').show();
-					// 					$('#submit').prop('disabled', true); // 禁用送出欄位
+					if (selecthour >= "17:00" && selecthour <= "22:00"  ){
+						$('#error').html( response.message102 ).show();
+						$('#submit').prop('disabled', true);
+					} else if (selecthour >= "11:00" && selecthour <= "14:00") {
+						$('#error').html( response.message101 ).show();
+						$('#submit').prop('disabled', true)    
+					}
+				} else if (number == 0) {
+					$('#submit').prop('disabled', true);
+					$('#error').text(response.message).show();
+
 				} else {
+					$('#submit').prop('disabled', false)    
 					$('#error').hide();
-					// 					$('#submit').prop('disabled', false); // 啟用
+
 				}
+           
 			}
 		});
 	}
+
 	//限制人數	
 	document.getElementById('reserveNumber').addEventListener('input',
 			function() {
@@ -399,7 +407,7 @@ textarea {
 	$(document).ready(function() {
 		$('#reserveNumber').on('input', function() {
 			var reserveNumber = $(this).val();
-			if (reserveNumber.trim() !== '') {
+			if (reserveNumber.trim() !== '人數') {
 				$('#bookingDate').prop('disabled', false);
 			} else {
 				$('#bookingDate').prop('disabled', true);
