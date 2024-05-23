@@ -9,7 +9,7 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 
 @SpringBootApplication
-@ServletComponentScan(basePackages = "com.filters.LoginFilter")
+@ServletComponentScan(basePackages = "com.filters.LoginFilter, com.filters.LoginStateFilter")
 public class Application {
 
 	public static void main(String[] args) {

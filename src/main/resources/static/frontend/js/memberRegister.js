@@ -22,7 +22,7 @@ $(document).ready(function () {
 $('#inputName').blur(function () {
 
     let inputName = $('#inputName').val()
-    console.log('名稱:' + inputName)
+    // console.log('名稱:' + inputName)
 
     let regexName = /^[\u4e00-\u9fa5\w]{1,10}$/g
 

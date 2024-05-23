@@ -17,4 +17,14 @@ public class FilterConfig {
 		bean.addUrlPatterns("/joyfulresort/member/memberinfo");
 		return bean;
 	}
+	
+	@Bean
+	public FilterRegistrationBean<LoginStateFilter> LoginStateFilter(){
+		
+		FilterRegistrationBean<LoginStateFilter> bean = new FilterRegistrationBean<>();
+		bean.setFilter(new LoginStateFilter());
+		
+		bean.addUrlPatterns("/*");
+		return bean;
+	}
 }

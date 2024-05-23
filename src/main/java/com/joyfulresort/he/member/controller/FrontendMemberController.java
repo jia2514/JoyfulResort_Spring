@@ -41,7 +41,7 @@ public class FrontendMemberController {
 	@GetMapping("/memberinfo")
 	public String memberInfo(HttpSession session, Model model) {
 		// 會員個人資料
-		Integer memberID = (Integer) session.getAttribute("memberID"); // 取得session內的值
+		Integer memberID = Integer.valueOf((String) session.getAttribute("memberID")) ; // 取得session內的值
 		MemberVO mem = memSvc.getOneMember(memberID); // 查找會員資料
 		model.addAttribute("memberData", mem); // 轉交
 
