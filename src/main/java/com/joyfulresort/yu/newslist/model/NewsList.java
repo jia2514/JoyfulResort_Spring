@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -50,7 +51,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 		private byte[] newsPhoto;
 	
 		
-		@NotNull(message="媒體報導出處: 請勿空白")
+		@NotEmpty(message="媒體報導出處: 請勿空白")
 		@Column(name = "news_from")
 		private String newsFrom;
 		

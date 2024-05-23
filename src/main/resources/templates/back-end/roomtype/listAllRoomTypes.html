@@ -101,7 +101,7 @@ input[type="submit"]:hover {
             <th>房型編號</th>
 			<th>房型名稱</th>
 			<th>可入住人數</th>
-			<th>房型數量</th>
+<!-- 			<th>房型數量</th> -->
 			<th>房型說明</th>
 			<th>上下架狀態</th>
 			<th>房型價格</th>
@@ -111,7 +111,7 @@ input[type="submit"]:hover {
             <td th:text="${roomType.roomTypeId}"></td>
             <td th:text="${roomType.roomTypeName}"></td>
             <td th:text="${roomType.numberOfPeople}"></td>
-            <td th:text="${roomType.roomTypeAmount}"></td>
+<!--             <td th:text="${roomType.roomTypeAmount}"></td> -->
             <td>
                             <button type="button" class="btn btn-info" data-toggle="modal" th:data-target="'#contentModal' + ${roomType.roomTypeId}">
                                 查看詳情
