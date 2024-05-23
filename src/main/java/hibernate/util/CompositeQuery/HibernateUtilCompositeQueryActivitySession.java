@@ -30,9 +30,7 @@ public class HibernateUtilCompositeQueryActivitySession {
 			predicate = builder.equal(root.get("activityVO"), activityVO);
 		}
 //		// 用於date
-		else 
-			
-		if ("activityDate".equals(columnName)) 
+		else if ("activityDate".equals(columnName)) 
 			predicate = builder.equal(root.get(columnName), java.sql.Date.valueOf(value));
 		else if ("enteredStart".equals(columnName))
 			predicate = builder.greaterThanOrEqualTo(root.get(columnName), java.sql.Date.valueOf(value));

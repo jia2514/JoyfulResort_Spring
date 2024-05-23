@@ -95,8 +95,13 @@
 		        	<h4>訂單名細：</h4>
 		        	<hr>
 		        	<div>
-						<label>會員：</label>
+						<label>會員編號：</label>
 						<span th:text="${activityOrderVO.memberVO.memberId}"></span>
+	    			</div>
+	    			
+	    			<div>
+						<label>會員：</label>
+						<span th:text="${memberVO.memberName}"></span>
 	    			</div>
 		        	
 		        	<div>
@@ -107,6 +112,13 @@
 		        	<div>
 						<label>活動場次：</label>
 						<span th:text="${activityOrderVO.activitySessionVO.activitySessionID}"></span>
+						<span th:text="${asVO.activityVO.activityName}"></span>
+	    			</div>
+	    			
+	    			<div>
+						<label>活動時間：</label>
+						<span th:text="${asVO.activityDate}"></span>
+						<span th:text="${asVO.activityTime == 0 ? '(早上) 0900-1100' : '(下午) 1400-1600'}"></span>
 	    			</div>
 		        	
 		        	<div>

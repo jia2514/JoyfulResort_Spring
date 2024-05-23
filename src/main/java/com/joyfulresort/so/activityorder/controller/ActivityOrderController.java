@@ -55,9 +55,15 @@ public class ActivityOrderController {
 	}
 	
 	@PostMapping("listType")
-	public String getALL(@RequestParam("activitySessionID") String activitySessionID, ModelMap model) {
+	public String getALLByType(@RequestParam("activitySessionID") String activitySessionID, ModelMap model) {
 		List<ActivityOrderVO> list = aoSvc.getActivityBySession(Integer.valueOf(activitySessionID));
 		model.addAttribute("activityOrderListData", list);
+		
+		if (list.isEmpty()) {
+			model.addAttribute("errorMessage", "查無資料");
+			return "back-end/activityorder/activityorder";
+		}
+		
 		return "back-end/activityorder/listAllActivityOrder";
 	}
 	
@@ -69,6 +75,7 @@ public class ActivityOrderController {
 		
 		if (list.isEmpty()) {
 			model.addAttribute("errorMessage", "查無資料");
+			model.addAttribute("activityOrderListData", list);
 			return "back-end/activityorder/activityorder";
 		}
 		
@@ -96,9 +103,9 @@ public class ActivityOrderController {
 		}
 		aoSvc.updateActivityOrder(activityOrderVO);
 		
-		// 如果訂單狀態為2(取消中)，即已完成，則從 Redis 中減少報名人數
+		// 如果訂單狀態為3(取消)，即已完成，則從 Redis 中減少報名人數
 		String activitySessionId = String.valueOf(activityOrderVO.getActivitySessionVO().getActivitySessionID());
-        if (activityOrderVO.getOrderStatus() == 2 || activityOrderVO.getOrderStatus() == 3) {
+        if (activityOrderVO.getOrderStatus() == 3) {
             redisService.updateActivityOrder(activitySessionId, activityOrderVO.getEnteredNumber());
         }
 		
@@ -236,10 +243,12 @@ public class ActivityOrderController {
 		    // 將時間戳記設置到模型中
 		    model.addAttribute("orderTime", orderTime);
 		    
+		    // 取得登入後的memberID
 		    HttpServletRequest req = (HttpServletRequest) request;
 		    HttpSession session = req.getSession();
 		    String memberId = String.valueOf(session.getAttribute("memberID"));
-		    MemberVO member = memSvc.getOneMember(Integer.valueOf(memberId));	
+		    MemberVO member = memSvc.getOneMember(Integer.valueOf(memberId));
+		    model.addAttribute("memberVO", member);
 			
 		    ActivityOrderVO activityOrderVO = new ActivityOrderVO();	
 		    activityOrderVO.setMemberVO(member);
@@ -248,7 +257,7 @@ public class ActivityOrderController {
 		}
 		
 		@PostMapping("insertOrder")
-		public String insertOrder(@Valid ActivityOrderVO activityOrderVO, BindingResult result, ModelMap model) {
+		public String insertOrder(@Valid ActivityOrderVO activityOrderVO, BindingResult result, ModelMap model, ServletRequest request) {
 
 			if (result.hasErrors()) {
 				model.addAttribute("activityOrderVO", activityOrderVO);
@@ -279,11 +288,20 @@ public class ActivityOrderController {
 			// 更新 Redis 中的報名人數
 	        String activitySession = String.valueOf(activityOrderVO.getActivitySessionVO().getActivitySessionID());
 	        redisService.addActivityOrder(activitySession, activityOrderVO.getEnteredNumber());
+	        
+	        // 取得登入後的會員資料
+		    HttpServletRequest req = (HttpServletRequest) request;
+		    HttpSession session = req.getSession();
+		    String memberId = String.valueOf(session.getAttribute("memberID"));
+		    MemberVO member = memSvc.getOneMember(Integer.valueOf(memberId));	
+			model.addAttribute("memberVO", member);
+			
+			ActivitySessionVO as = asSvc.getOneActivitySession(activityOrderVO.getActivitySessionVO().getActivitySessionID());
+			model.addAttribute("asVO", as);
 			
 			ActivityOrderVO activityOrder = aoSvc.getOneActivityOrder(Integer.valueOf(activityOrderVO.getActivityOrderID()));
 			model.addAttribute("activityOrderVO", activityOrder);
 			
-			// 付款功能還沒寫
 			return "front-end/activity/orderdetails";
 		}
 

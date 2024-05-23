@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.joyfulresort.so.activity.model.ActivityService;
 import com.joyfulresort.so.activity.model.ActivityVO;
+import com.joyfulresort.so.activitycategory.model.ActivityCategoryVO;
+import com.joyfulresort.so.activityorder.model.ActivityOrderVO;
 import com.joyfulresort.so.activitysession.model.ActivitySessionService;
 import com.joyfulresort.so.activitysession.model.ActivitySessionVO;
 import com.redis.RedisService;
@@ -52,6 +54,15 @@ public class ActivitySessionController {
 		return "back-end/activitysession/listAllActivitySession";
 	}
 	
+//	@PostMapping("listOne")
+//	public String getOne(@RequestParam("activitySessionID") String activitySessionID, ModelMap model) {
+//		ActivitySessionVO activitySessionVO = asSvc.getOneActivitySession(Integer.valueOf(activitySessionID));
+//		model.addAttribute("activitySessionVO", activitySessionVO);
+//		List<ActivitySessionVO> list = asSvc.getAll();
+//		model.addAttribute("activitySessionListData", list);
+//		return "back-end/activitysession/listAllActivitySession";
+//	}
+	
 	@PostMapping("listCompositeQuery")
 	public String listAllEmp(HttpServletRequest req, Model model) {
 		Map<String, String[]> map = req.getParameterMap();
@@ -63,7 +74,7 @@ public class ActivitySessionController {
 			return "back-end/activitysession/activitysession";
 		}
 		
-		model.addAttribute("getAll", true);
+//		model.addAttribute("getAll", true);
 		return "back-end/activitysession/listAllActivitySession";
 	}
 	
@@ -140,63 +151,64 @@ public class ActivitySessionController {
 	}
 	
 	// ================================================== 前台 ==================================================
-	
-		@PostMapping("listSchedule")
-		public void listSchedule(ModelMap model, HttpServletRequest req, HttpServletResponse res) throws IOException {
-			res.setContentType("application/json; charset=UTF-8");
-			List<ActivitySessionVO> list = asSvc.getAll();
-//			System.out.print(list);
+	// 月歷
+	@PostMapping("listSchedule")
+	public void listSchedule(ModelMap model, HttpServletRequest req, HttpServletResponse res) throws IOException {
+		res.setContentType("application/json; charset=UTF-8");
+		List<ActivitySessionVO> list = asSvc.getAll();
+//		System.out.print(list);
+		
+		JSONArray jsonArray = new JSONArray(); // 創建一個JSONArray儲存JSONObject
+		for(ActivitySessionVO asVO : list) {
+			int asID = asVO.getActivitySessionID();
+			String asName = asVO.getActivityVO().getActivityName();
+			Date asDate = asVO.getActivityDate();
+			int asTotal = asVO.getEnteredTotal();
+			int asMax = asVO.getActivityMaxPart();
+			byte asTime = asVO.getActivityTime();
 			
-			JSONArray jsonArray = new JSONArray(); // 创建一个JSONArray来存储JSONObject对象
-			for(ActivitySessionVO asVO : list) {
-				int asID = asVO.getActivitySessionID();
-				String asName = asVO.getActivityVO().getActivityName();
-				Date asDate = asVO.getActivityDate();
-				int asTotal = asVO.getEnteredTotal();
-				int asMax = asVO.getActivityMaxPart();
-				byte asTime = asVO.getActivityTime();
-				
-				JSONObject obj = new JSONObject();
-				obj.put("asID", asID);
-				obj.put("asName", asName);
-				obj.put("asDate", asDate);
-				obj.put("asTotal", asTotal);
-				obj.put("asMax", asMax);
-				obj.put("asTime", asTime);
-				
-				jsonArray.put(obj); // 将JSONObject对象添加到JSONArray中
-			}
+			JSONObject obj = new JSONObject();
+			obj.put("asID", asID);
+			obj.put("asName", asName);
+			obj.put("asDate", asDate);
+			obj.put("asTotal", asTotal);
+			obj.put("asMax", asMax);
+			obj.put("asTime", asTime);
 			
-			PrintWriter out = res.getWriter();
-		    out.print(jsonArray.toString()); // 将JSONArray作为响应发送到客户端
-		    out.flush();
-
+			jsonArray.put(obj); // 將JSONObject添加到JSONArray中
 		}
 		
-		@PostMapping("schedule")
-		public void participate(@RequestParam("date") String date, ModelMap model, HttpServletRequest req, HttpServletResponse res) throws IOException {
-			res.setContentType("application/json; charset=UTF-8");
+		PrintWriter out = res.getWriter();
+	    out.print(jsonArray.toString()); // 把JSONArray傳到前端
+	    out.flush();
+
+	}
+	
+	// 點選月歷中的日期
+	@PostMapping("schedule")
+	public void participate(@RequestParam("date") String date, ModelMap model, HttpServletRequest req, HttpServletResponse res) throws IOException {
+		res.setContentType("application/json; charset=UTF-8");
+		//從前端傳來日期，以日期來搜尋該日期的活動場次
+//		System.out.println(date);
+		List<ActivitySessionVO> list = asSvc.getAllByDate(Date.valueOf(date));
+		model.addAttribute("activitySessionList", list);
+		
+		JSONArray jsonArray = new JSONArray();
+		for (ActivitySessionVO as : list) {
+//			System.out.println(as.getActivityVO().getActivityName());
+			int ID = as.getActivitySessionID();
+			String Name = as.getActivityVO().getActivityName();
 			
-			System.out.println(date);
-			List<ActivitySessionVO> list = asSvc.getAllByDate(Date.valueOf(date));
-			model.addAttribute("activitySessionList", list);
+			JSONObject sch = new JSONObject();
+			sch.put("ID", ID);
+			sch.put("Name", Name);
 			
-			JSONArray jsonArray = new JSONArray();
-			for (ActivitySessionVO as : list) {
-				System.out.println(as.getActivityVO().getActivityName());
-				int ID = as.getActivitySessionID();
-				String Name = as.getActivityVO().getActivityName();
-				
-				JSONObject sch = new JSONObject();
-				sch.put("ID", ID);
-				sch.put("Name", Name);
-				
-				jsonArray.put(sch);
-			}
-			PrintWriter out = res.getWriter();
-		    out.print(jsonArray.toString()); // 将JSONArray作为响应发送到客户端
-		    out.flush();
-			
+			jsonArray.put(sch);
 		}
+		
+		PrintWriter out = res.getWriter();
+	    out.print(jsonArray.toString());
+	    out.flush();
+	}
 
 }
