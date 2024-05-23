@@ -21,7 +21,7 @@ public class LoginFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		System.out.println("Filter被執行");
+//		System.out.println("Filter被執行");
 //		chain.doFilter(request, response);
 		
 		HttpServletRequest req = (HttpServletRequest) request;
