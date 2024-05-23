@@ -85,7 +85,7 @@ body {
 
 </head>
 
-<body class="main-layout">
+<body class="main-layout p-0">
 
 
 	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
@@ -161,7 +161,7 @@ body {
          </div> -->
 	</section>
 
-	</header>
+
 
 	<div th:fragment="content">
 
@@ -198,19 +198,20 @@ body {
 					</div>
 				</form>
 				<div class="about">
-					<div class="container-fluid">
+					<div class="container">
 						<div class="row">
-							<div class="col-md-5">
-								<div class="titlepage">
-									<h2>最新消息</h2>
-									<p>123123123</p>
-									<a class="read_more" href=" ">觀看全文</a>
-								</div>
+							<div class="col-md-7 text-start" style="margin-top: 50px">
+
+									<p style="color: grey; font-size: small">活動期間 : 2024-05-23 到 2024-08-01</p>
+									<h3 class="fw-bold" style="color: #847674" >夏季特別優惠</h3>
+									<h5>預訂三晚或以上，享受一晚免費住宿的夏季特別優惠</h5>
+									<p style="color: #847674;">從現在起至2024年8月31日，我們為所有入住的客人提供特別的夏季優惠。預訂三晚或以上，即可享受一晚免費住宿。趕快預訂您的夏季假期，享受陽光、海灘和我們的豪華設施吧！</p>
+
 							</div>
-							<div class="col-md-7">
-								<div class="about_img">
+							<div class="col-md-5">
+								<div class="about_img w-100">
 									<figure>
-										<img th:src="@{/frontend/images/about.png}" alt="#" />
+										<img style="height: 300px" th:src="@{/frontend/images/spotnews.jpg}" alt="#" />
 									</figure>
 								</div>
 							</div>
