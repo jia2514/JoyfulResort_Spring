@@ -46,17 +46,32 @@ public class ResFrontController {
 	}
 
 	@GetMapping("reservefrontadd") // 前端新增訂單
-	public String reservefrontadd(HttpSession session,ModelMap model) {
+	public String reservefrontadd(HttpSession session, ModelMap model) {
 		// 會員個人資料
-		
-		Integer memberID = (Integer) session.getAttribute("memberID"); // 取得session內的值
-		
-		MemberVO mem = memberSvc.getOneMember(memberID); // 查找會員資料
 
-		
+		MemberVO memVO = new MemberVO();
 		ResVO resVO = new ResVO();
-		resVO.setMemberVO(mem);
-		model.addAttribute("resVO", mem); 
+
+		Integer memberID = (Integer) session.getAttribute("memberID"); // 取得session內的值
+		if (memberID == null) {
+			memberID = 1;
+			memVO = memberSvc.getOneMember(memberID);
+		}
+		boolean isMember = memberID != 1;
+		String memberName = "", memberPhone = "";
+
+		if (isMember) {
+			memVO = memberSvc.getOneMember(memberID); // 查找會員資料
+			memberName = memVO.getMemberName();
+			memberPhone = memVO.getMemberPhone();
+			model.addAttribute("memberName", memberName); // 將會員名稱加入model
+			model.addAttribute("memberName", memberPhone); // 手機
+//			resVO.setResName("會員");
+//			resVO.setResPhone("0000000000");
+		}
+
+		resVO.setMemberVO(memVO); // 將 SESSION 的會員資料加進來
+		model.addAttribute("isMember", isMember); // 傳遞是否為會員的標誌到前端
 		model.addAttribute("resVO", resVO);
 
 		return "front-end/restaurant/reserveorder";
@@ -65,17 +80,21 @@ public class ResFrontController {
 	@PostMapping("insertfront")
 	public String insertfront(@Valid ResVO resVO, BindingResult result, HttpServletRequest request,
 			RedirectAttributes redirectAttributes, ModelMap model) throws IOException {
+	//判斷是否為會員
 		MemberVO memvo = memberSvc.getOneMember(resVO.getMemberVO().getMemberId());
 		Integer memberId = (memvo != null) ? memvo.getMemberId() : null;
 		if (memberId == null) {
 			model.addAttribute("message", "查無此編號!");
 			return "front-end/restaurant/reserveorder";
-
 		}
+	//-------------
+		
 		if (result.hasErrors()) {
-
 			return "front-end/restaurant/reserveorder";
 		}
+		
+		
+		
 		resSvc.addRes(resVO);
 		redirectAttributes.addFlashAttribute("success", "新增訂單成功!");
 		return "redirect:/joyfulresort/restaurant";
