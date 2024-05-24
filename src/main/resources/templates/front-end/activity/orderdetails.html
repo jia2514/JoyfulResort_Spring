@@ -118,7 +118,7 @@
 	    			<div>
 						<label>活動時間：</label>
 						<span th:text="${asVO.activityDate}"></span>
-						<span th:text="${asVO.activityTime == 0 ? '(早上) 0900-1100' : '(下午) 1400-1600'}"></span>
+						<span th:text="${asVO.activityTime == 0 ? '(上午) 0900-1100' : '(下午) 1400-1600'}"></span>
 	    			</div>
 		        	
 		        	<div>
@@ -128,7 +128,7 @@
 	    			
 	    			<div>
 						<label>訂單金額：</label>
-						<span th:text="${activityOrderVO.orderAmount}"></span>
+						<span>NTD </span><span th:text="${activityOrderVO.orderAmount}"></span>
 	    			</div>
 	    			
 	    			<div>

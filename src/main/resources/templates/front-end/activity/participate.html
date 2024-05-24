@@ -220,7 +220,7 @@
 			            // console.log(eventTime);
 			            
 			            // 根據 eventTime 的值确定場次時間
-			            var timeDescription = eventTime === 0 ? '早上 0900-1100' : '下午 1400-1600';
+			            var timeDescription = eventTime === 0 ? '上午 0900-1100' : '下午 1400-1600';
 		
 			            // 從後端獲取的資料以FullCalendar的形式儲存
 			            event = {
@@ -304,11 +304,11 @@
 				editable: false,  // 能不能移動活動
 				dayMaxEvents: true, // 超出格子點日期會有視窗把全部活動顯示出來
 				events: eventList,
-			});
-		
-		    calendar.render();
-		}
-	});
+				});
+			
+			    calendar.render();
+			}
+		});
 	  
 	function populateActivitySessions(data) {
 		var select = $('#activitySessionID');

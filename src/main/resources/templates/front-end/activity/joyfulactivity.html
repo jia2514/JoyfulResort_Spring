@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<title>活動 Activity</title>
 	<link th:insert="~{/front-end/htmlfile/css.html}" />
+	
 	<style type="text/css">
 	
 		.activity {
@@ -17,6 +18,16 @@
 			border-radius: 5px;
 			display: flex; /* 使用 Flexbox 布局 */
 			align-items: center; /* 對齊內容至中 */
+		}
+		
+		#box {
+			max-width: auto;
+			margin: 20px auto;
+			background-color: #fff;
+			border-radius: 8px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			padding: 10px;
+			width: 100%;
 		}
 		
 		.activity h2 {
@@ -52,7 +63,7 @@
 			padding: 0px;
 		}
 		
-		#participate {
+		#participate_btn, #session_btn {
 			padding: 5px 10px;
 			background-color: #007bff;
 			color: #fff;
@@ -62,8 +73,12 @@
 			margin-left: auto; /* 將按鈕推到右側 */
 		}
 		
-		#participate:hover {
+		#participate_btn:hover, #session_btn:hover {
 			background-color: #0056b3;
+		}
+		
+		#participate, #session {
+			display: inline-block;
 		}
 		
 		#login {
@@ -84,6 +99,25 @@
 			text-align: right; /* 讓內容向右對齊 */
 			margin-top: 10px; /* 這是為了確保與表格之間有一些間距 */
 		}
+		
+		#calendar {
+			max-width: 1000px;
+			margin: 0 auto;
+		}
+		
+		table.fc-col-header {
+			width: auto;
+		}
+		
+		fc-scrollgrid-sync-table {
+			width: auto;
+		}
+		.fc .fc-scrollgrid, .fc .fc-scrollgrid table {
+		    table-layout: fixed;
+		    width: 100%
+		}
+		
+		
 	
 	</style>
 </head>
@@ -131,11 +165,14 @@
 		            <div class="activity-info">
 		                <h3 th:text="${activityVO.activityName}"></h3>
 		                <p th:text="${activityVO.activityInfo}"></p>
+		                <br>
+		                <span>活動價格： NTD </span><span th:text="${activityVO.activityPrice}"></span>
 		                <hr>
 		                <div>
 		                	<h6 id="notice">*注意事項</h6>
 		                	<p>1. 戶外活動若遇雨天，活動取消</p>
 		                	<p>2. 活動舉辦3天前取消可全額退費；3天內則不退費。</p>
+		                	<p>3. 活動時段分為上午(0900-1100)跟下午(1400-1600)</p>
 		                </div>
 		                
 		            </div>
@@ -144,17 +181,41 @@
 	            	</div>
 	            </div>
 	            
-	            <!-- 檢查是否登入 -->
+				<!-- Modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-xl">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">活動場次</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+						        <div id="box">
+						        	<div id='calendar'></div>
+						        </div>
+							</div>
+						</div>
+					</div>
+				</div>
+	            
 	            <div id="btn_set">
-		            <div th:switch="${session.memberID==null}">
+	            	<div id="session">
+		            	<button type="button" id="session_btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+							瀏覽活動場次
+						</button>
+	            	</div>
+	            	<!-- 檢查是否登入 -->
+		            <div th:switch="${session.memberID==null}" id="participate">
 		            	<!-- 有登入 -->
 		            	<form th:case="false" method="post" th:action="@{/activityorder/addOrder}">
-		            		<button id="participate">我要報名</button>
+		            		<button id="participate_btn">我要報名</button>
 		            	</form>
 		            	<!-- 沒有登入 -->
 		            	<button th:case="true" id="login">我要報名</button>
 		            </div>
 	            </div>
+	            
+	            
 	            
 		    </div>
 				
@@ -164,12 +225,126 @@
 	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
 
 	<script th:src="@{/backend/js/jquery-3.4.1.min.js}"></script>
+	<script src='/backend/js/index.global.js'></script>
 	<script>
 	
 		$("#login").click(function(){
 			alert("請先登入");
 			$("#LoginButton").click()
 		})
+		
+		document.addEventListener('DOMContentLoaded', function() {
+			
+		    var calendarEl = document.getElementById('calendar');
+		    var eventList = [];
+		    var eventId;
+		    var eventName;
+		    var eventDate;
+		    var total;
+		    var event;
+		    var eventTime;
+		    
+		    $.post({
+			    url: '/activitysession/listSchedule',
+			    success: function(data) {
+			    	console.log(data);
+			    	
+			      	data.forEach(function(obj){
+			      		
+			      		eventId = obj.asID;
+			      		//console.log(eventId);
+			      		eventName = obj.asName;
+			            //console.log(eventName);
+			            eventDate = obj.asDate;
+			            //console.log(eventDate);
+			            //total = (parseInt(obj.asMax) - parseInt(obj.asTotal));
+			            
+			            eventTime = parseInt(obj.asTime);
+			            // console.log(eventTime);
+			            
+			            // 根據 eventTime 的值确定場次時間
+			            var timeDescription = eventTime === 0 ? '上午' : '下午';
+		
+			            // 從後端獲取的資料以FullCalendar的形式儲存
+			            event = {
+			            	groupId: eventId,
+			                title: eventName + ' (' + timeDescription + ')',
+			                start: eventDate,
+			                backgroundColor: 'transparent',
+			                borderColor: 'transparent',
+			                textColor: 'black'
+			            };
+			            // console.log(event);
+		
+			            eventList.push(event);
+			            
+			         	// 在成功獲取資料後初始化FullCalendar，資料才會顯示在月曆上
+			            $('#exampleModal').on('shown.bs.modal', function(){
+			            	initFullCalendar();
+			            });
+			         	
+			      	});
+			    },
+			    error: function(jqXHR, textStatus, errorThrown) {
+			    	console.error('Error fetching events:', textStatus, errorThrown);
+			    }
+			    
+			    
+		  	});
+		    
+		    // console.log(eventList);
+		    
+		    function initFullCalendar() {
+				// 獲取當天日期
+				var today = new Date();
+			    
+			    // 計算當天起往後兩個月的日期
+			    var twoMonthsLater = new Date(today);
+			    twoMonthsLater.setMonth(today.getMonth() + 2);
+			    
+			 	// 計算當天起往後三天
+			    var threeDays = new Date(today);
+			    threeDays.setDate(today.getDate() + 3);
+			    // console.log(threeDays);
+			    
+			    // 格式化日期為 YYYY-MM-DD
+			    function formatDate(date) {
+			    	var d = new Date(date),
+					month = '' + (d.getMonth() + 1),
+					day = '' + d.getDate(),
+					year = d.getFullYear();
+			      
+					if (month.length < 2) month = '0' + month;
+					if (day.length < 2) day = '0' + day;
+			      
+			      	return [year, month, day].join('-');
+			    }
+			
+			    var calendar = new FullCalendar.Calendar(calendarEl, {
+			    	height: 'auto', // 或者指定具體的高度
+					headerToolbar: {
+						left: 'prev,next today',
+						center: 'title',
+						right: 'dayGridMonth'
+					},
+					initialDate: formatDate(today), // 設置初始日期為今天
+					validRange: {
+				        start: formatDate(threeDays),
+				        end: formatDate(twoMonthsLater)
+					},
+					navLinks: true, // can click day/week names to navigate views
+					selectable: true,	// 滑鼠點選日期會有背景色
+					selectMirror: true,
+					
+					editable: false,  // 能不能移動活動
+					dayMaxEvents: true, // 超出格子點日期會有視窗把全部活動顯示出來
+					events: eventList,
+					});
+			
+			    calendar.render();
+			}
+		
+		});
     
 	</script>
 	
