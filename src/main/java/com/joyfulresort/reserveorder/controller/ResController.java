@@ -31,7 +31,7 @@ import com.joyfulresort.reservesession.model.RessionService;
 @Controller
 @RequestMapping("/reserve")
 public class ResController {
-
+ 
 	@Autowired
 	MemberService memberSvc;
 	@Autowired
@@ -52,25 +52,35 @@ public class ResController {
 
 	@PostMapping("get_for_update")
 	public String get_for_update(@RequestParam("reserveOrderId") String reserveOrderId, ModelMap model) {
-
 		ResVO resVO = resSvc.getOneRes(Integer.valueOf(reserveOrderId));
+
+		if (resVO.getMemberVO().getMemberId() != 1) {
+			String MemberName = resVO.getMemberVO().getMemberName();
+			String memberPhone = resVO.getMemberVO().getMemberPhone();
+
+			resVO.setResPhone(memberPhone);
+			resVO.setResName(MemberName);
+
+		}
 		List<ResVO> list = resSvc.getAllRes();
 		model.addAttribute("ResList", list);
+
 		model.addAttribute("resVO", resVO);
 
 		return "back-end/reserve/reserveupdate";
 	}
 
 	@PostMapping("update")
-	public String update(@Valid ResVO resVO, BindingResult result,RedirectAttributes redirectAttributes, ModelMap model) throws IOException {
-		if (result.hasErrors()) {
-			System.out.println(result.getFieldError());
-//			return "back-end/404";
-			return "back-end/reserve/reserveupdate";
-		}
+	public String update(@Valid ResVO resVO, BindingResult result, RedirectAttributes redirectAttributes,
+			ModelMap model) throws IOException {
+
+//		if (result.hasErrors()) {
+//			model.addAttribute("message", "修改錯誤");
+//			System.out.println(result.getFieldError());
+//			return "back-end/reserve/reserveupdate";
+//		}
 
 		resSvc.updateRes(resVO);
-
 		List<ResVO> resList = resSvc.getAllRes();
 		model.addAttribute("ResList", resList);
 		resVO = resSvc.getOneRes(Integer.valueOf(resVO.getReserveOrderId()));
