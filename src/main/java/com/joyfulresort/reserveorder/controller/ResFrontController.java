@@ -52,10 +52,15 @@ public class ResFrontController {
 		MemberVO memVO = new MemberVO();
 		ResVO resVO = new ResVO();
 
-		Integer memberID = (Integer) session.getAttribute("memberID"); // 取得session內的值
-		if (memberID == null) {
-			memberID = 1;
+		Object memberIDObj = session.getAttribute("memberID"); // 取得session內的值
+		Integer memberID = null;
+		if (memberIDObj != null) {
+			memberID = Integer.parseInt(memberIDObj.toString());
+		} else {
+			memberIDObj = 1;
+			memberID = Integer.parseInt(memberIDObj.toString());
 			memVO = memberSvc.getOneMember(memberID);
+
 		}
 		boolean isMember = memberID != 1;
 		String memberName = "", memberPhone = "";
@@ -78,26 +83,23 @@ public class ResFrontController {
 	}
 
 	@PostMapping("insertfront")
-	public String insertfront(@Valid ResVO resVO, BindingResult result, HttpServletRequest request,
-			HttpSession session,	RedirectAttributes redirectAttributes, ModelMap model) throws IOException {
-	//判斷是否為會員
-		MemberVO memvo = memberSvc.getOneMember(resVO.getMemberVO().getMemberId());
-		Integer memberId = (memvo != null) ? memvo.getMemberId() : null;
-		if (memberId == null) {
-			model.addAttribute("message", "查無此編號!");
-			return "front-end/restaurant/reserveorder";
-		}
-	//-------------
-		
-		
-		MemberVO memVO = new MemberVO();
-		
+	public String insertfront(@Valid ResVO resVO, BindingResult result, HttpServletRequest request, HttpSession session,
+			RedirectAttributes redirectAttributes, ModelMap model) throws IOException {
+	
 
-		Integer memberID = (Integer) session.getAttribute("memberID"); // 取得session內的值
-		if (memberID == null) {
-			memberID = 1;
+		MemberVO memVO = new MemberVO();
+
+		Object memberIDObj = session.getAttribute("memberID"); // 取得session內的值
+		Integer memberID = null;
+		if (memberIDObj != null) {
+			memberID = Integer.parseInt(memberIDObj.toString());
+		} else {
+			memberIDObj = 1;
+			memberID = Integer.parseInt(memberIDObj.toString());
 			memVO = memberSvc.getOneMember(memberID);
+
 		}
+		
 		boolean isMember = memberID != 1;
 		String memberName = "", memberPhone = "";
 
@@ -117,7 +119,7 @@ public class ResFrontController {
 		if (result.hasErrors()) {
 			return "front-end/restaurant/reserveorder";
 		}
-		
+
 		resSvc.addRes(resVO);
 		redirectAttributes.addFlashAttribute("success", "新增訂單成功!");
 		return "redirect:/joyfulresort/restaurant";

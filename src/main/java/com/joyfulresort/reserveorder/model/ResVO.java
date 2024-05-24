@@ -73,7 +73,7 @@ public class ResVO implements Serializable {
 	private String resName ;
 
 //	@NotEmpty(message = "電話請勿空白")
-	 @Pattern(regexp = "\\d{10}", message = "電話必須是10位數字")
+	  @Pattern(regexp = "09\\d{8}", message = "必須是以09開頭的10位號碼")
 	@Column(name = "res_phone")
 	private String resPhone;
 
