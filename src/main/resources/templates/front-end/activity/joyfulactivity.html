@@ -3,7 +3,7 @@
 <base th:href="@{/}">
 <head>
 	<meta charset="UTF-8">
-	<title>活動一覽 Activity</title>
+	<title>活動 Activity</title>
 	<link th:insert="~{/front-end/htmlfile/css.html}" />
 	<style type="text/css">
 	
@@ -107,6 +107,9 @@
 			            </li>
 			        </ol>
 			        
+			        <h2 class="text-center p-0 lora-type m-0" style="color: #847674;">ACTIVITY</h2>
+	        		<p class="text-center h5 mb-5 fw-bold">活動介紹</p>
+			        
 			        <div style="text-align: center;">
 			        	<form method="post" th:action="@{/activity/listCategory}">
 			        	<label>活動類別：</label>
@@ -122,7 +125,7 @@
 			</div>
 			
 			<div class="container">
-		        <h4>活動介紹：</h4>
+		        <!-- <h4>活動介紹：</h4> -->
 		        
 		        <div th:each="activityVO, i : ${activityListData}" class="activity">
 		            <div class="activity-info">

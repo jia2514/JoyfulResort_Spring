@@ -71,7 +71,7 @@ public class ActivityController {
 	public String update(@Valid ActivityVO activityVO, BindingResult result, ModelMap model) {
 		if (result.hasErrors()) {
 			model.addAttribute("activityVO", activityVO);
-			return "bac-kend/activity/updateActivity";
+			return "back-end/activity/updateActivity";
 		}
 		aSvc.updateActivity(activityVO);
 		activityVO = aSvc.getOneActivity(Integer.valueOf(activityVO.getActivityID()));

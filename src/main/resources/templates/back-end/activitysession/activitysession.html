@@ -117,20 +117,29 @@
 	    	<h2>活動場次管理系統</h2>
 	    	
 	    	<div class="home">
-					<a th:href="@{/main_page}" id="home_btn">回首頁</a>
+					<a th:href="@{/backend_main_page}" id="home_btn">回首頁</a>
 			</div>
 	    	
 	    	<section class="query">
 	    		<h4>查詢活動場次</h4>
+	    		<div class="errorblock" th:utext="${errorMessage}" style="color: red">${errorMessage}</div>
 	    		
 	    		<form method="post" th:action="@{/activitysession/listAll}">
 	    			<input type="submit" id="queryall_btn" value="查詢所有活動場次">
 	    		</form>
 	    		
+<!-- 	    		<form method="post" th:action="@{/activitysession/listOne}"> -->
+<!-- 	    			<label>選擇活動類別：</label> -->
+<!-- 	    			<select name="activitySessionID"> -->
+<!-- 	    				<option th:each="activitySessionVO : ${activitySessionListData}" th:value="${activitySessionVO.activitySessionID}" th:text="${activitySessionVO.activitySessionID + ' - ' + activitySessionVO.activityDate + ' ( ' + (activitySessionVO.activityTime == 0 ? '早上' : '下午') + ' ) ' + ' - ' + activitySessionVO.activityVO.activityName}" /> -->
+<!-- 	    			</select> -->
+<!-- 	    			<input type="submit" id="queryall_btn" value="查詢"> -->
+<!-- 	    		</form> -->
+	    		
 	    		<hr>
 	    		<h6>複合查詢：</h6>
 	    		<form method="post" th:action="@{/activitysession/listCompositeQuery}">
-					<div class="errorblock" th:utext="${errorMessage}" style="color: red">${errorMessage}</div>
+					
 	    			<label>選擇活動：</label>
 	    			<select name="activityID">
 	    				<option value="">請選擇活動

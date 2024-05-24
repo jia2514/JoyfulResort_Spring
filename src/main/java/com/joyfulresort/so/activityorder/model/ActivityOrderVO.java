@@ -41,7 +41,7 @@ public class ActivityOrderVO {
 //	private Integer enteredChildNumber;
 	
 	@Column(name = "order_amount")
-	@NotNull(message = "請確認報名場次及人數")
+//	@NotNull(message = "請確認報名場次及人數")
 	private Integer orderAmount;
 	
 	@Column(name = "order_status")

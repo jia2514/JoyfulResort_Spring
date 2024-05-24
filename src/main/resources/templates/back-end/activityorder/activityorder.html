@@ -117,37 +117,43 @@
 	    	<h2>活動訂單管理系統</h2>
 	    	
 	    	<div class="home">
-					<a th:href="@{/main_page}" id="home_btn">回首頁</a>
+					<a th:href="@{/backend_main_page}" id="home_btn">回首頁</a>
 			</div>
 	    	
 	    	<section class="query">
 	    		<h4>查詢活動訂單</h4>
+	    		<div class="errorblock" th:utext="${errorMessage}" style="color: red">${errorMessage}</div>
 	    		
 	    		<form method="post" th:action="@{/activityorder/listAll}">
 	    			<input type="submit" id="queryall_btn" value="查詢所有活動訂單">
 	    		</form>
 	    		
-	    		<form method="post" th:action="@{/activityorder/listType}">
-	    			<label>選擇活動場次：</label>
-	    			<select name="activitySessionID">
-	    				<option th:each="activitySessionVO : ${activitySessionListData}" th:value="${activitySessionVO.activitySessionID}" th:text="${activitySessionVO.activitySessionID + ' - ' + activitySessionVO.activityDate + ' ( ' + (activitySessionVO.activityTime == 0 ? '早上' : '下午') + ' ) ' + ' - ' + activitySessionVO.activityVO.activityName}" />
-	    			</select>
-	    			<input type="submit" id="queryall_btn" value="查詢">
-	    		</form>
+<!-- 	    		<form method="post" th:action="@{/activityorder/listType}"> -->
+<!-- 	    			<label>選擇活動場次：</label> -->
+<!-- 	    			<select name="activitySessionID"> -->
+<!-- 	    				<option value="">請選擇活動場次 -->
+<!-- 	    				<option th:each="activitySessionVO : ${activitySessionListData}" th:value="${activitySessionVO.activitySessionID}" th:text="${activitySessionVO.activitySessionID + ' - ' + activitySessionVO.activityDate + ' ( ' + (activitySessionVO.activityTime == 0 ? '早上' : '下午') + ' ) ' + ' - ' + activitySessionVO.activityVO.activityName}" /> -->
+<!-- 	    			</select> -->
+<!-- 	    			<input type="submit" id="queryall_btn" value="查詢"> -->
+<!-- 	    		</form> -->
 	    		
 	    		<hr>
 	    		<h6>複合查詢：</h6>
 	    		<form method="post" th:action="@{/activityorder/listCompositeQuery}">
-					<div class="errorblock" th:utext="${errorMessage}" style="color: red">${errorMessage}</div>
-	    			<label>活動場次編號：</label>
+					
+					<label>選擇活動訂單編號：</label>
+					
+	    			<label>選擇活動場次：</label>
 	    			<select name="activitySessionID">
+	    				<option value="">請選擇活動場次
 	    				<option th:each="activitySessionVO : ${activitySessionListData}" th:value="${activitySessionVO.activitySessionID}" th:text="${activitySessionVO.activitySessionID + ' - ' + activitySessionVO.activityDate + ' ( ' + (activitySessionVO.activityTime == 0 ? '早上' : '下午') + ' ) ' + ' - ' + activitySessionVO.activityVO.activityName}" />
 	    			</select>
 					<br>
 	    			
 	    			<label>會員編號：</label>
 	    			<select name="memberID">
-	    				<option th:each="memberVO : ${MemberList}" th:value="${memberVO.memberId}" th:text="${memberVO.memberName}" />
+	    				<option value="">請選擇會員
+	    				<option th:each="memberVO : ${MemberList}" th:value="${memberVO.memberId}" th:text="${memberVO.memberId + ' - ' + memberVO.memberName}" />
 	    			</select>
 	    			
 	    			<input type="submit" id="queryall_btn" value="查詢">
