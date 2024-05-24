@@ -30,14 +30,20 @@ $('#Button_Login').click(function () {
 
   //帳號
   if (inputAccount == "") {
-    $('#AccountErrorMessage').html('帳號不能為空')
+    $('#errorMessage').html('不能有空欄位')
+    $('#userAccount').removeClass().addClass('form-control is-invalid')
     $('#buttonUpData').attr('disabled', true)
+    
+  } else {
+    $('#userAccount').removeClass().addClass('form-control')
   }
-
   //密碼
   if (inputPassword == "") {
-    $('#PasswordErrorMessage').html('密碼不能為空')
+    $('#errorMessage').html('不能有空欄位')
+    $('#userPassword').removeClass().addClass('form-control is-invalid')
     $('#Button_Login').attr('disabled', true)
+  } else {
+    $('#userPassword').removeClass().addClass('form-control')
   }
 
   if (inputAccount !== "" && inputPassword !== "") {
@@ -113,6 +119,19 @@ $('#forgetPassword_getAuthCode').click(function () {
     }
   })
 })
+//點擊忘記密碼取得驗證碼
+$('#but_forgetPassword').click(function(){
+  $.get({
+    url: '/redis/getAuthCode',
+    success: function (data) {
+      // console.log(data)
+      let html_AuthCode = `<h5>驗證碼: ` + data + `</h5>`;
+
+      $('#forgetPassword_AuthCode').html(html_AuthCode)
+
+    }
+  })
+})
 
 //忘記密碼 送出資料
 $('#Button_forgetPassword').click(function () {
@@ -122,9 +141,21 @@ $('#Button_forgetPassword').click(function () {
   // console.log(inputEmail)
   // console.log(authCode)
 
+ 
+
   if (inputEmail === "" || authCode === "") {
     $('#Error_forgetPassword').html('不能有空欄位')
+    $('#forgetPassword_inPutAuthCode').removeClass().addClass('form-control is-invalid')
+    $('#forgetPassword_inputEmali').removeClass().addClass('form-control is-invalid')
+    if(inputEmail != ""){
+      $('#forgetPassword_inputEmali').removeClass().addClass('form-control')
+    }
+    if(authCode != ""){
+      $('#forgetPassword_inPutAuthCode').removeClass().addClass('form-control')
+    }
   } else {
+    $('#forgetPassword_inputEmali').removeClass().addClass('form-control')
+    $('#forgetPassword_inPutAuthCode').removeClass().addClass('form-control')
     $.post({
       url: '/joyfulresort/member/forgetPassword',
       data: {
@@ -140,6 +171,8 @@ $('#Button_forgetPassword').click(function () {
           $('#back_Login').click()
           alert('已將新密碼寄出')
         } else {
+          $('#forgetPassword_inputEmali').removeClass().addClass('form-control')
+          $('#forgetPassword_inPutAuthCode').removeClass().addClass('form-control is-invalid')
           $('#Error_forgetPassword').html(data.error)
         }
 

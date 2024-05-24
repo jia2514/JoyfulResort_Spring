@@ -112,31 +112,6 @@
 	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
 	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
 	
-	<script>
-	//取得指定Cookie JS無法直接取得指定cookie 的Key-value 需要自己寫function取得 
-	function getCookie(cookieName) {  // 自訂function
-		const strCookie = document.cookie
-		const cookieList = strCookie.split(';')
-
-		for (let i = 0; i < cookieList.length; i++) {
-			const arr = cookieList[i].split('=')
-			if (cookieName === arr[0].trim()) {
-				return arr[1]
-			}
-		}
-	}
-	//判斷登入狀態
-	$(document).ready(function() { //ready事件
-		//判斷後端JAVA 有無寫入登入狀態cookie值 改寫登入/登出按鈕狀態
-		if (getCookie('LogInState') != null) { 
-			$('#LoginButton').css('display', 'none')
-			$('#LogoutButton').css('display', 'block')
-		} else {
-			$('#LoginButton').css('display', 'blocl')
-			$('#LogoutButton').css('display', 'none')
-		}
-	})
-	</script>
 	<script th:src="@{/frontend/js/memberRegister.js}"></script>
 
 </body>

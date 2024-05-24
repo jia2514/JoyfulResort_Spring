@@ -262,3 +262,5 @@ $('#inputEmail').blur(function () {
 
     }
 })
+
+//檢查地址欄位

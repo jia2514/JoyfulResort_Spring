@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -156,7 +157,7 @@ public class FrontendMemberController {
 
 	// 在註冊頁面 點擊註冊按鈕
 	@PostMapping("/Register")
-	public String userRepository(HttpServletRequest req, Model model, HttpSession session) {
+	public String userRepository(HttpServletRequest req, HttpServletResponse res, Model model, HttpSession session) {
 //		System.out.println("!!註冊!!");
 		// 取得USER輸入的值
 		String userName = req.getParameter("userName");
@@ -182,9 +183,18 @@ public class FrontendMemberController {
 		// 轉交 寫入session保存登入狀態
 		model.addAttribute("memberData", newMember);
 //		System.out.println(newMember.getMemberId());
-		session.setAttribute("memberID", newMember.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
-
-		return "redirect:/joyfulresort/member/memberinfo";
+		session.setAttribute("memberID", String.valueOf(newMember.getMemberId()));// 帳號密碼正確 存入Session 紀錄登入狀態
+		
+		Cookie cookie = new Cookie("LogInState", "200"); // 寫入Cookie 紀錄登入狀態 給預覽器判斷			
+		cookie.setMaxAge(3600); //設定 cookie 存活時間 單位為秒
+		cookie.setPath("/"); // 確保 Cookie 在整個應用程式都可使用
+		Cookie id = new Cookie("MemberID", String.valueOf(newMember.getMemberId()));
+		id.setMaxAge(3600);
+		id.setPath("/"); // 確保 Cookie 在整個應用程式都可使用
+		res.addCookie(id);
+		res.addCookie(cookie);
+		
+		return "redirect:/";
 	}
 
 	// 檢查驗證碼
@@ -230,7 +240,7 @@ public class FrontendMemberController {
 		String pw_2 = req.getParameter("password_2");
 		String pw_3 = req.getParameter("password_3");
 
-		System.out.printf("用戶ID: %s%n密碼: %s%n新密碼: %s%n再輸入: %s%n", ID, pw_1, pw_2, pw_3);
+//		System.out.printf("用戶ID: %s%n密碼: %s%n新密碼: %s%n再輸入: %s%n", ID, pw_1, pw_2, pw_3);
 
 		MemberVO mem = memSvc.getOneMember(Integer.valueOf(ID));
 		String password = mem.getMemberPassword();
@@ -300,7 +310,7 @@ public class FrontendMemberController {
 		}
 	}
 	
-	
+	//忘記密碼
 	@PostMapping("/forgetPassword")
 	public void forgetPassword(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		res.setContentType("application/json; charset=UTF-8");

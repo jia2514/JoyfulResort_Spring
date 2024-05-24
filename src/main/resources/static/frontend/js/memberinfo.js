@@ -34,7 +34,18 @@ var address = 0;
 
 //名稱欄位檢查
 $('#memberName').change(function () {
-  $('#buttonUpData').attr('disabled', false)
+
+  let inputName = $('#memberName').val()
+  let regexName = /^[\u4e00-\u9fa5\w]{1,10}$/g
+  if(inputName == ""){
+
+  }
+
+
+
+  if (0 == emailState && 0 == phoneState) {
+    $('#buttonUpData').attr('disabled', false)
+  }
 })
 
 //信箱欄位
@@ -143,15 +154,46 @@ var reader = new FileReader();
 $('#formFile').on('change', function () {
   reader.readAsDataURL(this.files[0]);
   reader.addEventListener('load', function () {
-    let img_html = `<img src="${reader.result}">`;
+    let img_html = `<img class="img-thumbnail" src="${reader.result}">`;
     $('#preview').html(img_html);
   })
-  $('#buttonUpData').attr('disabled', false)
+  if (0 == emailState && 0 == phoneState) {
+    $('#buttonUpData').attr('disabled', false)
+  }
 })
 
 //地址欄位
 $('#memberAddress').change(function () {
-  $('#buttonUpData').attr('disabled', false)
+  if (0 == emailState && 0 == phoneState) {
+    $('#buttonUpData').attr('disabled', false)
+  }
+})
+
+//生日欄位
+$('#memberBirthday').change(function(){
+  if (0 == emailState && 0 == phoneState) {
+    $('#buttonUpData').attr('disabled', false)
+  }
+})
+
+//性別欄位
+$('#memberGender').change(function(){
+  if (0 == emailState && 0 == phoneState) {
+    $('#buttonUpData').attr('disabled', false)
+  }
+})
+//驗證按鈕
+$('#memberState_AuthCode').click(function(){
+  $.get({
+    url: '/redis/getAuthCode',
+    success: function (data) {
+      // console.log(data)
+      let html_AuthCode = `<h1>` + data + `</h1>`;
+
+      $('#returnAuthCode').html(html_AuthCode)
+
+    }
+  })
 })
 
 //取得驗證碼
