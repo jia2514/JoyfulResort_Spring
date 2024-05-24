@@ -69,13 +69,13 @@ public class ResFrontController {
 			memVO = memberSvc.getOneMember(memberID); // 查找會員資料
 			memberName = memVO.getMemberName();
 			memberPhone = memVO.getMemberPhone();
-			model.addAttribute("memberName", memberName); // 將會員名稱加入model
-			model.addAttribute("memberName", memberPhone); // 手機
+//			model.addAttribute("memberName", memberName); // 將會員名稱加入model
+//			model.addAttribute("memberName", memberPhone); // 手機
 //			resVO.setResName("會員");
 //			resVO.setResPhone("0000000000");
 		}
 
-		resVO.setMemberVO(memVO); // 將 SESSION 的會員資料加進來
+		resVO.setMemberVO(memVO); // 將 SESSION 的會員資料值加進欄位值
 		model.addAttribute("isMember", isMember); // 傳遞是否為會員的標誌到前端
 		model.addAttribute("resVO", resVO);
 

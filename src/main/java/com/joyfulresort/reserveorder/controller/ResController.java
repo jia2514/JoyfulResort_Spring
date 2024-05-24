@@ -54,17 +54,19 @@ public class ResController {
 	public String get_for_update(@RequestParam("reserveOrderId") String reserveOrderId, ModelMap model) {
 		ResVO resVO = resSvc.getOneRes(Integer.valueOf(reserveOrderId));
 
-		if (resVO.getMemberVO().getMemberId() != 1) {
+		Integer memberId = resVO.getMemberVO().getMemberId() ;
+		boolean isMember = memberId != 1;
+		if (isMember) { //是否為會員
 			String MemberName = resVO.getMemberVO().getMemberName();
 			String memberPhone = resVO.getMemberVO().getMemberPhone();
-
 			resVO.setResPhone(memberPhone);
 			resVO.setResName(MemberName);
-
 		}
+		
+		model.addAttribute("isMember", isMember); // 傳遞是否為會員的標誌到前端
+
 		List<ResVO> list = resSvc.getAllRes();
 		model.addAttribute("ResList", list);
-
 		model.addAttribute("resVO", resVO);
 
 		return "back-end/reserve/reserveupdate";
@@ -74,11 +76,10 @@ public class ResController {
 	public String update(@Valid ResVO resVO, BindingResult result, RedirectAttributes redirectAttributes,
 			ModelMap model) throws IOException {
 
-//		if (result.hasErrors()) {
-//			model.addAttribute("message", "修改錯誤");
-//			System.out.println(result.getFieldError());
-//			return "back-end/reserve/reserveupdate";
-//		}
+		if (result.hasErrors()) {
+			model.addAttribute("message", "!");
+			return "back-end/reserve/reserveupdate";
+		}
 
 		resSvc.updateRes(resVO);
 		List<ResVO> resList = resSvc.getAllRes();
