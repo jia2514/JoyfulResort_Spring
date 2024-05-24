@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.joyfulresort.reservecontent.model.ResContentVO;
 import com.joyfulresort.reservecontent.model.ResContentService;
@@ -85,7 +86,7 @@ public class ResContentController {
 	}
 
 	@PostMapping("contentinsert")
-	public String contentinsert(@Valid ResContentVO contentVO, BindingResult result, ModelMap model,
+	public String contentinsert(@Valid ResContentVO contentVO, BindingResult result,RedirectAttributes redirectAttributes, ModelMap model,
 			@RequestParam("reserveImage") MultipartFile[] parts) throws IOException {
 		result = removeFieldError(contentVO, result, "reserveImage");
 		model.addAttribute("contentVO", contentVO);
@@ -110,20 +111,20 @@ public class ResContentController {
 		List<ResContentVO> list = rescontentSvc.getAllContent();
 		model.addAttribute("ContentList", list);
 
-		model.addAttribute("success", "新增成功");
+		redirectAttributes.addFlashAttribute("success", "修改成功!");
 
 		return "redirect:/reserve/reservecontent";
 	}
 
 	@PostMapping("contentdelete")
-	public String contentdelete(@RequestParam("id") String id, ModelMap model) {
+	public String contentdelete(@RequestParam("id") String id,RedirectAttributes redirectAttributes, ModelMap model) {
 		rescontentSvc.deleteContent(Integer.valueOf(id));
 		;
 
 		List<ResContentVO> list = rescontentSvc.getAllContent();
 		model.addAttribute("ContentList", list);
 
-		model.addAttribute("success", "刪除成功");
+		redirectAttributes.addFlashAttribute("success", "刪除成功!");
 
 		return "redirect:/reserve/reservecontent";
 
