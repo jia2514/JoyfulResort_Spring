@@ -143,7 +143,7 @@ textarea {
 						<label for="" class="label">姓名:</label>
 
 						<div th:if="${isMember}">
-							<input type="text" th:field="*{memberVO.memberName}" required />
+							<input type="text" th:field="*{memberVO.memberName}" readonly="readonly" required />
 						</div>
 						<div th:unless="${isMember}">
 							<input type="text" th:field="*{resName}" required />
@@ -158,7 +158,7 @@ textarea {
 						<label for="" class="label">電話:</label>
 
 						<div th:if="${isMember}">
-							<input type="text" th:field="*{memberVO.memberPhone}" required
+							<input type="text" th:field="*{memberVO.memberPhone}"  readonly="readonly"  required
 								maxlength="10" />
 						</div>
 						<div th:unless="${isMember}">
@@ -248,10 +248,10 @@ textarea {
 							<label style="padding-top: 20px">說明:</label>
 							<ul style="padding-left: 0px">
 
-								<li>* 超過 10 人的訂位，請使用電話預約</li>
+								<li style="color: red">* 皆為必填欄位,登入時將自動帶入姓名電話(須更改請至會員專區更改)</li>
 								<li>* 以上價格需另加一成服務費，以現場公告為主，不另行通知。</li>
-								<li>* 兒童收費標準：0-5歲免費，6-12歲以兒童價收費，13歲(含)以上以成人計價。</li>
-								<li>*
+								<li>* 可以訂位最近時間為3天後，最遠時間為2個月內</li>
+								<li>*超過 10 人的訂位，請使用電話預約
 									此餐價恕不適用於國定假日、農曆除夕、農曆春節、中西情人節、母親節(前一週週末與當週週末)、父親節、耶誕夜、耶誕節、跨年夜及特殊美食節。</li>
 
 							</ul>
@@ -272,6 +272,21 @@ textarea {
 
 
 <script type="text/javascript">
+function validatePhone() {
+    var input = document.getElementById("resPhone");
+    var value = input.value;
+
+    // Check if the input value starts with '09'
+    if (!value.startsWith("09")) {
+        input.setCustomValidity("電話號碼請輸入09開頭");
+    } else {
+        input.setCustomValidity("");
+    }
+}
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("bookingDate").value = "";
+});
+
 	// 時間按鈕的時間列表
 	var times = [ '11:00', '12:00', '13:00', '14:00', '17:00', '18:00',
 			'19:00', '20:00' ];
