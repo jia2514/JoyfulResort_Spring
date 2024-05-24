@@ -16,6 +16,14 @@ $(document).ready(function () {
   // console.log(document.cookie)
   $('#buttonUpData').attr('disabled', true)
   $('#newPassword').attr('disabled', true)
+  
+  //活動報名後重導致會員專區中的 活動訂單
+  let getRedirect = new URL(location.href).searchParams.get('Redirect');
+  console.log(getRedirect)
+  
+  if(getRedirect === "activity"){
+    $('#nav-contact-tab2').click()
+  }
 
 })
 

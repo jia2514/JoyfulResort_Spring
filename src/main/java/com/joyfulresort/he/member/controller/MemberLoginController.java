@@ -57,17 +57,17 @@ public class MemberLoginController {
 		JSONObject obj = new JSONObject();
 		// 判斷USER輸入的帳號密碼是否正確
 		if (mem == null) {
-			System.out.println("查無帳號"); // 查無帳號
+//			System.out.println("查無帳號"); // 查無帳號
 			obj.put("State", false);
 			res.getWriter().print(obj); //轉交ajax請求
 			
 		} else if (!userPassword.equals(mem.getMemberPassword())) {
-			System.out.println("密碼錯誤"); // 密碼錯誤
+//			System.out.println("密碼錯誤"); // 密碼錯誤
 			obj.put("State", false);
 			res.getWriter().print(obj); //轉交ajax請求
 			
 		} else {
-			System.out.println("密碼正確"); // 密碼正確
+//			System.out.println("密碼正確"); // 密碼正確
 			session.setAttribute("memberID", mem.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
 			
 			Cookie cookie = new Cookie("LogInState", "200"); // 寫入Cookie 紀錄登入狀態 給預覽器判斷			

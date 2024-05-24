@@ -24,7 +24,7 @@ function getCookie(cookieName) {  // 自訂function
 
 //登入
 $('#Button_Login').click(function () {
-
+  console.log($('#rememberMe').get(0).checked)
   let inputAccount = $('#userAccount').val()
   let inputPassword = $('#userPassword').val()
 
@@ -41,6 +41,8 @@ $('#Button_Login').click(function () {
   }
 
   if (inputAccount !== "" && inputPassword !== "") {
+    
+
     $.post({
       url: 'joyfulresort/Login',
       data: {

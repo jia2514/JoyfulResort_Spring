@@ -334,18 +334,31 @@
 
 								<!-- 活動備註彈窗 -->
 								<div class="modal fade" th:id="'memberActivityOrder_'+${ActivityOrder.activityOrderID}"
-									tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
 									<div class="modal-dialog">
-										<div class="modal-content">
+										<div class="modal-content" >
 											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLabel">訂單備註</h5>
 												<button type="button" class="btn-close" data-bs-dismiss="modal"
 													aria-label="Close"></button>
 											</div>
-											<th:block th:if="${ActivityOrder.orderNote}==null">
-												<div style="text-align: center;">尚無備註</div>
-											</th:block>
-											<div class="modal-body" th:text="${ActivityOrder.orderNote}"></div>
+											<div class="card">
+											  <div class="card-body">
+											    <h5 class="card-title">訂單明細</h5>
+											    <pre style="font-size: 16px;" th:text="'會員:'+${ActivityOrder.memberVO.memberName}+'     訂單編號:'+${ActivityOrder.activitySessionVO.activitySessionID}+'     活動場次: '+${ActivityOrder.ActivityOrderID}+'-'+${ActivityOrder.activitySessionVO.activityVO.activityName}"></pre>
+											    <h6 class="card-title" th:text="'訂單日期 : '+${ActivityOrder.orderTime}"></h6>
+											    <pre style="font-size: 16px;" th:text="'報名人數:'+${ActivityOrder.enteredNumber}+'    訂單金額 : '+${ActivityOrder.orderAmount}+' NT$'"></pre>
+											  </div>
+											</div>
+											<div class="card">
+											  <div class="card-body">
+											  	<h5 class="card-title">訂單備註</h5>
+												<th:block th:if="${ActivityOrder.orderNote.isEmpty}">
+													<div style="text-align: center;">尚無備註</div>
+												</th:block>
+												<div class="modal-body" th:text="${ActivityOrder.orderNote}"></div>
+											  </div>
+											</div>
+											
 										</div>
 									</div>
 								</div>
@@ -420,7 +433,7 @@
 												<button type="button" class="btn-close" data-bs-dismiss="modal"
 													aria-label="Close"></button>
 											</div>
-											<th:block th:if="${MeetingRoomOrder.orderNote}==null">
+											<th:block th:if="${MeetingRoomOrder.orderNote.isEmpty}">
 												<div style="text-align: center;">尚無備註</div>
 											</th:block>
 											<div th:text="${MeetingRoomOrder.orderNote}" class="modal-body">
@@ -492,7 +505,7 @@
 												<button type="button" class="btn-close" data-bs-dismiss="modal"
 													aria-label="Close"></button>
 											</div>
-											<th:block th:if="${ReserveOrder.orderNote}==null">
+											<th:block th:if="${ReserveOrder.orderNote.isEmpty}">
 												<div style="text-align: center;">尚無備註</div>
 											</th:block>
 											<div th:text="${ReserveOrder.orderNote}" class="modal-body">
