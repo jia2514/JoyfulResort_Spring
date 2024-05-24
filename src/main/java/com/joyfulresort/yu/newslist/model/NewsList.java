@@ -25,7 +25,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 		private Integer newsId;
 		
 
-		@NotNull(message="媒體報導標題:請勿空白")
+		@NotEmpty(message="媒體報導標題:請勿空白")
 		@Column(name = "news_title")
 		private String newsTitle;
 	
@@ -36,12 +36,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 		private Date newsDate;
 	
 		
-		@NotNull(message="媒體報導摘要: 請勿空白")
+		@NotEmpty(message="媒體報導摘要: 請勿空白")
 		@Column(name = "news_abstract")
 		private String newsAbstract;
 		
 	
-		@NotNull(message="媒體報導內容: 請勿空白")
+		@NotEmpty(message="媒體報導內容: 請勿空白")
 		@Column(name = "news_content")
 		private String newsContent;
 	
