@@ -48,7 +48,7 @@
                     <div class="full">
                         <div class="center-desk">
                             <div class="logo">
-                                <a th:href="@{/joyfulresort}">
+                                <a th:href="@{/}">
                                     <img src="/frontend/images/JoyfulResort5.png" alt="">
                                 </a>
                             </div>
@@ -121,7 +121,7 @@
                 <div id="cart-content" class="row d-flex justify-content-center">
 
                 </div>
-                <h4 class="fw-bold text-end">總價: $<span id="total-price">0.00</span></h4>
+                <h5 class="text-end">總價: NT$<span id="total-price">0.00</span></h5>
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" style="border-radius: 0" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
@@ -167,19 +167,23 @@
                                 </div>
 
                                 <span id="PasswordErrorMessage" style="color: red;"></span>
+                                <div class="form-check" style="float: left">
+                                    <input class="form-check-input" type="checkbox" name="rememberMe" value="" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">記住我</label>
+                                </div>
                             </div>
                         </div>
+
                         <div style="margin-top: 35px;">
                             <button type="button" id="Button_Login" class="btn btn-outline-primary"
                                     style="width: 70%; padding-top: 1rem; padding-bottom: 1rem">登入</button>
                         </div>
                         <span id="errorMessage" style="color: red;"></span>
                         <div style="margin-top: 35px;">
-                            <button type="button" class="btn btn-outline-danger"
-                                    style="width: 100px; folat: left; margin-right: 80px;">忘記密碼?</button>
+                            <button id="but_forgetPassword" type="button" class="btn btn-outline-danger" data-bs-target="#forgetPassword" data-bs-toggle="modal" style="width: 100px; folat: left; margin-right: 80px;">忘記密碼?</button>
                             <button type="button" id="buttonRegister"
                                     class="btn btn-outline-success"
-                                    style="width: 100px; folat: right; margin-left: 80px;"
+                                    style="width: 100px; margin-left: 80px;"
                                     onclick="location.href='/joyfulresort/memberRegister'">註冊</button>
                         </div>
 
