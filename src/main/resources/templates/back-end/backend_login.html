@@ -151,13 +151,13 @@
             <input type="password" name="empPassword" placeholder="輸入密碼" class="form-control password" required>
             <i class="fas fa-eye toggle-password"></i>
         </div>
-<!--         <div style="width: 100%;"> -->
-<!--             <input type="text" name="captcha" placeholder="輸入驗證碼" class="form-control" required> -->
-<!--         </div> -->
-<!--         <div class="captcha-container"> -->
-<!--             <img th:src="@{/captcha/generate}" alt="Captcha Image" class="captcha-image"> -->
-<!--             <i class="fas fa-sync-alt refresh-captcha"></i> -->
-<!--         </div> -->
+        <div style="width: 100%;">
+            <input type="text" name="captcha" placeholder="輸入驗證碼" class="form-control" required>
+        </div>
+        <div class="captcha-container">
+            <img th:src="@{/captcha/generate}" alt="Captcha Image" class="captcha-image">
+            <i class="fas fa-sync-alt refresh-captcha"></i>
+        </div>
         <div>
             <button type="submit" class="login-button">登入</button>
         </div>

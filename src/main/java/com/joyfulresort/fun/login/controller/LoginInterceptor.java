@@ -29,17 +29,17 @@ public class LoginInterceptor implements HandlerInterceptor {
             throws Exception {
         String empAccountStr = request.getParameter("empAccount");
         String empPassword = request.getParameter("empPassword");
-//        String captcha = request.getParameter("captcha");
-//        
-//        
-//        HttpSession session = request.getSession();
-//        String sessionCaptcha = (String) session.getAttribute("captcha");
-//
-//    
-//        if (sessionCaptcha == null || !sessionCaptcha.equalsIgnoreCase(captcha)) {
-//            response.sendRedirect("/loginfailedCaptcha");
-//            return false;
-//        }
+        String captcha = request.getParameter("captcha");
+        
+        
+        HttpSession session = request.getSession();
+        String sessionCaptcha = (String) session.getAttribute("captcha");
+
+    
+        if (sessionCaptcha == null || !sessionCaptcha.equalsIgnoreCase(captcha)) {
+            response.sendRedirect("/loginfailedCaptcha");
+            return false;
+        }
         
 
         if (!empAccountStr.matches("\\d+")) {
