@@ -283,7 +283,7 @@
                 }
 			                
                 var bookingNight = (endSelectDate-startSelectDate)/(24*3600*1000);
-				var customPageURL = '/joyfulresort/roomorder/addRoomOrder?checkInDate=' + info.startStr + '&checkOutDate=' + info.endStr + emptyRoomURL + '&paramCount=' + paramCount+ '&bookingNight=' + bookingNight;
+				var customPageURL = '/roomorder/addRoomOrderBySchedule?checkInDate=' + info.startStr + '&checkOutDate=' + info.endStr + emptyRoomURL + '&paramCount=' + paramCount+ '&bookingNight=' + bookingNight;
 				
 				if(changePage){
 					if(emptyCount==Object.keys(minEmptyRoomsById).length){

@@ -134,7 +134,10 @@ input[type="submit"]:hover {
 					<tbody>
     <tr th:each="roomOrder, iterStat : ${roomOrderList}" th:class="'order_' + ${roomOrder.roomOrderId}" th:classappend="order_row">
         <td th:text="${roomOrder.roomOrderId}"></td>
-        <td th:text="${roomOrder.member.memberName}"></td>
+        <td>
+        	<span name="memberName" th:text="${roomOrder.member.memberName}"></span>
+        	<span name="memberPhone" th:text="${roomOrder.member.memberPhone}" style="display: none;"></span>
+        </td>
         <td th:text="${roomOrder.orderDate}"></td>
         <td><b th:text="${#numbers.formatInteger(#aggregates.sum(roomOrder.roomOrderItems.![roomPrice])*roomOrder.bookingNight,1,'COMMA')}" /></td>
         <td class="checkin" th:text="${roomOrder.checkInDate}"></td>
@@ -159,30 +162,25 @@ input[type="submit"]:hover {
         </span></td>
         <td class="buttom_row">
         	<span th:switch="${roomOrder.roomOrderState}">
-            <span th:case="'0' or ${roomOrder.roomOrderState} == '2'"></span>
-            <span th:case="'1'">
-                <form method="post" action="@{'/roomorder/getOneToCancel'}" style="margin-bottom: 0px;">
-                    <input class="room_order_cancel" type="submit" value="取消">
-                    <input type="hidden" name="roomOrderId" th:value="${roomOrder.roomOrderId}">
-                    <input type="hidden" name="checkInDate" th:value="${roomOrder.checkInDate}"> 
-                    
-                </form>
-            </span>
-            <span th:case="'3'">
-                <form method="post" action="@{'/roomorder/getOneToRefund'}" style="margin-bottom: 0px;">
-                    <input class="room_order_refund" type="submit" value="退款完成">
-                    <input type="hidden" name="roomOrderId" th:value="${roomOrder.roomOrderId}">
-                </form>
-            </span>
+            	<span th:case="'0' or ${roomOrder.roomOrderState} == '2'"></span>
+	            <span th:case="'1'">
+	                    <input class="room_order_cancel" type="submit" value="取消">
+	                    <input type="hidden" name="roomOrderId" th:value="${roomOrder.roomOrderId}">
+	                    <input type="hidden" name="checkInDate" th:value="${roomOrder.checkInDate}"> 
+	            </span>
+	            <span th:case="'3'">
+	                    <input class="room_order_refund" type="submit" value="退款完成">
+	                    <input type="hidden" name="roomOrderId" th:value="${roomOrder.roomOrderId}">
+	            </span>
             
-        </span>
+        	</span>
         
-        
-			<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none;"></button>
-		
-		<input type="hidden" name="memberPhone" th:value="${roomOrder.member.memberPhone}">
-		<input type="hidden" name="roomOrderState" th:value="${roomOrder.roomOrderState}">
-		<input type="hidden" name="checkInDate" th:value="${roomOrder.checkInDate}"> 
+        	<span>
+				<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none;"></button>
+				<input type="hidden" name="memberPhone" th:value="${roomOrder.member.memberPhone}">
+<!-- 		<input type="hidden" name="roomOrderState" th:value="${roomOrder.roomOrderState}"> -->
+<!-- 		<input type="hidden" name="checkInDate" th:value="${roomOrder.checkInDate}">  -->
+			</span>
         </td>
     </tr>
 </tbody>
@@ -241,7 +239,7 @@ input[type="submit"]:hover {
 	<script>
 		$(document).ready(function() {
 			$('#allRoomOrderTable').DataTable({
-				"lengthMenu": [3 ,5, 10, 20, 50, 100],
+				"lengthMenu": [5, 10, 20, 50, 100],
 				"searching": true,  //搜尋功能, 預設是開啟
 			    "paging": true,     //分頁功能, 預設是開啟
 			    "ordering": true,   //排序功能, 預設是開啟
@@ -273,12 +271,14 @@ input[type="submit"]:hover {
 	<script type="text/javascript">
 
 	$(document).ready(function() {
-	    $('.room_order_cancel').click(function(e) {
+	    $(document).on('click','.room_order_cancel',function(e) {
 	        e.preventDefault();
 	        var roomOrderId = $(this).siblings('input[name="roomOrderId"]').val();
 	        var checkInDate = $(this).siblings('input[name="checkInDate"]').val(); 
-	       
+	        console.log(roomOrderId);
+	        console.log(checkInDate);
 	        var differenceInDays = calculateDifferenceInDays(checkInDate);
+	        console.log(differenceInDays);
 	        
 	        var buttonRow = $(this).closest('tr').find('.buttom_row'); 
 	         if (differenceInDays <= 3) {
@@ -391,12 +391,17 @@ input[type="submit"]:hover {
 		$(document).on('click','.order_row',function(e)  {
 	    	    
 	        var roomOrderId = $(this).find('td:first-child').text();
-	        var memberName = $(this).find('td:nth-child(2)').text();
-	        var roomOrderState = $(this).find('input[name="roomOrderState"]').val();
-	        var memberPhone = $(this).find('input[name="memberPhone"]').val();
-	        var checkInDate = $(this).find('input[name="checkInDate"]').val(); 
-	        var differenceInDays = calculateDifferenceInDays(checkInDate);
+	        var memberName = $(this).find('td:nth-child(2)').find('span[name="memberName"]').text();
+	        var roomOrderState = $(this).find('td:nth-child(7)').text();
+	        var memberPhone = $(this).find('td:nth-child(2)').find('span[name="memberPhone"]').text();
+	        var checkInDate = $(this).find('td:nth-child(5)').text();
+	        console.log(roomOrderId);
+	        console.log(memberName);
+	        console.log(roomOrderState);
+	        console.log(memberPhone);
 	        console.log(checkInDate);
+	        var differenceInDays = calculateDifferenceInDays(checkInDate);
+	        
 	        if (!$(e.target).closest('.buttom_row').length) {
 	        $('#myModal').modal('show');
 	        $.ajax({
