@@ -106,7 +106,7 @@ public class MemberLoginController {
 		res.addCookie(id);
 		
 
-		return "redirect:/joyfulresort";
+		return "redirect:/";
 	}
 	
 	
