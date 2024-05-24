@@ -12,6 +12,10 @@
 	    align-items: flex-start;   
 	    padding:5px 0;
     }
+    
+      .pre-wrap {
+        white-space: pre-wrap; /* 保留空白和換行符 */
+    }
     </style>
 </head>
 <body>
@@ -39,7 +43,7 @@
                     </tr>
                     <tr>
                         <th>媒體報導內容</th>
-                        <td th:text="${newsList.newsContent}"></td>
+                        <td th:text="${newsList.newsContent}" class="pre-wrap"></td> <!-- 添加 pre-wrap 類 -->
                     </tr>
                     <tr>
                         <th>媒體報導圖片</th>

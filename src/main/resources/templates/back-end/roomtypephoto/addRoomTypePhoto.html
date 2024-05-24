@@ -129,8 +129,8 @@ input[type="submit"]:hover {
 			<div>
 			<label>照片:</label>
 			<input type="file" th:field="*{roomTypePhoto}" onclick="previewImage()" multiple="multiple" onchange="hideContent('roomTypePhoto.errors');" />
-			<span  th:if="${#fields.hasErrors('roomTypePhoto')}" th:errors="*{roomTypePhoto}" class="error" id="roomTypePhoto.errors"></span>
-			<span class="error" th:utext="${errorMessage}" id="roomTypePhoto.errors">${errorMessage}</span>
+<!-- 			<span  th:if="${#fields.hasErrors('roomTypePhoto')}" th:errors="*{roomTypePhoto}" class="error" id="roomTypePhoto.errors"></span> -->
+			<span class="error" th:utext="${errorMessage}" id="roomTypePhoto.errors"></span>
 <!-- 			<h2 id="errorMessage">${errorMessage}</h2>  -->
 			<div id="blob_holder"></div>
 			</div>

@@ -2,25 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <base th:href="@{/}">
 <head>
-<meta charset="UTF-8">
-<title>My Page</title>
-<link th:insert="~{/front-end/htmlfile/css.html}" />
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>My Page</title>
+    <link th:insert="~{/front-end/htmlfile/css.html}" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style type="text/css">
+        /* 放css */
+        .info-container {
+            white-space: pre-wrap;
+        }
 
-<style type="text/css">
-
-/*     放css */
-.info-container {
-    white-space: pre-wrap;
-}
-
-     .card-deck {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+        .card-deck {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
         }
         .card {
-            flex: 1 1 calc(33.333% - 1rem);
             margin-bottom: 1rem;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -44,92 +42,78 @@
             color: white;
         }
         .back-home {
-   			margin-top: 70px; /* 增加上邊距 */
-    		display: block;
-    		text-align: left;
-		}
-		.getAllEmptyRooms {
-   			margin-top: 20px; /* 增加上邊距 */
-    		display: block;
-    		text-align: center;
-		}
-		button.custom-button {
-		    background-color: #4CAF50;
-		    color: white;
-		    border: none;
-		    padding: 10px 20px;
-		    font-size: 16px;
-		    cursor: pointer;
-		    text-decoration: none;
-		    display: inline-block;
-		    border-radius: 5px;
-		}
-		
-		button.custom-button:hover {
-		    background-color: #45a049;
-		}
-		
-</style>
+            margin-top: 70px; /* 增加上邊距 */
+            display: block;
+            text-align: left;
+        }
+        .getAllEmptyRooms {
+            margin-top: 20px; /* 增加上邊距 */
+            display: block;
+            text-align: center;
+        }
+        button.custom-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+        }
+
+        button.custom-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body class="main-layout">
-	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
+    <th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
 
-		<div th:fragment="content" class="G3content">
-	
-			
-	<!-- 				放內容 -->
-				<h2 class="text-center p-0 lora-type m-0" style="color: #847674;" data-aos="fade-up" data-aos-duration="1000">Booking Online</h2>
-	        <P class="text-center h5 mb-5 fw-bold" data-aos="fade-up" data-aos-duration="2000">房型介紹</P>  
+    <div th:fragment="content" class="G3content">
+        <!-- 放內容 -->
+        <h2 class="text-center p-0 lora-type m-0" style="color: #847674;" data-aos="fade-up" data-aos-duration="1000">Booking Online</h2>
+        <p class="text-center h5 mb-5 fw-bold" data-aos="fade-up" data-aos-duration="2000">房型介紹</p>  
 
-<div class="container mt-5">
-        <div class="card-deck">
-	
-  <div class="card" th:each="roomType : ${roomType}">
-                <img th:src="@{/roomtypephoto/DBGifReader(roomTypePhotoId=${roomType.roomTypePhotos.iterator().next().roomTypePhotoId})}" class="card-img-top" alt="Room Image">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${roomType.roomTypeName}">Room Type Name</h5>
-                    <p class="card-text"><i class="fa fa-users"></i> <span th:text="${roomType.numberOfPeople}">4</span> Guests</p>
-                 <div th:utext="${#strings.trim(roomType.roomTypeContent)}" class="info-container"></div>
-                </div>
-                <div class="card-footer">
-                    <p class="price" th:text="'$' + ${roomType.roomTypePrice} + '/每晚'"></p>
-                    
-                    
-                    <a th:href="@{/joyfulresort/roomtype/getOne_For_Display(roomTypeId=${roomType.roomTypeId})}" class="btn btn-book">房型介紹</a>
-
+        <div class="container mt-5" data-aos="fade-up" data-aos-duration="2000">
+            <div class="card-deck">
+                <div class="card" th:each="roomType, iterStat : ${roomType}">
+                    <img th:src="@{/roomtypephoto/DBGifReader(roomTypePhotoId=${roomType.roomTypePhotos.iterator().next().roomTypePhotoId})}" class="card-img-top" alt="Room Image">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${roomType.roomTypeName}">Room Type Name</h5>
+                        <p class="card-text"><i class="fa fa-users"></i> <span th:text="${roomType.numberOfPeople}">4</span> Guests</p>
+                        <div th:utext="${#strings.trim(roomType.roomTypeContent)}" class="info-container"></div>
+                    </div>
+                    <div class="card-footer">
+                        <p class="price" th:text="'$' + ${roomType.roomTypePrice} + '/每晚'"></p>
+                        <a th:href="@{/joyfulresort/roomtype/getOne_For_Display(roomTypeId=${roomType.roomTypeId})}" class="btn btn-book">房型介紹</a>
+                    </div>
                 </div>
             </div>
         </div>
-        
-    </div>
-			
-		<div class="getAllEmptyRooms">
-			<form id="getEmptyRoom" th:action="@{'/roomschedule/getIn2Month'}" method="post" style="display: none;">
-					<button class="custom-button" type="submit">查詢兩個月內所有空房</button>
-					<input type="hidden" name="frontendinsert" value="true">
-				</form>
-			<button class="custom-button" onclick="sendGetEmptyRoom()">查詢兩個月內所有空房</button>
-  		</div>
-	
-	    <div class="back-home"><a th:href="@{/}">回首頁</a>
+            
+        <div class="getAllEmptyRooms" data-aos="fade-up" data-aos-duration="2000">
+            <form id="getEmptyRoom" th:action="@{'/roomschedule/getIn2Month'}" method="post" style="display: none;">
+                <button class="custom-button" type="submit">查詢兩個月內所有空房</button>
+                <input type="hidden" name="frontendinsert" value="true">
+            </form>
+            <button class="custom-button" onclick="sendGetEmptyRoom()">查詢兩個月內所有空房</button>
         </div>
-				
-		</div>
-
-	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
-	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
-
+    
+        <div class="back-home" data-aos="fade-up" data-aos-duration="2000"><a th:href="@{/}">回首頁</a></div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	
-	<script type="text/javascript">
-	function sendGetEmptyRoom() {
-       	document.getElementById("getEmptyRoom").submit();
-   	}
-	</script>
-	
-	
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: false // 這樣元素進入和離開可視範圍都會觸發動畫
+        });
+    </script>
+    <th:block th:insert="~{/front-end/htmlfile/content2.html}" />
+    <th:block th:insert="~{/front-end/htmlfile/script.html}" />
 </body>
 </html>
