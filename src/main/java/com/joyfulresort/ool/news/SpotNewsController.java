@@ -22,7 +22,12 @@ import java.util.List;
 public class SpotNewsController {
     @Autowired
     private SpotNewsRepository newsRepository;
-
+    @GetMapping("/spotnews/content/{spotNewsId}")
+    public String contentPage(Model model, @PathVariable Integer spotNewsId){
+        SpotNews news = newsRepository.findById(spotNewsId).orElse(null);
+        model.addAttribute("news", news);
+        return "front-end/conference/spot_news_content";
+    }
     @GetMapping("/spotnews")
     public String newsPage(Model model){
         List<SpotNews> news = newsRepository.findAll();

@@ -128,18 +128,18 @@
                         <td th:text="${#dates.format(order.meetingRoomOrderDate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${#dates.format(order.bookingDate, 'yyyy-MM-dd')}"></td>
                         <td>
-                            <span th:switch="${order.orderState}">
-                                <span th:case="0">取消</span>
-                                <span th:case="1">成立</span>
-                                <span th:case="2">完成</span>
-                            </span>
+                            <select class="orderState" th:attr="data-id=${order.meetingRoomOrderId}">
+                                <option value="0" th:selected="${order.orderState == 0}">取消</option>
+                                <option value="1" th:selected="${order.orderState == 1}">成立</option>
+                                <option value="2" th:selected="${order.orderState == 2}">完成</option>
+                            </select>
                         </td>
                         <td>
-                            <span th:switch="${order.refundState}">
-                                <span th:case="0">不須退款</span>
-                                <span th:case="1">退款中</span>
-                                <span th:case="2">完成退款</span>
-                            </span>
+                            <select class="refundState" th:attr="data-id=${order.meetingRoomOrderId}">
+                                <option value="0" th:selected="${order.refundState == 0}">不須退款</option>
+                                <option value="1" th:selected="${order.refundState == 1}">退款中</option>
+                                <option value="2" th:selected="${order.refundState == 2}">完成退款</option>
+                            </select>
                         </td>
                         <td th:text="${order.orderNote}"></td>
                         <td>
@@ -206,6 +206,21 @@
                     "sortDescending": ": 降冪排列"
                 }
             }
+        });
+    });
+</script>
+<script th:inline="javascript">
+    $(document).ready(function() {
+        $('.orderState, .refundState').change(function() {
+            let orderId = $(this).data('id');
+            let orderState = $('.orderState[data-id="' + orderId + '"]').val();
+            let refundState = $('.refundState[data-id="' + orderId + '"]').val();
+
+            $.post('/conference/backend/order/edit', {
+                meetingRoomOrderId: orderId,
+                orderState: orderState,
+                refundState: refundState
+            });
         });
     });
 </script>

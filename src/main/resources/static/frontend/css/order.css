@@ -25,6 +25,7 @@
 
 
 }
+
 .navigation.navbar-dark .navbar-nav .nav-link:focus,
 .navigation.navbar-dark .navbar-nav .nav-link:hover {
     border-bottom: transparent solid 1px;
@@ -114,4 +115,125 @@
 .calendar a {
     text-decoration: none;
     color: black;
+}
+/* Modal 樣式 */
+#cartModal .modal-dialog {
+    max-width: 300px; /* 設置最大寬度 */
+    margin: 1.75rem auto; /* 上下居中 */
+}
+
+#cartModal .modal-content {
+    border-radius: 10px; /* 圓角 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* 陰影 */
+    border: none; /* 去除邊框 */
+}
+
+#cartModal .modal-body {
+    padding: 2rem; /* 內邊距 */
+    background-color: #f9f9f9; /* 背景顏色 */
+    position: relative; /* 相對定位 */
+}
+
+#cartModal .btn-close {
+    position: absolute; /* 絕對定位 */
+    top: 1rem; /* 距離頂部 */
+    right: 1rem; /* 距離右側 */
+    z-index: 1; /* 層級 */
+}
+
+#cartModal .header-icon {
+    fill: #5f6368; /* 顏色 */
+    margin-bottom: 1rem; /* 下邊距 */
+}
+
+#cartModal h3, #cartModal h4 {
+    color: #333; /* 字體顏色 */
+}
+
+#cartModal #cart-content {
+    margin-top: 2rem; /* 上邊距 */
+}
+
+#cartModal h4 {
+    color: #555; /* 字體顏色 */
+}
+
+#cartModal #total-price {
+    color: #d9534f; /* 字體顏色 */
+}
+
+#cartModal .modal-footer {
+    border-top: none; /* 去除頂部邊框 */
+    padding: 1rem 2rem; /* 內邊距 */
+    background-color: #f1f1f1; /* 背景顏色 */
+}
+
+#cartModal .btn-secondary {
+    background-color: #6c757d; /* 按鈕背景顏色 */
+    border-color: #6c757d; /* 按鈕邊框顏色 */
+}
+
+#cartModal .btn-primary {
+    background-color: #007bff; /* 按鈕背景顏色 */
+    border-color: #007bff; /* 按鈕邊框顏色 */
+}
+
+#cartModal .btn-primary.disabled,
+#cartModal .btn-primary:disabled {
+    background-color: #007bff; /* 禁用按鈕背景顏色 */
+    border-color: #007bff; /* 禁用按鈕邊框顏色 */
+    opacity: 0.65; /* 透明度 */
+}
+
+#cartModal .btn-primary:hover:not(.disabled),
+#cartModal .btn-primary:focus:not(.disabled) {
+    background-color: #0056b3; /* 按鈕懸停背景顏色 */
+    border-color: #0056b3; /* 按鈕懸停邊框顏色 */
+}
+
+#cartModal .btn-secondary:hover,
+#cartModal .btn-secondary:focus {
+    background-color: #545b62; /* 按鈕懸停背景顏色 */
+    border-color: #545b62; /* 按鈕懸停邊框顏色 */
+}
+.cart-item {
+    margin-bottom: 1rem;
+}
+
+/* 卡片陰影和圓角 */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+/* 卡片內容樣式 */
+.card-body {
+    padding: 1.5rem;
+    background-color: #ffffff;
+}
+
+/* 移除按鈕樣式 */
+.btn.remove-from-cart {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+
+
+/* 卡片標題樣式 */
+.card-title {
+    color: #333333;
+}
+
+/* 卡片文字樣式 */
+.card-text, .card-text1 {
+    color: #555555;
+}
+
+/* 總價文字樣式 */
+#total-price {
+    color: #d9534f;
+    font-weight: bold;
 }

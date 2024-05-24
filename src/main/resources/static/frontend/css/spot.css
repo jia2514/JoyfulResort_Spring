@@ -114,24 +114,24 @@
     font-family: "Noto Serif TC", serif;
 }
 
-/*.header {*/
-/*    background-color: transparent;*/
-/*    transition: background-color 0.3s ease;*/
-
-/*}*/
-
-/*.navigation.navbar-dark .navbar-nav .nav-link {*/
-/*    font-weight: normal;*/
-/*}*/
-
 .header {
-    background-color: white;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
 
 }
 
 .navigation.navbar-dark .navbar-nav .nav-link {
-    font-weight: bold;
+    color: white;
 }
+
+/*.header {*/
+/*    background-color: white;*/
+
+/*}*/
+
+/*.navigation.navbar-dark .navbar-nav .nav-link {*/
+/*    font-weight: bold;*/
+/*}*/
 /* 滾動後的狀態 */
 .header.scrolled {
     background-color: white; /* 你想要的背景顏色 */
@@ -139,5 +139,5 @@
 }
 
 .navigation.navbar-dark .navbar-nav .nav-link.scrolled {
-   font-weight: bold;
+   color: black;
 }

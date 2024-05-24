@@ -65,7 +65,21 @@ public class MeetingRoomOrderController {
         return "redirect:/conference/order";
     }
 
-//
+    @PostMapping("/conference/backend/order/edit")
+    @ResponseBody
+    public String editOrder(@RequestParam Integer meetingRoomOrderId,
+                            @RequestParam Integer orderState,
+                            @RequestParam Integer refundState){
+        MeetingRoomOrder meetingRoomOrder = meetingRoomOrderRepository.findById(meetingRoomOrderId).orElse(null);
+        if (meetingRoomOrder != null) {
+            meetingRoomOrder.setOrderState(orderState);
+            meetingRoomOrder.setRefundState(refundState);
+            meetingRoomOrderRepository.save(meetingRoomOrder);
+            return "success";
+        }
+
+        return "error";
+    }
 
     @GetMapping("/conference/backend/order/delete/{meetingRoomOrderId}")
     public String deleteOrder(@PathVariable("meetingRoomOrderId") Integer meetingRoomOrderId){
