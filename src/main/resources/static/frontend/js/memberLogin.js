@@ -104,20 +104,18 @@ $(document).keydown(function (e) {
   }
 })
 
+//更新圖形化驗證碼
+function loadCode(){
+  var url ="/member/getCode?ts=" + new Date().getTime();
+  $('#forgetPassword_memberCaptcha').attr("src",url)
+}
+
+
+
 //忘記密碼 取得驗證碼
 $('#forgetPassword_getAuthCode').click(function () {
   // console.log('OK')
-
-  $.get({
-    url: '/redis/getAuthCode',
-    success: function (data) {
-      // console.log(data)
-      let html_AuthCode = `<h5>驗證碼: ` + data + `</h5>`;
-
-      $('#forgetPassword_AuthCode').html(html_AuthCode)
-
-    }
-  })
+  loadCode();
 })
 //點擊忘記密碼取得驗證碼
 $('#but_forgetPassword').click(function(){

@@ -19,7 +19,7 @@ $(document).ready(function () {
   
   //活動報名後重導致會員專區中的 活動訂單
   let getRedirect = new URL(location.href).searchParams.get('Redirect');
-  console.log(getRedirect)
+  // console.log(getRedirect)
   
   if(getRedirect === "activity"){
     $('#nav-contact-tab2').click()
@@ -196,10 +196,17 @@ $('#memberState_AuthCode').click(function(){
   })
 })
 
+//更新圖形化驗證碼
+function loadCode(){
+  var url ="/member/getCode?ts=" + new Date().getTime();
+  $('#memberCaptcha').attr("src",url)
+}
+
 //取得驗證碼
 $('#getAuthCode').click(function () {
-  // console.log('OK')
 
+  // console.log('OK')
+  loadCode();
   $.get({
     url: '/redis/getAuthCode',
     success: function (data) {

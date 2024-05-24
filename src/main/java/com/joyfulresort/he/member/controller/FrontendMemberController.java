@@ -328,7 +328,7 @@ public class FrontendMemberController {
 		//檢查有無信箱
 		if(email) {
 			//檢查驗證碼 取得Redis內驗證碼
-			String authCode = redis.opsForValue().get("AuthCode");
+			String authCode = redis.opsForValue().get("memberCaptcha");
 			if(authCode==null) {
 				obj.put("error", "驗證碼過期 請重新取得");
 				res.getWriter().print(obj);

@@ -19,7 +19,7 @@
 		<div class="news-section">
 			<div class="container">
 				<!-- 東西從這裡放 -->
-
+				
 				<nav style="margin-top: 150px;">
 					<div class="nav nav-tabs" id="nav-tab" role="tablist">
 						<button style="width: auto;" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
@@ -42,6 +42,7 @@
 							aria-selected="false">餐廳訂位</button>
 					</div>
 				</nav>
+				
 				<!-- 個人資料 -->
 				<div class="tab-content" id="nav-tabContent" style="margin-top: 50px;">
 					<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -60,6 +61,7 @@
 													<img class="img-thumbnail"
 														th:src="@{/member/DBReader}+'?memberID='+${memberData.memberId}">
 												</div>
+												
 												<div>
 													<div class="mb-3 row">
 														<label style="width: 100px;" for="staticAccount"
@@ -728,12 +730,12 @@
 
 
 					<div>
-						<label for="basic-url" class="form-label">您的驗證碼</label>
-						<div id="returnAuthCode">
-							<h1>請按'取得驗證碼'</h1>
-						</div>
+						<div>您的驗證碼</div>
+						<div style="margin-top: 15px;">
+						<img id="memberCaptcha" th:src="@{/member/getCode}">
 						<span style="color: red;">*驗正碼有效時間為一分鐘</span>
-						<div class="input-group mb-3">
+						</div>
+						<div style="margin-top: 15px;" class="input-group mb-3">
 
 							<span class="input-group-text" id="basic-addon3">請輸入驗證碼</span>
 							<input type="text" class="form-control" id="inputAuthCode" aria-describedby="basic-addon3">
