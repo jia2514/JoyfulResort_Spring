@@ -10,28 +10,52 @@
 <style type="text/css">
 
 /*     放css */
-.room-info p {
-    white-space: pre-wrap;
-    font-size: 15px;
-    margin-top: 100px; /* 移除多餘的上邊距 */
-}
+
+.body{
+
+	}
 .room-details {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
 }
 .room-details .carousel-container {
     flex: 3;
     max-width: 70%; /* 調整carousel的最大寬度 */
 }
+.carousel-inner{
+	    position: relative;
+width: 100%;
+    height: 400px;
+    overflow: hidden;
+    display:flex;
+    align-items: stretch;
+}
+.carousel-item{
+	    height: 500px;
+}
+.carousel-item img{
+	   width: 100%;
+	    height: 100%;
+	    object-fit:contain;
+}
 .room-info {
     flex: 1;
     margin-left: 20px;
+}
+
+.room-info p {
+    white-space: pre-wrap;
+    font-size: 15px;
+	 margin-top: 42px;
 }
 .room-info .info-item {
     margin-top: 10px; /* 控制每個信息項之間的距離 */
 }
 .additional-info {
     margin-top: 20px;
+}
+.carousel-control-prev,.carousel-control-next{
+	height:100%
 }
 input[type="submit"] {
     background-color: #007bff;
@@ -61,6 +85,7 @@ input[type="submit"]:hover {
 
   <div class="container mt-5">
         <h2 th:text="${roomType.roomTypeName}">房型名稱</h2>
+        <div class="body">
         <div class="room-details">
             <div class="carousel-container">
                 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
@@ -101,6 +126,7 @@ input[type="submit"]:hover {
                 	</form>
                 </div>
             </div>
+        </div>
         </div>
         <div class="additional-info mt-4">
             <div class="info-item">

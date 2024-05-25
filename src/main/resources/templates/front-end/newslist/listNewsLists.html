@@ -58,7 +58,7 @@
     <div th:fragment="content" class="G3content">
         <!-- 放內容 -->
         <div class="body">
-            <h2 class="text-center p-0 lora-type m-0" style="color: #847674;" data-aos="fade-up" data-aos-duration="1000">NewList</h2>
+            <h2 class="text-center p-0 lora-type m-0" style="color: #847674;" data-aos="fade-up" data-aos-duration="1000">NewsList</h2>
             <p class="text-center h5 mb-5 fw-bold" data-aos="fade-up" data-aos-duration="2000">媒體報導</p>  
             <div th:each="newsItem, iterStat : ${newsList}">
                 <div class="content" data-aos="fade-up" th:attr="data-aos-delay=${iterStat.index * 100}">
