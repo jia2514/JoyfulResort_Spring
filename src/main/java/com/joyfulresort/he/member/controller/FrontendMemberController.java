@@ -380,25 +380,39 @@ public class FrontendMemberController {
 
 	// 信箱驗證
 	@GetMapping("/emailVerify")
-	public String emailVerify(HttpServletRequest req) {
+	public String emailVerify(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
 		String authCode = req.getParameter("AuthCode");
 		String memberEmail = req.getParameter("memberEmail");
 //		System.out.println(authCode);
 //		System.out.println(memberEmail);
-		
+
 		// 檢查驗證碼 取得Redis內驗證碼
 		String redisAuthCode = redis.opsForValue().get("emailVerif");
 //		System.out.println(redisAuthCode);
-		
-		if(redisAuthCode.equals(authCode)) {
-			MemberVO mem = memSvc.findMemberByMail(memberEmail);
-					
-			memSvc.memberStateUpData(mem.getMemberId()); // 檢查會員狀態並修改狀態
-			return "redirect:/joyfulresort/member/memberinfo?Redirect=emailVerify";
+		if (redisAuthCode == null) {
+//			System.out.println("驗證碼已過期");
+			return "front-end/member/memberExpired";
 			
+		} else if (redisAuthCode.equals(authCode)) {
+			MemberVO mem = memSvc.findMemberByMail(memberEmail);
+
+			memSvc.memberStateUpData(mem.getMemberId()); // 檢查會員狀態並修改狀態
+			session.setAttribute("memberID", mem.getMemberId());
+
+			Cookie cookie = new Cookie("LogInState", "200"); // 寫入Cookie 紀錄登入狀態 給預覽器判斷
+			cookie.setMaxAge(3600); // 設定 cookie 存活時間 單位為秒
+			cookie.setPath("/"); // 確保 Cookie 在整個應用程式都可使用
+			Cookie id = new Cookie("MemberID", String.valueOf(mem.getMemberId()));
+			id.setMaxAge(3600);
+			id.setPath("/"); // 確保 Cookie 在整個應用程式都可使用
+			res.addCookie(id);
+			res.addCookie(cookie);
+
+			return "redirect:/joyfulresort/member/memberinfo?Redirect=emailVerify";
+
 		}
 
-//		System.out.println("收到");
+//		錯誤
 		return "redirect:/joyfulresort/member/memberinfo?Redirect=emailVerifyError";
 	}
 

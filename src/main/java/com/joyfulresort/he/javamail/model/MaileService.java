@@ -48,7 +48,7 @@ public class MaileService {
 		MimeMessageHelper helper = new MimeMessageHelper(mail);
 
 		try {
-			helper.setSubject("會員驗證信");
+			helper.setSubject("JoyfulResort-會員驗證信");
 			helper.setText("""
 					<!DOCTYPE html>
 					<html lang="zh-Hant">
