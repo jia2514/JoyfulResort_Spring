@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
@@ -66,6 +67,8 @@ public class Employee {
 	@JoinColumn(name = "position_id", referencedColumnName = "position_id")
 	private Position position;
 
+	
+	
 	public Employee() {
 		super();
 	}
@@ -147,6 +150,7 @@ public class Employee {
 		this.position = position;
 	}
 
+	
 	
 	@Override
 	public String toString() {

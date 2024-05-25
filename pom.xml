@@ -19,6 +19,12 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+		<dependency> <!-- mail-->
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
+
 		<dependency><!-- ＠用途說明2: Add typical dependencies for a web application -->
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -242,15 +248,15 @@
 			<!-- <version>2.9.0</version> -->
 		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>-->
-<!--				0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa-->
-<!--			</groupId>-->
-<!--			<artifactId>-->
-<!--				0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa-->
-<!--			</artifactId>-->
-<!--			<version>0.0.1-SNAPSHOT</version>-->
-<!--		</dependency>-->
+		<!--		<dependency>-->
+		<!--			<groupId>-->
+		<!--				0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa-->
+		<!--			</groupId>-->
+		<!--			<artifactId>-->
+		<!--				0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa-->
+		<!--			</artifactId>-->
+		<!--			<version>0.0.1-SNAPSHOT</version>-->
+		<!--		</dependency>-->
 
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>

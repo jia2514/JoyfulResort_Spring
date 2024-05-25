@@ -764,6 +764,14 @@ public class IndexController_inSpringBoot {
    		return list;
    	}
 	
+    
+    @GetMapping("/passwordReset/reset-password")
+    public String showResetPasswordForm(@RequestParam("token") String token, Model model) {
+        model.addAttribute("token", token);
+        return "back-end/resetPasswordForm"; // 
+    }
+
+    
 	/*
 	 * +-----------------------------------------------------------+
 	 * |.........................其他...............................|
