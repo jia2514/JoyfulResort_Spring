@@ -19,9 +19,6 @@ import ecpay.payment.integration.domain.AioCheckOutALL;
 public class EcPayController {
 //	一般信用卡測試卡號 :
 //	 4311-9522-2222-2222 安全碼 : 222
-	@Autowired
-	ResService resService;
-	ResVO resVO = new ResVO();
 
 	private static AllInOne all;
 
@@ -43,12 +40,11 @@ public class EcPayController {
 		obj.setTotalAmount("101"); // 價錢
 		obj.setTradeDesc("我是描述");
 		obj.setItemName("我是商品名稱");
-		obj.setReturnURL("<https://www.google.com.tw/>");
-		obj.setClientBackURL("http://localhost:8080/joyfulresort");
+		obj.setReturnURL("http://joyfulresort.ddns.net/");
+		obj.setClientBackURL("http://joyfulresort.ddns.net/");
 		obj.setNeedExtraPaidInfo("N");
 		String form = all.aioCheckOut(obj, null);
 		model.addAttribute("form", form);
-
 		return form;
 
 	}
