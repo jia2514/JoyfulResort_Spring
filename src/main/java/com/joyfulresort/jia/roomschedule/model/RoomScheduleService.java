@@ -28,6 +28,8 @@ public class RoomScheduleService {
 	RoomScheduleRepository repository;
 	@Autowired
 	RoomTypeService rtSvc;
+	@Autowired
+	RoomScheduleRedisService rsRedisSvc;
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -39,9 +41,8 @@ public class RoomScheduleService {
 	public String getALLIn2Month() {
 		HibernateUtil_CompositeQuery_RoomSchedule composite = new HibernateUtil_CompositeQuery_RoomSchedule();
 		List<Object[]> list = composite.getAllByCurDate(sessionFactory.openSession());
-		System.out.println("37+"+list);
 		String jsonStr = new JSONArray(list).toString();
-
+		rsRedisSvc.saveOrUpdateRedisRoomSchedule(list);
 		return jsonStr;
 
 	}
@@ -85,6 +86,7 @@ public class RoomScheduleService {
 		}
 		
 		String jsonStr = new JSONArray(list).toString();
+		rsRedisSvc.saveOrUpdateRedisRoomSchedule(list);
 		return jsonStr;
 	}
 
@@ -117,7 +119,6 @@ public class RoomScheduleService {
 			Date endDate1Day = new Date(calendar.getTimeInMillis());
 			query.put("endquerydate", endDate1Day.toString());
 		}
-		System.out.println("query+"+query);
 		
 		HibernateUtil_CompositeQuery_RoomSchedule composite = new HibernateUtil_CompositeQuery_RoomSchedule();
 		List<Object[]> list = null;
@@ -127,6 +128,7 @@ public class RoomScheduleService {
 //		}
 		 
 		list = composite.getByCompositeQuery(query, sessionFactory.openSession());
+		rsRedisSvc.saveOrUpdateRedisRoomSchedule(list);
 		
 		Map<Integer, Integer> minEmptyRooms = new HashMap<>();
 		for (Object[] item : list) {
@@ -136,7 +138,6 @@ public class RoomScheduleService {
                 minEmptyRooms.put(roomType, emptyRooms);
             }
         }
-		System.out.println("minEmptyRooms+"+minEmptyRooms);
 		
 		int type1Empty =0;
 		int type2Empty =0;
@@ -292,7 +293,6 @@ public class RoomScheduleService {
 			}
 			
 		}
-		System.out.println("listRoomSchedule+"+listRoomSchedule);
 		
 		return listRoomSchedule;
 	}

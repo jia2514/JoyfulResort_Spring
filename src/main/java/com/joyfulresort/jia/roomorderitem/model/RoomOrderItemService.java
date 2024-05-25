@@ -108,7 +108,6 @@ public class RoomOrderItemService {
 
 		if(count==set.size()) {
 			roSvc.cancelRoomOrder(roomOrder.getRoomOrderId());
-			System.out.println(getOneRoomOrderItem(roomOrderItemId));
 			return getOneRoomOrderItem(roomOrderItemId);
 		}
 		

@@ -112,8 +112,6 @@ public class RoomOrderItemController {
 		Map<String, Object> roomInfo = new HashMap<>();
 		roomInfo.put("roomId", room.getRoomId());
 		roomInfo.put("roomState", room.getRoomState());
-		
-		System.out.println("roomInfo+"+roomInfo);
 		return ResponseEntity.ok(roomInfo);
 	}
 

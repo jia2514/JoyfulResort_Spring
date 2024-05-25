@@ -223,6 +223,11 @@
 	
 	<script>
 	
+	document.addEventListener("DOMContentLoaded", function() {
+		document.cookie = "visitedAddRoomOrder=true; path=/";
+		console.log(document.cookie);
+	});
+	
     var today = new Date();
     var tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1);
