@@ -90,7 +90,7 @@ public class ResNumberController {
 		}
 
 		ResNumberController response = new ResNumberController();
-		Integer hour = 1;  //初始化 免得網頁重整抓到舊資料
+		Integer hour = 1; // 初始化 免得網頁重整抓到舊資料
 		number = 1;
 		hour = bookingDate2.getHour();
 //		System.out.println(bookingDate2);
@@ -113,6 +113,56 @@ public class ResNumberController {
 			number = -1;
 
 		}
+		response.setMessage(message);
+		response.setMessage101(message101);
+		response.setMessage102(message102);
+		response.setNumber(number);
+		response.setMaxpart(maxpart);
+//		System.out.println(hour);
+
+		return response;
+	}
+
+	@PostMapping("/total2")
+	@ResponseBody
+	public ResNumberController backtotal(
+			@RequestParam(value = "bookingDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime bookingDate2,
+			@RequestParam(value = "bookingDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDate bookingDate,
+			ModelMap model) {
+
+		if (bookingDate2 == null) {
+			bookingDate2 = LocalDateTime.of(2024, 1, 1, 1, 1);
+		}
+
+		ResNumberController response = new ResNumberController();
+		Integer hour = 1; // 初始化 免得網頁重整抓到舊資料
+		Integer monring = resSvc.countNumber101(bookingDate);
+		Integer night = resSvc.countNumber102(bookingDate);
+		number = 0;
+		hour = bookingDate2.getHour();
+		maxpart = ressionSvc.getMaxPartById(101);
+		if (monring == null) {
+			monring = 0;
+		}
+		if (night == null) {
+			night = 0;
+		}
+		if (hour != 0) {
+			message = "當日午餐已訂" + monring + "人<br>" + "當日晚餐已訂" + night + "人";
+		}
+
+		if (hour >= 17 && hour < 22) {
+			number = resSvc.countNumber102(bookingDate);
+		} else if (hour >= 10 && hour < 15) {
+			number = resSvc.countNumber101(bookingDate);
+		} else if (hour == 0) {
+			number = 0;
+		}
+
+		if (number == null) {
+			number = 0;
+		}
+
 		response.setMessage(message);
 		response.setMessage101(message101);
 		response.setMessage102(message102);

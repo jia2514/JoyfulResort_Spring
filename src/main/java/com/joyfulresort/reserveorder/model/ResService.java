@@ -44,7 +44,7 @@ public class ResService {
 		if (bookingDate != null) {
 			return repository.countNumber101(bookingDate);
 		} else {
-			return -11;
+			return 1;
 		}
 
 	}
@@ -54,7 +54,7 @@ public class ResService {
 			return repository.countNumber102(bookingDate);
 
 		} else {
-			return -11;
+			return 1;
 		}
 	}
 
