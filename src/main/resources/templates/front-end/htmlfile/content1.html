@@ -88,7 +88,7 @@
 	<!-- Modal  登入彈窗 -->
 	<div class="modal fade" id="memberLogin" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header"></div>
 				<div class="modal-body"
@@ -111,15 +111,12 @@
 											style="padding-top: 2rem; padding-bottom: 2rem">
 									</div>
 									
-									<span id="AccountErrorMessage" style="color: red;"></span>
-									
 									<div class="input-group mb-3">
 										<input type="Password" id="userPassword" name="userPassword"
 											class="form-control" placeholder="密碼"
 											style="padding-top: 2rem; padding-bottom: 2rem">
 									</div>
 									
-									<span id="PasswordErrorMessage" style="color: red;"></span>
 									<div class="form-check" style="float: left">
 									  <input class="form-check-input" type="checkbox" name="rememberMe" value="" id="rememberMe">
 									  <label class="form-check-label" for="rememberMe">記住我</label>
@@ -181,11 +178,18 @@
 											class="form-control" placeholder="驗證碼"
 											style="padding-top: 2rem; padding-bottom: 2rem">
 									</div>
+									
 								</div>
-								<button id="forgetPassword_getAuthCode" type="button" class="btn btn-primary mb-3">取得驗證碼</button>
-								<span id="forgetPassword_AuthCode"></span>
+									
+								<div>
+									<img id="forgetPassword_memberCaptcha" th:src="@{/member/getCode}">
+									<button style="margin-top: 20px;" id="forgetPassword_getAuthCode" type="button" class="btn btn-info mb-3">重新取得驗證碼</button>
+								</div>
+								
 							</div>
-							<div style="margin-top: 35px;">
+							
+							<div style="margin-top: 25px;">
+							<p style="color: red;">*驗正碼有效時間為一分鐘</p>
 								<button type="button" id="Button_forgetPassword" class="btn btn-outline-primary"
 									style="width: 70%; padding-top: 1rem; padding-bottom: 1rem">送出</button>
 									<div id="Error_forgetPassword" style="color: red;"></div>

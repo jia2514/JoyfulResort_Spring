@@ -19,7 +19,7 @@
 		<div class="news-section">
 			<div class="container">
 				<!-- 東西從這裡放 -->
-
+				
 				<nav style="margin-top: 150px;">
 					<div class="nav nav-tabs" id="nav-tab" role="tablist">
 						<button style="width: auto;" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
@@ -42,6 +42,7 @@
 							aria-selected="false">餐廳訂位</button>
 					</div>
 				</nav>
+				
 				<!-- 個人資料 -->
 				<div class="tab-content" id="nav-tabContent" style="margin-top: 50px;">
 					<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -60,6 +61,7 @@
 													<img class="img-thumbnail"
 														th:src="@{/member/DBReader}+'?memberID='+${memberData.memberId}">
 												</div>
+												
 												<div>
 													<div class="mb-3 row">
 														<label style="width: 100px;" for="staticAccount"
@@ -80,6 +82,7 @@
 																th:value="${memberData.memberName}" id="memberName"
 																name="memberName">
 														</div>
+														<span id="nameError" style="color: red; float: right;"></span>
 													</div>
 
 													<div class="mb-3">
@@ -99,7 +102,7 @@
 												th:value="${memberData.memberEmail}">
 											<!-- Button trigger modal 驗證按鈕-->
 											<div th:switch="${memberData.memberState}" id="div_button_checkAuthCode">
-												<button th:case="0" type="button" class="btn btn-primary"
+												<button th:case="0" type="button" id="memberState_AuthCode" class="btn btn-primary"
 													data-bs-toggle="modal" data-bs-target="#memberAuthCode">驗證</button>
 												<button th:case="2" type="button" class="btn btn-danger">停權</button>
 												<button th:case="1" type="button" class="btn btn-success">已驗證</button>
@@ -118,11 +121,11 @@
 												th:value="${memberData.memberAddress}">
 
 											<span class="input-group-text" style="margin-left: 10px;">生日</span>
-											<input type="date" name="memberBirthday"
+											<input id="memberBirthday" type="date" name="memberBirthday"
 												th:value="${memberData.memberBirthday}">
 
 											<span class="input-group-text" style="margin-left: 10px;">性別</span>
-											<select name="userGender" th:value="${memberData.memberGender}">
+											<select id="memberGender" name="userGender" th:value="${memberData.memberGender}">
 												<option value="0">男</option>
 												<option value="1">女</option>
 											</select>
@@ -157,7 +160,7 @@
 
 										<label style="margin-top: 20px;" for="inputPassword2" class="form-label"><span
 												style="color: red;">*</span>請輸入新密碼<span class="form-text"
-												style="color: red;">*密碼由英文大小寫加數字共10位組成,不能有空格</span></label>
+												style="color: red;">*密碼由英文大小寫加數字由1~10位組成,不能有空格</span></label>
 										<input type="password" id="inputPassword_2" class="form-control" autocomplete="current-password">
 										<div id="passwordHelpBlock_2" class="form-text" style="color: red;"></div>
 
@@ -187,7 +190,7 @@
 					<!-- 住宿訂單 display: flex; justify-content: center;  -->
 					<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
 						
-						<h3 th:if="${memberRoomOrder==null}">查無資料</h3>
+						<h3 th:if="${memberRoomOrder.isEmpty}">查無資料</h3>
 						<table id="table_memberRoomOrder" class="table table-secondary table-hover">
 							<thead class="table-primary">
 								<tr>
@@ -281,7 +284,7 @@
 
 					<!-- 活動訂單 -->
 					<div class="tab-pane fade" id="nav-contact2" role="tabpanel" aria-labelledby="nav-contact-tab">
-					<h3 th:if="${memberActivityOrder==null}">查無資料</h3>
+					<h3 th:if="${memberActivityOrder.isEmpty}">查無資料</h3>
 						<table id="table_memberActivityOrder" class="table table-secondary table-hover">
 							<thead class="table-primary">
 								<tr>
@@ -371,7 +374,7 @@
 					<!-- 會議廳訂單  th:text="${MeetingRoomOrder.orderNote}" -->
 					<div class="tab-pane fade" id="nav-contact3" role="tabpanel" aria-labelledby="nav-contact-tab">
 
-						<h4 th:if="${memberMeetingRoomOrder==null}">查無資料</h4>
+						<h4 th:if="${memberMeetingRoomOrder.isEmpty}">查無資料</h4>
 
 						<table  id="table_memberMeetingRoomOrder" class="table table-secondary table-hover">
 							<thead class="table-primary">
@@ -450,7 +453,7 @@
 
 					<!-- 餐廳訂位 th:text="${ReserveOrder.orderNote}" -->
 					<div class="tab-pane fade" id="nav-contact4" role="tabpanel" aria-labelledby="nav-contact-tab">
-						<h4 th:if="${memberReserveOrder==null}">查無資料</h4>
+						<h4 th:if="${memberReserveOrder.isEmpty}">查無資料</h4>
 
 						<table id="table_memberReserveOrder" class="table table-secondary table-hover">
 							<thead class="table-primary">
@@ -718,7 +721,7 @@
 	<!-- Modal 驗證 -->
 	<div class="modal fade" id="memberAuthCode" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
 		aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -727,12 +730,12 @@
 
 
 					<div>
-						<label for="basic-url" class="form-label">您的驗證碼</label>
-						<div id="returnAuthCode">
-							<h1>請按'取得驗證碼'</h1>
-						</div>
+						<div>輸入驗證碼後點擊"確認送出"發送驗證信</div>
+						<div style="margin-top: 15px;">
+						<img id="memberCaptcha" th:src="@{/member/getCode}">
 						<span style="color: red;">*驗正碼有效時間為一分鐘</span>
-						<div class="input-group mb-3">
+						</div>
+						<div style="margin-top: 15px;" class="input-group mb-3">
 
 							<span class="input-group-text" id="basic-addon3">請輸入驗證碼</span>
 							<input type="text" class="form-control" id="inputAuthCode" aria-describedby="basic-addon3">

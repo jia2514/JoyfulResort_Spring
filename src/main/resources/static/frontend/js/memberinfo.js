@@ -16,14 +16,22 @@ $(document).ready(function () {
   // console.log(document.cookie)
   $('#buttonUpData').attr('disabled', true)
   $('#newPassword').attr('disabled', true)
-  
+
   //活動報名後重導致會員專區中的 活動訂單
   let getRedirect = new URL(location.href).searchParams.get('Redirect');
-  console.log(getRedirect)
-  
-  if(getRedirect === "activity"){
-    $('#nav-contact-tab2').click()
+  // console.log(getRedirect)
+
+  switch (getRedirect) {
+    case 'activity':
+      $('#nav-contact-tab2').click()
+      break;
+    case 'emailVerify':
+      alert('信箱驗證成功');
+      break;
+    case 'emailVerifyError':
+      alert('信箱驗證失敗');  
   }
+
 
 })
 
@@ -34,7 +42,18 @@ var address = 0;
 
 //名稱欄位檢查
 $('#memberName').change(function () {
-  $('#buttonUpData').attr('disabled', false)
+
+  let inputName = $('#memberName').val()
+  let regexName = /^[\u4e00-\u9fa5\w]{1,10}$/g
+  if (inputName == "") {
+
+  }
+
+
+
+  if (0 == emailState && 0 == phoneState) {
+    $('#buttonUpData').attr('disabled', false)
+  }
 })
 
 //信箱欄位
@@ -143,21 +162,59 @@ var reader = new FileReader();
 $('#formFile').on('change', function () {
   reader.readAsDataURL(this.files[0]);
   reader.addEventListener('load', function () {
-    let img_html = `<img src="${reader.result}">`;
+    let img_html = `<img class="img-thumbnail" src="${reader.result}">`;
     $('#preview').html(img_html);
   })
-  $('#buttonUpData').attr('disabled', false)
+  if (0 == emailState && 0 == phoneState) {
+    $('#buttonUpData').attr('disabled', false)
+  }
 })
 
 //地址欄位
 $('#memberAddress').change(function () {
-  $('#buttonUpData').attr('disabled', false)
+  if (0 == emailState && 0 == phoneState) {
+    $('#buttonUpData').attr('disabled', false)
+  }
 })
+
+//生日欄位
+$('#memberBirthday').change(function () {
+  if (0 == emailState && 0 == phoneState) {
+    $('#buttonUpData').attr('disabled', false)
+  }
+})
+
+//性別欄位
+$('#memberGender').change(function () {
+  if (0 == emailState && 0 == phoneState) {
+    $('#buttonUpData').attr('disabled', false)
+  }
+})
+//驗證按鈕
+$('#memberState_AuthCode').click(function () {
+  $.get({
+    url: '/redis/getAuthCode',
+    success: function (data) {
+      // console.log(data)
+      let html_AuthCode = `<h1>` + data + `</h1>`;
+
+      $('#returnAuthCode').html(html_AuthCode)
+
+    }
+  })
+})
+
+//更新圖形化驗證碼
+function loadCode() {
+  var url = "/member/getCode?ts=" + new Date().getTime();
+  $('#memberCaptcha').attr("src", url)
+}
 
 //取得驗證碼
 $('#getAuthCode').click(function () {
-  // console.log('OK')
 
+  // console.log('OK')
+  loadCode();
   $.get({
     url: '/redis/getAuthCode',
     success: function (data) {
@@ -194,7 +251,9 @@ $('#checkAuthCode').click(function () {
         case '200':
           $('#errorText').html('');
           $('#cloose_button').click()
-          $('#div_button_checkAuthCode').html('<button type="button" class="btn btn-success">已驗證</button>')
+          alert('驗證信寄送成功')
+
+
           break;
         case '400':
           $('#errorText').html('驗證碼有誤，請重新輸入');

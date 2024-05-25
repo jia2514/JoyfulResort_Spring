@@ -20,19 +20,21 @@ import com.joyfulresort.so.activityorder.model.ActivityOrderVO;
 public class MemberService {
 
 	@Autowired
-	MemberRepository repository;
+	private MemberRepository repository;
 
 	@Autowired
 	private RoomOrderRepository reRoomOrder;
 
 	@Autowired
-	ActivityOrderRepository AOrepository;
+	private ActivityOrderRepository AOrepository;
 
 	@Autowired
 	private MeetingRoomOrderRepository MROrepository;
 
 	@Autowired
 	private ResRepository Resrepository;
+	
+	
 
 	// 所有會員資料
 	public List<MemberVO> getAll() {
@@ -212,6 +214,11 @@ public class MemberService {
 		MemberVO setMember =member.get();
 		setMember.setMemberPassword(authCode);
 		repository.save(setMember);
+		return member.get();
+	}
+
+	public MemberVO findMemberByMail(String memberEmail) {
+		Optional<MemberVO> member = repository.findByMail(memberEmail);
 		return member.get();
 	}
 
