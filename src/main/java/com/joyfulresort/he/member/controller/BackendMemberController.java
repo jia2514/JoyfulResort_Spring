@@ -21,7 +21,7 @@ import com.joyfulresort.he.member.model.MemberVO;
 
 @Controller
 @RequestMapping("/backend/member")
-public class MemberController {
+public class BackendMemberController {
 
 	@Autowired
 	MemberService memSvc;

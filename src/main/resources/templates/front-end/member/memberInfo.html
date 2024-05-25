@@ -721,7 +721,7 @@
 	<!-- Modal 驗證 -->
 	<div class="modal fade" id="memberAuthCode" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
 		aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -730,7 +730,7 @@
 
 
 					<div>
-						<div>您的驗證碼</div>
+						<div>輸入驗證碼後點擊"確認送出"發送驗證信</div>
 						<div style="margin-top: 15px;">
 						<img id="memberCaptcha" th:src="@{/member/getCode}">
 						<span style="color: red;">*驗正碼有效時間為一分鐘</span>

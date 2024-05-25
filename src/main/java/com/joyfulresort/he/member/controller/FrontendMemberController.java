@@ -3,6 +3,7 @@ package com.joyfulresort.he.member.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.joyfulresort.he.javamail.model.MaileService;
 import com.joyfulresort.he.member.model.MemberService;
 import com.joyfulresort.he.member.model.MemberVO;
 import com.joyfulresort.jia.roomorder.model.RoomOrder;
@@ -33,6 +35,9 @@ import com.joyfulresort.so.activityorder.model.ActivityOrderVO;
 public class FrontendMemberController {
 
 	@Autowired
+	MaileService mail;
+
+	@Autowired
 	MemberService memSvc;
 
 	@Autowired
@@ -42,7 +47,7 @@ public class FrontendMemberController {
 	@GetMapping("/memberinfo")
 	public String memberInfo(HttpSession session, Model model) {
 		// 會員個人資料
-		Integer memberID = Integer.valueOf((String) session.getAttribute("memberID")) ; // 取得session內的值
+		Integer memberID = Integer.valueOf((String) session.getAttribute("memberID")); // 取得session內的值
 		MemberVO mem = memSvc.getOneMember(memberID); // 查找會員資料
 		model.addAttribute("memberData", mem); // 轉交
 
@@ -184,20 +189,20 @@ public class FrontendMemberController {
 		model.addAttribute("memberData", newMember);
 //		System.out.println(newMember.getMemberId());
 		session.setAttribute("memberID", String.valueOf(newMember.getMemberId()));// 帳號密碼正確 存入Session 紀錄登入狀態
-		
-		Cookie cookie = new Cookie("LogInState", "200"); // 寫入Cookie 紀錄登入狀態 給預覽器判斷			
-		cookie.setMaxAge(3600); //設定 cookie 存活時間 單位為秒
+
+		Cookie cookie = new Cookie("LogInState", "200"); // 寫入Cookie 紀錄登入狀態 給預覽器判斷
+		cookie.setMaxAge(3600); // 設定 cookie 存活時間 單位為秒
 		cookie.setPath("/"); // 確保 Cookie 在整個應用程式都可使用
 		Cookie id = new Cookie("MemberID", String.valueOf(newMember.getMemberId()));
 		id.setMaxAge(3600);
 		id.setPath("/"); // 確保 Cookie 在整個應用程式都可使用
 		res.addCookie(id);
 		res.addCookie(cookie);
-		
+
 		return "redirect:/";
 	}
 
-	// 檢查驗證碼
+	// 檢查驗證碼(寄送驗證信)
 	@PostMapping("/checkAuthCode")
 	@ResponseBody
 	public void checkAuthCode(HttpServletRequest req, HttpServletResponse res) throws IOException {
@@ -207,9 +212,10 @@ public class FrontendMemberController {
 //		System.out.println("用戶輸入:"+inputAuthCode);
 		// 取得用戶ID
 		String id = req.getParameter("MemberID");
+		MemberVO member = memSvc.getOneMember(Integer.valueOf(id));
 //		System.out.println("ID:"+id);
 		// 取得Redis內驗證碼
-		String authCode = redis.opsForValue().get("AuthCode");
+		String authCode = redis.opsForValue().get("memberCaptcha");
 //		System.out.println("redis資料:"+authCode);
 
 		JSONObject obj = new JSONObject();
@@ -218,7 +224,15 @@ public class FrontendMemberController {
 			res.getWriter().print(obj);
 		} else if (inputAuthCode.equals(authCode)) { // 輸入正確
 
-			memSvc.memberStateUpData(Integer.valueOf(id)); // 檢查會員狀態並修改狀態
+			// 產生驗證碼
+			RedisController AuthCode = new RedisController();
+			String emailVerifCode = AuthCode.returnAuthCode();
+
+//			mail.sendSimpleMail();
+			redis.opsForValue().set("emailVerif", emailVerifCode, 3, TimeUnit.MINUTES);
+			mail.sendMimeMail(emailVerifCode, member.getMemberEmail());
+
+//			memSvc.memberStateUpData(Integer.valueOf(id)); // 檢查會員狀態並修改狀態
 
 			obj.put("checkAuthCode", "200");
 			res.getWriter().print(obj);
@@ -275,100 +289,117 @@ public class FrontendMemberController {
 		System.out.println(CancelOrder);
 		switch (CancelOrder) {
 		case "activity":
-			Integer activityOrderID =Integer.valueOf(req.getParameter("activityOrderID")); 
+			Integer activityOrderID = Integer.valueOf(req.getParameter("activityOrderID"));
 //			System.out.println(OrderID);
-			//取消活動訂單
+			// 取消活動訂單
 			memSvc.activityCancelOrder(activityOrderID);
 
 			res.getWriter().print(true);
 			break;
 		case "meetingRoom":
-			Integer MeetingRoomOrderID =Integer.valueOf(req.getParameter("MeetingRoomOrderID")); 
+			Integer MeetingRoomOrderID = Integer.valueOf(req.getParameter("MeetingRoomOrderID"));
 //			System.out.println(MeetingRoomOrderID);
-			
-			//取消會議廳訂單
+
+			// 取消會議廳訂單
 			memSvc.meetingRoomCancelOrder(MeetingRoomOrderID);
-			
+
 			res.getWriter().print(true);
 			break;
 		case "ReserveOrder":
-			Integer ReserveOrderID =Integer.valueOf(req.getParameter("ReserveOrderID")); 
+			Integer ReserveOrderID = Integer.valueOf(req.getParameter("ReserveOrderID"));
 //			System.out.println(ReserveOrderID);
-			
-			//取消餐廳訂單
+
+			// 取消餐廳訂單
 			memSvc.ReserveCancelOrder(ReserveOrderID);
 			res.getWriter().print(true);
 			break;
 		case "RoomOrder":
-			Integer RoomOrderID =Integer.valueOf(req.getParameter("RoomOrderID")); 
+			Integer RoomOrderID = Integer.valueOf(req.getParameter("RoomOrderID"));
 //			System.out.println(RoomOrderID);
-			
-			//取消住宿訂單
+
+			// 取消住宿訂單
 			memSvc.RoomCancelOrder(RoomOrderID);
 			res.getWriter().print(true);
 			break;
 		}
 	}
-	
-	//忘記密碼
+
+	// 忘記密碼
 	@PostMapping("/forgetPassword")
 	public void forgetPassword(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		res.setContentType("application/json; charset=UTF-8");
-		//取得資料
+		// 取得資料
 		String inuptMail = req.getParameter("inputEmail");
-		String inputAuthCode =  req.getParameter("authCode");
+		String inputAuthCode = req.getParameter("authCode");
 //		System.out.println(inuptMail);
 //		System.out.println(inputAuthCode);
-		
-		//檢查資料庫信箱
+
+		// 檢查資料庫信箱
 		Boolean email = memSvc.checkEmail(inuptMail);
-		
+
 		JSONObject obj = new JSONObject();
 //		System.out.println(email);
-		//檢查有無信箱
-		if(email) {
-			//檢查驗證碼 取得Redis內驗證碼
+		// 檢查有無信箱
+		if (email) {
+			// 檢查驗證碼 取得Redis內驗證碼
 			String authCode = redis.opsForValue().get("memberCaptcha");
-			if(authCode==null) {
+			if (authCode == null) {
 				obj.put("error", "驗證碼過期 請重新取得");
 				res.getWriter().print(obj);
-			} else if(inputAuthCode.equals(authCode)){ //有信箱 驗證碼輸入正確
-				
-				//產生新密碼
-				RedisController AuthCode = new RedisController();			
+			} else if (inputAuthCode.equals(authCode)) { // 有信箱 驗證碼輸入正確
+
+				// 產生新密碼
+				RedisController AuthCode = new RedisController();
 				String authCode2 = AuthCode.returnAuthCode();
-				//修改密碼
+				// 修改密碼
 				MemberVO member = memSvc.findMemberByMail(inuptMail, authCode2);
-				
+
 				String member_name = member.getMemberName();
 				String subject = "密碼更改通知";
 				String messageText = "Hello! " + member_name + "您的密碼已修改 請謹記此密碼: " + authCode2 + "\n" + " (已經啟用)";
-				
-				//寄送新密碼
-				MemberJavaMail mailService = new MemberJavaMail();
+
+				// 寄送新密碼
+				MaileService mailService = new MaileService();
 				mailService.sendMail(inuptMail, subject, messageText);
-				
+
 				obj.put("error", "true");
 				res.getWriter().print(obj);
-				
+
 			} else {
 				obj.put("error", "驗證碼錯誤");
 				res.getWriter().print(obj);
 			}
-			
+
 		} else {
 			obj.put("error", "無此信箱");
 			res.getWriter().print(obj);
+
+		}
+
+	}
+
+	// 信箱驗證
+	@GetMapping("/emailVerify")
+	public String emailVerify(HttpServletRequest req) {
+		String authCode = req.getParameter("AuthCode");
+		String memberEmail = req.getParameter("memberEmail");
+//		System.out.println(authCode);
+//		System.out.println(memberEmail);
+		
+		// 檢查驗證碼 取得Redis內驗證碼
+		String redisAuthCode = redis.opsForValue().get("emailVerif");
+//		System.out.println(redisAuthCode);
+		
+		if(redisAuthCode.equals(authCode)) {
+			MemberVO mem = memSvc.findMemberByMail(memberEmail);
+					
+			memSvc.memberStateUpData(mem.getMemberId()); // 檢查會員狀態並修改狀態
+			return "redirect:/joyfulresort/member/memberinfo?Redirect=emailVerify";
 			
 		}
 
-		
+//		System.out.println("收到");
+		return "redirect:/joyfulresort/member/memberinfo?Redirect=emailVerifyError";
 	}
-	
-	
-	
-	
-	
-	
 
 }
