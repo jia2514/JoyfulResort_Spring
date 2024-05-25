@@ -118,7 +118,7 @@
 }
 /* Modal 樣式 */
 #cartModal .modal-dialog {
-    max-width: 300px; /* 設置最大寬度 */
+    max-width: 600px; /* 設置最大寬度 */
     margin: 1.75rem auto; /* 上下居中 */
 }
 
@@ -234,6 +234,6 @@
 
 /* 總價文字樣式 */
 #total-price {
-    color: #d9534f;
+    color: black;
     font-weight: bold;
 }

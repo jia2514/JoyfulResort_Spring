@@ -30,25 +30,7 @@
         .header {
             box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
         }
-        #backToTopBtn {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            border: none;
-            outline: none;
-            background-color: #000;
-            color: white;
-            cursor: pointer;
-            padding: 15px;
-            opacity: 0.5; /* 設置透明度，值越小越透明 */
-            transition: opacity 0.3s; /* 添加過渡效果 */
-        }
 
-        #backToTopBtn:hover {
-            background-color: #555; /* 當鼠標懸停時變成深灰色 */
-        }
     </style>
 </head>
 
@@ -121,7 +103,7 @@
 
                                 <li class="nav-item">
                                     <div th:switch="${session.memberID==null}">
-                                        <a th:case="true" class="nav-link fw-bold nav-link-custom"  th:href="@{/joyfulresort}" id="memberField">會員專區</a>
+                                        <a th:case="true" class="nav-link fw-bold nav-link-custom"  th:href="@{/spotnews}" id="memberField">會員專區</a>
                                         <a th:case="false" class="nav-link fw-bold nav-link-custom"  th:href="@{/joyfulresort/member/memberinfo}" id="memberField_2">會員專區</a>
                                     </div>
                                 </li>
@@ -148,7 +130,7 @@
 <!-- Modal  登入彈窗 -->
 <div class="modal fade" id="memberLogin" tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header"></div>
             <div class="modal-body"
@@ -171,15 +153,12 @@
                                            style="padding-top: 2rem; padding-bottom: 2rem">
                                 </div>
 
-                                <span id="AccountErrorMessage" style="color: red;"></span>
-
                                 <div class="input-group mb-3">
                                     <input type="Password" id="userPassword" name="userPassword"
                                            class="form-control" placeholder="密碼"
                                            style="padding-top: 2rem; padding-bottom: 2rem">
                                 </div>
 
-                                <span id="PasswordErrorMessage" style="color: red;"></span>
                                 <div class="form-check" style="float: left">
                                     <input class="form-check-input" type="checkbox" name="rememberMe" value="" id="rememberMe">
                                     <label class="form-check-label" for="rememberMe">記住我</label>
@@ -208,6 +187,66 @@
     </div>
 </div>
 
+<!-- 忘記密碼 -->
+
+<div class="modal fade" id="forgetPassword" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div style="text-align: center;">
+                    <h1 style="color: rgb(0, 174, 255);">
+                        <b>JoyfulResort</b>
+                    </h1>
+                    <h4 class="card-title">
+                        <b>忘記密碼</b>
+                    </h4>
+                    <form>
+                        <div class="input-group mb-3"
+                             style="width: 100%; height: 60%; display: flex; align-items: center; justify-content: space-around;">
+
+                            <div style="width: 80%;">
+                                <div class="input-group mb-3">
+                                    <input type="Email" id="forgetPassword_inputEmali" name="forgetPassword_Emali" class="form-control"
+                                           placeholder="請輸入您的電子信箱"
+                                           style="padding-top: 2rem; padding-bottom: 2rem">
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <input type="text" id="forgetPassword_inPutAuthCode" name="userPassword"
+                                           class="form-control" placeholder="驗證碼"
+                                           style="padding-top: 2rem; padding-bottom: 2rem">
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <img id="forgetPassword_memberCaptcha" th:src="@{/member/getCode}">
+                                <button style="margin-top: 20px;" id="forgetPassword_getAuthCode" type="button" class="btn btn-info mb-3">重新取得驗證碼</button>
+                            </div>
+
+                        </div>
+
+                        <div style="margin-top: 25px;">
+                            <p style="color: red;">*驗正碼有效時間為一分鐘</p>
+                            <button type="button" id="Button_forgetPassword" class="btn btn-outline-primary"
+                                    style="width: 70%; padding-top: 1rem; padding-bottom: 1rem">送出</button>
+                            <div id="Error_forgetPassword" style="color: red;"></div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="back_Login" class="btn btn-primary" data-bs-target="#memberLogin" data-bs-toggle="modal">返回登入</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <section class="banner_main" style="max-height: 650px; position: relative; top: -100px">
     <div id="carouselExampleFade" class="carousel slide carousel-fade h-100">
@@ -231,7 +270,7 @@
 <div class="container" id="target" style="margin-top: -50px">
     <nav style="--bs-breadcrumb-divider: '----'; font-size: smaller;" aria-label="breadcrumb">
         <ol class="breadcrumb justify-content-center">
-            <li class="breadcrumb-item google-icon"><a href="#" style="color: #847674; font-size: smaller;"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="24" style="margin-top: -5px;"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>首頁</a></li>
+            <li class="breadcrumb-item google-icon"><a th:href="@{/}" style="color: #847674; font-size: smaller;"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="24" style="margin-top: -5px;"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>首頁</a></li>
             <li class="breadcrumb-item active" aria-current="page" style="font-size: smaller;">最新消息</li>
         </ol>
     </nav>
@@ -260,7 +299,25 @@
 
             <div class="col-md-5" th:classappend="${iterStat.index % 2 == 0} ? 'order-md-1' : ''">
                 <div class="about_img w-100" th:data-aos="${iterStat.index % 2 == 0} ? 'zoom-in-right' : 'zoom-in-left'" data-aos-duration="1000">
-                    <figure><img th:src="@{/spotnews/images/{spotNewsId}(spotNewsId=${news.spotNewsId})}" alt="#" /></figure>
+                    <figure>
+                        <a class="image-container" th:href="@{'/spotnews/content/' + ${news.spotNewsId}}">
+                            <img th:src="@{/spotnews/images/{spotNewsId}(spotNewsId=${news.spotNewsId})}" alt="#" />
+                            <div class="overlay">
+                                <svg viewBox="0 0 100 100" class="circle-text">
+                                    <g id="arrow" transform="translate(40, 50)" class="arrow">
+                                        <line x1="-10" y1="0" x2="10" y2="0" stroke="white" stroke-width="2" />
+                                        <polygon points="10,-5 15,0 10,5" fill="white" />
+                                    </g>
+                                    <path id="circle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
+                                    <text>
+                                        <textPath style="font-size: smaller" xlink:href="#circle">
+                                            SHOW MORE&nbsp;SHOW &nbsp;MORE&nbsp;SHOW MORE&nbsp;SHOW MORE&nbsp;
+                                        </textPath>
+                                    </text>
+                                </svg>
+                            </div>
+                        </a>
+                    </figure>
                 </div>
             </div>
         </div>
@@ -297,7 +354,7 @@
             if ($(window).scrollTop() > 450) {
                 header.addClass('scrolled');
                 links.addClass('scrolled');
-                logo.attr('src', '/frontend/images/JoyfulResort5.png');
+                logo.attr('src', '/frontend/images/JoyfulResort2.png');
             } else {
                 header.removeClass('scrolled');
                 links.removeClass('scrolled');
