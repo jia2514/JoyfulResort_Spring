@@ -24,10 +24,10 @@ public class MaileService {
 	@Autowired
 	private JavaMailSender sender;
 	
-    @Autowired
-    public MaileService(@Qualifier("getJavaMailSender") JavaMailSender mailSender) {
-    	sender = mailSender;
-    }
+//    @Autowired
+//    public MaileService(@Qualifier("getJavaMailSender") JavaMailSender mailSender) {
+//    	sender = mailSender;
+//    }
 
 	private String subject = "郵件標題:Spring boot mail test";
 	private String content = "郵件內容: 測試郵件";
