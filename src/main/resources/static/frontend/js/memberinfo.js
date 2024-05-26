@@ -29,7 +29,7 @@ $(document).ready(function () {
       alert('信箱驗證成功');
       break;
     case 'emailVerifyError':
-      alert('信箱驗證失敗');  
+      alert('信箱驗證失敗');
   }
 
 
@@ -514,8 +514,21 @@ $('#table_memberReserveOrder').tablepage($('#table_memberReserveOrder_page'), 3)
 //住房訂單取消
 var RoomOrderID;
 var RoomOrder_tr_children;
+var dates
 $(document).on('click', '#RoomOrder', function () {
-  // console.log('KKO')
+  //取得現在時間
+  var now = new Date();
+
+  var year = now.getFullYear(), month = (now.getMonth() + 1).toString(), day = now.getDate().toString();
+  if (month.length == 1) {
+    month = '0' + month;
+  }
+  if (day.length == 1) {
+    day = '0' + day;
+  }
+  dates=([year, month, day ]).join('-');
+  console.log(dates)
+
   //取得本列表格(tr)資訊
   let tr = null;
   tr = this.closest('tr');
@@ -535,19 +548,20 @@ $(document).on('click', '#RoomOrder', function () {
 
 $('#makeSureRoomOrder').click(function () {
   //  console.log('OKKO')
-
+  
   $.post({
     url: '/joyfulresort/member/CancelOrder',
     data: {
       'CancelOrder': 'RoomOrder',
-      'RoomOrderID': RoomOrderID
+      'RoomOrderID': RoomOrderID,
+      'nowTime': dates
     },
     datatype: 'json',
     success: function (data) {
       if (data) {
-        console.log('OKKKKK')
-        $(RoomOrder_tr_children[5]).html('<span>取消中</span>')
-        $(RoomOrder_tr_children[6]).html('<span>退款中</span>')
+        // console.log('OKKKKK')
+        $(RoomOrder_tr_children[5]).html('<span>取消</span>')
+        $(RoomOrder_tr_children[6]).html('<span style="color: #ff4800ad;">退款中</span>')
         $(RoomOrder_tr_children[7]).html('<button id="RoomOrder_disabled" type="button" class="btn btn-outline-secondary" disabled>取消訂單</button>')
       }
     }

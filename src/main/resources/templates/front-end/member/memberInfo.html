@@ -223,9 +223,9 @@
 										<span th:case="4">入住中</span>
 									</td>
 									<td th:switch="${RoomOrder.refundState}">
-										<span th:case="0">無退款</span>
-										<span th:case="1">退款中</span>
-										<span th:case="2">退款完成</span>
+										<span style="color: #0d6efd;" th:case="0">無退款</span>
+										<span style="color: #ff4800ad;" th:case="1">退款中</span>
+										<span style="color: #198754;" th:case="2">退款完成</span>
 									</td>
 									<td>
 										<th:block th:if="${RoomOrder.roomOrderState==1}">
@@ -690,10 +690,8 @@
 					<p>感謝您選擇我們飯店。為了保障您的權益及我們的服務品質，我們制定了以下取消住房訂單須知。請您仔細閱讀並遵守</p>
 					
 					<h5>訂單取消：</h5>
-					
-					<p>距入住日期超過14天取消，將全額退還已支付的房費，不收取任何取消費用。</p>
-					<p>距入住日期4至14天取消，將退還已支付房費的50%。</p>
-					<p>距入住日期不足3天取消，已支付的房費將不予退還。</p>
+
+					<p>距訂房日期不足3天取消，已支付的費用將不予退還。</p>
 					
 					<h5>訂單更改：</h5>
 					<p>如需更改入住日期或房型，請至少提前7天通知我們，我們將盡力協助重新安排，但不保證能夠滿足您的需求。。</p>
