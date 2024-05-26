@@ -129,10 +129,10 @@ color:red;
 			</div>
 			
 			<div>
-			<p><label>房型數量:</label><p>
-			<input type="text" th:field="*{roomTypeAmount}" onclick="hideContent('roomTypeAmount.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('roomTypeAmount')}" th:errors="*{roomTypeAmount}" class="error" id="roomTypeAmount.errors"></span>
-			</div>
+    <p><label>房型數量:</label><p>
+    <input type="text" value="1" readonly /><br/>
+    <input type="hidden" name="roomTypeAmount" value="1" />
+</div>
 
 			<div>
 			<p><label>房型說明:</label><p>
