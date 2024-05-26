@@ -163,7 +163,8 @@ public class ActivitySessionController {
 			int asID = asVO.getActivitySessionID();
 			String asName = asVO.getActivityVO().getActivityName();
 			Date asDate = asVO.getActivityDate();
-			int asTotal = asVO.getEnteredTotal();
+			// 讀取redis裡ActivitySessionID的報名人數
+			int asTotal = redisService.getEnteredTotal(String.valueOf(asID));
 			int asMax = asVO.getActivityMaxPart();
 			byte asTime = asVO.getActivityTime();
 			

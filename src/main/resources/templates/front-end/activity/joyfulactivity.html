@@ -257,7 +257,7 @@
 			            //console.log(eventName);
 			            eventDate = obj.asDate;
 			            //console.log(eventDate);
-			            //total = (parseInt(obj.asMax) - parseInt(obj.asTotal));
+			            total = (parseInt(obj.asMax) - parseInt(obj.asTotal));
 			            
 			            eventTime = parseInt(obj.asTime);
 			            // console.log(eventTime);
@@ -268,7 +268,7 @@
 			            // 從後端獲取的資料以FullCalendar的形式儲存
 			            event = {
 			            	groupId: eventId,
-			                title: eventName + ' (' + timeDescription + ')',
+			                title: eventName + ' (' + timeDescription + ') 剩' + total,
 			                start: eventDate,
 			                backgroundColor: 'transparent',
 			                borderColor: 'transparent',
