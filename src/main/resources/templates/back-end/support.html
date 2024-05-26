@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket 客服聊天室</title>
+    <style>
+        .chat-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .message {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            max-width: 60%;
+        }
+        .message.left {
+            background-color: #f1f1f1;
+            text-align: left;
+        }
+        .message.right {
+            background-color: #dcf8c6;
+            text-align: right;
+            margin-left: auto;
+        }
+        .timestamp {
+            font-size: 0.8em;
+            color: #888;
+            display: block;
+        }
+    </style>
+    <script>
+        var ws;
+        function connect() {
+            var userName = "host"; // 固定客服人员用户名
+            ws = new WebSocket("ws://localhost:8080/chat/" + userName);
+
+            ws.onmessage = function(event) {
+                var message = JSON.parse(event.data);
+                var chatArea = document.getElementById("chatArea");
+
+                var messageElement = document.createElement("div");
+                messageElement.classList.add("message");
+                messageElement.textContent = message.sender + ": " + message.message;
+
+                var timestampElement = document.createElement("span");
+                timestampElement.classList.add("timestamp");
+                timestampElement.textContent = new Date(message.timestamp).toLocaleString();
+
+                messageElement.appendChild(timestampElement);
+
+                if (message.sender === userName) {
+                    messageElement.classList.add("right");
+                } else {
+                    messageElement.classList.add("left");
+                }
+
+                chatArea.appendChild(messageElement);
+                chatArea.scrollTop = chatArea.scrollHeight; // 自动滚动到最新消息
+            };
+
+            ws.onclose = function() {
+                alert("连接已关闭");
+            };
+
+            ws.onerror = function() {
+                alert("发生错误");
+            };
+        }
+
+        function sendMessage() {
+            var receiver = document.getElementById("receiver").value; // 指定接收者
+            var message = document.getElementById("message").value;
+            var msg = {
+                type: "message",
+                sender: "host",
+                receiver: receiver,
+                message: message,
+                timestamp: new Date().toISOString()
+            };
+            ws.send(JSON.stringify(msg));
+            document.getElementById("message").value = '';
+        }
+    </script>
+</head>
+<body onload="connect()">
+    <div class="chat-container">
+        <div id="chatArea" style="height: 400px; overflow-y: scroll;"></div>
+        <div>
+            <label for="receiver">接收者:</label>
+            <input type="text" id="receiver" />
+            <input type="text" id="message" />
+            <button onclick="sendMessage()">发送</button>
+        </div>
+    </div>
+</body>
+</html>
