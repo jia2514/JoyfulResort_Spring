@@ -138,7 +138,7 @@ public class FrontendMemberController {
 		String inputBirthday = req.getParameter("memberBirthday");
 		String ID = String.valueOf(MemberID);
 
-		System.out.println(img[0].isEmpty());
+//		System.out.println(img[0].isEmpty());
 
 		if (!img[0].isEmpty()) {
 //			System.out.println("img不為空");
@@ -150,7 +150,7 @@ public class FrontendMemberController {
 			MemberVO upUserData = memSvc.upUserData(ID, inputName, inputEmail, inputPhone, inputAddrsee, inputBirthday);
 			// 轉交
 			model.addAttribute("memberData", upUserData);
-			return "redirect:/joyfulresort/member/memberinfo";
+			return "redirect:/joyfulresort/member/memberinfo?Redirect=UpData";
 
 		} else {
 //			System.out.println("img為空");
@@ -158,7 +158,7 @@ public class FrontendMemberController {
 			MemberVO upUserData = memSvc.upUserData(ID, inputName, inputEmail, inputPhone, inputAddrsee, inputBirthday);
 			// 轉交
 			model.addAttribute("memberData", upUserData);
-			return "redirect:/joyfulresort/member/memberinfo";
+			return "redirect:/joyfulresort/member/memberinfo?Redirect=UpData";
 		}
 	}
 
@@ -286,7 +286,8 @@ public class FrontendMemberController {
 	@ResponseBody
 	public void CancelOrder(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		res.setContentType("application/json; charset=UTF-8");
-
+		JSONObject obj = new JSONObject();
+		
 		String CancelOrder = req.getParameter("CancelOrder");
 //		System.out.println(CancelOrder);
 		switch (CancelOrder) {
@@ -296,7 +297,11 @@ public class FrontendMemberController {
 			// 取消活動訂單
 			memSvc.activityCancelOrder(activityOrderID);
 
-			res.getWriter().print(true);
+			
+
+			obj.put("CancelOrder", true);
+			res.getWriter().print(obj);
+
 			break;
 		case "meetingRoom":
 			Integer MeetingRoomOrderID = Integer.valueOf(req.getParameter("MeetingRoomOrderID"));
@@ -305,7 +310,9 @@ public class FrontendMemberController {
 			// 取消會議廳訂單
 			memSvc.meetingRoomCancelOrder(MeetingRoomOrderID);
 
-			res.getWriter().print(true);
+			obj.put("CancelOrder", true);
+			res.getWriter().print(obj);
+			
 			break;
 		case "ReserveOrder":
 			Integer ReserveOrderID = Integer.valueOf(req.getParameter("ReserveOrderID"));
@@ -313,12 +320,15 @@ public class FrontendMemberController {
 
 			// 取消餐廳訂單
 			memSvc.ReserveCancelOrder(ReserveOrderID);
-			res.getWriter().print(true);
+			
+			obj.put("CancelOrder", true);
+			res.getWriter().print(obj);
+			
 			break;
 		case "RoomOrder":
 			Calendar nowTimeCalendar = new GregorianCalendar();// Date 日期加減需要使用 Calendar抽象類 實作GregorianCalendar
-			Calendar calendar = new GregorianCalendar(); 
-			
+			Calendar calendar = new GregorianCalendar();
+
 			Integer RoomOrderID = Integer.valueOf(req.getParameter("RoomOrderID"));
 			Date nowTime = Date.valueOf(req.getParameter("nowTime"));
 			nowTimeCalendar.setTime(nowTime);
@@ -340,11 +350,21 @@ public class FrontendMemberController {
 			// 取消住宿訂單
 			if (calendar.before(nowTimeCalendar)) { // 不退款
 				memSvc.RoomCancelOrder(RoomOrderID, (byte) 0);
+				
+				obj.put("CancelOrder", true);
+				obj.put("refund", true);
+				res.getWriter().print(obj);
+				
+				
 			} else { // 退款
 				memSvc.RoomCancelOrder(RoomOrderID, (byte) 1);
+				
+				obj.put("CancelOrder", true);
+				obj.put("refund", false);
+				res.getWriter().print(obj);
 			}
+
 			
-			res.getWriter().print(true);
 			break;
 		}
 	}
