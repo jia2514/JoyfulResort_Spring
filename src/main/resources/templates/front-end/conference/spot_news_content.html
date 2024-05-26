@@ -66,7 +66,7 @@
                         <div class="center-desk">
                             <div class="logo">
                                 <a th:href="@{/}">
-                                    <img id="logo" src="/frontend/images/JoyfulResort5.png" alt="">
+                                    <img id="logo" src="/frontend/images/JoyfulResort2.png" alt="">
                                 </a>
                             </div>
                         </div>
@@ -143,7 +143,7 @@
 <!-- Modal  登入彈窗 -->
 <div class="modal fade" id="memberLogin" tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header"></div>
             <div class="modal-body"
@@ -166,15 +166,12 @@
                                            style="padding-top: 2rem; padding-bottom: 2rem">
                                 </div>
 
-                                <span id="AccountErrorMessage" style="color: red;"></span>
-
                                 <div class="input-group mb-3">
                                     <input type="Password" id="userPassword" name="userPassword"
                                            class="form-control" placeholder="密碼"
                                            style="padding-top: 2rem; padding-bottom: 2rem">
                                 </div>
 
-                                <span id="PasswordErrorMessage" style="color: red;"></span>
                                 <div class="form-check" style="float: left">
                                     <input class="form-check-input" type="checkbox" name="rememberMe" value="" id="rememberMe">
                                     <label class="form-check-label" for="rememberMe">記住我</label>
@@ -199,6 +196,66 @@
                 </div>
             </div>
             <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+<!-- 忘記密碼 -->
+
+<div class="modal fade" id="forgetPassword" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div style="text-align: center;">
+                    <h1 style="color: rgb(0, 174, 255);">
+                        <b>JoyfulResort</b>
+                    </h1>
+                    <h4 class="card-title">
+                        <b>忘記密碼</b>
+                    </h4>
+                    <form>
+                        <div class="input-group mb-3"
+                             style="width: 100%; height: 60%; display: flex; align-items: center; justify-content: space-around;">
+
+                            <div style="width: 80%;">
+                                <div class="input-group mb-3">
+                                    <input type="Email" id="forgetPassword_inputEmali" name="forgetPassword_Emali" class="form-control"
+                                           placeholder="請輸入您的電子信箱"
+                                           style="padding-top: 2rem; padding-bottom: 2rem">
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <input type="text" id="forgetPassword_inPutAuthCode" name="userPassword"
+                                           class="form-control" placeholder="驗證碼"
+                                           style="padding-top: 2rem; padding-bottom: 2rem">
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <img id="forgetPassword_memberCaptcha" th:src="@{/member/getCode}">
+                                <button style="margin-top: 20px;" id="forgetPassword_getAuthCode" type="button" class="btn btn-info mb-3">重新取得驗證碼</button>
+                            </div>
+
+                        </div>
+
+                        <div style="margin-top: 25px;">
+                            <p style="color: red;">*驗正碼有效時間為一分鐘</p>
+                            <button type="button" id="Button_forgetPassword" class="btn btn-outline-primary"
+                                    style="width: 70%; padding-top: 1rem; padding-bottom: 1rem">送出</button>
+                            <div id="Error_forgetPassword" style="color: red;"></div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="back_Login" class="btn btn-primary" data-bs-target="#memberLogin" data-bs-toggle="modal">返回登入</button>
+            </div>
         </div>
     </div>
 </div>

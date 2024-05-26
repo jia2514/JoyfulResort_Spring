@@ -103,7 +103,7 @@
 
                                 <li class="nav-item">
                                     <div th:switch="${session.memberID==null}">
-                                        <a th:case="true" class="nav-link fw-bold nav-link-custom"  th:href="@{/joyfulresort}" id="memberField">會員專區</a>
+                                        <a th:case="true" class="nav-link fw-bold nav-link-custom"  th:href="@{/conference}" id="memberField">會員專區</a>
                                         <a th:case="false" class="nav-link fw-bold nav-link-custom"  th:href="@{/joyfulresort/member/memberinfo}" id="memberField_2">會員專區</a>
                                     </div>
                                 </li>
@@ -214,7 +214,7 @@
 <div class="container" id="target" style="margin-top: -50px">
     <nav style="--bs-breadcrumb-divider: '----'; font-size: smaller;" aria-label="breadcrumb">
         <ol class="breadcrumb justify-content-center">
-            <li class="breadcrumb-item google-icon"><a th:href="@{/joyfulresort}" style="color: #847674; font-size: smaller;"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="24" style="margin-top: -5px;"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>首頁</a></li>
+            <li class="breadcrumb-item google-icon"><a th:href="@{/}" style="color: #847674; font-size: smaller;"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="24" style="margin-top: -5px;"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>首頁</a></li>
             <li class="breadcrumb-item active" aria-current="page" style="font-size: smaller;">會議</li>
         </ol>
     </nav>
@@ -391,7 +391,7 @@
             if ($(window).scrollTop() > 450) {
                 header.addClass('scrolled');
                 links.addClass('scrolled');
-                logo.attr('src', '/frontend/images/JoyfulResort5.png');
+                logo.attr('src', '/frontend/images/JoyfulResort2.png');
             } else {
                 header.removeClass('scrolled');
                 links.removeClass('scrolled');

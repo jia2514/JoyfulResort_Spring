@@ -23,7 +23,9 @@
     <link rel="stylesheet" href="/frontend/css/order.css">
     <style>
 
-
+        .modal-content {
+            border-radius: 0 !important;
+        }
     </style>
 </head>
 
@@ -49,7 +51,7 @@
                         <div class="center-desk">
                             <div class="logo">
                                 <a th:href="@{/}">
-                                    <img src="/frontend/images/JoyfulResort5.png" alt="">
+                                    <img src="/frontend/images/JoyfulResort2.png" alt="">
                                 </a>
                             </div>
                         </div>
@@ -81,7 +83,14 @@
 
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link fw-bold position-relative" style="color: black"
+                                    <div th:switch="${session.memberID==null}">
+                                    <a th:case="true" data-bs-toggle="modal" data-bs-target="#memberLogin" class="nav-link fw-bold nav-link-custom"  th:href="@{/conference/order}" onclick="alert('請先登入')"><svg class="header-icon" xmlns="http://www.w3.org/2000/svg"
+                                                                                                                                                     style="margin-top: -3px" height="20" viewBox="0 -960 960 960" width="24"
+                                                                                                                                                     fill="#5f6368">
+                                        <path d="M186.67-813.33V-537.67-540v393.33-666.66 190.66-190.66Zm92.66 400h170q10.34-19 23.34-35.67T502-480H279.33v66.67Zm0 166.66h146.34Q422-263.33 420.5-280q-1.5-16.67-.17-33.33h-141v66.66ZM186.67-80q-27 0-46.84-19.83Q120-119.67 120-146.67v-666.66q0-27 19.83-46.84Q159.67-880 186.67-880H534l226 226v136q-15.67-7.33-32.33-12.17-16.67-4.83-34.34-7.5v-85H500.67v-190.66h-314v666.66H477q18.67 22 41.67 38.84Q541.67-91 569-80H186.67ZM660-193.33q45.33 0 76-30.67t30.67-76q0-45.33-30.67-76t-76-30.67q-45.33 0-76 30.67t-30.67 76q0 45.33 30.67 76t76 30.67Zm204 144L756.56-156.67q-20.89 14-45.39 22t-51.17 8q-72.22 0-122.78-50.58-50.55-50.57-50.55-122.83 0-72.25 50.58-122.75 50.57-50.5 122.83-50.5 72.25 0 122.75 50.55 50.5 50.56 50.5 122.78 0 26.67-8 51.17t-22 45.39L910.67-96 864-49.33Z"/>
+                                    </svg>
+                                        訂單查詢</a>
+                                    <a th:case="false" class="nav-link fw-bold position-relative" style="color: black"
                                        th:href="@{/joyfulresort/member/memberinfo}">
                                         <svg class="header-icon" xmlns="http://www.w3.org/2000/svg"
                                              style="margin-top: -3px" height="20" viewBox="0 -960 960 960" width="24"
@@ -89,6 +98,7 @@
                                             <path d="M186.67-813.33V-537.67-540v393.33-666.66 190.66-190.66Zm92.66 400h170q10.34-19 23.34-35.67T502-480H279.33v66.67Zm0 166.66h146.34Q422-263.33 420.5-280q-1.5-16.67-.17-33.33h-141v66.66ZM186.67-80q-27 0-46.84-19.83Q120-119.67 120-146.67v-666.66q0-27 19.83-46.84Q159.67-880 186.67-880H534l226 226v136q-15.67-7.33-32.33-12.17-16.67-4.83-34.34-7.5v-85H500.67v-190.66h-314v666.66H477q18.67 22 41.67 38.84Q541.67-91 569-80H186.67ZM660-193.33q45.33 0 76-30.67t30.67-76q0-45.33-30.67-76t-76-30.67q-45.33 0-76 30.67t-30.67 76q0 45.33 30.67 76t76 30.67Zm204 144L756.56-156.67q-20.89 14-45.39 22t-51.17 8q-72.22 0-122.78-50.58-50.55-50.57-50.55-122.83 0-72.25 50.58-122.75 50.57-50.5 122.83-50.5 72.25 0 122.75 50.55 50.5 50.56 50.5 122.78 0 26.67-8 51.17t-22 45.39L910.67-96 864-49.33Z"/>
                                         </svg>
                                         訂單查詢</a>
+                                    </div>
                                 </li>
 
 
@@ -106,28 +116,30 @@
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <!--             <div class="modal-header">-->
-            <!--                 -->
-            <!--             </div>-->
-            <div class="modal-body">
+            <div class="modal-header d-flex justify-content-start" style="background-color: #f1f1f1">
+                <svg class="header-icon position-relative" style="top: 10px" xmlns="http://www.w3.org/2000/svg"
+                     height="30px" viewBox="0 -960 960 960"
+                     width="30px" fill="#5f6368">
+                    <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/>
+                </svg><span class="fw-bold h4 position-relative" style="margin-top: 13px">購物車</span>
+            </div>
+            <div class="modal-body pt-0 pb-0">
                 <button type="button" class="btn-close justify-content-end" style="margin-top: -40px"
                         data-bs-dismiss="modal" aria-label="Close"></button>
-                <h3 class=" fw-bold mx-auto text-center"><svg class="header-icon" xmlns="http://www.w3.org/2000/svg"
-                                                              height="50px" viewBox="0 -960 960 960"
-                                                              width="50px" fill="#5f6368">
-                    <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/>
-                </svg></h3>
+                <h3 class=" fw-bold mx-auto text-center"></h3>
 
                 <div id="cart-content" class="row d-flex justify-content-center">
 
                 </div>
-                <h5 class="text-end">總價: NT$<span id="total-price">0.00</span></h5>
+                <h5 class="text-end" style=" margin-top: -20px">總價: NT$<span id="total-price">0.00</span></h5>
             </div>
-            <div class="modal-footer justify-content-center">
+            <div class="modal-footer justify-content-end">
                 <button type="button" style="border-radius: 0" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                 <div th:switch="${session.memberID==null}">
-                    <a th:case="true" id="LoginButton" style="color: white; border-radius: 0" data-bs-toggle="modal" data-bs-target="#memberLogin" class="btn btn-primary">結帳</a>
+                    <a th:case="true" id="LoginButton" onclick="alert('請先登入')" style="color: white; border-radius: 0" data-bs-toggle="modal" data-bs-target="#memberLogin" class="btn btn-primary">結帳</a>
+
                     <a th:case="false" style="border-radius: 0" th:href="@{/conference/order/pay}" class="btn btn-primary disabled" id="pay-button">結帳</a>
+
                 </div>
             </div>
         </div>
@@ -135,7 +147,7 @@
 </div>
 <div class="modal fade" id="memberLogin" tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header"></div>
             <div class="modal-body"
@@ -158,15 +170,12 @@
                                            style="padding-top: 2rem; padding-bottom: 2rem">
                                 </div>
 
-                                <span id="AccountErrorMessage" style="color: red;"></span>
-
                                 <div class="input-group mb-3">
                                     <input type="Password" id="userPassword" name="userPassword"
                                            class="form-control" placeholder="密碼"
                                            style="padding-top: 2rem; padding-bottom: 2rem">
                                 </div>
 
-                                <span id="PasswordErrorMessage" style="color: red;"></span>
                                 <div class="form-check" style="float: left">
                                     <input class="form-check-input" type="checkbox" name="rememberMe" value="" id="rememberMe">
                                     <label class="form-check-label" for="rememberMe">記住我</label>
@@ -191,6 +200,66 @@
                 </div>
             </div>
             <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+<!-- 忘記密碼 -->
+
+<div class="modal fade" id="forgetPassword" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div style="text-align: center;">
+                    <h1 style="color: rgb(0, 174, 255);">
+                        <b>JoyfulResort</b>
+                    </h1>
+                    <h4 class="card-title">
+                        <b>忘記密碼</b>
+                    </h4>
+                    <form>
+                        <div class="input-group mb-3"
+                             style="width: 100%; height: 60%; display: flex; align-items: center; justify-content: space-around;">
+
+                            <div style="width: 80%;">
+                                <div class="input-group mb-3">
+                                    <input type="Email" id="forgetPassword_inputEmali" name="forgetPassword_Emali" class="form-control"
+                                           placeholder="請輸入您的電子信箱"
+                                           style="padding-top: 2rem; padding-bottom: 2rem">
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <input type="text" id="forgetPassword_inPutAuthCode" name="userPassword"
+                                           class="form-control" placeholder="驗證碼"
+                                           style="padding-top: 2rem; padding-bottom: 2rem">
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <img id="forgetPassword_memberCaptcha" th:src="@{/member/getCode}">
+                                <button style="margin-top: 20px;" id="forgetPassword_getAuthCode" type="button" class="btn btn-info mb-3">重新取得驗證碼</button>
+                            </div>
+
+                        </div>
+
+                        <div style="margin-top: 25px;">
+                            <p style="color: red;">*驗正碼有效時間為一分鐘</p>
+                            <button type="button" id="Button_forgetPassword" class="btn btn-outline-primary"
+                                    style="width: 70%; padding-top: 1rem; padding-bottom: 1rem">送出</button>
+                            <div id="Error_forgetPassword" style="color: red;"></div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="back_Login" class="btn btn-primary" data-bs-target="#memberLogin" data-bs-toggle="modal">返回登入</button>
+            </div>
         </div>
     </div>
 </div>
@@ -542,18 +611,15 @@
                 let price = parseInt(item.meetingRoomPrice);
                 let bookingDate = new Date(item.bookingDate).toLocaleDateString('en-CA');
                 let card = '<div class="col-md-12 cart-item">' +
-                    '<div class="card mb-3">' +
-                    '<div class="card-body" style="position: relative">' +
                     '<button style="position: absolute; top: 10px; right: 10px" type="button" class="btn remove-from-cart p-0" data-cart-id="' + item.cartId + '"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">\n' +
                     '  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>\n' +
                     '  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>\n' +
                     '</svg></button>' +
-                    '<h5 class="card-title fw-bold">' + item.meetingRoomName + '</h5>' +
+                    '<h5 class="card-title fw-bold w-75">' + item.meetingRoomName + '</h5>' +
                     '<p class="card-text1 fw-bold">預訂日期： ' + bookingDate + '</p>' +
-                    '<p class="card-text fw-bold">數量： ' + item.quantity + '</p>' +
-                    '<p class="card-text fw-bold">價錢： $' + (price).toFixed(2) + '</p>' +
-                    '</div>' +
-                    '</div>' +
+                    '<p class="card-text fw-bold" style="margin-top: -10px">數量： ' + item.quantity + '</p>' +
+                    '<p class="card-text fw-bold" style="margin-top: -10px">價錢： $' + (price).toFixed(2) + '</p>' +
+                    '<hr>'+
                     '</div>';
                 cartContent.append(card);
                 total += price;
@@ -635,6 +701,7 @@
 
 
     })
+
 </script>
 </body>
 
