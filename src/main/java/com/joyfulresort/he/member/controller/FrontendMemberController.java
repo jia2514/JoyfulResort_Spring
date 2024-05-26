@@ -2,6 +2,8 @@ package com.joyfulresort.he.member.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -35,13 +37,13 @@ import com.joyfulresort.so.activityorder.model.ActivityOrderVO;
 public class FrontendMemberController {
 
 	@Autowired
-	MaileService mail;
+	private MaileService mail;
 
 	@Autowired
-	MemberService memSvc;
+	private MemberService memSvc;
 
 	@Autowired
-	StringRedisTemplate redis;
+	private StringRedisTemplate redis;
 
 	// 會員資料頁面
 	@GetMapping("/memberinfo")
@@ -286,7 +288,7 @@ public class FrontendMemberController {
 		res.setContentType("application/json; charset=UTF-8");
 
 		String CancelOrder = req.getParameter("CancelOrder");
-		System.out.println(CancelOrder);
+//		System.out.println(CancelOrder);
 		switch (CancelOrder) {
 		case "activity":
 			Integer activityOrderID = Integer.valueOf(req.getParameter("activityOrderID"));
@@ -314,11 +316,34 @@ public class FrontendMemberController {
 			res.getWriter().print(true);
 			break;
 		case "RoomOrder":
+			Calendar nowTimeCalendar = new GregorianCalendar();// Date 日期加減需要使用 Calendar抽象類 實作GregorianCalendar
+			Calendar calendar = new GregorianCalendar(); 
+			
 			Integer RoomOrderID = Integer.valueOf(req.getParameter("RoomOrderID"));
-//			System.out.println(RoomOrderID);
+			Date nowTime = Date.valueOf(req.getParameter("nowTime"));
+			nowTimeCalendar.setTime(nowTime);
+//			System.out.println("訂單取消的時間:"+nowTimeCalendar.getTime());
 
+			// 取得資料庫內資料
+			RoomOrder memberRoomOrder = memSvc.getRoomOrder(RoomOrderID);
+			Date checkin = memberRoomOrder.getCheckInDate();
+//			System.out.println(checkin);
+
+			// 使用 Calendar 操作時間
+			calendar.setTime(checkin);
+//			System.out.println("原本的預計入住日期:" + calendar.getTime());
+			calendar.add(calendar.DATE, -3);
+//			System.out.println("三天前:" + calendar.getTime());
+
+			// 比較時間 當calendar(預計入住的3天前) 比 nowTime(取消訂單的時間) 小時回傳true
+//			System.out.println(calendar.before(nowTimeCalendar));
 			// 取消住宿訂單
-			memSvc.RoomCancelOrder(RoomOrderID);
+			if (calendar.before(nowTimeCalendar)) { // 不退款
+				memSvc.RoomCancelOrder(RoomOrderID, (byte) 0);
+			} else { // 退款
+				memSvc.RoomCancelOrder(RoomOrderID, (byte) 1);
+			}
+			
 			res.getWriter().print(true);
 			break;
 		}
@@ -355,12 +380,11 @@ public class FrontendMemberController {
 				MemberVO member = memSvc.findMemberByMail(inuptMail, authCode2);
 
 				String member_name = member.getMemberName();
-				String subject = "密碼更改通知";
+				String subject = "JoyfulResort-密碼更改通知";
 				String messageText = "Hello! " + member_name + "您的密碼已修改 請謹記此密碼: " + authCode2 + "\n" + " (已經啟用)";
 
 				// 寄送新密碼
-				MaileService mailService = new MaileService();
-				mailService.sendMail(inuptMail, subject, messageText);
+				mail.sendMail(inuptMail, subject, messageText);
 
 				obj.put("error", "true");
 				res.getWriter().print(obj);
@@ -392,7 +416,7 @@ public class FrontendMemberController {
 		if (redisAuthCode == null) {
 //			System.out.println("驗證碼已過期");
 			return "front-end/member/memberExpired";
-			
+
 		} else if (redisAuthCode.equals(authCode)) {
 			MemberVO mem = memSvc.findMemberByMail(memberEmail);
 

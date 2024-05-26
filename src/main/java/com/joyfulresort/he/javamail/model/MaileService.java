@@ -12,6 +12,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -22,6 +23,11 @@ public class MaileService {
 
 	@Autowired
 	private JavaMailSender sender;
+	
+    @Autowired
+    public MaileService(@Qualifier("getJavaMailSender") JavaMailSender mailSender) {
+    	sender = mailSender;
+    }
 
 	private String subject = "郵件標題:Spring boot mail test";
 	private String content = "郵件內容: 測試郵件";
@@ -45,9 +51,10 @@ public class MaileService {
 	// 複雜郵件 (會員驗證信)
 	public void sendMimeMail(String authCode, String memberEmail) {
 		MimeMessage mail = sender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(mail);
+		
 
 		try {
+			MimeMessageHelper helper = new MimeMessageHelper(mail, true ,"UTF-8");
 			helper.setSubject("JoyfulResort-會員驗證信");
 			helper.setText("""
 					<!DOCTYPE html>

@@ -200,11 +200,11 @@ public class MemberService {
 	}
 	
 	// 用戶取消住宿訂單
-	public RoomOrder RoomCancelOrder(Integer roomOrderID) {
+	public RoomOrder RoomCancelOrder(Integer roomOrderID, byte refundState) {
 		Optional<RoomOrder> MRO = reRoomOrder.findById(roomOrderID);
 		RoomOrder memberRoomOrder = MRO.get();
-		memberRoomOrder.setRoomOrderState((byte) 3);
-		memberRoomOrder.setRefundState((byte) 1);
+		memberRoomOrder.setRoomOrderState((byte) 0);
+		memberRoomOrder.setRefundState(refundState);
 		reRoomOrder.save(memberRoomOrder);
 		return reRoomOrder.findById(roomOrderID).get();
 	}
@@ -220,6 +220,10 @@ public class MemberService {
 	public MemberVO findMemberByMail(String memberEmail) {
 		Optional<MemberVO> member = repository.findByMail(memberEmail);
 		return member.get();
+	}
+
+	public RoomOrder getRoomOrder(Integer roomOrderID) {
+		return reRoomOrder.findById(roomOrderID).get();
 	}
 
 }
