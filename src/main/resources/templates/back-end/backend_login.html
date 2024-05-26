@@ -6,6 +6,7 @@
     <title>後台登入頁面 - 童樂渡假村</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,7 +21,7 @@
             position: relative;
             background-color: #ffffff;
             padding: 40px;
-            width: 450px;
+            width: 550px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -36,9 +37,9 @@
         }
         .form-control, .login-button {
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             padding: 15px;
-            margin: 10px auto;
+            margin: 20px auto;
             border-radius: 6px;
             border: 1px solid #ccc;
             box-sizing: border-box;
@@ -75,6 +76,10 @@
         .color-joyful, .color-joyfulresort {
             color: #5f9ea0;
         }
+        .subtitle {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
         .toggle-password {
             position: absolute;
             right: 20px;
@@ -92,11 +97,11 @@
             align-items: center;
             margin: 10px auto;
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
         }
         .captcha-image {
             margin-left: 0;
-            width: calc(100% - 34px); /* 調整驗證碼圖片的寬度，減去刷新圖標的寬度 */
+            width: calc(100% - 34px);
         }
         .refresh-captcha {
             cursor: pointer;
@@ -104,34 +109,54 @@
             margin-left: 10px;
             font-size: 24px;
         }
-    
+        .forgot-password-link {
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+        }
+        .forgot-password-link a {
+            color: #5f9ea0;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .forgot-password-link a:hover {
+            text-decoration: underline;
+        }
+        .match-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: green;
+            font-size: 18px;
+            display: none;
+        }
+        .modal-title {
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+        }
+        .btn-custom {
+            background-color: #5f9ea0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+            float: right;
+        }
+        .btn-custom:hover {
+            background-color: #395e60;
+            transform: scale(1.05);
+        }
+        
+	      /* 增加 form 之間的距離 */
+        .modal-body form + form {
+            margin-top: 60px !important;
+        }
+	   
     </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var togglePassword = document.querySelector('.toggle-password');
-            var passwordInput = document.querySelector('.password');
-            togglePassword.addEventListener('click', function() {
-                var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
-            });
-
-            var errorDiv = document.querySelector('.error-message');
-            var inputFields = document.querySelectorAll('.form-control');
-            inputFields.forEach(function(input) {
-                input.addEventListener('click', function() {
-                    errorDiv.style.display = 'none';
-                });
-            });
-
-            var refreshCaptcha = document.querySelector('.refresh-captcha');
-            var captchaImage = document.querySelector('.captcha-image');
-            refreshCaptcha.addEventListener('click', function() {
-                captchaImage.src = '/captcha/generate?' + new Date().getTime();
-            });
-        });
-    </script>
 </head>
 <body>
 <div class="login-form">
@@ -139,7 +164,7 @@
     <div class="title">
         <span class="color-joyfulresort">Joyfulresort</span><span>童樂渡假村</span>
     </div>
-    <h2>後台員工登入</h2>
+    <h2 class="subtitle">後台員工登入</h2>
     <div class="error-message" th:if="${loginError}" style="color: red; text-align: center;">
         <p th:text="${loginError}"></p>
     </div>
@@ -161,7 +186,135 @@
         <div>
             <button type="submit" class="login-button">登入</button>
         </div>
+        <div class="forgot-password-link">
+            <a href="#" data-toggle="modal" data-target="#forgotPasswordModal">忘記密碼？</a>
+        </div>
     </form>
 </div>
+
+<!-- 忘記密碼 Modal -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="forgotPasswordModalLabel">忘記密碼</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="verifyEmployeeForm">
+                    <div class="form-group d-flex align-items-center" style="position: relative;">
+                        <label for="empAccount" class="mr-2 mb-0">員工帳號:</label>
+                        <input type="text" class="form-control flex-grow-1 w-75" id="empAccount" name="empAccount" required>
+                        <i class="fas fa-check match-icon" id="empAccountMatch"></i>
+                    </div>
+                    <div class="form-group d-flex align-items-center" style="position: relative;">
+                        <label for="empName" class="mr-2 mb-0">員工姓名:</label>
+                        <input type="text" class="form-control flex-grow-1 w-75" id="empName" name="empName" required>
+                        <i class="fas fa-check match-icon" id="empNameMatch"></i>
+                    </div>
+                    <div class="form-group d-flex align-items-center" style="position: relative;">
+                        <label for="positionName" class="mr-2 mb-0">職位名稱:</label>
+                        <input type="text" class="form-control flex-grow-1 w-75" id="positionName" name="positionName" required>
+                        <i class="fas fa-check match-icon" id="positionNameMatch"></i>
+                    </div>
+                    <button type="submit" class="btn btn-custom">驗證</button>
+                </form>
+                <form id="sendMailForm" style="display:none; margin-top: 20px;">
+                    <div class="form-group d-flex align-items-center" style="position: relative;">
+                        <label for="empEmail" class="mr-2 mb-0">員工郵件地址:</label>
+                        <input type="email" class="form-control flex-grow-1 w-75" id="empEmail" name="empEmail" required>
+                    </div>
+                    <button type="submit" class="btn btn-custom">發送重設連結</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    var togglePassword = document.querySelector('.toggle-password');
+    var passwordInput = document.querySelector('.password');
+    togglePassword.addEventListener('click', function() {
+        var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+    });
+
+    var errorDiv = document.querySelector('.error-message');
+    var inputFields = document.querySelectorAll('.form-control');
+    inputFields.forEach(function(input) {
+        input.addEventListener('click', function() {
+            errorDiv.style.display = 'none';
+        });
+    });
+
+    var refreshCaptcha = document.querySelector('.refresh-captcha');
+    var captchaImage = document.querySelector('.captcha-image');
+    refreshCaptcha.addEventListener('click', function() {
+        captchaImage.src = '/captcha/generate?' + new Date().getTime();
+    });
+
+    document.getElementById("verifyEmployeeForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        var empAccount = document.getElementById("empAccount").value;
+        var empName = document.getElementById("empName").value;
+        var positionName = document.getElementById("positionName").value;
+
+        fetch('/passwordReset/verify-employee', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'empAccount=' + encodeURIComponent(empAccount) + '&empName=' + encodeURIComponent(empName) + '&positionName=' + encodeURIComponent(positionName)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data) {
+                document.getElementById("empAccountMatch").style.display = "block";
+                document.getElementById("empNameMatch").style.display = "block";
+                document.getElementById("positionNameMatch").style.display = "block";
+                document.getElementById("sendMailForm").style.display = "block";
+            } else {
+                alert('驗證失敗，請檢查輸入的信息。');
+            }
+        });
+    });
+
+    document.getElementById("sendMailForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        var empEmail = document.getElementById("empEmail").value;
+        var empAccount = document.getElementById("empAccount").value;
+
+        fetch('/passwordReset/send-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'empEmail=' + encodeURIComponent(empEmail) + '&empAccount=' + encodeURIComponent(empAccount)
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+            // 清空表單內容
+            document.getElementById("empAccount").value = "";
+            document.getElementById("empName").value = "";
+            document.getElementById("positionName").value = "";
+            document.getElementById("empEmail").value = "";
+            document.getElementById("sendMailForm").style.display = "none";
+            document.getElementById("empAccountMatch").style.display = "none";
+            document.getElementById("empNameMatch").style.display = "none";
+            document.getElementById("positionNameMatch").style.display = "none";
+            // 關閉模態框
+            $('#forgotPasswordModal').modal('hide');
+        });
+    });
+</script>
 </body>
 </html>
