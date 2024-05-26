@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.joyfulresort.jia.roomorder.model.RoomOrder;
 import com.joyfulresort.jia.roomorder.model.RoomOrderService;
+import com.joyfulresort.jia.roomschedule.model.RoomScheduleRedisService;
 import com.joyfulresort.jia.roomschedule.model.RoomScheduleService;
 import com.joyfulresort.yu.roomtype.model.RoomType;
 import com.joyfulresort.yu.roomtype.model.RoomTypeService;
@@ -40,6 +41,9 @@ public class RoomScheduleController {
 
 	@Autowired
 	RoomScheduleService roomScheduleSvc;
+	
+	@Autowired
+	RoomScheduleRedisService rsRedisSvc;
 
 	@Autowired
 	RoomTypeService roomTypeSvc;
@@ -54,7 +58,6 @@ public class RoomScheduleController {
 	@PostMapping("getIn2Month")
 	public String getAll(HttpServletRequest req, ModelMap model) {
 		String jsonStr = roomScheduleSvc.getALLIn2Month();
-		System.out.println("41+" + jsonStr);
 		model.addAttribute("roomScheduleCount", jsonStr);
 		if(req.getParameter("frontendinsert").equals("true")) {
 			return "front-end/roomschedule/listAllRoomScheduleCalendar";
@@ -144,6 +147,21 @@ public class RoomScheduleController {
 		model.addAttribute("totalPriceList", totalPriceList);
 		return "front-end/roomorder/roomorderselect";
 
+	}
+	
+	@PostMapping("getRoomAmountRedis")
+	public ResponseEntity<Integer> getRoomAmountRedis(@RequestParam Map<String, String> formData) {
+		String roomTypeId = formData.get("roomTypeId");
+		String checkInDate = formData.get("checkInDate");
+		String checkOutDate = formData.get("checkOutDate");
+
+		Integer minAvailableRooms=0;
+		try {
+			minAvailableRooms = rsRedisSvc.getMinAvailableRooms(roomTypeId, checkInDate, checkOutDate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ResponseEntity.ok(minAvailableRooms);
 	}
 
 }

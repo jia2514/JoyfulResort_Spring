@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.joyfulresort.he.member.model.MemberRepository;
 import com.joyfulresort.jia.roomorderitem.model.RoomOrderItem;
 import com.joyfulresort.jia.roomschedule.model.RoomSchedule;
+import com.joyfulresort.jia.roomschedule.model.RoomScheduleRedisService;
 import com.joyfulresort.jia.roomschedule.model.RoomScheduleRepository;
 
 import hibernate.util.CompositeQuery.HibernateUtil_CompositeQuery_RoomOrder;
@@ -29,6 +30,9 @@ public class RoomOrderService {
 	
 	@Autowired
 	RoomScheduleRepository rsRepository;
+	
+	@Autowired
+	RoomScheduleRedisService rsRedisSvc;
 	
 	@Autowired
     private SessionFactory sessionFactory;
@@ -64,9 +68,7 @@ public class RoomOrderService {
 			}
 			query.put(key, value);
 		}
-		System.out.println("60+"+query);
 		HibernateUtil_CompositeQuery_RoomOrder composite = new HibernateUtil_CompositeQuery_RoomOrder();
-		System.out.println("61+"+composite.getAllC(query,sessionFactory.openSession()));
 		return composite.getAllC(query,sessionFactory.openSession());
 	}
 	
@@ -84,6 +86,13 @@ public class RoomOrderService {
         	roomOrder.setRefundState((byte)0);
         	roomOrder.setCompleteDateTime(new Timestamp(miliseconds));
         	for(RoomOrderItem roomOrderItem :roomOrder.getRoomOrderItems()) {
+        		
+        		for(RoomSchedule roomSchedule :roomOrderItem.getRoomSchedules()) {
+        			Date date=roomSchedule.getRoomScheduleDate();
+        			Integer roomTypeId= roomSchedule.getRoomType().getRoomTypeId();
+        			rsRedisSvc.addOrDeleteRedisRoomSchedule(date, roomTypeId, -1, 1);
+        		}
+        		
         		rsRepository.deleteAll(roomOrderItem.getRoomSchedules());
         		roomOrderItem.setRoomSchedules(null);
         		roomOrderItem.setRoomOrderItemState((byte)4);
@@ -106,6 +115,13 @@ public class RoomOrderService {
     	roomOrder.setRefundState((byte)2);
     	roomOrder.setCompleteDateTime(new Timestamp(miliseconds));
     	for(RoomOrderItem roomOrderItem :roomOrder.getRoomOrderItems()) {
+    		
+    		for(RoomSchedule roomSchedule :roomOrderItem.getRoomSchedules()) {
+    			Date date=roomSchedule.getRoomScheduleDate();
+    			Integer roomTypeId= roomSchedule.getRoomType().getRoomTypeId();
+    			rsRedisSvc.addOrDeleteRedisRoomSchedule(date, roomTypeId, -1, 1);
+    		}
+    		
     		rsRepository.deleteAll(roomOrderItem.getRoomSchedules());
     		roomOrderItem.setRoomSchedules(null);
     		roomOrderItem.setRoomOrderItemState((byte)4);

@@ -36,6 +36,7 @@ import com.joyfulresort.jia.roomorder.model.RoomOrderService;
 import com.joyfulresort.jia.roomorderitem.model.RoomOrderItem;
 import com.joyfulresort.jia.roomorderitem.model.RoomOrderItemService;
 import com.joyfulresort.jia.roomschedule.model.RoomSchedule;
+import com.joyfulresort.jia.roomschedule.model.RoomScheduleRedisService;
 import com.joyfulresort.yu.room.model.Room;
 import com.joyfulresort.yu.roomtype.model.RoomType;
 import com.joyfulresort.yu.roomtype.model.RoomTypeService;
@@ -65,6 +66,8 @@ public class RoomOrderController {
 	@Autowired
 	RoomSchedule roomSchedule;
 	
+	@Autowired
+	RoomScheduleRedisService rsRedisSvc;
 	
 	@ModelAttribute("roomTypeListData")
 	protected List<RoomType> referenceListData_RoomType(Model model) {
@@ -188,7 +191,7 @@ public class RoomOrderController {
 		    roomAmount = Integer.valueOf(req.getParameter("roomAmount" + i));
 		    if (roomAmount > 0 && roomAmount != null) {
 		        for (int amount = 1; amount <= roomAmount; amount++) {
-		            RoomOrderItem roomOrderItem = new RoomOrderItem(); // 在每次迭代中创建新的对象
+		            RoomOrderItem roomOrderItem = new RoomOrderItem(); 
 		            roomOrderItem.setRoomOrder(roomOrder);
 		            roomOrderItem.setRoomType(roomTypeSvc.getOneRoomType(roomTypeId));
 		            roomOrderItem.setRoomPrice(roomTypeSvc.getOneRoomType(roomTypeId).getRoomTypePrice());
@@ -204,6 +207,9 @@ public class RoomOrderController {
 		                roomSchedule.setRoomScheduleDate(date);
 		                roomSchedules.add(roomSchedule);
 		                count2++;
+		                
+		                rsRedisSvc.addOrDeleteRedisRoomSchedule(date, roomTypeId, 1, -1);
+		              
 		            }
 		            roomOrderItem.setRoomSchedules(roomSchedules);
 		            roomOrderItems.add(roomOrderItem);
@@ -217,7 +223,6 @@ public class RoomOrderController {
 		
 		model.addAttribute("roomOrder", newRoomOrder);
 		model.addAttribute("totalPrice", req.getParameter("totalPrice"));
-		System.out.println("totalPrice"+ req.getParameter("totalPrice"));
 		if(req.getParameter("frontendinsert").equals("true")) {
 			return "front-end/roomorder/listOneRoomOrder";
 		}else {

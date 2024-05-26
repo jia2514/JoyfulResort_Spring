@@ -182,7 +182,6 @@ public class IndexController_inSpringBoot {
 
 	@GetMapping("/roomorder/addRoomOrder")
 	public String addRoomOrder(@RequestParam Map<String, String> rq, Model model) {
-		System.out.println(rq);
 		model.addAttribute("roomOrder", rq);
 		return "back-end/roomorder/addRoomOrder";
 	}
@@ -197,7 +196,6 @@ public class IndexController_inSpringBoot {
 	        rq.put("numberOfPeople" + i, roomType.getNumberOfPeople().toString());
 	        rq.put("roomTypePrice" + i, roomType.getRoomTypePrice().toString());
 	    }
-		System.out.println("進addRoomOrder"+rq);
 		model.addAttribute("roomOrder", rq);
 		return "front-end/roomorder/addRoomOrderBySchedule";
 	}
@@ -215,7 +213,6 @@ public class IndexController_inSpringBoot {
 	public String listCheckInItem(Model model) {
 
 		List<RoomOrder> list = roomOrderSvc.getTodayCheckIn();
-		System.out.println(list);
 		model.addAttribute("checkInList", list);
 		return "back-end/roomorderitem/checkin";
 	}
@@ -223,7 +220,6 @@ public class IndexController_inSpringBoot {
 	@GetMapping("/roomorderitem/checkout")
 	public String listCheckOutItem(Model model) {
 		List<RoomOrder> list = roomOrderSvc.getTodayCheckOut();
-		System.out.println(list);
 		model.addAttribute("checkOutList", list);
 		return "back-end/roomorderitem/checkout";
 	}

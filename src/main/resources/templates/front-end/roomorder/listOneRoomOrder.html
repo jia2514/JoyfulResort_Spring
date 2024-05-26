@@ -125,7 +125,10 @@
 	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
 
 	<script>
-	
+	document.addEventListener("DOMContentLoaded", function() {
+	    document.cookie = "visitedAddRoomOrder=false; path=/;";
+	    console.log(document.cookie);
+	});
 	
     
 	</script>

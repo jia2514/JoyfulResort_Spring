@@ -1,92 +1,121 @@
 package com.joyfulresort.jia.roomschedule.model;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
 
+import jedis.connectionpool.JedisUtil;
+import oracle.sql.DATE;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 @Service("roomScheduleRedisService")
 public class RoomScheduleRedisService {
 
 	public void saveOrUpdateRedisRoomSchedule(List<Object[]> list) {
-		Jedis jedis = new Jedis("localhost", 6379);
-		jedis.select(5);
-		
-		try {
-            
-            for (Object[] obj : list) {
-                String date = obj[0].toString();
-                String roomType = obj[1].toString();
-                String checkInCount = obj[2].toString();
-                String availableRooms = obj[3].toString();
-                
-                String key = date + ":" + roomType;
-                jedis.hset(key, "checkInCount", checkInCount);
-                jedis.hset(key, "availableRooms", availableRooms);
-            }
+		JedisPool pool = JedisUtil.getJedisPool();
 
-            System.out.println("Data stored successfully.");
+		try (Jedis jedis = pool.getResource()) {
+			jedis.select(5);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            jedis.close();
-        }
-		
-		
+			for (Object[] obj : list) {
+				String roomTypeId = obj[0].toString();
+				String date = obj[1].toString();
+				String checkInCount = obj[2].toString();
+				String availableRooms = obj[3].toString();
+
+				String key = roomTypeId + ":" + date;
+				jedis.hset(key, "checkInCount", checkInCount);
+				jedis.hset(key, "availableRooms", availableRooms);
+			}
+
+			System.out.println("Data stored successfully.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
-	
-	
-	public class RetrieveHotelData {
-	    public static void main(String[] args) {
-	        Jedis jedis = new Jedis("localhost", 6379);
 
-	        try {
-	            String roomType = "1";
-	            String startDate = "2024-05-25";
-	            String endDate = "2024-06-01";
+	public void addOrDeleteRedisRoomSchedule(Date date, Integer roomTypeId, int checkInCountChange,
+			int availableRoomsChange) {
+		JedisPool pool = JedisUtil.getJedisPool();
 
-	            int minAvailableRooms = getMinAvailableRooms(jedis, roomType, startDate, endDate);
-	            if (minAvailableRooms == Integer.MAX_VALUE) {
-	                System.out.println("No data found for the specified range and room type.");
-	            } else {
-	                System.out.println("Minimum available rooms for room type " + roomType + " from " + startDate + " to " + endDate + ": " + minAvailableRooms);
-	            }
+		try (Jedis jedis = pool.getResource()) {
+			jedis.select(5);
 
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        } finally {
-	            jedis.close();
-	        }
-	    }
+			String key = roomTypeId.toString() + ":" + date.toString();
 
-	    public static int getMinAvailableRooms(Jedis jedis, String roomType, String startDate, String endDate) throws Exception {
-	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	        Date start = sdf.parse(startDate);
-	        Date end = sdf.parse(endDate);
+			String checkInCount = jedis.hget(key, "checkInCount");
+			String availableRooms = jedis.hget(key, "availableRooms");
 
-	        long diffInMillies = Math.abs(end.getTime() - start.getTime());
-	        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+			Integer newCheckInCount = Integer.valueOf(checkInCount) + checkInCountChange;
+			Integer newAvailableRooms = Integer.valueOf(availableRooms) + availableRoomsChange;
+			System.out.println(key + "checkInCount" + checkInCount + "newCheckInCount" + newCheckInCount
+					+ "availableRooms" + availableRooms + "newAvailableRooms" + newAvailableRooms);
+			jedis.hset(key, "checkInCount", newCheckInCount.toString());
+			jedis.hset(key, "availableRooms", newAvailableRooms.toString());
 
-	        int minAvailableRooms = Integer.MAX_VALUE;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-	        for (int i = 0; i <= diff; i++) {
-	            Date currentDate = new Date(start.getTime() + TimeUnit.DAYS.toMillis(i));
-	            String dateStr = sdf.format(currentDate);
-	            String key = dateStr + ":" + roomType;
-	            
-	            String availableRoomsStr = jedis.hget(key, "availableRooms");
-	            if (availableRoomsStr != null) {
-	                int availableRooms = Integer.parseInt(availableRoomsStr);
-	                minAvailableRooms = Math.min(minAvailableRooms, availableRooms);
-	            }
-	        }
-	        return minAvailableRooms;
-	    }
-	
 	}
+
+	public int getMinAvailableRooms(String roomTypeId, String checkInDate, String checkOutDate) throws Exception {
+		
+		List<String> dateList = getDateRange(checkInDate, checkOutDate);
+		int minAvailableRooms = Integer.MAX_VALUE;
+
+		JedisPool pool = JedisUtil.getJedisPool();
+
+		try (Jedis jedis = pool.getResource()) {
+			jedis.select(5);
+
+			for (String date : dateList) {
+				
+				String key = roomTypeId + ":" + date;
+				String availableRoomsStr = jedis.hget(key, "availableRooms");
+				System.out.println("availableRoomsStr+"+availableRoomsStr);
+				if (availableRoomsStr != null) {
+					int availableRooms = Integer.parseInt(availableRoomsStr);
+					minAvailableRooms = Math.min(minAvailableRooms, availableRooms);
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return minAvailableRooms;
+
+	}
+
+	public static List<String> getDateRange(String checkInDate, String checkOutDate) throws Exception {
+		List<String> dateList = new ArrayList<>();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		// 使用 Calendar 將 util.Date 轉換為日期
+		Calendar startDate = Calendar.getInstance();
+		startDate.setTime(sdf.parse(checkInDate));
+		Calendar endDate = Calendar.getInstance();
+		endDate.setTime(sdf.parse(checkOutDate));
+
+		// 將日期範圍內的每個日期添加到 List，但不包括 checkOutDate
+		while (startDate.before(endDate)) {
+			String dateStr = sdf.format(startDate.getTime());
+			dateList.add(dateStr);
+			startDate.add(Calendar.DATE, 1);
+		}
+
+		return dateList;
+	}
+
 }

@@ -112,6 +112,9 @@
         AOS.init({
             once: false // 這樣元素進入和離開可視範圍都會觸發動畫
         });
+        function sendGetEmptyRoom() {
+        	document.getElementById("getEmptyRoom").submit();
+    	}
     </script>
     <th:block th:insert="~{/front-end/htmlfile/content2.html}" />
     <th:block th:insert="~{/front-end/htmlfile/script.html}" />

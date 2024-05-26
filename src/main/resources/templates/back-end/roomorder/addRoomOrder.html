@@ -93,6 +93,10 @@ button.custom-button:hover {
         width: 100%;
     }
 }
+input[type='submit']:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
 </style>
 </head>
 <body>
@@ -102,7 +106,7 @@ button.custom-button:hover {
 			<div class="G3_content">
 				<h4>新增住宿訂單</h4>
     <hr>
-    <form action="#" th:action="@{/roomorder/insert}" method="post" onsubmit="return validateForm()">
+    <form action="#" id="roomOrderForm" th:action="@{/roomorder/insert}" method="post" onsubmit="return validateForm()">
         <label>會員編號：</label><span id="memberId">&nbsp;</span><br>
         <label>會員姓名：</label><span id="memberName">&nbsp;</span><br>
         
@@ -112,11 +116,11 @@ button.custom-button:hover {
         
         <div><label>預定checkin日期：</label>
 			 <span th:text="${roomOrder.checkInDate}"></span>
-			        <input type="hidden" name="checkInDate" th:value="${roomOrder.checkInDate}">
+			        <input type="hidden" id="checkInDate" name="checkInDate" th:value="${roomOrder.checkInDate}">
 		</div>
 		<div><label>預定checkout日期：</label>
 			 <span th:text="${roomOrder.checkOutDate}"></span>
-			 <input type="hidden" name="checkOutDate" th:value="${roomOrder.checkOutDate}">
+			 <input type="hidden" id="checkOutDate" name="checkOutDate" th:value="${roomOrder.checkOutDate}">
 		</div>               
 		<div><label>共入住：</label>
 			 <span id="bookingNight" th:text="${roomOrder.bookingNight}"></span><span>晚</span>
@@ -135,7 +139,7 @@ button.custom-button:hover {
 				</span>
 				
 						
-                <input type="hidden"  th:name="roomType+${i}" th:value="${rt}">
+                <input type="hidden" th:id="roomType+${i}" th:name="roomType+${i}" th:value="${rt}">
                 
             
             
@@ -147,6 +151,7 @@ button.custom-button:hover {
                         th:each="roomCount : ${#numbers.sequence(1, roomOrder.__${'minEmptyRooms' + i}__)}"
                         th:value="${roomCount}" th:text="${roomCount + '間'}"></option>
             </select><div class="error-message" th:id="room_error+${i}"></div>
+            <input type="hidden" th:id="minEmptyRooms+${i}"  th:name="minEmptyRooms+${i}" th:value="${roomOrder.__${'minEmptyRooms' + i}__}">
             </div><br>
         </div>
         
@@ -170,7 +175,7 @@ button.custom-button:hover {
         <input type="hidden" id="totalPrice" name="totalPrice" >
         <input type="hidden" id="frontendinsert" name="frontendinsert" value="false">
         <input type="submit" value="送出">
-        
+        <span class="error-message" id="main_error"></span>
        
     </form>
 
@@ -225,9 +230,100 @@ button.custom-button:hover {
 	    if (memberName.trim() === "" ||totalRoomAmount==0 || $('input[name="chart"]:checked').length === 0){
 	    	return false;
 	    }
+	    
+	    checkChooseRoom().then(function(result) {
+	    	if (result.isAvailable === false) {
+	            alert('此時間區段空房數已不足選擇的房型數量, 請回到選擇頁面重新查詢並取得最新空房數量');
+	            document.getElementById("main_error").innerText = "此時間區段空房數已不足選擇的房型數量, 請回到選擇頁面重新查詢並取得最新空房數量";
+	            $("input[type='submit']").prop("disabled", true);
+	            return false;
+	        } else {
+	            // 提交表單
+	            if(result.isTheSame === false){
+	            	if (confirm("此頁面已完成一筆訂單, 確定要再新增一筆新的訂單?")) {
+	            		document.getElementById("roomOrderForm").submit();
+		            }else{}
+	            }else{
+	            	document.getElementById("roomOrderForm").submit(); 
+	            }
+	            
+	        }
+	    }).catch(function(error) {
+	        // 如果發生錯誤，這裡可以處理錯誤情況
+	        console.error("An error occurred: " + error);
+	        return false;
+	    });
+
+	    return false;
+	    
 	}
 	
+	function checkChooseRoom() {
+	    return new Promise(function(resolve, reject) {
+	        var paramCount = $("#paramCount").val();
+	        var promises = [];
+	        for (var i = 1; i <= paramCount; i++) {
+	            promises.push(checkRoomAvailability(i));
+	        }
+	        Promise.all(promises)
+	            .then(function(results) {
+	                // 如果有任何一個房間數量不足，則 isAvailable 為 false，否則為 true
+	                var isAvailable = results.every(function(result) {
+	                	return result.available;
+	                });
+	               
+	                var isTheSame = results.every(function(result) {
+	                    return result.isTheSame;
+	                });
+	                console.log("isAvailable="+isAvailable);
+	                console.log("isTheSame="+isTheSame);
+	                resolve({isAvailable: isAvailable, isTheSame: isTheSame});
+	            })
+	            .catch(function(error) {
+	                console.error("An error occurred while fetching room amount: " + error);
+	                reject(error);
+	            });
+	    });
+	}
 
+	function checkRoomAvailability(index) {
+	    return new Promise(function(resolve, reject) {
+	        var roomAmountSelect = document.getElementById("roomAmount" + index);
+	        var chooseAmount = parseInt(roomAmountSelect.value);
+	        var minEmptyRooms = document.getElementById("minEmptyRooms"+index).value;
+	        console.log("minEmptyRooms="+minEmptyRooms);
+	        $.ajax({
+	            type: "POST",
+	            url: "/roomschedule/getRoomAmountRedis",
+	            data: {
+	                roomTypeId: $("#roomType" + index).val(),
+	                checkInDate: $("#checkInDate").val(),
+	                checkOutDate: $("#checkOutDate").val(),
+	            },
+	            dataType: "json",
+	            success: function(response) {
+	                if (response != null) {
+	                    var availableRoomAmount = parseInt(response);
+	                    var available = chooseAmount <= availableRoomAmount;
+	                    var isTheSame = minEmptyRooms == availableRoomAmount;
+	                    console.log("isTheSame="+isTheSame);
+	                    console.log("available="+available);
+	                    resolve({ index: index, available: available, isTheSame: isTheSame});
+	                } else {
+	                    reject("No response received");
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("An error occurred while fetching room amount: " + error);
+	                reject(error);
+	            }
+	        });
+	    });
+	}
+	
+	
+	
+	
 	function searchMember() {
 	    var memberPhone = document.getElementById("memberPhone").value;
 	    $.ajax({
@@ -269,9 +365,7 @@ button.custom-button:hover {
             var roomPriceStr = document.getElementById("roomPrice" + i).innerText;
             var roomPrice = parseInt(roomPriceStr.replace(/,/g, ''));
             var bookingNight = document.getElementById("bookingNight").innerText;
-            console.log(roomAmount);
-            console.log(roomPrice);
-            console.log(bookingNight);
+
             if (!isNaN(roomAmount) && !isNaN(roomPrice)) {
                 totalPrice += roomAmount * roomPrice * bookingNight;
             }
@@ -284,7 +378,84 @@ button.custom-button:hover {
 	    document.getElementById("chart_error").innerText = ""; 
 	}
 	
+	
+	$(document).ready(function() {
+		var submitted = false;
+		var canSubmit = true;
 		
+		if ($("form").data("submitted")) {
+	        $("input[type='submit']").prop("disabled", true);
+	    }
+		
+		var paramCount = $("#paramCount").val();
+        for (var i = 1; i <= paramCount; i++) {
+        	(function(index) {
+        		console.log($("#roomType" + index).val());
+        		console.log($("#checkInDate").val());
+        		console.log($("#checkOutDate").val());
+        		$.ajax({
+                    type: "POST",
+                    url: "/roomschedule/getRoomAmountRedis",
+                    data: { roomTypeId: $("#roomType" + index).val(),
+                    		checkInDate: $("#checkInDate").val(),
+                    		checkOutDate: $("#checkOutDate").val(),
+                    		},
+                    dataType: "json",
+                    success: function(response) {
+                        if (response != null) {
+                        	var availableRoomAmount = parseInt(response);
+
+                            var selectElement = $("#roomAmount" + index);
+
+                            selectElement.empty();
+
+                            if (availableRoomAmount > 0) {
+                                selectElement.append($("<option>").attr("value", "0").text("請選擇房型數量"));
+                                for (var roomCount = 1; roomCount <= availableRoomAmount; roomCount++) {
+                                    selectElement.append($("<option>").attr("value", roomCount).text(roomCount + "間"));
+                                }
+                            } else {
+                                selectElement.append($("<option>").attr("value", "0").text("此時間區間無足夠空房可預訂"));
+                            }
+
+                            updateTotalPrice();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("An error occurred while fetching room amount: " + error);
+                    }
+                });
+            })(i);
+        }
+	    
+        // 在所有 AJAX 請求完成後檢查是否可以提交
+        $(document).ajaxStop(function() {
+            if (!canSubmit) {
+                // 如果不能提交，禁用送出按鈕
+                $("input[type='submit']").prop("disabled", true);
+            }
+        });
+		
+	    
+	});
+	
+	
+// 	document.addEventListener("DOMContentLoaded", function() {
+// 	    console.log(document.cookie);
+	    
+// 	    var visitedAddRoomOrder = getCookie("visitedAddRoomOrder");
+	    
+// 	    if (visitedAddRoomOrder === "false") {
+// 	        $("input[type='submit']").prop("disabled", true);
+// 	        alert("此筆明細已成立訂單, 若想再次下訂, 請重新輸入日期人數並選擇合適的方案");
+// 	    }
+// 	});
+
+// 	function getCookie(name) {
+// 	    var cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+// 	    return cookieValue ? cookieValue.pop() : null;
+// 	}
+	
 	</script>
 </body>
 </html>

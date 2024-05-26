@@ -156,6 +156,9 @@
 <script th:inline="javascript">
     
     document.addEventListener('DOMContentLoaded', function() {
+    	document.cookie = "visitedAddRoomOrder=true; path=/";
+    	console.log(document.cookie);
+    	
     	var query = JSON.parse(schedule);
         
     	var calendarEl = document.getElementById('calendar');
@@ -181,7 +184,6 @@
             }
         });
 
-        console.log(eventSort);
 
         for (var key in eventSort) {
             var obj = eventSort[key];
@@ -213,7 +215,6 @@
             });
         }
 
-        console.log(eventList);
         
         var calendar = new FullCalendar.Calendar(calendarEl, {
             headerToolbar: {
@@ -227,8 +228,10 @@
             	
             	var startSelectDate = new Date(info.startStr);
                 var endSelectDate = new Date(info.endStr);
+                var previousDay = new Date(endSelectDate);
+                previousDay.setDate(endSelectDate.getDate() - 1);
                 var changePage;
-                if(startSelectDate < startDate || endSelectDate > endDate){
+                if(startSelectDate < startDate || previousDay > endDate){
                 	changePage=false;
                 }else{
                 	changePage=true;
