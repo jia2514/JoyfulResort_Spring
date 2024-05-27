@@ -259,8 +259,6 @@ public class ActivityOrderController {
 		@PostMapping("insertOrder")
 		public String insertOrder(@Valid ActivityOrderVO activityOrderVO, BindingResult result, ModelMap model, ServletRequest request) {
 
-
-			
 			// 獲取當前活動場次的報名人數
 		    String activitySessionId = String.valueOf(activityOrderVO.getActivitySessionVO().getActivitySessionID());
 //		    System.out.println(activitySessionId);
@@ -296,6 +294,7 @@ public class ActivityOrderController {
 	        String activitySession = String.valueOf(activityOrderVO.getActivitySessionVO().getActivitySessionID());
 	        redisService.addActivityOrder(activitySession, activityOrderVO.getEnteredNumber());
 	        
+			// ==================== 下列資料讓orderdetails獲取需要的資料 ====================
 	        // 取得登入後的會員資料
 		    HttpServletRequest req = (HttpServletRequest) request;
 		    HttpSession session = req.getSession();
