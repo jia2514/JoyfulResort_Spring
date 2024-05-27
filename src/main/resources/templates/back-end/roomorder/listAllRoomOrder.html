@@ -93,7 +93,7 @@ input[type="submit"] {
 	color: #ffffff; 
 	border: none; 
 	border-radius: 5px; 
-	padding: 8px 16px; 
+	padding: 3px 10px;
 	cursor: pointer; 
 }
 
@@ -105,6 +105,13 @@ input[type="submit"]:hover {
     background-color: lightgray;
 }
 
+input[type="submit"].room_order_refund {
+    background-color: #4CAF50;
+}
+
+input[type="submit"].room_order_refund:hover {
+    background-color:  #45a049;
+}
 
 </style>
 </head>
@@ -275,11 +282,9 @@ input[type="submit"]:hover {
 	        e.preventDefault();
 	        var roomOrderId = $(this).siblings('input[name="roomOrderId"]').val();
 	        var checkInDate = $(this).siblings('input[name="checkInDate"]').val(); 
-	        console.log(roomOrderId);
-	        console.log(checkInDate);
-	        var differenceInDays = calculateDifferenceInDays(checkInDate);
-	        console.log(differenceInDays);
 	        
+	        var differenceInDays = calculateDifferenceInDays(checkInDate);
+
 	        var buttonRow = $(this).closest('tr').find('.buttom_row'); 
 	         if (differenceInDays <= 3) {
 	            if (confirm("距離入住日期不足三天，無法退款。是否確定取消？")) {
@@ -395,11 +400,7 @@ input[type="submit"]:hover {
 	        var roomOrderState = $(this).find('td:nth-child(7)').text();
 	        var memberPhone = $(this).find('td:nth-child(2)').find('span[name="memberPhone"]').text();
 	        var checkInDate = $(this).find('td:nth-child(5)').text();
-	        console.log(roomOrderId);
-	        console.log(memberName);
-	        console.log(roomOrderState);
-	        console.log(memberPhone);
-	        console.log(checkInDate);
+	        
 	        var differenceInDays = calculateDifferenceInDays(checkInDate);
 	        
 	        if (!$(e.target).closest('.buttom_row').length) {
@@ -455,11 +456,6 @@ input[type="submit"]:hover {
 		                    	'<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
 		                        '<div><label>狀態：</label><span class="order_item_state">已完成checkout</span></div>'+
 		    	                '<hr style="border-color:gray;">'; 
-		    	                break;
-		                    case 3:
-		                    	html+= '<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
-		                        '<div><label>狀態：</label><span class="order_item_state">入住當天未checkin</span></div>'+
-		    	                '<hr style="border-color:gray;">';
 		    	                break;
 		                    default:
 		                    	html+= '<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+

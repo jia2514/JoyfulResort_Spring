@@ -84,8 +84,9 @@
 		color: #ffffff; 
 		border: none; 
 		border-radius: 5px; 
-		padding: 8px 16px;
-		cursor: pointer; 
+		padding: 3px 10px;
+		cursor: pointer;
+		margin: 3px 0px; 
 	}
 	
 	input[type="submit"]:hover {
@@ -94,6 +95,19 @@
 	table {
 	    table-layout: fixed;
 	}
+	
+	input[type="submit"].roomitem_cancel {
+	    background-color: #4CAF50;
+	}
+	
+	input[type="submit"].roomitem_cancel:hover {
+	    background-color:  #45a049;
+	}
+	input[type='submit']:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+	
 </style>
 </head>
 <body>
@@ -102,7 +116,8 @@
 		<div class="bg-light rounded">
 			<div class="G3_content">
 				<div align="center">
-					<h2>今日checkin明細</h2>
+					<h2>今日checkin明細(&nbsp;<span class="today-date"></span>&nbsp;)</h2>
+					<h4 class="isCheckinTime"></h4>
 				</div>
 
 				<table>
@@ -145,7 +160,7 @@
 							                    <td class="buttom_row">已完成checkin</td>
 						                    </div>
 						                  
-						                 	<div th:if="${roomOrder.roomOrderItems[i].roomOrderItemState == 4}">
+						                 	<div th:if="${roomOrder.roomOrderItems[i].roomOrderItemState == 3}">
 							                    <td class="room_guest_name_row"></td>
 												<td class="room_guest_phone_row"></td>
 						
@@ -183,8 +198,10 @@
 													<div class="error-message">請選擇房間</div>
 												</td>
 							                    <td class="buttom_row">
-							                    	<input class="room_checkin" type="submit" value="checkin">
-							                    	<input type="hidden" name="roomOrderItemId" th:value="${roomOrder.roomOrderItems[i].roomOrderItemId}">
+							                    	<input class="room_checkin" type="submit" value="checkin"><br>
+							                    	<input class="roomitem_cancel" type="submit" value="取消入住">
+							                    	<input type="hidden" class="roomOrderItemId" name="roomOrderItemId" th:value="${roomOrder.roomOrderItems[i].roomOrderItemId}">
+							                    	<input type="hidden" class="specialREQ" name="specialREQ" th:value="${roomOrder.roomOrderItems[i].specialREQ}">
 							                    </td>
 						                    </div>
 					                    </form>
@@ -203,7 +220,31 @@
 
 	<script type="text/javascript">
 	$(document).ready(function() {
-	    $('.room_checkin').click(function(e) {
+	    
+		var today = new Date();
+	    var day = today.getDate();
+	    var month = today.getMonth() + 1;
+	    var year = today.getFullYear();
+	    $('.today-date').text(year + "-" + month + "-" + day);
+
+	    var currentTime = today.getHours();
+	    if (currentTime >= 14 && currentTime < 18) {
+	        $('.isCheckinTime').text('checkin時間為14:00-18:00').css('color', 'blue');
+	        $('.room_checkin').prop('disabled', false);
+	    }else if (currentTime >= 18 && currentTime < 22){
+	    	$('.isCheckinTime').text('預約入住checkin時間已過, 開放現場登記入住checkin時間為18:00-22:00').css('color', 'blue');
+	    	$('.room_checkin').prop('disabled', false);
+	    }else{
+	        $('.isCheckinTime').text('每日14:00前與22:00後不開放checkin').css('color', 'red');
+	        $('.room_checkin').prop('disabled', true);
+	    }  
+		
+		
+		
+		
+		
+		
+		$('.room_checkin').click(function(e) {
 	        e.preventDefault();
 	        var currentRow = $(this).closest('tr');
 	        
@@ -241,20 +282,18 @@
 	        }
 	        
         
-	        // 获取当前行的表单数据
 	        var formData = currentRow.find("#myForm").serialize();
 	        var selectValue = currentRow.find("#mySelect").val();
 	        formData = decodeURIComponent(formData, true);
 	        formData += "&roomId=" + selectValue;
 	        console.log(formData);
 
-	        // 执行 AJAX 请求
 	        $.ajax({
 	            type: 'POST',
 	            url: '/roomorderitem/checkinUpdate',
 	            data: formData,
 	            success: function(roomOrderItem) {
-	                // 在当前行更新相关信息
+
 	                currentRow.find('.buttom_row').text('已完成checkin');
 	                currentRow.find('.room_guest_name_row').text(roomOrderItem.roomGuestName);
 	                currentRow.find('.room_guest_phone_row').text(roomOrderItem.roomGuestPhone);
@@ -270,6 +309,45 @@
 	        });
 	        
 	    });
+	    
+	    
+	    $('.roomitem_cancel').click(function(e) {
+	        e.preventDefault();
+	        var currentRow = $(this).closest('tr');
+
+	        var roomOrderItemId = currentRow.find('.roomOrderItemId').val();
+	        var specialREQ = currentRow.find('.specialREQ').val();
+	        
+	        
+	        $.ajax({
+	            type: 'POST',
+	            url: '/roomorderitem/getOneToCancel',
+	            data: { roomOrderItemId: roomOrderItemId,
+	        	    specialREQ: specialREQ
+	              },
+		        success: function(roomOrderItem)  {
+
+	                currentRow.find('.buttom_row').text('取消入住');
+	                currentRow.find('.room_guest_name_row').text("");
+	                currentRow.find('.room_guest_phone_row').text("");
+	                currentRow.find('.special_req_row').text('無退款');
+	                currentRow.find('.choose_room_row').text("");
+	                $('select').each(function() {
+	                    $(this).find('option[value="' + roomOrderItem.roomId + '"]').remove();
+	                });
+	            },
+	            error: function(xhr, status, error) {
+	                console.error(error);
+	            }
+	        });
+	        
+	    });
+	    
+	    
+	    
+	    
+	    
+	    
 	});
 		
 	

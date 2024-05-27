@@ -83,6 +83,29 @@
 	input[type="submit"]:hover {
 		background-color: #4d94ff; 
 	}
+	
+	
+button.custom-button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px 0px;
+}
+
+button.custom-button:hover {
+    background-color:  #45a049;
+}
+
+.button-container {
+    display: flex; /* Use flexbox to align buttons in a row */
+    align-items: center; /* Center align items vertically */
+
+}
+	
+	
 </style>
 </head>
 <body>
@@ -91,8 +114,17 @@
 		<div class="bg-light rounded">
 			<div class="G3_content">
 				<div align="center">
-					<h2>今日checkout明細</h2>
+					<h2><span id="isTodayDisplay"></span>checkout明細<span class="today-date-display">(&nbsp;<span class="today-date"></span>&nbsp;)</span></h2>
+					<h4 class="isCheckoutTime"></h4>
+					<div class="button-container">
+						<button id ="todaycheckout" class="custom-button" onclick="location.href='/roomorderitem/checkout'">今日checkout明細</button>
+						<button id ="allcheckout" class="custom-button" onclick="location.href='/roomorderitem/allCheckout'">所有入住中明細</button>
+						<span id="isToday" th:text="${isToday}" style="display:none;"></span>
+					</div>
 				</div>
+	
+				
+
 
 				<table>
 					<thead>
@@ -100,7 +132,7 @@
 							<th>訂單編號</th>
 							<th>會員姓名</th>
 							<th>check in 日期</th>
-<!-- 							<th>check out 日期</th> -->
+							<th>check out 日期</th>
 							<th>房型</th>
 							<th>入住姓名</th>
 							<th>入住電話</th>
@@ -123,13 +155,15 @@
 				                    <td th:text="${roomOrder.roomOrderId}"></td>
 				                    <td th:text="${roomOrder.member.memberName}"></td>
 				                    <td th:text="${roomOrder.checkInDate}"></td>
-				<!--                     <td th:text="${roomOrder.checkOutDate}"></td> -->
+				                    <td class="checkOutDate" th:text="${roomOrder.checkOutDate}"></td>
 									<td th:text="${roomOrder.roomOrderItems[i].roomType.roomTypeName}"></td>
 				                    <td th:text="${roomOrder.roomOrderItems[i].roomGuestName}"></td>
 				                    <td th:text="${roomOrder.roomOrderItems[i].roomGuestPhone}"></td>
 				                    <td th:text="${roomOrder.roomOrderItems[i].room.roomId}"></td>
 				                   
-				                    <td class="room_state"><span th:switch="${roomOrder.roomOrderItems[i].room.roomState}">
+				                    <td class="room_state">
+				                    <input type="hidden" name="roomState" th:value="${roomOrder.roomOrderItems[i].room.roomState}">
+				                    <span th:switch="${roomOrder.roomOrderItems[i].room.roomState}">
 							            <span th:case="'0'">未入住</span>
 							            <span th:case="'1'">已入住</span>
 							            <span th:case="'2'">清潔中</span>
@@ -171,7 +205,52 @@
 
 	<script type="text/javascript">
 	$(document).ready(function() {
-	    $('.room_check_out').click(function(e) {
+		
+		var today = new Date();
+		var day = String(today.getDate()).padStart(2, '0'); // Ensure day has leading zero if needed
+		var month = String(today.getMonth() + 1).padStart(2, '0'); // Ensure month has leading zero if needed
+		var year = today.getFullYear();
+		var todayDateStr = year + "-" + month + "-" + day;
+		$('.today-date').text(todayDateStr);
+
+	    var isToday = $(document).find('#isToday').text();
+	    if(isToday=='true'){
+	    	$('#isTodayDisplay').text('今日');
+	    	$('#todaycheckout').hide();
+	    }else{
+	    	$('#isTodayDisplay').text('全部');
+	    	$('#allcheckout').hide();
+	    	$('.today-date-display').hide();
+	    }
+	    
+	    
+	    $('tr').each(function() {
+    		var roomState = $(this).find('input[name="roomState"]').val();
+    		var checkoutdate = $(this).find('.checkOutDate').text();
+    		console.log(checkoutdate);
+    		if(roomState == 1){
+    			if (checkoutdate===todayDateStr) {
+        			$(this).css('background-color', 'mistyrose');
+        		}else{
+        			$(this).css('background-color', '#d4edda');
+        		}
+    		}
+    		
+    	});
+	    
+	    
+	    var currentTime = today.getHours();
+	    if (currentTime >= 00 && currentTime < 10) {
+	        $('.isCheckoutTime').text('當日checkout需在10:00前完成').css('color', 'blue');
+	    }else if (currentTime >= 10 && currentTime < 13){
+	    	$('.isCheckoutTime').text('今日超過10:00尚未checkout明細請通知客戶需繳交延遲費用500NTD/hr且最晚於13:00前離開').css('color', 'red');
+	    }else {
+	    	$('.isCheckoutTime').text('');
+	    }
+		
+		
+		
+		$('.room_check_out').click(function(e) {
 	    	 e.preventDefault();    
 	    	alert("請通知清潔人員進行房間清潔");
 	        
@@ -192,6 +271,7 @@
 	                	console.log(room);
 	                    var roomStateText = '清潔中';
 	                    buttonRow.empty(); // 清空按钮行
+	                    buttonRow.closest('tr').css('background-color', '');
 	                    var newForm = $(' <form method="post" action="@{/room/clean}" style="margin-bottom: 0px;">' +
 	                                    '<input class="room_clean" type="submit" value="清潔完成">' +
 	                                    '<input type="hidden" name="roomId" value="' + roomId + '">' +
@@ -233,6 +313,7 @@
 	            success: function(room) {
 	                console.log(room);
 	                buttonRow.empty(); // 清空按钮行
+	                buttonRow.closest('tr').css('background-color', '');
 	                var roomStateText = '未入住';
 	                $('.room_' + room.roomId + ' .room_state').text(roomStateText);
 	                $('.room_' + room.roomId + ' .buttom_row').text('checkout完成');
