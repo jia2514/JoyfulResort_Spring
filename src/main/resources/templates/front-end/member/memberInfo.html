@@ -454,7 +454,29 @@
 					<!-- 餐廳訂位 th:text="${ReserveOrder.orderNote}" -->
 					<div class="tab-pane fade" id="nav-contact4" role="tabpanel" aria-labelledby="nav-contact-tab">
 						<h4 th:if="${memberReserveOrder.isEmpty}">查無資料</h4>
+			<script th:inline="javascript">
+				var tokenMessage = /*[[${token}]]*/'';
+				if (tokenMessage) {
+					alert(tokenMessage);
+				}
 
+				var successMessage = /*[[${success}]]*/'';
+				if (successMessage) {
+					alert(successMessage);
+				}
+				// 獲取片段標識符，去掉 #
+				const fragment = window.location.hash.substring(1); 
+
+				// 如果片段標識符為 "restaurant"
+				if (fragment === "restaurant") {
+				    const navItem = document.querySelector("#nav-contact-tab4");
+				    // 如果找到對應的導航元素
+				    if (navItem) {
+				        // 模擬點擊事件以激活標簽頁
+				        navItem.click();
+				    }
+				}
+			</script>
 						<table id="table_memberReserveOrder" class="table table-secondary table-hover">
 							<thead class="table-primary">
 								<tr>

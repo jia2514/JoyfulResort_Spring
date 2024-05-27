@@ -39,10 +39,9 @@ public class ResFrontController {
 	ResService resSvc;
 	@Autowired
 	ResContentService rescontentSvc;
-    @Autowired
-    private ResTokenService tokenService;
-    
-    
+	@Autowired
+	private ResTokenService tokenService;
+
 	@GetMapping("restaurant")
 	public String restaurant(Model model) {
 		return "front-end/restaurant/main";
@@ -60,7 +59,7 @@ public class ResFrontController {
 		if (memberIDObj != null) {
 			memberID = Integer.parseInt(memberIDObj.toString());
 		} else {
-			memberIDObj = 1; //如果session為空(非登入會員)則設編號為1
+			memberIDObj = 1; // 如果session為空(非登入會員)則設編號為1
 			memberID = Integer.parseInt(memberIDObj.toString());
 			memVO = memberSvc.getOneMember(memberID);
 
@@ -81,22 +80,21 @@ public class ResFrontController {
 		resVO.setMemberVO(memVO); // 將 SESSION 的會員資料值加進欄位值
 		model.addAttribute("isMember", isMember); // 傳遞是否為會員的標誌到前端
 		model.addAttribute("resVO", resVO);
-		
-        String token = tokenService.generateToken();
-        model.addAttribute("token", token);
 
-        
+		String token = tokenService.generateToken();
+		model.addAttribute("token", token);
+
 		return "front-end/restaurant/reserveorder";
 	}
 
 	@PostMapping("insertfront")
 	public String insertfront(@Valid ResVO resVO, BindingResult result, HttpServletRequest request, HttpSession session,
 			RedirectAttributes redirectAttributes, ModelMap model) throws IOException {
-	    String token = request.getParameter("token");
-        if (!tokenService.validateToken(token)) {
-        	model.addAttribute("token","重複下單，請重新進入訂位網頁");
-    		return "front-end/restaurant/main";
-        }
+		String token = request.getParameter("token");
+		if (!tokenService.validateToken(token)) {
+			model.addAttribute("token", "重複下單，請重新進入訂位網頁");
+			return "front-end/restaurant/main";
+		}
 
 		MemberVO memVO = new MemberVO();
 
@@ -110,7 +108,7 @@ public class ResFrontController {
 			memVO = memberSvc.getOneMember(memberID);
 
 		}
-		
+
 		boolean isMember = memberID != 1;
 		String memberName = "", memberPhone = "";
 
@@ -133,7 +131,15 @@ public class ResFrontController {
 
 		resSvc.addRes(resVO);
 		redirectAttributes.addFlashAttribute("success", "新增訂單成功!");
-		return "redirect:/joyfulresort/restaurant";
+
+		if (isMember) {
+
+			return "redirect:/joyfulresort/member/memberinfo#restaurant";
+		} else {
+			return "redirect:/joyfulresort/restaurant";
+
+		}
+
 //		導回餐飲瀏覽
 //		return "redirect:/joyfulresort/member/memberinfo";
 
