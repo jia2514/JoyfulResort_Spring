@@ -436,7 +436,7 @@
 												<button type="button" class="btn-close" data-bs-dismiss="modal"
 													aria-label="Close"></button>
 											</div>
-											<th:block th:if="${MeetingRoomOrder.orderNote.isEmpty}">
+											<th:block th:if="${MeetingRoomOrder.orderNote==null}">
 												<div style="text-align: center;">尚無備註</div>
 											</th:block>
 											<div th:text="${MeetingRoomOrder.orderNote}" class="modal-body">

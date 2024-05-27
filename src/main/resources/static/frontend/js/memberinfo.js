@@ -11,13 +11,13 @@ function getCookie(cookieName) {  // 自訂function
   }
 }
 
-//取消修改按鈕功能
+//取消修改按鈕功能 轉跳指此頁面的提示
 $(document).ready(function () {
   // console.log(document.cookie)
   $('#buttonUpData').attr('disabled', true)
   $('#newPassword').attr('disabled', true)
 
-  //活動報名後重導致會員專區中的 活動訂單
+  //活動報名後 重導 至會員專區中的 活動訂單
   let getRedirect = new URL(location.href).searchParams.get('Redirect');
   // console.log(getRedirect)
 
@@ -30,6 +30,10 @@ $(document).ready(function () {
       break;
     case 'emailVerifyError':
       alert('信箱驗證失敗');
+      break;
+    case 'UpData':
+      alert('修改成功')
+      break;
   }
 
 
@@ -398,7 +402,7 @@ $('#makeSureActivityCancelOrder').click(function () {
     },
     datatype: 'json',
     success: function (data) {
-      if (data) {
+      if (data.CancelOrder) {
         $(activity_tr_children[4]).html(`<span>訂單取消中</span>`)
         $(activity_tr_children[7]).html('<span style="color: #ff4800ad;">退款中</span>')
         $(activity_tr_children[8]).html('<button id="activityCancelOrder_disabled" type="button" class="btn btn-outline-secondary" disabled>取消訂單</button>')
@@ -446,7 +450,7 @@ $('#makeSureMeetingRoomOrder').click(function () {
     },
     datatype: 'json',
     success: function (data) {
-      if (data) {
+      if (data.CancelOrder) {
         // console.log('OKL')
         $(MeetingRoom_tr_children[5]).html('<span>取消</span>')
         $(MeetingRoom_tr_children[6]).html('<span style="color: #ff4800ad;">退款中</span>')
@@ -496,7 +500,7 @@ $('#makeSureReserveOrder').click(function () {
     },
     datatype: 'json',
     success: function (data) {
-      if (data) {
+      if (data.CancelOrder) {
         console.log('OKKKKK')
         $(ReserveOrder_tr_children[6]).html('<span>取消</span>')
         $(ReserveOrder_tr_children[7]).html('<button type="button" class="btn btn-outline-secondary" disabled>取消訂單</button>')
@@ -526,8 +530,8 @@ $(document).on('click', '#RoomOrder', function () {
   if (day.length == 1) {
     day = '0' + day;
   }
-  dates=([year, month, day ]).join('-');
-  console.log(dates)
+  dates = ([year, month, day]).join('-');
+  // console.log(dates)
 
   //取得本列表格(tr)資訊
   let tr = null;
@@ -548,7 +552,7 @@ $(document).on('click', '#RoomOrder', function () {
 
 $('#makeSureRoomOrder').click(function () {
   //  console.log('OKKO')
-  
+
   $.post({
     url: '/joyfulresort/member/CancelOrder',
     data: {
@@ -558,11 +562,24 @@ $('#makeSureRoomOrder').click(function () {
     },
     datatype: 'json',
     success: function (data) {
-      if (data) {
+      // console.log(data)
+
+      if (data.CancelOrder) {
+
         // console.log('OKKKKK')
-        $(RoomOrder_tr_children[5]).html('<span>取消</span>')
-        $(RoomOrder_tr_children[6]).html('<span style="color: #ff4800ad;">退款中</span>')
-        $(RoomOrder_tr_children[7]).html('<button id="RoomOrder_disabled" type="button" class="btn btn-outline-secondary" disabled>取消訂單</button>')
+
+        if (data.refund) {
+          // console.log('不退款')
+          $(RoomOrder_tr_children[5]).html('<span>取消</span>')
+          $(RoomOrder_tr_children[6]).html('<span style="color: #0d6efd;" th:case="0">無退款</span>')
+          $(RoomOrder_tr_children[7]).html('<button id="RoomOrder_disabled" type="button" class="btn btn-outline-secondary" disabled>取消訂單</button>')
+        } else {
+          // console.log('退款')
+          $(RoomOrder_tr_children[5]).html('<span>取消</span>')
+          $(RoomOrder_tr_children[6]).html('<span style="color: #ff4800ad;" th:case="1">退款中</span>')
+          $(RoomOrder_tr_children[7]).html('<button id="RoomOrder_disabled" type="button" class="btn btn-outline-secondary" disabled>取消訂單</button>')
+        }
+
       }
     }
   })

@@ -16,18 +16,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+@Component
 @Service("MaileService")
 public class MaileService {
 
-	@Autowired
+//	@Autowired
+//	@Qualifier("memberJavaMailSender")
 	private JavaMailSender sender;
 	
-//    @Autowired
-//    public MaileService(@Qualifier("getJavaMailSender") JavaMailSender mailSender) {
-//    	sender = mailSender;
-//    }
 
 	private String subject = "郵件標題:Spring boot mail test";
 	private String content = "郵件內容: 測試郵件";

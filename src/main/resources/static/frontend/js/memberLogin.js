@@ -61,6 +61,7 @@ $('#Button_Login').click(function () {
 
         if (data.State) {
           $('#errorMessage').html('')
+          alert('登入成功')
           window.location.reload()
         } else {
           $('#errorMessage').html('帳號或密碼錯誤')
