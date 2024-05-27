@@ -623,17 +623,18 @@
             let button = $(this);
             let cartId = button.data('cart-id');
             let selectedDateTime = button.closest('.cart-item').find('.card-text1').text();
+            selectedDateTime = selectedDateTime.replace('預訂日期： ', '');
             $.ajax({
                 url: '/cart/remove',
                 type: 'POST',
                 data: {cartId: cartId},
                 success: function (cartItems) {
-                    removeLocalStorageItem(selectedDateTime);
-                    updateCart(cartItems);
 
+                    updateCart(cartItems);
+                    removeLocalStorageItem(selectedDateTime);
                 },
                 error: function (xhr, status, error) {
-                    alert("Error: " + xhr.responseText);
+                    // alert("Error: " + xhr.responseText);
                 }
             });
         });
@@ -691,7 +692,7 @@
 
     function removeLocalStorageItem(selectedDateTime) {
         let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
-        bookings = bookings.filter(booking => booking.selectedDateTime === selectedDateTime);
+        bookings = bookings.filter(booking => booking.selectedDateTime !== selectedDateTime);
         localStorage.setItem('bookings', JSON.stringify(bookings));
     }
 
