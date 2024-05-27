@@ -28,7 +28,7 @@ public class MailController {
 					content
 		);
 													//成功訊息以及重導網頁
-			return ResponseEntity.ok().body("{\"success\": true,\"redirect\": \"/joyfulresort\"}");
+			return ResponseEntity.ok().body("{\"success\": true,\"redirect\": \"/\"}");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(500).body("{\"success\": false}");
