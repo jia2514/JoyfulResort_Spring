@@ -136,8 +136,8 @@ color:red;
 
 			<div>
 			<p><label>房型說明:</label><p>
-			<textarea type="text" th:field="*{roomTypeContent}" onclick="hideContent('roomTypeContent.errors');"></textarea><br/>
-			<span  th:if="${#fields.hasErrors('roomTypeContent')}" th:errors="*{roomTypeContent}" class="error" id="roomTypeContent.errors"></span>
+			<textarea type="text" th:field="*{roomTypeContent}" onclick="hideContent('roomTypeContent.errors');"style="width: 300px; height: 200px;"></textarea><br/>
+			<span  th:if="${#fields.hasErrors('roomTypeContent')}" th:errors="*{roomTypeContent}" class="error" id="roomTypeContent.errors" ></span>
 			</div>
 			
 			<div>

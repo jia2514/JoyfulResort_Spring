@@ -78,7 +78,7 @@
 
         <div class="container mt-5" data-aos="fade-up" data-aos-duration="2000">
             <div class="card-deck">
-                <div class="card" th:each="roomType, iterStat : ${roomType}">
+                <div class="card" th:each="roomType, iterStat : ${roomType}" th:if="${roomType.roomTypeSaleState}">
                     <img th:src="@{/roomtypephoto/DBGifReader(roomTypePhotoId=${roomType.roomTypePhotos.iterator().next().roomTypePhotoId})}" class="card-img-top" alt="Room Image">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${roomType.roomTypeName}">Room Type Name</h5>
