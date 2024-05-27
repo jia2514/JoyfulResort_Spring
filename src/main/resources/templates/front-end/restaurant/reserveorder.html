@@ -136,9 +136,10 @@ textarea {
 						style="width: 300px;" class="form">
 
 
-						<label for="" class="label" style="display: none;">餐廳場次編號:</label>
+						<label for="" class="label" style="display: none;">隱藏的餐廳場次編號:</label>
 						<input type="hidden" id="sessionid"
 							th:field="*{ressionVO.reserveSessionId}">
+						<input type="hidden" name="token" th:value="${token}">
 						<!------------------------------------>
 						<label for="" class="label">姓名:</label>
 

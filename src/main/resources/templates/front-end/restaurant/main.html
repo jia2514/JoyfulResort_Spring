@@ -119,7 +119,13 @@
 	<div th:fragment="content">
 	
 		<div class="container" style="padding-top: 130px;">
+
 			<script th:inline="javascript">
+				var tokenMessage = /*[[${token}]]*/'';
+				if (tokenMessage) {
+					alert(tokenMessage);
+				}
+
 				var successMessage = /*[[${success}]]*/'';
 				if (successMessage) {
 					alert(successMessage);

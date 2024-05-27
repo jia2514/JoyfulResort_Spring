@@ -95,7 +95,7 @@ public class ResNumberController {
 		hour = bookingDate2.getHour();
 //		System.out.println(bookingDate2);
 //		System.out.println(hour);
-
+		
 		maxpart = ressionSvc.getMaxPartById(101);
 
 		if (hour >= 17 && hour < 22) {
