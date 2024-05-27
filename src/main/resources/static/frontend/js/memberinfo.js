@@ -513,7 +513,7 @@ $('#makeSureReserveOrder').click(function () {
 })
 
 //餐廳分頁
-$('#table_memberReserveOrder').tablepage($('#table_memberReserveOrder_page'), 3)
+$('#table_memberReserveOrder').tablepage($('#table_memberReserveOrder_page'), 12)
 
 //住房訂單取消
 var RoomOrderID;

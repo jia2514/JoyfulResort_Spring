@@ -147,7 +147,7 @@ textarea {
 							<input type="text" th:field="*{memberVO.memberName}" readonly="readonly" required />
 						</div>
 						<div th:unless="${isMember}">
-							<input type="text" th:field="*{resName}" required />
+							<input type="text" th:field="*{resName}" maxlength="10" required />
 						</div>
 
 						<div th:if="${#fields.hasErrors('resName')}"
