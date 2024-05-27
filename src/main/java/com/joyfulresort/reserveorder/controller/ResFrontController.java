@@ -94,7 +94,7 @@ public class ResFrontController {
 			RedirectAttributes redirectAttributes, ModelMap model) throws IOException {
 	    String token = request.getParameter("token");
         if (!tokenService.validateToken(token)) {
-        	model.addAttribute("token","請勿重新下單，請重新進入訂位網頁");
+        	model.addAttribute("token","重複下單，請重新進入訂位網頁");
     		return "front-end/restaurant/main";
         }
 
