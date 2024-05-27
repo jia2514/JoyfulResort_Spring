@@ -26,7 +26,8 @@ public class ActivityCategoryController {
 //	public String getALL(ModelMap model) {
 //		List<ActivityCategoryVO> list = acSvc.getAll();
 //		model.addAttribute("activityCategoryListData", list);
-//		model.addAttribute("getAll", true);	//讓listAllActivityCategory可以Insert在activitycategory頁面中
+//		// 讓listAllActivityCategory可以Insert在activitycategory頁面中
+//		model.addAttribute("getAll", true);
 //		return "backend/activitycategory/activitycategory";
 //	}
 	
@@ -36,7 +37,7 @@ public class ActivityCategoryController {
 		List<ActivityCategoryVO> list = acSvc.getAll();
 		model.addAttribute("activityCategoryVO", activityCategoryVO);
 		model.addAttribute("activityCategoryListData", list);
-		model.addAttribute("getOne", true);
+//		model.addAttribute("getOne", true);
 		return "back-end/activitycategory/listOneActivityCategory";
 	}
 	
@@ -75,7 +76,6 @@ public class ActivityCategoryController {
 		acSvc.addActivityCategory(activityCategoryVO);
 		List<ActivityCategoryVO> list = acSvc.getAll();
 		model.addAttribute("activityCategoryListData", list);
-		model.addAttribute("getAll", true);
 		return "back-end/activitycategory/listOneActivityCategory";
 //		model.addAttribute("activityCategoryVO", activityCategoryVO);
 //		return "backend/activitycategory/listAllActivityCategory";

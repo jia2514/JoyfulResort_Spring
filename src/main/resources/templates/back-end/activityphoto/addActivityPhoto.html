@@ -112,8 +112,8 @@
 					</div>
 					
 					<div>
-						<label>活動圖片</label><br>
-						<span class="error" th:utext="${errorMessage}" id="upFiles.errors">${errorMessage}</span>
+						<label>活動圖片</label>
+						<span class="error" th:utext="${errorMessage}" id="upFiles.errors">${errorMessage}</span><br>
 						<input type="file" th:field="*{activityPhoto}" onclick="previewImage()" multiple="multiple" onchange="hideContent('upFiles.errors');" />
 						<div id="blob_holder"></div>
 					</div>
