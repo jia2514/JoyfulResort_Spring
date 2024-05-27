@@ -103,7 +103,7 @@
 				<hr>
 				<h4>活動報名</h4>
 				<form th:action="@{/activityorder/insertOrder}" method="post" th:object="${activityOrderVO}" enctype="multipart/form-data" onsubmit="return validateForm()">
-
+					<div class="errorblock" th:utext="${errorMessage}" style="color: red">${errorMessage}</div>
 					<div>
 						<label>會員編號</label><br>
 						<input type="text" th:field="*{memberVO.memberId}" readonly>

@@ -49,7 +49,7 @@ public class ActivityController {
 		// 查詢單一活動後，查詢選單才能保留資料
 		List<ActivityVO> list = aSvc.getAll();
 		model.addAttribute("activityListData", list);
-		model.addAttribute("getOne", true);
+//		model.addAttribute("getOne", true);
 		return "back-end/activity/listOneActivity";
 	}
 	
@@ -111,7 +111,6 @@ public class ActivityController {
 //		for(ActivityVO ac :list) {
 //			System.out.print(ac.getActivityCategoryVO().getActivityCategoryName());
 //		}
-//		model.addAttribute("getOne", true);
 //		return "back-end/activity/activity";
 		return "back-end/activity/listOneActivity";
 	}

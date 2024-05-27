@@ -98,7 +98,6 @@ public class ActivityPhotoController {
 		model.addAttribute("activityPhotoVO", activityPhotoVO);
 //		List<ActivityPhotoVO> list = apSvc.getAll();
 //		model.addAttribute("activityPhotoListData", list);
-//		model.addAttribute("getAll", true);
 //		return "back-end/activityphoto/activityphoto";
 		return "back-end/activityphoto/listOneActivityPhoto";
 	}
@@ -136,7 +135,6 @@ public class ActivityPhotoController {
 		model.addAttribute("activityPhotoVO", activityPhotoVO);
 		List<ActivityPhotoVO> list = apSvc.getAll();
 		model.addAttribute("activityPhotoListData", list);
-//		model.addAttribute("getAll", true);
 //		return "back-end/activityphoto/activityphoto";
 		return "back-end/activityphoto/listOneActivityPhoto";
 	}

@@ -188,8 +188,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.29</version>                <!-- spring-boot(2.7.0)
-			已內建依賴8.029，但預設未下載 -->
+			 <version>8.0.29</version>                <!-- spring-boot(2.7.0)已內建依賴8.029，但預設未下載 -->
 		</dependency>
 
 
@@ -248,15 +247,15 @@
 			<!-- <version>2.9.0</version> -->
 		</dependency>
 
-				<dependency>
-					<groupId>
-						0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa
-					</groupId>
-					<artifactId>
-						0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa
-					</artifactId>
-					<version>0.0.1-SNAPSHOT</version>
-				</dependency>
+<!--				<dependency>-->
+<!--					<groupId>-->
+<!--						0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa-->
+<!--					</groupId>-->
+<!--					<artifactId>-->
+<!--						0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa-->
+<!--					</artifactId>-->
+<!--					<version>0.0.1-SNAPSHOT</version>-->
+<!--				</dependency>-->
 
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>

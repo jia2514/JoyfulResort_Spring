@@ -46,7 +46,8 @@
         tr:hover {
             background-color: #f2f2f2;	/* 滑鼠指向某一行時，這行的背景顏色會改變。 */
         }
-        #update_btn, #back_btn {
+        
+        #back_btn {
             padding: 5px 10px;
             background-color: #9cb6d2;
             color: #fff;
@@ -59,10 +60,30 @@
         #update_btn:hover, #back_btn:hover {
 		    background-color: #0056b3; /* 滑鼠指向某一行時，這行的背景顏色會改變。 */
 		}
+		.update-btn {
+			background-color: #9cb6d2; /* Green */
+			color: #fff;
+			border: none;
+			padding: 5px 10px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 14px;
+			margin: 4px 2px;
+			cursor: pointer;
+			border-radius: 4px;
+			white-space: nowrap;  /* 讓文字不換行 */
+		}
+		.update-btn.disabled {
+			background-color: #ccc; /* Gray */
+			color: #666;
+			cursor: not-allowed;
+		}
 		div.back{
 			text-align: right; /* 讓內容向右對齊 */
 			margin-top: 10px; /* 這是為了確保與表格之間有一些間距 */
 		}
+		
 	</style>
 </head>
 <body>
@@ -95,7 +116,6 @@
 			            	<td th:text="${activitySessionVO.activitySessionID}"></td>
 			            	<td th:text="${activitySessionVO.activityVO.activityID}"></td>
 							<td th:text="${activitySessionVO.activityDate}"></td>
-							<!-- <td th:text="${activitySessionVO.activityTime}"></td> -->
 							<td>
 								<span th:switch="${activitySessionVO.activityTime}">
 								<span th:case="0">上午<br>0900-1100</span>
@@ -104,7 +124,6 @@
 							</td>
 							<td th:text="${activitySessionVO.activityMaxPart}"></td>
 							<!-- <td th:text="${activitySessionVO.activityMinPart}"></td> -->
-							<!-- <td th:text="${activitySessionVO.activityEnteredStatus}"></td> -->
 							<td>
 								<span th:switch="${activitySessionVO.activityEnteredStatus}">
 									<span th:case="0">未開放報名</span>
@@ -121,7 +140,8 @@
 							<td th:text="${activitySessionVO.activitySessionStatus ? '上架':'下架'}"></td>
 							<td>
 								<form method="post" th:action="@{/activitysession/updatePage}">
-								<input type="submit" value="修改" id="update_btn">
+								<input type="submit" value="修改" id="update_btn" th:disabled="!${activitySessionVO.activitySessionStatus}"
+										class="update-btn" th:classappend="!${activitySessionVO.activitySessionStatus} ? 'disabled' : ''">
 								<input type="hidden" name="activitySessionID" th:value="${activitySessionVO.activitySessionID}">
 								</form>
 							</td>

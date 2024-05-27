@@ -46,7 +46,7 @@
         tr:hover {
             background-color: #f2f2f2;	/* 滑鼠指向某一行時，這行的背景顏色會改變。 */
         }
-        #update_btn, #back_btn {
+        #back_btn {
             padding: 5px 10px;
             background-color: #9cb6d2;
             color: #fff;
@@ -58,6 +58,25 @@
         }
         #update_btn:hover, #back_btn:hover {
 		    background-color: #0056b3; /* 滑鼠指向某一行時，這行的背景顏色會改變。 */
+		}
+		.update-btn {
+			background-color: #9cb6d2; /* Green */
+			color: #fff;
+			border: none;
+			padding: 5px 10px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 14px;
+			margin: 4px 2px;
+			cursor: pointer;
+			border-radius: 4px;
+			white-space: nowrap;  /* 讓文字不換行 */
+		}
+		.update-btn.disabled {
+			background-color: #ccc; /* Gray */
+			color: #666;
+			cursor: not-allowed;
 		}
 		div.back{
 			text-align: right; /* 讓內容向右對齊 */
@@ -85,7 +104,7 @@
 			                <th>訂單日期</th>
 			                <th>訂單備註</th>
 			                <th>退款狀態</th>
-			                <th>修改資訊</th>
+			                <th>取消訂單</th>
 			        	</tr>
 		            </thead>
 		            
@@ -117,7 +136,8 @@
 
 							<td>
 								<form method="post" th:action="@{/activityorder/updatePage}">
-								<input type="submit" value="修改" id="update_btn">
+								<input type="submit" value="取消" id="update_btn" th:disabled="${activityOrderVO.orderStatus == 3}"
+										class="update-btn" th:classappend="${activityOrderVO.orderStatus == 3} ? 'disabled' : ''">
 								<input type="hidden" name="activityOrderID" th:value="${activityOrderVO.activityOrderID}">
 								</form>
 							</td>

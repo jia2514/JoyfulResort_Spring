@@ -259,10 +259,7 @@ public class ActivityOrderController {
 		@PostMapping("insertOrder")
 		public String insertOrder(@Valid ActivityOrderVO activityOrderVO, BindingResult result, ModelMap model, ServletRequest request) {
 
-			if (result.hasErrors()) {
-				model.addAttribute("activityOrderVO", activityOrderVO);
-				return "front-end/activity/participate";
-			}
+
 			
 			// 獲取當前活動場次的報名人數
 		    String activitySessionId = String.valueOf(activityOrderVO.getActivitySessionVO().getActivitySessionID());
@@ -280,6 +277,16 @@ public class ActivityOrderController {
 		        // 返回錯誤信息或重定向到適當的頁面
 		    	int leftTotal = maxTotal - currentTotal;
 		        model.addAttribute("errorMessage", "報名人數剩 " + leftTotal + " 人");
+		        
+		        // 重定向取得登入後的會員資料
+		        HttpServletRequest req = (HttpServletRequest) request;
+			    HttpSession session = req.getSession();
+			    String memberId = String.valueOf(session.getAttribute("memberID"));
+			    MemberVO member = memSvc.getOneMember(Integer.valueOf(memberId));
+			    model.addAttribute("memberVO", member);
+			    activityOrderVO.setMemberVO(member);
+		        
+		        model.addAttribute("activityOrderVO", activityOrderVO);
 		        return "front-end/activity/participate"; // 需要創建一個錯誤頁面或適當處理
 		    }
 			
@@ -296,6 +303,7 @@ public class ActivityOrderController {
 		    MemberVO member = memSvc.getOneMember(Integer.valueOf(memberId));	
 			model.addAttribute("memberVO", member);
 			
+			// 取得活動名稱
 			ActivitySessionVO as = asSvc.getOneActivitySession(activityOrderVO.getActivitySessionVO().getActivitySessionID());
 			model.addAttribute("asVO", as);
 			

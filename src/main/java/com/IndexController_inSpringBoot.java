@@ -1,11 +1,7 @@
 package com;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +10,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,8 +28,6 @@ import com.joyfulresort.he.member.model.MemberVO;
 import com.joyfulresort.jia.roomorder.model.RoomOrder;
 import com.joyfulresort.jia.roomorder.model.RoomOrderService;
 import com.joyfulresort.jia.roomorderitem.model.RoomOrderItemService;
-import com.joyfulresort.yu.newslist.model.NewsList;
-import com.joyfulresort.yu.newslist.model.NewsListService;
 import com.joyfulresort.reservecontent.model.ResContentService;
 import com.joyfulresort.reservecontent.model.ResContentVO;
 import com.joyfulresort.reserveorder.model.ResService;
@@ -52,10 +44,14 @@ import com.joyfulresort.so.activityphoto.model.ActivityPhotoService;
 import com.joyfulresort.so.activityphoto.model.ActivityPhotoVO;
 import com.joyfulresort.so.activitysession.model.ActivitySessionService;
 import com.joyfulresort.so.activitysession.model.ActivitySessionVO;
+import com.joyfulresort.yu.newslist.model.NewsList;
+import com.joyfulresort.yu.newslist.model.NewsListService;
 import com.joyfulresort.yu.room.model.Room;
 import com.joyfulresort.yu.room.model.RoomService;
 import com.joyfulresort.yu.roomtype.model.RoomType;
 import com.joyfulresort.yu.roomtype.model.RoomTypeService;
+import com.qalist.model.QaList;
+import com.qalist.model.QaListService;
 
 //@PropertySource("classpath:application.properties") // 於https://start.spring.io建立Spring Boot專案時, application.properties文件預設已經放在我們的src/main/resources 目錄中，它會被自動檢測到
 @Controller
@@ -836,6 +832,41 @@ public class IndexController_inSpringBoot {
 	    public String updateNewsList(Model model) {
 	    return "back-end/newslist/updateNewsList";
 	    }
+	    
+	    @Autowired
+		QaListService qaListSvc;
+	    
+	    @ModelAttribute("qaListListData") // for select_page.html 第135行用
+		protected List<QaList> referenceListData_QaList(Model model) {
+			model.addAttribute("qaList", new QaList()); // for select_page.html 第133行用
+			List<QaList> list = qaListSvc.getAll();
+			return list;
+		}
+	    
+	    @ModelAttribute("qaList")  // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
+		protected List<QaList> referenceqaListListData(Model model) {	
+    	List<QaList> list = qaListSvc.getAll();
+		return list;
+		} 
+	    
+	    
+	    @GetMapping("/qalist/qalistselect")
+ 		public String QaListSelect(Model model) {
+	  	System.out.println("測試點0527");
+ 		return "back-end/qalist/qalistselect";		
+	  	}
+	    
+	    @GetMapping("/qalist/listAllQaList")
+	   	public String listAllQaList(Model model) {
+	   	return "back-end/qalist/listAllQaList";
+	   	}
+	    
+	    @GetMapping("/qalist/updateQaList")
+	    public String updateQaList(Model model) {
+	    return "back-end/qalist/updateQaList";
+	    }
 }
+
+		
 
 //======================================== 前台頁面 ======================================== //

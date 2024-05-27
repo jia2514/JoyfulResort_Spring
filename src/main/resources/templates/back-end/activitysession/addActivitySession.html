@@ -109,7 +109,7 @@
 					<div>
 						<label>活動人數上限</label>
 						<span th:if="${#fields.hasErrors('activityMaxPart')}" th:errors="*{activityMaxPart}" class="error" id="activityMaxPart.errors"></span><br>
-						<input type="text" th:field="*{activityMaxPart}">
+						<input type="text" th:field="*{activityMaxPart}" onclick="hideContent('activityMaxPart.errors');" />
 					</div>
 					
 					<!-- <div>
