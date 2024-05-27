@@ -103,7 +103,7 @@
 
                                 <li class="nav-item">
                                     <div th:switch="${session.memberID==null}">
-                                        <a th:case="true" class="nav-link fw-bold nav-link-custom"  th:href="@{/spotnews}" id="memberField">會員專區</a>
+                                        <a th:case="true" class="nav-link fw-bold nav-link-custom"  th:href="@{/}" id="memberField">會員專區</a>
                                         <a th:case="false" class="nav-link fw-bold nav-link-custom"  th:href="@{/joyfulresort/member/memberinfo}" id="memberField_2">會員專區</a>
                                     </div>
                                 </li>

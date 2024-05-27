@@ -74,16 +74,22 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
-
-
 .fc-daygrid-day {
     padding: 10px;
     text-align: center;
 
 }
+
 .fc-event-title {
     font-weight: bolder;
     font-size: larger;
+}
+
+.fc .fc-bg-event .fc-event-title {
+    font-weight: bolder;
+    font-size: larger;
+    color: white;
+    font-style: normal;
 }
 .fc-event {
     background-color: transparent;
@@ -91,7 +97,7 @@
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
-
+    align-items: center;
 }
 .fc-event-time {
     width: 0;
