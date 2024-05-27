@@ -195,6 +195,22 @@ public class IndexController_inSpringBoot {
 		model.addAttribute("roomOrder", rq);
 		return "front-end/roomorder/addRoomOrderBySchedule";
 	}
+	
+	@GetMapping("/front-end/roomorder/listOneRoomOrder")
+	public String showFrontEndRoomOrder(@RequestParam("roomOrderId") Integer roomOrderId, @RequestParam("totalPrice") String totalPrice, Model model) {
+	    RoomOrder roomOrder = roomOrderSvc.getOneRoomOrder(roomOrderId);
+	    model.addAttribute("roomOrder", roomOrder);
+	    model.addAttribute("totalPrice", totalPrice);
+	    return "front-end/roomorder/listOneRoomOrder";
+	}
+
+	@GetMapping("/back-end/roomorder/listOneRoomOrder")
+	public String showBackEndRoomOrder(@RequestParam("roomOrderId") Integer roomOrderId, @RequestParam("totalPrice") String totalPrice, Model model) {
+		RoomOrder roomOrder = roomOrderSvc.getOneRoomOrder(roomOrderId);
+	    model.addAttribute("roomOrder", roomOrder);
+	    model.addAttribute("totalPrice", totalPrice);
+	    return "back-end/roomorder/listOneRoomOrder";
+	}
 
 //-------------------------roomschedule-------------------------
 
@@ -217,6 +233,15 @@ public class IndexController_inSpringBoot {
 	public String listCheckOutItem(Model model) {
 		List<RoomOrder> list = roomOrderSvc.getTodayCheckOut();
 		model.addAttribute("checkOutList", list);
+		model.addAttribute("isToday", true);
+		return "back-end/roomorderitem/checkout";
+	}
+	
+	@GetMapping("/roomorderitem/allCheckout")
+	public String listAllCheckOutItem(Model model) {
+		List<RoomOrder> list = roomOrderSvc.getAllCheckOut();
+		model.addAttribute("checkOutList", list);
+		model.addAttribute("isToday", false);
 		return "back-end/roomorderitem/checkout";
 	}
 

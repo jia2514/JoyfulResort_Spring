@@ -1,30 +1,24 @@
 package com.joyfulresort.jia.roomorderitem.model;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
-import org.apache.naming.java.javaURLContextFactory;
 import org.hibernate.SessionFactory;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.joyfulresort.jia.roomorder.model.RoomOrder;
-import com.joyfulresort.jia.roomorder.model.RoomOrderRepository;
 import com.joyfulresort.jia.roomorder.model.RoomOrderService;
+import com.joyfulresort.jia.roomschedule.model.RoomSchedule;
+import com.joyfulresort.jia.roomschedule.model.RoomScheduleRedisService;
 import com.joyfulresort.jia.roomschedule.model.RoomScheduleRepository;
 import com.joyfulresort.yu.room.model.Room;
-import com.joyfulresort.yu.room.model.RoomRepository;
-
-import hibernate.util.CompositeQuery.HibernateUtil_CompositeQuery_RoomOrder;
-import hibernate.util.CompositeQuery.HibernateUtil_CompositeQuery_RoomSchedule;
 
 @Service("roomOrderItemService")
 public class RoomOrderItemService {
@@ -37,6 +31,9 @@ public class RoomOrderItemService {
 	
 	@Autowired
 	RoomOrderService roSvc;
+	
+	@Autowired
+	RoomScheduleRedisService rsRedisSvc;
 	
 
 	@Autowired
@@ -60,7 +57,7 @@ public class RoomOrderItemService {
 		Set<RoomOrderItem> set = roomOrder.getRoomOrderItems();
 		int count=0;
 		for(RoomOrderItem roi : set) {
-			if(roi.getRoomOrderItemState()==2 || roi.getRoomOrderItemState()==3 || roi.getRoomOrderItemState()==4) {
+			if(roi.getRoomOrderItemState()==2 || roi.getRoomOrderItemState()==3) {
 				count++;
 			}
 		}
@@ -68,7 +65,21 @@ public class RoomOrderItemService {
 			roomOrder.setRoomOrderState((byte)2);
 			roomOrder.setCompleteDateTime(new Timestamp(System.currentTimeMillis()));
 		}
-
+		Set<RoomSchedule> rsSet = new LinkedHashSet<>();
+		for(RoomSchedule roomSchedule :roomOrderItem.getRoomSchedules()) {
+			Date date=roomSchedule.getRoomScheduleDate();
+			if (date.getTime()> System.currentTimeMillis()) {
+				System.out.println(roomSchedule);
+				Integer roomTypeId= roomSchedule.getRoomType().getRoomTypeId();
+				rsRedisSvc.addOrDeleteRedisRoomSchedule(date, roomTypeId, -1, 1);
+				roomOrderItem.getRoomSchedules().remove(roomSchedule);
+				rsRepository.delete(roomSchedule);
+			}else {
+				rsSet.add(roomSchedule);
+			}
+		}
+		
+		roomOrderItem.setRoomSchedules(rsSet);
 		roomOrderItem.setRoom(room);
 		roomOrderItem.setRoomOrder(roomOrder);
 
@@ -96,12 +107,12 @@ public class RoomOrderItemService {
 	@Transactional
 	public RoomOrderItem cancelRoomOrderItem(Integer roomOrderItemId) {
 		RoomOrderItem roomOrderItem = getOneRoomOrderItem(roomOrderItemId);
-		roomOrderItem.setRoomOrderItemState((byte)4);
+		roomOrderItem.setRoomOrderItemState((byte)3);
 		RoomOrder roomOrder = roomOrderItem.getRoomOrder();
 		Set<RoomOrderItem> set = roomOrder.getRoomOrderItems();
 		int count=0;
 		for(RoomOrderItem roi : set) {
-			if(roi.getRoomOrderItemState()==4) {
+			if(roi.getRoomOrderItemState()==2 || roi.getRoomOrderItemState()==3) {
 				count++;
 			}
 		}
@@ -110,7 +121,11 @@ public class RoomOrderItemService {
 			roSvc.cancelRoomOrder(roomOrder.getRoomOrderId());
 			return getOneRoomOrderItem(roomOrderItemId);
 		}
-		
+		for(RoomSchedule roomSchedule :roomOrderItem.getRoomSchedules()) {
+			Date date=roomSchedule.getRoomScheduleDate();
+			Integer roomTypeId= roomSchedule.getRoomType().getRoomTypeId();
+			rsRedisSvc.addOrDeleteRedisRoomSchedule(date, roomTypeId, -1, 1);
+		}
 		
         rsRepository.deleteAll(roomOrderItem.getRoomSchedules());
         roomOrderItem.setRoomSchedules(null);
@@ -119,5 +134,7 @@ public class RoomOrderItemService {
         return repository.saveAndFlush(roomOrderItem);
        
 	}
+	
+	
 
 }

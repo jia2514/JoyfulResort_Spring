@@ -36,7 +36,6 @@ public class RoomScheduleRedisService {
 				jedis.hset(key, "availableRooms", availableRooms);
 			}
 
-			System.out.println("Data stored successfully.");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -58,8 +57,8 @@ public class RoomScheduleRedisService {
 
 			Integer newCheckInCount = Integer.valueOf(checkInCount) + checkInCountChange;
 			Integer newAvailableRooms = Integer.valueOf(availableRooms) + availableRoomsChange;
-			System.out.println(key + "checkInCount" + checkInCount + "newCheckInCount" + newCheckInCount
-					+ "availableRooms" + availableRooms + "newAvailableRooms" + newAvailableRooms);
+//			System.out.println(key + "checkInCount" + checkInCount + "newCheckInCount" + newCheckInCount
+//					+ "availableRooms" + availableRooms + "newAvailableRooms" + newAvailableRooms);
 			jedis.hset(key, "checkInCount", newCheckInCount.toString());
 			jedis.hset(key, "availableRooms", newAvailableRooms.toString());
 
@@ -83,7 +82,7 @@ public class RoomScheduleRedisService {
 				
 				String key = roomTypeId + ":" + date;
 				String availableRoomsStr = jedis.hget(key, "availableRooms");
-				System.out.println("availableRoomsStr+"+availableRoomsStr);
+//				System.out.println("availableRoomsStr+"+availableRoomsStr);
 				if (availableRoomsStr != null) {
 					int availableRooms = Integer.parseInt(availableRoomsStr);
 					minAvailableRooms = Math.min(minAvailableRooms, availableRooms);

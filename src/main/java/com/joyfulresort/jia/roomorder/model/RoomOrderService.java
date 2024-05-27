@@ -50,6 +50,10 @@ public class RoomOrderService {
 		return repository.findByTodayCheckOut();
 	}
 	
+	public List<RoomOrder> getAllCheckOut() {
+		return repository.findAllCheckOut();
+	}
+	
 	public List<RoomOrder> getAll(Map<String, String[]> map) {
 		Map<String, String> query = new HashMap<>();
 		// Map.Entry即代表一組key-value
@@ -161,6 +165,8 @@ public class RoomOrderService {
 		RoomOrder roomOrder = getOneRoomOrder(roomOrderId);
 		return roomOrder.getRoomOrderItems();
 	}
+
+	
 
 	
 	

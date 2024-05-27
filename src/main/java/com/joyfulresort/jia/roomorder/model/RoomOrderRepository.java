@@ -25,6 +25,10 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder, Integer> {
 	//---使用會員編號 查詢會員個人訂單---
 	@Query(nativeQuery = true, value = "SELECT * FROM room_order WHERE member_id=?1")
 	List<RoomOrder> findRoomOrderByMemberId(Integer memberId);
+
+	@Transactional
+	@Query(value = "select * from room_order where room_order_state =4 order by check_out_date", nativeQuery = true)
+	List<RoomOrder> findAllCheckOut();
 		
 				
 		
