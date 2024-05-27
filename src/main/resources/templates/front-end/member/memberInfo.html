@@ -394,7 +394,7 @@
 									<tr>
 										<td th:text="${MeetingRoomOrder.meetingRoomOrderId}"></td>
 										<td th:text="${MeetingRoomOrder.meetingRoom.meetingRoomName}"></td>
-										<td th:text="${MeetingRoomOrder.meetingRoomOrderDate}"></td>
+										<td th:text="${#dates.format(MeetingRoomOrder.meetingRoomOrderDate, 'yyyy-MM-dd')}"></td>
 										<td th:text="${#dates.format(MeetingRoomOrder.bookingDate, 'yyyy-MM-dd')}"></td>
 										<td>
 											<button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -411,7 +411,7 @@
 											<span style="color: #198754;" th:case="2">完成退款</span>
 										</td>
 										<td>
-											
+
 											<th:block th:if="${MeetingRoomOrder.orderState==1}">
 												<button id="MeetingRoomOrder" type="button"
 													class="btn btn-outline-dark">取消訂單</button>

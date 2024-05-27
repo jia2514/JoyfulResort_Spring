@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <title>Conference Order</title>
+    <title>Order</title>
     <link th:insert="~{/front-end/htmlfile/css.html}"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -177,8 +177,8 @@
                                 </div>
 
                                 <div class="form-check" style="float: left">
-                                    <input class="form-check-input" type="checkbox" name="rememberMe" value="" id="rememberMe">
-                                    <label class="form-check-label" for="rememberMe">記住我</label>
+                                    <!-- 									  <input class="form-check-input" type="checkbox" name="rememberMe" value="" id="rememberMe"> -->
+                                    <!-- 									  <label class="form-check-label" for="rememberMe">記住我</label> -->
                                 </div>
                             </div>
                         </div>
@@ -267,8 +267,9 @@
 
 
 <div class="container" style="margin-top: 5%">
-    <h2 class="mx-auto fw-bold text-center" style="color: #847674;  margin-bottom: 10px">
-        預訂場地</h2>
+    <h2 class="mx-auto text-center lora-type" style="color: #847674;  margin-bottom: 10px">
+        RESERVATION</h2>
+    <p class="fw-bold text-center h5 mb-4" style="margin-top: -20px">預訂場地</p>
     <div class="row">
         <div class="col-12 room">
             <div class="row mt-5 ms-2 me-2 mb-0" th:each=" meetingRooms : ${meetingRooms} "
@@ -473,13 +474,14 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
 
-
     let today = new Date();
+    today.setHours(0, 0, 0, 0);  // 將今天的時間設置為 00:00:00.000
+
     /*[# th:each="meetingRooms : ${meetingRooms}"]*/
     document.addEventListener('DOMContentLoaded', function () {
         $('#collapse' + /*[[${meetingRooms.meetingRoomId}]]*/).on('shown.bs.collapse', function () {
             const meetingRoomId = /*[[${meetingRooms.meetingRoomId}]]*/;
-            const calendarEl = document.getElementById('calendar' + meetingRoomId)
+            const calendarEl = document.getElementById('calendar' + meetingRoomId);
             let selectedDates = [];
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
@@ -497,9 +499,9 @@
                 selectable: true,
                 selectHelper: true,
                 editable: false,
-                selectAllow: function (selectInfo) {
-                    return selectInfo.start >= today;
-                },
+                // selectAllow: function (selectInfo) {
+                //     return selectInfo.start > today; // 排除今天
+                // },
                 select: function (selectionInfo) {
                     const selectedDateTime = selectionInfo.startStr;
                     const modalId = '#bookingModal' + meetingRoomId;
@@ -509,7 +511,7 @@
                     }
 
                     selectedDates.push(selectedDateTime);
-                    $(modalId).modal('toggle')
+                    $(modalId).modal('toggle');
                     $(modalId).find('#selectedDateTime').val(selectedDateTime);
                     $(modalId).find('#meetingRoomId').val(meetingRoomId);
                     sendData(selectedDateTime, meetingRoomId);
@@ -521,9 +523,29 @@
                             const events = data.map(event => ({
                                 title: "已滿",
                                 start: event.start,
-                                allDay: true
+                                allDay: true,
+                                textColor: 'red'
                             }));
-                            successCallback(events);
+
+                            let eventDates = data.map(event => new Date(event.start).toDateString());
+
+                            let validDates = [];
+                            let startDate = new Date('2024-05-01');
+                            let endDate = new Date('2024-08-01');
+                            let date = new Date(startDate);
+                            while (date <= endDate) {
+                                if (!eventDates.includes(date.toDateString()) && date > today) { // 排除今天
+                                    validDates.push({
+                                        title: "可預訂",
+                                        start: date.toISOString().split('T')[0],
+                                        allDay: true,
+                                        textColor: 'green' // 標題顯示為綠色
+                                    });
+                                }
+                                date.setDate(date.getDate() + 1);
+                            }
+
+                            successCallback(events.concat(validDates));
                         })
                         .catch(error => {
                             console.error('Error fetching events:', error);
@@ -535,19 +557,34 @@
                     start: '2024-05-01',
                     end: '2024-08-01'
                 },
-                eventDisplay: 'block',
+                eventDidMount: function (info) {
+                    if (info.event.title === "可預訂") {
+                        // 為包含可預訂事件的整個日期格添加點擊事件
+                        info.el.addEventListener('click', function() {
+                            const selectedDateTime = info.event.startStr;
+                            const modalId = '#bookingModal' + meetingRoomId;
+                            if (selectedDates.includes(selectedDateTime)) {
+                                alert('此日期已選擇');
+                                return;
+                            }
+
+                            selectedDates.push(selectedDateTime);
+                            $(modalId).modal('toggle');
+                            $(modalId).find('#selectedDateTime').val(selectedDateTime);
+                            $(modalId).find('#meetingRoomId').val(meetingRoomId);
+                            sendData(selectedDateTime, meetingRoomId);
+                        });
+                    }
+                },
                 dayCellDidMount: function (info) {
-                    if (info.date <= today) {
+                    if (info.date < today) {
                         info.el.style.backgroundColor = '#f3f3f3'; // 改變今天以前的日期背景顏色
                     }
-
-
                 }
-
-            })
-            calendar.render()
-        })
-    })
+            });
+            calendar.render();
+        });
+    });
 
     function sendData(selectedDateTime, meetingRoomId) {
         document.getElementById('selectedDateTime').value = selectedDateTime;

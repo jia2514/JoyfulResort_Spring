@@ -136,7 +136,7 @@
                         </td>
                         <td style="border-left: 1px solid #ddd">
                             <select class="refundState" th:attr="data-id=${order.meetingRoomOrderId}">
-                                <option value="0" th:selected="${order.refundState == 0}">不須退款</option>
+                                <option value="0" th:selected="${order.refundState == 0}">無退款</option>
                                 <option value="1" th:selected="${order.refundState == 1}">退款中</option>
                                 <option value="2" th:selected="${order.refundState == 2}">完成退款</option>
                             </select>
