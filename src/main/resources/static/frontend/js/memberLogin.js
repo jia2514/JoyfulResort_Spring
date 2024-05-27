@@ -64,7 +64,13 @@ $('#Button_Login').click(function () {
           alert('登入成功')
           window.location.reload()
         } else {
-          $('#errorMessage').html('帳號或密碼錯誤')
+          if(data.AccountState == '2'){
+            alert('此帳號已被停權')
+            
+          } else{
+            $('#errorMessage').html('帳號或密碼錯誤')
+          }
+          
         }
       }
     })
