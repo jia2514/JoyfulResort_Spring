@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+    <meta charset="UTF-8">
+    <title>所有媒體報導</title>
+	<link th:insert="~{/back-end/htmlfile/css.html}"/>   
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <style type="text/css">
+h1 {
+    margin-top: 0; /* 移除标题顶部间距 */
+    margin-bottom: 20px; /* 添加标题底部间距 */
+}
+.body{
+	width:100%;
+	height:calc(100% - 71.33px);
+	overflow-x:auto;
+}
+
+table {
+     /* width: 100%;表格宽度填满父容器 */
+    text-align: center; /* 居中对齐表格内容 */
+    margin-top: 20px; /* 表格顶部间距 */
+    border-collapse: collapse; /* 合并表格边框 */
+}
+
+th, td {
+    padding: 10px; /* 单元格内边距 */
+    border: 1px solid #dddddd; /* 单元格边框 */
+}
+
+th {
+    background-color: #0056b3; /* 表头背景颜色 */
+    color: white; /* 表头文字颜色 */
+    min-width:125px;
+    padding:5px;
+    text-align:center;
+}
+
+th:nth-child(5){
+	min-width:200px;
+	
+}
+
+
+th {
+    background-color: #004080; /* 深蓝色表头背景 */
+    color: white; /* 表头文字颜色 */
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* 偶数行背景颜色 */
+}
+tr td:nth-child(5){
+	display:flex;
+	justify-content:center;
+	align-items: center;
+	min-height: 155px;
+}
+
+tr td:nth-child(5)>button{
+	height:35px;
+	background:#17a2b8;
+}
+
+a {
+    text-decoration: none; /* 移除链接下划线 */
+    color: #007bff; /* 链接颜色 */
+}
+
+a:hover {
+    text-decoration: underline; /* 鼠标悬停时添加下划线 */
+}
+
+input[type="submit"] {
+    background-color: #007bff; /* 浅蓝色按钮背景颜色 */
+    color: #ffffff; /* 按钮文字颜色 */
+    border: none; /* 移除按钮边框 */
+    border-radius: 5px; /* 圆角按钮 */
+    padding: 8px 16px; /* 按钮内边距 */
+    cursor: pointer; /* 鼠标悬停时显示手型 */
+}
+
+input[type="submit"]:hover {
+    background-color: #4d94ff; /* 鼠标悬停时按钮背景颜色 */
+}
+
+.modal-body {
+            white-space: pre-wrap;
+        }
+</style>	
+  
+</head>
+<body>
+ <th:block th:insert="~{/back-end/htmlfile/content1}"/>
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded">
+            <div class="G3_content">
+
+    <h1>所有常見問題</h1>
+    <div class="body">
+    <table style="width:100%; text-align:left;">
+
+        <tr>
+            <th>常見問題編號</th>
+			<th>關鍵字查詢</th>
+			<th>常見問題答覆</th>
+			<th>狀態更新</th>
+				
+        </tr>
+        
+        
+   <tr th:each="qaList : ${qaList}">
+            <td th:text="${qaList.qaId}"></td>
+            <td th:text="${qaList.keyWord}"></td>
+            <td th:text="${qaList.qaAnswer}"></td>
+			 
+			
+            <td>
+    		<form method="post" th:action="@{/qalist/getOne_For_Update}" style="margin-bottom: 0px;">
+			<input type="submit" value="修改">
+			<input type="hidden" name="qaId" th:value="${qaList.qaId}"></form>
+			</td>
+			
+        </tr>
+    </table>
+    </div>
+    
+        <a th:href="@{/qalist/qalistselect}">回首頁</a>
+    
+      		</div>
+        </div>
+    </div>
+    <th:block th:insert="~{/back-end/htmlfile/content2}"/>
+    <th:block th:insert="~{/back-end/htmlfile/script}"/>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
