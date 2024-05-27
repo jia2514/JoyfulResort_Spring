@@ -182,7 +182,7 @@
 			                <th>活動報名開始日期</th>
 			                <th>活動報名截止日期</th>
 			                <th>活動場次狀態</th>
-			                <th>修改資訊</th>
+			                <!-- <th>修改資訊</th> -->
 			        	</tr>
 		            </thead>
 		            
@@ -221,12 +221,12 @@
 								<td th:text="${activitySessionVO.enteredStart}"></td>
 								<td th:text="${activitySessionVO.enteredEnd}"></td>
 								<td th:text="${activitySessionVO.activitySessionStatus ? '上架':'下架'}"></td>
-								<td>
-									<form method="post" th:action="@{/activitysession/updatePage}">
-									<input type="submit" value="修改" id="update_btn">
-									<input type="hidden" name="activitySessionID" th:value="${activitySessionVO.activitySessionID}">
-									</form>
-								</td>
+<!-- 								<td> -->
+<!-- 									<form method="post" th:action="@{/activitysession/updatePage}"> -->
+<!-- 									<input type="submit" value="修改" id="update_btn"> -->
+<!-- 									<input type="hidden" name="activitySessionID" th:value="${activitySessionVO.activitySessionID}"> -->
+<!-- 									</form> -->
+<!-- 								</td> -->
 		            		</tr>
 		            	</th:block>
 		            	</th:block>
