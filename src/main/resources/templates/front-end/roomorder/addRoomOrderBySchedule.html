@@ -283,8 +283,8 @@ input[type='submit']:disabled {
 		
 		$.ajax({
 	        type: "POST",
-	        url: "/backend/member/Ajax",
-	        data: { memberID: $("#memberId").val() }, 
+	        url: "/roomorder/memberAjax",
+	        data: { memberId: $("#memberId").val() }, 
 	        dataType: "json",
 	        success: function(response) {
 	            if (response != null) {

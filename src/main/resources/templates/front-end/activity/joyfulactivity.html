@@ -161,7 +161,7 @@
 			<div class="container">
 		        <!-- <h4>活動介紹：</h4> -->
 		        
-		        <div th:each="activityVO, i : ${activityListData}" class="activity">
+		        <div th:each="activityVO, i : ${activityListData}" th:if="${activityVO.activityStatus == true}" class="activity">
 		            <div class="activity-info">
 		                <h3 th:text="${activityVO.activityName}"></h3>
 		                <p th:text="${activityVO.activityInfo}"></p>

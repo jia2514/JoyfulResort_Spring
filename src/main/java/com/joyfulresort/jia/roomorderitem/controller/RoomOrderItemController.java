@@ -120,7 +120,7 @@ public class RoomOrderItemController {
 	public ResponseEntity<Map<String, Object>> getOneToCancel(HttpServletRequest req) {
 		ResponseEntity<Map<String, Object>> itemInfo = getOneToUpdate(req);
 		Integer roomOrderItemId = Integer.parseInt(itemInfo.getBody().get("roomOrderItemId").toString());
-		RoomOrderItem roomOrderItem = roomOrderItemSvc.cancelRoomOrderItem(roomOrderItemId);
+		RoomOrderItem roomOrderItem = roomOrderItemSvc.cancelRoomOrderItem(roomOrderItemId,(byte)4);
 		
 		Map<String, Object> roomOrderItemInfo = new HashMap<>();
 		roomOrderItemInfo.put("roomOrderItemId", roomOrderItem.getRoomOrderItemId());

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background-color: #f0f0f0; /* 背景顏色 */
+        }
+        .error-message {
+            text-align: center;
+            font-size: 24px;
+            color: #333; /* 文字顏色 */
+        }
+        .error-image {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-message">
+            <h1>404 - 找不到頁面</h1>
+            <p>抱歉，您所訪問的頁面不存在。即將返回上一頁</p>
+        </div>
+		<a href="javascript:history.back()"> <img class=""	th:src="@{frontend/images/404cat.jpg}" alt=""
+						style="width: 700px; height: 700px;">
+					</a>    </div>
+</body>
+<script>
+	setTimeout(function() {
+		history.go(-1); // 返回上一页
+	}, 3000); // 5000 毫秒后自动跳转
+</script>
+</html>

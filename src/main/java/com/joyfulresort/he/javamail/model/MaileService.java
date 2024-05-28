@@ -23,8 +23,8 @@ import org.springframework.stereotype.Service;
 @Service("MaileService")
 public class MaileService {
 
-//	@Autowired
-//	@Qualifier("memberJavaMailSender")
+	@Autowired
+	@Qualifier("memberJavaMailSender")
 	private JavaMailSender sender;
 	
 
@@ -33,17 +33,18 @@ public class MaileService {
 	// 收件地址
 	private String to = "dh91009@gmail.com";
 	// 發送地址
-	private String from = "dh91009@gmail.com";
+	private String from = "童樂渡假村 <dh91009@gmail.com>";
 
 	// 純文字郵件(test)
-	public void sendSimpleMail() {
+	public void sendSimpleMail(String to, String subject, String messageText) {
+		
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setSubject(subject);
-		mail.setText(content);
+		mail.setText(messageText);
 		mail.setTo(to);
 		mail.setFrom(from);
 		sender.send(mail);
-//		System.out.println("發送成功!!");
+		System.out.println("發送成功!!");
 
 	}
 
@@ -142,42 +143,6 @@ public class MaileService {
 
 		sender.send(mail);
 //		System.out.println("Mime郵件發送成功");
-	}
-
-	public void sendMail(String to, String subject, String messageText) {
-
-		try {
-			// 設定使用SSL連線至 Gmail smtp Server
-			Properties props = new Properties();
-			props.put("mail.smtp.host", "smtp.gmail.com");
-			props.put("mail.smtp.socketFactory.port", "465");
-			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.port", "465");
-
-			final String myGmail = "dh91009@gmail.com";
-			final String myGmail_password = "qdqsrhsgvmkzyzyf";
-			Session session = Session.getInstance(props, new Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(myGmail, myGmail_password);
-				}
-			});
-
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(myGmail));
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-
-			// 設定信中的主旨
-			message.setSubject(subject);
-			// 設定信中的內容
-			message.setText(messageText);
-
-			Transport.send(message);
-			System.out.println("傳送成功!");
-		} catch (MessagingException e) {
-			System.out.println("傳送失敗!");
-			e.printStackTrace();
-		}
 	}
 
 }

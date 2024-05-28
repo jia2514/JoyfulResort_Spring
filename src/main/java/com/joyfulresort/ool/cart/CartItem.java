@@ -5,7 +5,6 @@ import java.util.Date;
 public class CartItem {
     private String cartId;
     private String meetingRoomName;
-
     private Date bookingDate;
     private int quantity;
     private Integer meetingRoomPrice;
