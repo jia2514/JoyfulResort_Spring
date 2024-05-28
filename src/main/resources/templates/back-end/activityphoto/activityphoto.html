@@ -133,8 +133,9 @@
 	    		</form> -->
 	    		
 	    		<form method="post" th:action="@{/activityphoto/listType}">
-	    			<label>選擇活動類別：</label>
+	    			<label>選擇活動：</label>
 	    			<select name="activityID">
+	    				<option value="">請選擇活動
 	    				<option th:each="activityVO : ${activityListData}" th:value="${activityVO.activityID}" th:text="${activityVO.activityName}" />
 	    			</select>
 	    			<input type="submit" id="queryall_btn" value="查詢">

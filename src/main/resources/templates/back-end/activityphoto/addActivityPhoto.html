@@ -105,8 +105,8 @@
 				<form th:action="@{/activityphoto/insert}" method="post" th:object="${activityPhotoVO}" enctype="multipart/form-data">
 					<div>
 						<label>活動名稱</label>
-	
 						<select th:field="*{activityVO.activityID}">
+							<option value="">請選擇活動
 							<option th:each="activityVO : ${activityListData}" th:value="${activityVO.activityID}" th:text="${activityVO.activityName}" />
 						</select>
 					</div>
