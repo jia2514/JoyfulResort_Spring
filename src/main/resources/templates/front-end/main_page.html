@@ -396,12 +396,12 @@ body {
 								name="email" required>
 						</div>
 						<div class="form-group">
-							<label for="subject">主旨</label> <input type="text" id="subject"  maxlength="30" placeholder="最多15個字"
+							<label for="subject">主旨</label> <input type="text" id="subject" minlength="2" maxlength="30" placeholder="最多15個字"
 								name="subject" required>
 						</div>
 						<div class="form-group">
 							<label for="message">你的訊息</label>
-							<textarea id="message" name="message" rows="4" maxlength="200" placeholder="最多100字"  required></textarea>
+							<textarea id="message" name="message" rows="4"  maxlength="200" minlength="6" placeholder="最多100字  "  style=" max-height: 200px; " required></textarea>
 						</div>
 						<div class="form-group">
 							<input type="submit" class="submit-btn" value="送出" >
