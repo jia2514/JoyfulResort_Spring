@@ -7,8 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository("QaListRepository")
 public interface QaListRepository extends JpaRepository<QaList, Integer > {
-
     Set<QaList> findByKeyWordContainingIgnoreCase(String keyWord);
-
 }
 

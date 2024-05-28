@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service("qaListService")
 public class QaListService {
@@ -26,16 +27,23 @@ public class QaListService {
   }
 
   public QaList getOneQaList(Integer qaId){
-      Optional<QaList> optional = qaListRepository.findById(qaId);
-      return optional.orElse(null);
+      return qaListRepository.findById(qaId).orElse(null);
   }
 
   public List<QaList> getAll(){
       return qaListRepository.findAll();
   }
 
-  public Set<QaList> getQaAnswer(String qaId){
-      return qaListRepository.findByKeyWordContainingIgnoreCase(qaId);
+  public Set<QaList> getQaAnswer(String keyWord){
+      return qaListRepository.findByKeyWordContainingIgnoreCase(keyWord);
   }
 
+
+//  public Set<QaList> getQaAnswer(String keyWord) {
+//      return qaListRepository.findAll().stream()
+//              .filter(qa -> qa.getKeyWord().toLowerCase().contains(keyWord.toLowerCase()) || 
+//                            qa.getQaAnswer().toLowerCase().contains(keyWord.toLowerCase()))
+//              .collect(Collectors.toSet());
+//  }
 }
+
