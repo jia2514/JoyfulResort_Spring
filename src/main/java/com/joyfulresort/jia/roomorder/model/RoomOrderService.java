@@ -27,33 +27,32 @@ public class RoomOrderService {
 
 	@Autowired
 	RoomOrderRepository repository;
-	
+
 	@Autowired
 	RoomScheduleRepository rsRepository;
-	
+
 	@Autowired
 	RoomScheduleRedisService rsRedisSvc;
-	
+
 	@Autowired
-    private SessionFactory sessionFactory;
-		
-	
+	private SessionFactory sessionFactory;
+
 	public List<RoomOrder> getAll() {
 		return repository.findAll();
 	}
-	
-	public List<RoomOrder> getTodayCheckIn(){
+
+	public List<RoomOrder> getTodayCheckIn() {
 		return repository.findByTodayCheckIn();
 	}
 
-	public List<RoomOrder> getTodayCheckOut(){
+	public List<RoomOrder> getTodayCheckOut() {
 		return repository.findByTodayCheckOut();
 	}
-	
+
 	public List<RoomOrder> getAllCheckOut() {
 		return repository.findAllCheckOut();
 	}
-	
+
 	public List<RoomOrder> getAll(Map<String, String[]> map) {
 		Map<String, String> query = new HashMap<>();
 		// Map.Entry即代表一組key-value
@@ -73,71 +72,77 @@ public class RoomOrderService {
 			query.put(key, value);
 		}
 		HibernateUtil_CompositeQuery_RoomOrder composite = new HibernateUtil_CompositeQuery_RoomOrder();
-		return composite.getAllC(query,sessionFactory.openSession());
+		return composite.getAllC(query, sessionFactory.openSession());
 	}
-	
+
 	@Transactional
-	public RoomOrder cancelRoomOrder(Integer roomOrderId) {
+	public RoomOrder cancelRoomOrder(Integer roomOrderId, Byte roomOrderItemState) {
 		RoomOrder roomOrder = getOneRoomOrder(roomOrderId);
-		
+
 		long miliseconds = System.currentTimeMillis();
 		long checkInMiliseconds = roomOrder.getCheckInDate().getTime();
 		long differenceInTime = checkInMiliseconds - miliseconds;
-        int differenceInDays = (int)(differenceInTime / (1000 * 3600 * 24));
+		int differenceInDays = (int) (differenceInTime / (1000 * 3600 * 24));
 
-        if (differenceInDays <= 3) {
-        	roomOrder.setRoomOrderState((byte)0);
-        	roomOrder.setRefundState((byte)0);
-        	roomOrder.setCompleteDateTime(new Timestamp(miliseconds));
-        	for(RoomOrderItem roomOrderItem :roomOrder.getRoomOrderItems()) {
-        		
-        		for(RoomSchedule roomSchedule :roomOrderItem.getRoomSchedules()) {
-        			Date date=roomSchedule.getRoomScheduleDate();
-        			Integer roomTypeId= roomSchedule.getRoomType().getRoomTypeId();
-        			rsRedisSvc.addOrDeleteRedisRoomSchedule(date, roomTypeId, -1, 1);
-        		}
-        		
-        		rsRepository.deleteAll(roomOrderItem.getRoomSchedules());
-        		roomOrderItem.setRoomSchedules(null);
-        		roomOrderItem.setRoomOrderItemState((byte)4);
-        		roomOrderItem.setSpecialREQ("距離入住日期不足三天取消, 無退款");
-        	}
-            return repository.saveAndFlush(roomOrder);
-        } else {
-        	roomOrder.setRoomOrderState((byte)3);
-        	roomOrder.setRefundState((byte)1);
-        	return repository.saveAndFlush(roomOrder);
-        }
+		if (differenceInDays <= 3) {
+			roomOrder.setRoomOrderState((byte) 0);
+			roomOrder.setRefundState((byte) 0);
+			roomOrder.setCompleteDateTime(new Timestamp(miliseconds));
+			for (RoomOrderItem roomOrderItem : roomOrder.getRoomOrderItems()) {
+
+				if (roomOrderItem.getRoomSchedules() != null) {
+					for (RoomSchedule roomSchedule : roomOrderItem.getRoomSchedules()) {
+						Date date = roomSchedule.getRoomScheduleDate();
+						Integer roomTypeId = roomSchedule.getRoomType().getRoomTypeId();
+						rsRedisSvc.addOrDeleteRedisRoomSchedule(date, roomTypeId, -1, 1);
+					}
+					rsRepository.deleteAll(roomOrderItem.getRoomSchedules());
+				}
+
+				roomOrderItem.setRoomSchedules(null);
+				roomOrderItem.setRoomOrderItemState(roomOrderItemState);
+				if (roomOrderItemState == 4) {
+					roomOrderItem.setSpecialREQ("距離入住日期不足三天取消, 無退款");
+				} else {
+					roomOrderItem.setSpecialREQ("入住當天未在18:00前checkin, 無退款");
+				}
+
+			}
+			return repository.saveAndFlush(roomOrder);
+		} else {
+			roomOrder.setRoomOrderState((byte) 3);
+			roomOrder.setRefundState((byte) 1);
+			return repository.saveAndFlush(roomOrder);
+		}
 	}
-	
-	
+
 	@Transactional
 	public RoomOrder refundRoomOrder(Integer roomOrderId) {
 		RoomOrder roomOrder = getOneRoomOrder(roomOrderId);
 		long miliseconds = System.currentTimeMillis();
-		roomOrder.setRoomOrderState((byte)0);
-    	roomOrder.setRefundState((byte)2);
-    	roomOrder.setCompleteDateTime(new Timestamp(miliseconds));
-    	for(RoomOrderItem roomOrderItem :roomOrder.getRoomOrderItems()) {
-    		
-    		for(RoomSchedule roomSchedule :roomOrderItem.getRoomSchedules()) {
-    			Date date=roomSchedule.getRoomScheduleDate();
-    			Integer roomTypeId= roomSchedule.getRoomType().getRoomTypeId();
-    			rsRedisSvc.addOrDeleteRedisRoomSchedule(date, roomTypeId, -1, 1);
-    		}
-    		
-    		rsRepository.deleteAll(roomOrderItem.getRoomSchedules());
-    		roomOrderItem.setRoomSchedules(null);
-    		roomOrderItem.setRoomOrderItemState((byte)4);
-    		roomOrderItem.setSpecialREQ("已退款");
-    	}
+		roomOrder.setRoomOrderState((byte) 0);
+		roomOrder.setRefundState((byte) 2);
+		roomOrder.setCompleteDateTime(new Timestamp(miliseconds));
+		for (RoomOrderItem roomOrderItem : roomOrder.getRoomOrderItems()) {
+
+			for (RoomSchedule roomSchedule : roomOrderItem.getRoomSchedules()) {
+				Date date = roomSchedule.getRoomScheduleDate();
+				Integer roomTypeId = roomSchedule.getRoomType().getRoomTypeId();
+				rsRedisSvc.addOrDeleteRedisRoomSchedule(date, roomTypeId, -1, 1);
+			}
+
+			rsRepository.deleteAll(roomOrderItem.getRoomSchedules());
+			roomOrderItem.setRoomSchedules(null);
+			roomOrderItem.setRoomOrderItemState((byte) 4);
+			roomOrderItem.setSpecialREQ("已退款");
+		}
 		return repository.saveAndFlush(roomOrder);
 	}
-	
+
 	public RoomOrder addRoomOrder(RoomOrder roomOrder) {
 		return repository.saveAndFlush(roomOrder);
 	}
-	
+
 	public void updateRoomOrder(RoomOrder roomOrder) {
 		repository.save(roomOrder);
 	}
@@ -148,16 +153,10 @@ public class RoomOrderService {
 		return optional.orElse(null); // public T orElse(T other) : 如果值存在就回傳其值，否則回傳other的值
 	}
 
-	
-
-	
-	
-
-	
 	public RoomOrder completeRoomOrder(Integer roomOrderId) {
 		RoomOrder roomOrder = getOneRoomOrder(roomOrderId);
-		roomOrder.setRoomOrderState((byte)2);
-    	roomOrder.setRefundState((byte)0);
+		roomOrder.setRoomOrderState((byte) 2);
+		roomOrder.setRefundState((byte) 0);
 		return repository.saveAndFlush(roomOrder);
 	}
 
@@ -166,12 +165,4 @@ public class RoomOrderService {
 		return roomOrder.getRoomOrderItems();
 	}
 
-	
-
-	
-	
-	
-	
-	
-	
 }

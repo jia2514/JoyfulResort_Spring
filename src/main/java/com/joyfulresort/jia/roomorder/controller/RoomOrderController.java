@@ -1,5 +1,6 @@
 package com.joyfulresort.jia.roomorder.controller;
 
+import java.io.Console;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.HashMap;
@@ -117,7 +118,7 @@ public class RoomOrderController {
 	public ResponseEntity<Map<String, Object>> getOneToCancel(@RequestParam("roomOrderId") String roomOrderId) {
 		Integer orderId = Integer.valueOf(roomOrderId);
 
-		RoomOrder roomOrder = roomOrderSvc.cancelRoomOrder(orderId);
+		RoomOrder roomOrder = roomOrderSvc.cancelRoomOrder(orderId,(byte)4);
 
 		Map<String, Object> roomOrderInfo = new HashMap<>();
 		roomOrderInfo.put("roomOrderId", roomOrder.getRoomOrderId());
@@ -170,7 +171,7 @@ public class RoomOrderController {
 	    roomOrder.setCheckInDate(checkInDate);
 	    roomOrder.setCheckOutDate(checkOutDate);
 	    roomOrder.setMember(member);
-
+	    System.out.println(member.getMemberState());
 	    long diffInMillies = checkOutDate.getTime() - checkInDate.getTime();
 	    int differenceInDays = (int) (diffInMillies / (1000 * 3600 * 24));
 	    Integer paramCount = Integer.valueOf(req.getParameter("paramCount"));
@@ -248,5 +249,13 @@ public class RoomOrderController {
 		return ResponseEntity.ok(roomType);
 	}
 
+	@PostMapping("memberAjax")
+	public ResponseEntity<MemberVO> memberAjax(@RequestParam("memberId") Integer memberId) {
+		
+		MemberVO member = memberSvc.getOneMember(memberId);
+		return ResponseEntity.ok(member);
+	}
+	
+	
 
 }
