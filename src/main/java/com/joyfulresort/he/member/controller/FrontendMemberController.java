@@ -404,7 +404,7 @@ public class FrontendMemberController {
 				String messageText = "Hello! " + member_name + "您的密碼已修改 請謹記此密碼: " + authCode2 + "\n" + " (已經啟用)";
 
 				// 寄送新密碼
-				mail.sendMail(inuptMail, subject, messageText);
+				mail.sendSimpleMail(inuptMail, subject, messageText);
 
 				obj.put("error", "true");
 				res.getWriter().print(obj);
