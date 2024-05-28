@@ -289,8 +289,7 @@
 	        var selectValue = currentRow.find("#mySelect").val();
 	        formData = decodeURIComponent(formData, true);
 	        formData += "&roomId=" + selectValue;
-	        console.log(formData);
-
+	        
 	        $.ajax({
 	            type: 'POST',
 	            url: '/roomorderitem/checkinUpdate',
@@ -346,15 +345,7 @@
 	        
 	    });
 	    
-	    
-	    
-	    
-	    
-	    
 	});
-		
-	
-		
 	</script>
 </body>
 </html>

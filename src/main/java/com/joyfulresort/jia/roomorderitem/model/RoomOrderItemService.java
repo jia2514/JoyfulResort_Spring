@@ -128,9 +128,9 @@ public class RoomOrderItemService {
 			int differenceInDays = (int) (differenceInTime / (1000 * 3600 * 24));
 
 			if (roomOrderItemState==3) {
-				roomOrderItem.setSpecialREQ("入住當天未在18:00前checkin, 無退款");
+				roomOrderItem.setSpecialREQ("無退款");
 			}else if(roomOrderItemState==4 && differenceInDays <= 3) {
-				roomOrderItem.setSpecialREQ("距離入住日期不足三天取消, 無退款");
+				roomOrderItem.setSpecialREQ("無退款");
 			}else if(roomOrderItemState==4 && differenceInDays > 3) {
 				roomOrderItem.setSpecialREQ("入住期間以現金退款");
 			}

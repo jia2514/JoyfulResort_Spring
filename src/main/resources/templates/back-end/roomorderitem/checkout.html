@@ -118,7 +118,7 @@ button.custom-button:hover {
 					<h4 class="isCheckoutTime"></h4>
 					<div class="button-container">
 						<button id ="todaycheckout" class="custom-button" onclick="location.href='/roomorderitem/checkout'">今日checkout明細</button>
-						<button id ="allcheckout" class="custom-button" onclick="location.href='/roomorderitem/allCheckout'">所有入住中明細</button>
+						<button id ="allcheckout" class="custom-button" onclick="location.href='/roomorderitem/allCheckout'">所有checkout明細</button>
 						<span id="isToday" th:text="${isToday}" style="display:none;"></span>
 					</div>
 				</div>
@@ -218,7 +218,7 @@ button.custom-button:hover {
 	    	$('#isTodayDisplay').text('今日');
 	    	$('#todaycheckout').hide();
 	    }else{
-	    	$('#isTodayDisplay').text('全部');
+	    	$('#isTodayDisplay').text('所有');
 	    	$('#allcheckout').hide();
 	    	$('.today-date-display').hide();
 	    }
@@ -227,7 +227,7 @@ button.custom-button:hover {
 	    $('tr').each(function() {
     		var roomState = $(this).find('input[name="roomState"]').val();
     		var checkoutdate = $(this).find('.checkOutDate').text();
-    		console.log(checkoutdate);
+
     		if(roomState == 1){
     			if (checkoutdate===todayDateStr) {
         			$(this).css('background-color', 'mistyrose');
@@ -277,8 +277,8 @@ button.custom-button:hover {
 	                                    '<input type="hidden" name="roomId" value="' + roomId + '">' +
 	                                    '</form>');
 
-	                    buttonRow.append(newForm); // 添加新的表单   
-	                    console.log(buttonRow);
+	                    buttonRow.append(newForm); 
+
 	                    $('.room_' + room.roomId + ' .room_state').text(roomStateText); 
 	                    
 	                },

@@ -27,7 +27,8 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder, Integer> {
 	List<RoomOrder> findRoomOrderByMemberId(Integer memberId);
 
 	@Transactional
-	@Query(value = "select * from room_order where room_order_state =4 order by check_out_date", nativeQuery = true)
+	@Query(value = "select * from room_order where check_out_date >= CURDATE() AND check_in_date <= CURDATE() "
+			+ "AND (room_order_state=4 or room_order_state=2) order by check_out_date", nativeQuery = true)
 	List<RoomOrder> findAllCheckOut();
 		
 				

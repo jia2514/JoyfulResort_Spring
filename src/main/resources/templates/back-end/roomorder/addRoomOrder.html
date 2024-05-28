@@ -275,8 +275,7 @@ input[type='submit']:disabled {
 	                var isTheSame = results.every(function(result) {
 	                    return result.isTheSame;
 	                });
-	                console.log("isAvailable="+isAvailable);
-	                console.log("isTheSame="+isTheSame);
+	               
 	                resolve({isAvailable: isAvailable, isTheSame: isTheSame});
 	            })
 	            .catch(function(error) {
@@ -291,7 +290,7 @@ input[type='submit']:disabled {
 	        var roomAmountSelect = document.getElementById("roomAmount" + index);
 	        var chooseAmount = parseInt(roomAmountSelect.value);
 	        var minEmptyRooms = document.getElementById("minEmptyRooms"+index).value;
-	        console.log("minEmptyRooms="+minEmptyRooms);
+	        
 	        $.ajax({
 	            type: "POST",
 	            url: "/roomschedule/getRoomAmountRedis",
@@ -306,8 +305,7 @@ input[type='submit']:disabled {
 	                    var availableRoomAmount = parseInt(response);
 	                    var available = chooseAmount <= availableRoomAmount;
 	                    var isTheSame = minEmptyRooms == availableRoomAmount;
-	                    console.log("isTheSame="+isTheSame);
-	                    console.log("available="+available);
+	                    
 	                    resolve({ index: index, available: available, isTheSame: isTheSame});
 	                } else {
 	                    reject("No response received");
@@ -390,9 +388,7 @@ input[type='submit']:disabled {
 		var paramCount = $("#paramCount").val();
         for (var i = 1; i <= paramCount; i++) {
         	(function(index) {
-        		console.log($("#roomType" + index).val());
-        		console.log($("#checkInDate").val());
-        		console.log($("#checkOutDate").val());
+        		
         		$.ajax({
                     type: "POST",
                     url: "/roomschedule/getRoomAmountRedis",
@@ -439,22 +435,6 @@ input[type='submit']:disabled {
 	    
 	});
 	
-	
-// 	document.addEventListener("DOMContentLoaded", function() {
-// 	    console.log(document.cookie);
-	    
-// 	    var visitedAddRoomOrder = getCookie("visitedAddRoomOrder");
-	    
-// 	    if (visitedAddRoomOrder === "false") {
-// 	        $("input[type='submit']").prop("disabled", true);
-// 	        alert("此筆明細已成立訂單, 若想再次下訂, 請重新輸入日期人數並選擇合適的方案");
-// 	    }
-// 	});
-
-// 	function getCookie(name) {
-// 	    var cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-// 	    return cookieValue ? cookieValue.pop() : null;
-// 	}
 	
 	</script>
 </body>

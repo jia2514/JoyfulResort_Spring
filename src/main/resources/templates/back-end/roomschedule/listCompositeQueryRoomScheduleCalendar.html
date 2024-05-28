@@ -149,7 +149,6 @@
 		
 <script th:inline="javascript">
 	var schedule = /*[[${roomScheduleCount}]]*/ [];
-	console.log(schedule);
 </script>
 
 <script th:src="@{/backend/js/index.global.js}"></script>
@@ -158,7 +157,6 @@
     
     document.addEventListener('DOMContentLoaded', function() {
     	document.cookie = "visitedAddRoomOrder=true; path=/";
-    	console.log(document.cookie);
     	
     	var listQuery = JSON.parse(schedule);
     	
@@ -244,8 +242,9 @@
                
                 
                 if(changePage){
-					alert('選擇checkin日期為 ' + info.startStr + '\n checkout日期為 ' + info.endStr+ '\n 共預定 ' + bookingNight +' 晚住宿');
-					window.location.href = customPageURL;
+					if(confirm('選擇checkin日期為 ' + info.startStr + '\n checkout日期為 ' + info.endStr+ '\n 共預定 ' + bookingNight +' 晚住宿')){
+						window.location.href = customPageURL;
+					}
 				}else{
 					alert('請選擇有房型資料的日期區段');
 				}

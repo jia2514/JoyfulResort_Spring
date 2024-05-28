@@ -168,7 +168,7 @@ input[type='submit']:disabled {
 	                $("#memberPhone").val(response.memberPhone);
 	                $("#memberNameSpan").text(response.memberName);
 	                $("#memberPhoneSpan").text(response.memberPhone);
-	                console.log(response);
+	             
 	            }
 	        },
 	        error: function(xhr, status, error) {
@@ -241,10 +241,10 @@ input[type='submit']:disabled {
 	}
 	
 	document.addEventListener("DOMContentLoaded", function() {
-	    console.log(document.cookie);
+
 	    window.onload = function() {
 		    var visitedAddRoomOrder = getCookie("visitedAddRoomOrder");
-		    console.log(visitedAddRoomOrder);
+
 		    if (visitedAddRoomOrder === "false") {
 		    	$("input[type='submit']").prop("disabled", true);
 		    	alert("此筆明細已成立訂單, 若想再次下訂, 請重新輸入日期人數並選擇合適的方案");

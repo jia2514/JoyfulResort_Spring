@@ -98,18 +98,17 @@ public class RoomOrderService {
 					}
 					rsRepository.deleteAll(roomOrderItem.getRoomSchedules());
 				}
-
-				roomOrderItem.setRoomSchedules(null);
-				roomOrderItem.setRoomOrderItemState(roomOrderItemState);
-				if (roomOrderItemState == 4) {
-					roomOrderItem.setSpecialREQ("距離入住日期不足三天取消, 無退款");
-				} else {
-					roomOrderItem.setSpecialREQ("入住當天未在18:00前checkin, 無退款");
+				if(roomOrderItem.getRoomOrderItemState()==0) {
+					roomOrderItem.setRoomOrderItemState(roomOrderItemState);
 				}
-
+				roomOrderItem.setRoomSchedules(null);
+				roomOrderItem.setSpecialREQ("無退款");
 			}
 			return repository.saveAndFlush(roomOrder);
 		} else {
+			for (RoomOrderItem roomOrderItem : roomOrder.getRoomOrderItems()) {
+				roomOrderItem.setSpecialREQ("");
+			}
 			roomOrder.setRoomOrderState((byte) 3);
 			roomOrder.setRefundState((byte) 1);
 			return repository.saveAndFlush(roomOrder);

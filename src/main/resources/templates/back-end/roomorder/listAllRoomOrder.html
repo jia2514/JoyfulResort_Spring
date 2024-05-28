@@ -369,7 +369,6 @@ input[type="submit"].room_order_refund:hover {
 
 
             var buttonRow = $(this).closest('tr').find('.buttom_row'); 
-            console.log(buttonRow);
             
 	        $.ajax({
 	            type: 'POST',
@@ -397,7 +396,7 @@ input[type="submit"].room_order_refund:hover {
 	    	    
 	        var roomOrderId = $(this).find('td:first-child').text();
 	        var memberName = $(this).find('td:nth-child(2)').find('span[name="memberName"]').text();
-	        var roomOrderState = $(this).find('td:nth-child(7)').text();
+	        var roomOrderState = $(this).find('td:nth-child(7)').text().trim();
 	        var memberPhone = $(this).find('td:nth-child(2)').find('span[name="memberPhone"]').text();
 	        var checkInDate = $(this).find('td:nth-child(5)').text();
 	        
@@ -410,8 +409,7 @@ input[type="submit"].room_order_refund:hover {
 	            url: '/roomorder/getByRoomOrderId', 
 	            data: { roomOrderId: roomOrderId },
 	            success: function(data) {
-	            	console.log(data);
-	            	
+
 	            	var modalBody = $('#myModal').find('.modal-body');
 	                modalBody.empty(); 
 	                var keys = Object.keys(data);
@@ -429,9 +427,13 @@ input[type="submit"].room_order_refund:hover {
 	                    html+='<div><label>訂單明細編號：</label><span>' + key + '</span></div>'+
 	                    '<div><label>房型：</label><span>' + data[key].roomType + '</span></div>'+
 	                    '<div><label>金額：</label><span>' + roomPriceFormatted + '</span></div>';
-	                    if(roomOrderState== 0){
+	                    if(roomOrderState=== '已取消'){
 	                    	html+= '<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
 	                        '<div><label>狀態：</label><span class="order_item_state">訂單已取消</span></div>'+
+	    	                '<hr style="border-color:gray;">';
+		                }else if(roomOrderState=== '取消中'){
+		                	html+= '<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
+	                        '<div><label>狀態：</label><span class="order_item_state">訂單取消中</span></div>'+
 	    	                '<hr style="border-color:gray;">';
 		                }else{
 		                	switch (data[key].roomOrderItemState) {
@@ -441,7 +443,7 @@ input[type="submit"].room_order_refund:hover {
 		                        '<button id="updateOrder_' + key + '" onclick="updateOrder(\'' + key + '\', \'' + data[key].roomType + '\', \'' + data[key].roomPrice + '\')">修改</button>' +
 		                        '<button id="cancelOrder_' + key + '" onclick="cancelOrder(\'' + key + '\', \'' + Object.keys(data).length + '\', \'' + differenceInDays + '\')">取消</button>' +
 		    	                '<hr style="border-color:gray;">';
-		    	                console.log(Object.keys(data).length);
+// 		    	                console.log(Object.keys(data).length);
 		    	                break;
 		                    case 1:
 		                    	html+= '<div><label>入住姓名：</label><span>' + data[key].roomGuestName + '</span></div>' +
@@ -518,8 +520,7 @@ input[type="submit"].room_order_refund:hover {
 	function cancelOrder(roomOrderItemId,datalength,differenceInDays) {
 		var specialREQ = $('#specialREQ_' + roomOrderItemId).val();
 		var remainingOrders = $('.order_item_state:contains("尚未入住")');
-    	console.log(remainingOrders.length);
-    	
+
 		if(datalength==1){
 			alert("此筆訂單只有一筆明細, 若要取消請直接至訂單頁面取消整筆訂單。");
 		}else if(remainingOrders.length === 1){
