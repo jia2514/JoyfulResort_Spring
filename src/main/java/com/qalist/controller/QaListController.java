@@ -85,6 +85,7 @@ public class QaListController {
 
 		/*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
 		model.addAttribute("qaList", qaList);
+		System.out.println("測試點2");
 		return "back-end/qalist/updateQaList"; // 查詢完成後轉交updateRoomType.html
 		}
 	

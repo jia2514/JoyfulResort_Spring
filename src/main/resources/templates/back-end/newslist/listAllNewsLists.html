@@ -151,6 +151,12 @@ input[type="submit"]:hover {
     		<form method="post" th:action="@{/newslist/getOne_For_Update}" style="margin-bottom: 0px;">
 			<input type="submit" value="修改">
 			<input type="hidden" name="newsId" th:value="${newsList.newsId}"></form>
+			<br/>
+			
+			<form method="post" th:action="@{/newslist/delete}">
+			<input type="hidden" name="newsId" th:value="${newsList.newsId}"> 
+			<input type="submit" value="刪除"></form>
+			
 			</td>
 			
         </tr>

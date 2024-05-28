@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.joyfulresort.yu.roomtype.model.RoomType;
+import com.joyfulresort.reservecontent.model.ResContentVO;
 import com.joyfulresort.yu.newslist.model.NewsList;
 import com.joyfulresort.yu.newslist.model.NewsListService;
 
@@ -139,7 +141,19 @@ public class NewsListController {
 		model.addAttribute("newsList", newsList);
 		return "back-end/newslist/listAllNewsLists"; // 修改成功後轉交listOneRoomTypePhoto.html
 	}
-	
+	@PostMapping("delete")
+	public String delete(@RequestParam("newsId") String newsId,RedirectAttributes redirectAttributes, ModelMap model) {
+		newsListSvc.deleteNewsList(Integer.valueOf(newsId));
+		;
+
+		List<NewsList> list = newsListSvc.getAll();
+		model.addAttribute("newsList", list);
+
+		model.addAttribute("success", "刪除成功!");
+
+		return "back-end/newslist/listAllNewsLists";
+
+	}
 	
 	// 去除BindingResult中某個欄位的FieldError紀錄
 	public BindingResult removeFieldError(NewsList newsList, BindingResult result, String removedFieldname) {

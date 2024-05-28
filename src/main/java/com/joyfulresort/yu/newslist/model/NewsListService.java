@@ -35,6 +35,11 @@ public class NewsListService {
 			return repository.findAll();
 		}
 		
+		 public void deleteNewsList(Integer newsList) {
+		        if (repository.existsById(newsList)) {
+		            repository.deleteById(newsList);
+		        }
+		    }
 		
 		public NewsList getOneNewsList(Integer newsListId) {
 			Optional<NewsList> optional = repository.findById(newsListId);
