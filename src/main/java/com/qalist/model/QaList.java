@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
 		private String keyWord;
 	
 		
-		@NotNull(message="常見問題答覆: 請勿空白")
+		@NotEmpty(message="常見問題答覆: 請勿空白")
 		@Column(name ="qa_answer")
 		private String qaAnswer;
 

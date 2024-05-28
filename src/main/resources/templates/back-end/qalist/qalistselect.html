@@ -67,20 +67,20 @@
                 <a th:href="@{/qalist/addQaList}">新增一筆常見問題</a><br>
             </div>
             
-             <form method="post" th:action="@{/qalist/getOne_For_Display}">
-               <p>選擇常見問題編號:</p> 
-                <select name="qaId">
-                    <option th:each="qaList : ${qaListListData}" th:value="${qaList.qaId}" th:text="${qaList.qaId}"></option>
-                </select>
-                <input type="submit" value="送出">
-            </form>
-            <form method="post" th:action="@{/qalist/getOne_For_Display}">
-                <p>選擇關鍵字:</p> 
-                <select name="qaId">
-                    <option th:each="qaList : ${qaListListData}" th:value="${qaList.qaId}" th:text="${qaList.keyWord}"></option>
-                </select>
-                <input type="submit" value="送出">
-            </form>
+<!--              <form method="post" th:action="@{/qalist/getOne_For_Display}"> -->
+<!--                <p>選擇常見問題編號:</p>  -->
+<!--                 <select name="qaId"> -->
+<!--                     <option th:each="qaList : ${qaListListData}" th:value="${qaList.qaId}" th:text="${qaList.qaId}"></option> -->
+<!--                 </select> -->
+<!--                 <input type="submit" value="送出"> -->
+<!--             </form> -->
+<!--             <form method="post" th:action="@{/qalist/getOne_For_Display}"> -->
+<!--                 <p>選擇關鍵字:</p>  -->
+<!--                 <select name="qaId"> -->
+<!--                     <option th:each="qaList : ${qaListListData}" th:value="${qaList.qaId}" th:text="${qaList.keyWord}"></option> -->
+<!--                 </select> -->
+<!--                 <input type="submit" value="送出"> -->
+<!--             </form> -->
         
         </div>
     </div>
