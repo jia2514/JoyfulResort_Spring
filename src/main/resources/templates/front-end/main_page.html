@@ -153,6 +153,55 @@ body {
 	}
 }
 
+ .about {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+}
+ .mail, .description {
+            width: 50%;
+}
+.description {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.description h2 {
+    font-size: 34px;
+    color:#46A3FF;
+    margin-bottom: 5px;
+    border-bottom: 2px solid #007BFF;
+    padding-bottom: 5px;
+       font-family: 'Microsoft JhengHei', sans-serif;
+    
+}
+
+.description p {
+    font-size: 20px;
+    color: 	#613030;
+    margin-bottom: 5px;
+       font-family: 'Microsoft JhengHei', sans-serif;
+}
+
+.description h3 {
+    font-size: 28px;
+    color: 	#46A3FF;
+    margin-bottom: 10px;
+    font-weight: bold;
+       font-family: 'Microsoft JhengHei', sans-serif;
+}
+
+.description b {
+    font-size: 16px;
+    color: #555;
+}
+
+.description p, .description b {
+    line-height: 1.6;
+}
+ 
 #chat-circle {
 	position: fixed;
 	bottom: 50px;
@@ -351,6 +400,7 @@ body {
 	clear: both;
 	margin-bottom: 70px;
 }
+
 </style>
 
 
@@ -530,8 +580,9 @@ body {
 				</div>
 
 				<!-- 聯絡我們MAILL區域 -->
+			<div class=about>
 				<div class="mail">
-					<h2>聯絡我們</h2>
+					
 					<form id="contactForm">
 						<div class="form-group">
 							<label for="name">姓名</label> <input type="text" id="name"placeholder="輸入你的名字"
@@ -542,19 +593,35 @@ body {
 								name="email" required>
 						</div>
 						<div class="form-group">
-							<label for="subject">主旨</label> <input type="text" id="subject"  maxlength="30" placeholder="最多15個字"
+							<label for="subject">主旨</label> <input type="text" id="subject" minlength="2" maxlength="30" placeholder="最多15個字"
 								name="subject" required>
 						</div>
 						<div class="form-group">
 							<label for="message">你的訊息</label>
-							<textarea id="message" name="message" rows="4" maxlength="200" placeholder="最多100字"  required></textarea>
+							<textarea id="message" name="message" rows="4"  maxlength="200" minlength="6" placeholder="最多100字  "  style=" max-height: 200px; " required></textarea>
 						</div>
 						<div class="form-group">
 							<input type="submit" class="submit-btn" value="送出" >
 						</div>
 					</form>
 				</div>
-
+			<div class="description">
+			    <h2>聯絡我們</h2>
+			    <p>有任何問題，歡迎填寫左方表單寄信給我們，我們會盡快與您聯繫！</p>
+			    
+			    <br>
+			    <h3>營業時間</h3>
+			    <p class="bold">周一至周五：09:00-20:00</p>
+			    <p class="bold">週六至周日：10:00-18:00</p>
+			    <br>
+			    <h3>地址</h3>
+			    <p class="bold">320桃園市中壢區復興路46號9樓</p>
+			    <br>
+			    <h3>電話&信箱</h3>
+			    <p class="bold">joyfulresort@gmail.com</p>
+			    <p class="bold">03-457-9876</p>
+			</div>
+			</div>
 				<script>
         document.getElementById('contactForm').addEventListener('submit', function(event) {
             event.preventDefault();

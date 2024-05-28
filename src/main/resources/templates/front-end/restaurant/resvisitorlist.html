@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<base th:href="@{/}">
+<head>
+<meta charset="UTF-8">
+<title>My Page</title>
+<link th:insert="~{/front-end/htmlfile/css.html}" />
+<!--  <script th:src="@{/webjars/jquery/jquery.min.js}"></script> -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<style>
+body.main-layout {
+	background-color: #FFEEDD;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+}
+	
+.error {
+	color: red;
+}
+   .order-details {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+           
+        }
+        .order-details h2 {
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .order-details p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        .order-details span {
+            font-weight: bold;
+            color: #333333;
+        }
+</style>
+
+
+</head>
+
+<!-- th:style="'; background-image: url('+@{/frontend/images/restaurant.jpg}+');'" -->
+<body class="main-layout">
+
+	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
+	<div th:fragment="content">
+		<div class="news-section" style="margin-top: 100px;">
+			<div class="order-details" style="display: flex;">
+				<!-- 東西從這裡放 -->
+
+
+
+				<div th:if="${visitor != null}">
+					<h2>訂單資訊</h2>
+					<p>
+						預定姓名: <span th:text="${visitor.resName}"></span>
+					</p>
+					<p>
+						預定電話: <span th:text="${visitor.resPhone}"></span>
+					</p>
+					<p>
+						人數: <span th:text="${visitor.reserveNumber}"></span>
+					</p>
+					<p>
+						預定日期: <span th:text="${visitor.bookingDate}"></span>
+					</p>
+					<p>
+						訂單備註: <span th:text="${visitor.orderNote}"></span>
+					</p>
+					
+					<h4>
+						 <span style="color: red">非會員無法再次瀏覽訂單明細，請自行保存號此畫面資訊</span>
+					</h4>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+	<div class="container">
+
+<div style="margin-left:270px">
+
+		<button type="button" class="btn btn-primary" data-toggle="modal"
+			data-target="#orderDetailsModal">查看訂單明細</button>
+			  <button onclick="downloadTextFile()" class="btn btn-primary">下載訂單明細</button>
+		<a th:href="@{/}">
+			<button type="button" class="btn btn-primary"
+				style="margin-left: 250px">回首頁</button>
+		</a>
+		
+		
+	</div>	
+		
+		<!-- 訂單詳情模態框 -->
+		<div class="modal fade" id="orderDetailsModal" tabindex="-1"
+			role="dialog" aria-labelledby="orderDetailsModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="orderDetailsModalLabel">訂單明細</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body" th:if="${visitor != null}">
+				 <p>預定姓名: <span th:text="${visitor.resName}" data-field="resName"></span></p>
+        <p>預定電話: <span th:text="${visitor.resPhone}" data-field="resPhone"></span></p>
+        <p>訂單日期: <span th:text="${visitor.reserveOrderDate}" data-field="reserveOrderDate"></span></p>
+        <p>人數: <span th:text="${visitor.reserveNumber}" data-field="reserveNumber"></span></p>
+        <p>預定日期: <span th:text="${visitor.bookingDate}" data-field="bookingDate"></span></p>
+        <p>訂單備註: <span th:text="${visitor.orderNote}" data-field="orderNote"></span></p>
+        <p>訂單狀態: <span th:text="${visitor.reserveOrderState == 1 ? '成立' : '未成立'}" data-field="reserveOrderState"></span></p>
+        <button onclick="downloadTextFile()" class="btn btn-primary">下載訂單詳情</button>
+						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">關閉</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
+</body>
+
+
+<script th:inline="javascript">
+	var tokenMessage = /*[[${token}]]*/'';
+	if (tokenMessage) {
+		alert(tokenMessage);
+	}
+
+	var successMessage = /*[[${success}]]*/'';
+	if (successMessage) {
+		alert(successMessage);
+	}
+	
+	   function downloadTextFile() {
+           const resName = document.querySelector("[data-field='resName']");
+           const resPhone = document.querySelector("[data-field='resPhone']");
+           const reserveOrderDate = document.querySelector("[data-field='reserveOrderDate']");
+           const reserveNumber = document.querySelector("[data-field='reserveNumber']");
+           const bookingDate = document.querySelector("[data-field='bookingDate']");
+           const orderNote = document.querySelector("[data-field='orderNote']");
+           const reserveOrderState = document.querySelector("[data-field='reserveOrderState']");
+
+           if (!resName || !resPhone || !reserveOrderDate || !reserveNumber || !bookingDate || !orderNote || !reserveOrderState) {
+               console.error("Some elements were not found on the page.");
+               return;
+           }
+
+           const text = `
+               訂單明細\n
+               預定姓名: ${resName.textContent}\n
+               預定電話: ${resPhone.textContent}\n
+               訂單日期: ${reserveOrderDate.textContent}\n
+               人數: ${reserveNumber.textContent}\n
+               預定日期: ${bookingDate.textContent}\n
+               訂單備註: ${orderNote.textContent}\n
+               訂單狀態: ${reserveOrderState.textContent}\n
+           `;
+           const blob = new Blob([text], { type: 'text/plain' });
+           const link = document.createElement('a');
+           link.href = URL.createObjectURL(blob);
+           link.download = 'order-details.txt';
+           link.click();
+           URL.revokeObjectURL(link.href);
+       }
+</script>
+
+
+</html>

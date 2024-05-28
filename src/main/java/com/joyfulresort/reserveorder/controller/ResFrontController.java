@@ -46,6 +46,12 @@ public class ResFrontController {
 	public String restaurant(Model model) {
 		return "front-end/restaurant/main";
 	}
+	@GetMapping("resvisitorlist") //非會員新增訂單返回用
+	public String resvisitorlist(Model model) {
+		return "front-end/restaurant/resvisitorlist";
+	}
+	
+	
 
 	@GetMapping("reservefrontadd") // 前端新增訂單
 	public String reservefrontadd(HttpSession session, ModelMap model) {
@@ -118,8 +124,7 @@ public class ResFrontController {
 			memberPhone = memVO.getMemberPhone();
 			model.addAttribute("memberName", memberName); // 將會員名稱加入model
 			model.addAttribute("memberName", memberPhone); // 手機
-//			resVO.setResName("會員");
-//			resVO.setResPhone("0000000000");
+
 		}
 
 		resVO.setMemberVO(memVO); // 將 SESSION 的會員資料加進來
@@ -130,13 +135,15 @@ public class ResFrontController {
 		}
 
 		resSvc.addRes(resVO);
+
+		  redirectAttributes.addFlashAttribute("visitor", resVO);
 		redirectAttributes.addFlashAttribute("success", "新增訂單成功!");
 
 		if (isMember) {
 
 			return "redirect:/joyfulresort/member/memberinfo#restaurant";
 		} else {
-			return "redirect:/joyfulresort/restaurant";
+			return "redirect:/joyfulresort/resvisitorlist";
 
 		}
 
