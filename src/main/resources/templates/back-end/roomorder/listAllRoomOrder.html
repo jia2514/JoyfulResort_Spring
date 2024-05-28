@@ -457,6 +457,11 @@ input[type="submit"].room_order_refund:hover {
 		                        '<div><label>狀態：</label><span class="order_item_state">已完成checkout</span></div>'+
 		    	                '<hr style="border-color:gray;">'; 
 		    	                break;
+		                    case 3:
+		                    	html+= '<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
+		                        '<div><label>狀態：</label><span class="order_item_state">未checkin</span></div>'+
+		    	                '<hr style="border-color:gray;">';
+		    	                break;
 		                    default:
 		                    	html+= '<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
 		                        '<div><label>狀態：</label><span class="order_item_state">取消入住</span></div>'+
@@ -522,12 +527,12 @@ input[type="submit"].room_order_refund:hover {
 		}else{
 			if(differenceInDays<=3){
 				if(confirm("距離入住日期不足三天，無法退款。是否確定取消？")){
-					specialREQ="無退款"
+					specialREQ="距離入住日期不足三天取消, 無退款"
 					cancelOrderItemAjax(roomOrderItemId,specialREQ);
 				}else{}
 			}else{
 				if(confirm("單筆明細取消, 將於入住當日或退房當日以現金進行退款。是否確定取消？")){
-					specialREQ="以現金退款"
+					specialREQ="入住期間以現金退款"
 					cancelOrderItemAjax(roomOrderItemId,specialREQ);
 				}else{}
 			}

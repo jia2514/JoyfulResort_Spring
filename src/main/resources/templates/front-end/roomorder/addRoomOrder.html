@@ -75,8 +75,7 @@ input[type='submit']:disabled {
 		        <input type="hidden" id="memberId" name="memberId" 
 		        	th:each="cookie :${#httpServletRequest.getCookies()}"
 	 			    th:if="${cookie.getName().equals('MemberID')}"
-				    th:value="${cookie.getValue()}"
-		        					>
+				    th:value="${cookie.getValue()}">
 		        
 		        <label>會員姓名：</label><span id="memberNameSpan"></span>
 		        <input type="hidden" id="memberName" name="memberName"><br>
@@ -160,8 +159,8 @@ input[type='submit']:disabled {
 		
 	    $.ajax({
 	        type: "POST",
-	        url: "/backend/member/Ajax",
-	        data: { memberID: $("#memberId").val() }, 
+	        url: "/roomorder/memberAjax",
+	        data: { memberId: $("#memberId").val() }, 
 	        dataType: "json",
 	        success: function(response) {
 	            if (response != null) {
@@ -169,6 +168,7 @@ input[type='submit']:disabled {
 	                $("#memberPhone").val(response.memberPhone);
 	                $("#memberNameSpan").text(response.memberName);
 	                $("#memberPhoneSpan").text(response.memberPhone);
+	                console.log(response);
 	            }
 	        },
 	        error: function(xhr, status, error) {
