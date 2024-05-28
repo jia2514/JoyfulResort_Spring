@@ -47,12 +47,13 @@ public class QaListController {
 	public String addNewsList(ModelMap model) {
 		QaList qaList = new QaList();
 	    List<QaList> qaListListData = qaListSvc.getAll();  // 獲取所有房型資料
+		System.out.println("測試點666");
 	    model.addAttribute("qaListListData", qaListListData);
-		model.addAttribute("qasList", qaList);
+		model.addAttribute("qaList", qaList);
 		return "back-end/qalist/addQaList";
 	}
 	
-	@ModelAttribute("QaListData")
+	@ModelAttribute("qaListData")
 	protected List<QaList> referenceListData() {
 		List<QaList> list = qaListSvc.getAll();
 		return list;
@@ -71,7 +72,7 @@ public class QaListController {
 
 		/*************************** 3.新增完成,準備轉交(Send the Success view) **************/
 		List<QaList> list = qaListSvc.getAll();
-		model.addAttribute("QaList", list);
+		model.addAttribute("qaList", list);
 		model.addAttribute("success", "- (新增成功)");
 		return "back-end/qalist/listAllQaLists"; // 新增成功後重導至IndexController_inSpringBoot.java的第58行@GetMapping("/emp/listAllEmp")
 	}

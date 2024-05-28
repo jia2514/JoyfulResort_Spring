@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -849,6 +850,14 @@ public class IndexController_inSpringBoot {
 		return list;
 		} 
 	    
+//	    @GetMapping("addQaList")
+//		public String addNewsList(ModelMap model) {
+//			QaList qaList = new QaList();
+//		    List<QaList> qaListListData = qaListSvc.getAll();  // 獲取所有房型資料
+//		    model.addAttribute("qaListListData", qaListListData);
+//			model.addAttribute("qasList", qaList);
+//			return "back-end/qalist/addQaList";
+//		}
 	    
 	    @GetMapping("/qalist/qalistselect")
  		public String QaListSelect(Model model) {
