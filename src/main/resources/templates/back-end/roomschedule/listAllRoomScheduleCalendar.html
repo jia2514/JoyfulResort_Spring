@@ -144,7 +144,9 @@
 	</div>
 	<th:block th:insert="~{/back-end/htmlfile/content2}" />
 	<th:block th:insert="~{/back-end/htmlfile/script}" />
-
+	<span th:each="roomType : ${roomTypeListData}" style="display:none;">
+	    <span class="room-type" th:id="${roomType.roomTypeId}" th:text="${roomType.roomTypeName}"></span>
+	</span>
 
 <script th:inline="javascript">
     var schedule = /*[[${roomScheduleCount}]]*/ [];
@@ -157,7 +159,6 @@
     
     document.addEventListener('DOMContentLoaded', function() {
     	document.cookie = "visitedAddRoomOrder=true; path=/";
-    	console.log(document.cookie);
     	
     	var query = JSON.parse(schedule);
         
@@ -201,8 +202,9 @@
 
             let result = [];
             for (let objkey in obj) {
-                if (objkey !== 'total') {
-                    result.push(objkey + '號房剩餘' + obj[objkey] + '間');
+            	if (objkey !== 'total') {
+                    let roomTypeName = getRoomTypeNameById(objkey);
+                    result.push(roomTypeName + '剩餘' + obj[objkey] + '間');
                 }
             }
             eventList.push({
@@ -279,8 +281,9 @@
 	                	alert("選擇日期區間已無空房, 請重新選擇入住日期");
 	                	return;
 	                }else{
-	                	alert('選擇checkin日期為 ' + info.startStr + '\n checkout日期為 ' + info.endStr+ '\n 共預定 ' + bookingNight +' 晚住宿');
-						window.location.href = customPageURL;
+	                	if(confirm('選擇checkin日期為 ' + info.startStr + '\n checkout日期為 ' + info.endStr+ '\n 共預定 ' + bookingNight +' 晚住宿')){
+							window.location.href = customPageURL;
+						}
 	                }
 					
 				}else{
@@ -318,6 +321,17 @@
         calendar.render();
         
     });
+    
+    function getRoomTypeNameById(roomTypeId) {
+        let roomTypeName = '';
+        $('.room-type').each(function() {
+            if ($(this).attr('id') == roomTypeId) {
+                roomTypeName = $(this).text();
+            }
+        });
+        
+        return roomTypeName;
+    }
 </script>
 
 </body>

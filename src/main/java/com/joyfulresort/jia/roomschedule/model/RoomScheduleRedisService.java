@@ -51,16 +51,18 @@ public class RoomScheduleRedisService {
 			jedis.select(5);
 
 			String key = roomTypeId.toString() + ":" + date.toString();
-
-			String checkInCount = jedis.hget(key, "checkInCount");
-			String availableRooms = jedis.hget(key, "availableRooms");
-
-			Integer newCheckInCount = Integer.valueOf(checkInCount) + checkInCountChange;
-			Integer newAvailableRooms = Integer.valueOf(availableRooms) + availableRoomsChange;
-//			System.out.println(key + "checkInCount" + checkInCount + "newCheckInCount" + newCheckInCount
-//					+ "availableRooms" + availableRooms + "newAvailableRooms" + newAvailableRooms);
-			jedis.hset(key, "checkInCount", newCheckInCount.toString());
-			jedis.hset(key, "availableRooms", newAvailableRooms.toString());
+			if(jedis.hget(key, "checkInCount")!=null && jedis.hget(key, "availableRooms")!=null) {
+				String checkInCount = jedis.hget(key, "checkInCount");
+				String availableRooms = jedis.hget(key, "availableRooms");
+				
+				Integer newCheckInCount = Integer.valueOf(checkInCount) + checkInCountChange;
+				Integer newAvailableRooms = Integer.valueOf(availableRooms) + availableRoomsChange;
+//				System.out.println(key + "checkInCount" + checkInCount + "newCheckInCount" + newCheckInCount
+//						+ "availableRooms" + availableRooms + "newAvailableRooms" + newAvailableRooms);
+				jedis.hset(key, "checkInCount", newCheckInCount.toString());
+				jedis.hset(key, "availableRooms", newAvailableRooms.toString());
+			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

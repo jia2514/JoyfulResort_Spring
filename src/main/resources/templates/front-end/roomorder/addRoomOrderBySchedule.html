@@ -224,8 +224,7 @@ input[type='submit']:disabled {
 	                var isTheSame = results.every(function(result) {
 	                    return result.isTheSame;
 	                });
-	                console.log("isAvailable="+isAvailable);
-	                console.log("isTheSame="+isTheSame);
+
 	                resolve({isAvailable: isAvailable, isTheSame: isTheSame});
 	            })
 	            .catch(function(error) {
@@ -255,8 +254,7 @@ input[type='submit']:disabled {
 	                    var availableRoomAmount = parseInt(response);
 	                    var available = chooseAmount <= availableRoomAmount;
 	                    var isTheSame = minEmptyRooms == availableRoomAmount;
-	                    console.log("isTheSame="+isTheSame);
-	                    console.log("available="+available);
+	                    
 	                    resolve({ index: index, available: available, isTheSame: isTheSame});
 	                } else {
 	                    reject("No response received");
@@ -355,7 +353,7 @@ input[type='submit']:disabled {
         for (var i = 1; i <= paramCount; i++) {
 			document.getElementById("room_error"+i).innerText = ""; 
 	    }
-        console.log(paramCount);
+
         for (var i = 1; i <= paramCount; i++) {
             var roomAmountSelect = document.getElementById("roomAmount" + i);
             var roomAmount = parseInt(roomAmountSelect.value);
@@ -374,27 +372,6 @@ input[type='submit']:disabled {
 	function clearErrorMessage() {
 	    document.getElementById("chart_error").innerText = ""; 
 	}
-	
-// 	document.addEventListener("DOMContentLoaded", function() {
-// 	    console.log(document.cookie);
-	    
-// 	    window.onload = function() {
-// 		    var visitedAddRoomOrder = getCookie("visitedAddRoomOrder");
-		    
-// 		    if (visitedAddRoomOrder === "false") {
-// 		    	$("input[type='submit']").prop("disabled", true);
-// 		    	alert("此筆明細已成立訂單, 若想再次下訂, 請重新輸入日期人數並選擇合適的方案");
-// 		    }
-		    
-// 		};
-		
-// 	});
-	
-
-// 	function getCookie(name) {
-// 	    var cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-// 	    return cookieValue ? cookieValue.pop() : null;
-// 	}
 	
 	
 	</script>

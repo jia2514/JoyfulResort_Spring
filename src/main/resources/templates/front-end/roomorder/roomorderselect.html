@@ -2,384 +2,342 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <base th:href="@{/}">
 <head>
-<meta charset="UTF-8">
-<title>My Page</title>
-<link th:insert="~{/front-end/htmlfile/css.html}" />
+    <meta charset="UTF-8">
+    <title>My Page</title>
+    <link th:insert="~{/front-end/htmlfile/css.html}" />
 
-<style type="text/css">
-
-    .bookingcontainer {
-        width: 80%;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        border: 1px solid #ccc;
-        padding: 10px 20px;
-        border-radius: 10px;
-        height:50%;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .title {
-        font-size: 20px;
-        font-weight: bold;
-    }
-    .form-control {
-        margin-bottom: 10px;
-    }
-    .submit-btn {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-	
-	.bookingcontainer > div {
-	    flex: 1;
-	    margin-right: 20px; /* 调整元素之间的水平间距 */
-	}
-
-	.bookingcontainer > div:first-child {
-    	margin-left: 20px; /* 最后一个元素不需要右侧的间距 */
-	}
-    
-    .room-order-select {
-    position: relative;
-    width: 70%;
-    padding-bottom: 21%; /* 10:3 的比例 (3 / 10 * 100%) */
-    margin: 0 auto; /* 置中 */
-    margin-bottom: 20px; /* 區塊之間的距離 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 加強顯示 */
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  
-  
-  .room-order-select .left,
-  .room-order-select .right {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 50%; /* 調整左右區塊的寬度，這裡設為50% */
-  }
-  .room-order-select .left {
-    left: 0;
-  }
-  .room-order-select .right {
-    right: 0;
-  }
-  .room-order-select img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .room-order-select .right {
-    background-color: #f9f9f9; /* 背景顏色用於示例，根據需要調整 */
-    padding: 20px;
-  }
-  
-  .room-order-select {
-    display: flex;
-	}
-	
-	.left {
-	    flex: 1;
-	}
-	
-	.right {
-	    flex: 1;
-	    position: relative; /* 确保相对定位 */
-	    padding: 10px;
-	}
-	
-	.book-now-container {
-	    position: absolute;
-	    bottom: 10px; /* 距离底部的距离，根据需要调整 */
-	    right: 10px; /* 距离右侧的距离，根据需要调整 */
-	}
-	
-	.book-now-button {
-	    padding: 10px 20px;
-	    background-color: #007bff; /* 按钮背景颜色 */
-	    color: #fff; /* 按钮文本颜色 */
-	    border: none;
-	    border-radius: 5px;
-	    cursor: pointer;
-	}
-	
-	.book-now-button:hover {
-	    background-color: #0056b3; /* 按钮悬停时的背景颜色 */
-	}
-  
-  	.room-info:hover {
-    background-color: lightgray; /* 更改背景颜色 */
-    cursor: pointer; /* 将鼠标指针设置为手型 */
-	}
-	
-	.room-info{
-	padding: 5px;
-	}
-  
-</style>
-
-
+    <style type="text/css">
+        .bookingcontainer {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            border-radius: 10px;
+            height: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .form-control {
+            margin-bottom: 10px;
+        }
+        .submit-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .bookingcontainer > div {
+            flex: 1;
+            margin-right: 20px;
+        }
+        .bookingcontainer > div:first-child {
+            margin-left: 20px;
+        }
+        .room-order-select {
+            position: relative;
+            width: 70%;
+            padding-bottom: 21%;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .room-order-select .left,
+        .room-order-select .right {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+        }
+        .room-order-select .left {
+            left: 0;
+        }
+        .room-order-select .right {
+            right: 0;
+        }
+        .room-order-select img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .room-order-select .right {
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        .room-order-select {
+            display: flex;
+        }
+        .left {
+            flex: 1;
+        }
+        .right {
+            flex: 1;
+            position: relative;
+            padding: 10px;
+        }
+        .book-now-container {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+        .book-now-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .book-now-button:hover {
+            background-color: #0056b3;
+        }
+        .room-info:hover {
+            background-color: lightgray;
+            cursor: pointer;
+        }
+        .room-info {
+            padding: 5px;
+        }
+    </style>
 </head>
 
 <body class="main-layout">
+    <th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
+    <div th:fragment="content" class="G3content">
+        <form th:action="@{/roomschedule/roomScheduleQueryList}" method="post">
+            <div class="bookingcontainer">
+                <div class="title">Booking Now</div>
+                <div>
+                    <label for="checkin-date">入住日期:</label>
+                    <input type="date" id="checkin-date" class="form-control" name="startquerydate" th:value="${startquerydate}">
+                </div>
+                <div>
+                    <label for="checkout-date">退房日期:</label>
+                    <input type="date" id="checkout-date" class="form-control" name="endquerydate" th:value="${endquerydate}">
+                </div>
+                <div>
+                    <label for="guests">入住人數:</label>
+                    <select id="guests" class="form-control" name="peopleAmount">
+                        <option value="1" th:selected="${peopleAmount == 1}">1</option>
+                        <option value="2" th:selected="${peopleAmount == 2}">2</option>
+                        <option value="3" th:selected="${peopleAmount == 3}">3</option>
+                        <option value="4" th:selected="${peopleAmount == 4}">4</option>
+                        <option value="5" th:selected="${peopleAmount == 5}">5</option>
+                        <option value="6" th:selected="${peopleAmount == 6}">6</option>
+                        <option value="7" th:selected="${peopleAmount == 7}">7</option>
+                        <option value="8" th:selected="${peopleAmount == 8}">8</option>
+                    </select>
+                </div>
+                <input type="submit" class="submit-btn" value="查詢" onclick="return submitForm()">
+            </div>
+        </form>
 
+        <hr style="border-color: grey;">
+        <div style="text-align: center;">
+            <span>入住日期 : </span><span th:text="${startquerydate}"></span>
+            <span>  / 退房日期 : </span><span th:text="${endquerydate}"></span>
+            <span>  / 共入住 </span><span th:text="${bookingNight}"></span><span> 晚</span>
+        </div>
+        <br>
 
-	<th:block link th:insert="~{/front-end/htmlfile/content1.html}" />
-	</section>
-	
-	</header>
-	<div th:fragment="content" class="G3content">
-				<form th:action="@{/roomschedule/roomScheduleQueryList}" method="post">
-				<div class="bookingcontainer">
-				    <div class="title">Booking Now</div>
+        <div th:if="${#lists.isEmpty(listRoomSchedule)}" style="text-align: center;">
+            <div>選擇入住期間已無適合的房型組合, 請選擇其他入住時間進行查詢, 或查詢近兩個月的空房進行下訂</div>
+        </div>
+        <div th:each="roomList, iterStat : ${listRoomSchedule}" th:with="j=${iterStat.index}">
+            <form th:action="@{/roomorder/frontendAddOne}" method="post">
+                <div class="room-order-select">
+                    <div class="left" th:each="entry, iterStat : ${roomList}">
+                        <img th:if="${iterStat.last}" th:src="@{/roomtypephoto/DBGifReader} + '?roomTypePhotoId=' + ${entry.key.roomTypePhotoIdList[0]}">
+                    </div>
+                    <div class="right">
+                        <div th:each="entry, iterStat : ${roomList}" th:with="i=${iterStat.index}+1" class="room-info">
+                            <span class="roomTypeName" th:text="${entry.key.roomTypeName}" style="font-weight:bold;"></span>
+                            <span>&nbsp;&nbsp;&nbsp;&lt;</span><span th:text="${entry.key.numberOfPeople}"></span> <span>人房&gt;</span><br>
+                            <span>  每晚價格: </span><span class="roomTypePrice" th:text="${#numbers.formatInteger(entry.key.roomTypePrice,1,'COMMA')}"></span> <span> NTD/1間</span><br>
+                            <span>  預定間數: </span><span th:text="${entry.value}"></span> <span> 間</span><br>
+							<span class="roomTypeContent" th:text="${entry.key.roomTypeContent}" style="display: none;"></span>
+                            <span th:each="photoId : ${entry.key.roomTypePhotoIdList}" style="display: none;">
+                            	<span class="photoId" th:text=${photoId}></span>
+                            </span>
+                            <input type="hidden" class="roomTypeId" th:name="roomTypeId+${i}" th:value="${entry.key.roomTypeId}">
+                            <input type="hidden" th:name="roomTypePrice+${i}" th:value="${entry.key.roomTypePrice}">
+                            <input type="hidden" th:name="numberOfPeople+${i}" th:value="${entry.key.numberOfPeople}">
+                            <input type="hidden" th:name="roomAmount+${i}" th:value="${entry.value}">
+                            <input type="hidden" th:if="${iterStat.last}" th:name="paramCount" th:value="${i}">
+                            <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none;"></button>
+                        </div>
 
-					    <div>
-					        <label for="checkin-date">入住日期:</label>
-					        <input type="date" id="checkin-date" class="form-control" name="startquerydate" th:value="${startquerydate}">
-					    </div>
-					    <div>
-					        <label for="checkout-date">退房日期:</label>
-					        <input type="date" id="checkout-date" class="form-control" name="endquerydate" th:value="${endquerydate}">
-					    </div>
-					    <div>
-					        <label for="guests">入住人數:</label>
-					        <select id="guests" class="form-control" name="peopleAmount" >
-					            <option value="1" th:selected="${peopleAmount == 1}">1</option>
-							    <option value="2" th:selected="${peopleAmount == 2}">2</option>
-							    <option value="3" th:selected="${peopleAmount == 3}">3</option>
-							    <option value="4" th:selected="${peopleAmount == 4}">4</option>
-							    <option value="5" th:selected="${peopleAmount == 5}">5</option>
-							    <option value="6" th:selected="${peopleAmount == 6}">6</option>
-							    <option value="7" th:selected="${peopleAmount == 7}">7</option>
-							    <option value="8" th:selected="${peopleAmount == 8}">8</option>
-					        </select>
-					    </div>
-					    <input type="submit" class="submit-btn" value="查詢" onclick="return submitForm()">
-				</div>
-				</form>
-				
-				<hr style="border-color: grey;">
-				<div style="text-align: center;">
-					<span>入住日期 : </span><span th:text="${startquerydate}"></span>
-					<span>  / 退房日期 : </span><span th:text="${endquerydate}"></span>
-					<span>  / 共入住 </span><span th:text="${bookingNight}"></span><span> 晚</span> 
-				</div>
-				<br>
-				
-			<div th:if="${#lists.isEmpty(listRoomSchedule)}" style="text-align: center;">
-    			<div>選擇入住期間已無適合的房型組合, 請選擇其他入住時間進行查詢, 或查詢近兩個月的空房進行下訂</div>
-			</div>	
-			<div th:each="roomList, iterStat : ${listRoomSchedule}" th:with="j=${iterStat.index}">
-				<form th:action="@{/roomorder/frontendAddOne}" method="post">
-					<div class="room-order-select">
-					    <div class="left" th:each="entry, iterStat : ${roomList}">
-					    	
-					    	<img th:if="${iterStat.last}" th:src="@{/roomtypephoto/DBGifReader} + '?roomTypePhotoId=' + ${entry.key.roomTypePhotoIdList[0]}" >
-			    		
-				    	</div>
-						<div class="right">
-					        <div th:each="entry, iterStat : ${roomList}" th:with="i=${iterStat.index}+1" class="room-info">
-					            <span th:text="${entry.key.roomTypeName}" style="font-weight:bold;"></span>
-					            <span>&nbsp;&nbsp;&nbsp;&lt;</span><span th:text="${entry.key.numberOfPeople}"></span> <span>人房&gt;</span><br>
-					            <span>  每晚價格: </span><span th:text="${#numbers.formatInteger(entry.key.roomTypePrice,1,'COMMA')}"></span> <span> NTD/1間</span><br>			            
-					            <span>  預定間數: </span><span th:text="${entry.value}"></span> <span> 間</span><br>
-					            
-					            <input type="hidden" th:name="roomTypeId+${i}" th:value="${entry.key.roomTypeId}">
-					            <input type="hidden" th:name="roomTypePrice+${i}" th:value="${entry.key.roomTypePrice}">
-					            <input type="hidden" th:name="numberOfPeople+${i}" th:value="${entry.key.numberOfPeople}">
-					            <input type="hidden" th:name="roomAmount+${i}" th:value="${entry.value}">
-        						<input type="hidden" th:if="${iterStat.last}"  th:name="paramCount" th:value="${i}">
-        						
-					        
-					        </div>
+                        <hr style="border-color: grey;"><br><br>
+                        <div class="book-now-container">
+                            <span style="font-weight:bold;">  總價: </span><span th:text="${#numbers.formatInteger(totalPriceList[j],1,'COMMA')}" style="font-weight:bold;"></span> <span style="font-weight:bold;"> NTD&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <input type="submit" value="訂房" class="book-now-button" onclick="return checkLoginStatus(event)">
+                            <input type="hidden" name="checkInDate" th:value="${startquerydate}">
+                            <input type="hidden" name="checkOutDate" th:value="${endquerydate}">
+                            <input type="hidden" name="totalPrice" th:value="${totalPriceList[j]}">
+                            <input type="hidden" name="bookingNight" th:value="${bookingNight}">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-					        <hr style="border-color: grey;"><br><br>
-					        <div class="book-now-container">
-					        	<span style="font-weight:bold;">  總價: </span><span th:text="${#numbers.formatInteger(totalPriceList[j],1,'COMMA')}" style="font-weight:bold;"></span> <span style="font-weight:bold;"> NTD&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			                    <input type="submit" value="訂房" class="book-now-button" onclick="return checkLoginStatus(event)">
-			                    <input type="hidden" name="checkInDate" th:value="${startquerydate}">
-			                    <input type="hidden" name="checkOutDate" th:value="${endquerydate}">
-			                    <input type="hidden" name="totalPrice" th:value="${totalPriceList[j]}">
-			                    <input type="hidden" name="bookingNight" th:value="${bookingNight}">
-			                </div>
-					           
-					    </div>
-					</div>
-				</form>
-			</div>
-			
-			
-	</div>
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel"></h4>
+                    </div>
+                    <div class="modal-body">
+                    
+<!--                     Carousel组件 -->
+<!-- 		                <div id="carouselExample" class="carousel slide" data-ride="carousel"> -->
+<!-- 		                    <div class="carousel-inner"> -->
+<!-- 		                        这里将动态添加的图片放置在Carousel的项目中 -->
+<!-- 		                    </div> -->
+<!-- 		                    控制 Carousel 的向前和向后的箭头 -->
+<!-- 		                    <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev"> -->
+<!-- 		                        <span class="carousel-control-prev-icon" aria-hidden="true"></span> -->
+<!-- 		                        <span class="sr-only">Previous</span> -->
+<!-- 		                    </a> -->
+<!-- 		                    <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next"> -->
+<!-- 		                        <span class="carousel-control-next-icon" aria-hidden="true"></span> -->
+<!-- 		                        <span class="sr-only">Next</span> -->
+<!-- 		                    </a> -->
+<!-- 		                </div> -->
+                    
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
-	<th:block link th:insert="~{/front-end/htmlfile/script.html}" />
-	
-	<script>
-	
-	document.addEventListener("DOMContentLoaded", function() {
-		document.cookie = "visitedAddRoomOrder=true; path=/";
-		console.log(document.cookie);
-	});
-	
-    var today = new Date();
-    var tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1);
-    var twoMonthsLater = new Date(today.getFullYear(), today.getMonth() + 2, today.getDate());
-    var minDate = tomorrow.toISOString().split('T')[0];
-    var maxDate = twoMonthsLater.toISOString().split('T')[0];
+    <th:block link th:insert="~{/front-end/htmlfile/content2.html}" />
+    <th:block link th:insert="~{/front-end/htmlfile/script.html}" />
     
-    document.getElementById('checkin-date').min = minDate;
-    document.getElementById('checkout-date').min = minDate;
-    
-    document.getElementById('checkin-date').max = maxDate;
-    document.getElementById('checkout-date').max = maxDate;
-    
-    function submitForm() {
-        var checkinDateInput = document.getElementById('checkin-date').value;
-        var checkoutDateInput = document.getElementById('checkout-date').value;
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.cookie = "visitedAddRoomOrder=true; path=/";
+        });
 
-        if (checkinDateInput === "" || checkoutDateInput === "") {
-            alert("請選擇入住日期及退房日期");
-            return false;
+        var today = new Date();
+        var tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
+        var twoMonthsLater = new Date(today.getFullYear(), today.getMonth() + 2, today.getDate());
+        var minDate = tomorrow.toISOString().split('T')[0];
+        var maxDate = twoMonthsLater.toISOString().split('T')[0];
+
+        document.getElementById('checkin-date').min = minDate;
+        document.getElementById('checkout-date').min = minDate;
+
+        document.getElementById('checkin-date').max = maxDate;
+        document.getElementById('checkout-date').max = maxDate;
+
+        function submitForm() {
+            var checkinDateInput = document.getElementById('checkin-date').value;
+            var checkoutDateInput = document.getElementById('checkout-date').value;
+
+            if (checkinDateInput === "" || checkoutDateInput === "") {
+                alert("請選擇入住日期及退房日期");
+                return false;
+            }
+
+            var checkinDate = new Date(checkinDateInput);
+            var checkoutDate = new Date(checkoutDateInput);
+
+            if (checkinDate >= checkoutDate) {
+                alert("退房日期必須在入住日期之後");
+                return false;
+            }
+            return true;
         }
 
-        var checkinDate = new Date(checkinDateInput);
-        var checkoutDate = new Date(checkoutDateInput);
+        function checkLoginStatus(event) {
+            if (!getCookie('LogInState')) {
+                event.preventDefault();
+                alert('請先登入');
+                document.getElementById('LoginButton').click();
+                return false;
+            } else {
+                return true;
+            }
+        }
 
-        if (checkinDate >= checkoutDate) {
-            alert("退房日期必須在入住日期之後");
-            return false;
+        function sendGetEmptyRoom() {
+            document.getElementById("getEmptyRoom").submit();
+        }
+
+        $(document).ready(function() {    
+            $(document).on('click', '.room-info', function(e) {
+            	 var roomTypeName = $(this).find('.roomTypeName').text();
+                 var roomTypeContent = $(this).find('.roomTypeContent').text();
+                 var roomTypePrice = $(this).find('.roomTypePrice').text();
+//                  var photoIds = [];
+                 
+//                  $(this).find('span.photoId').each(function() {
+//                      photoIds.push($(this).text());
+//                  });
+//                  console.log(photoIds);
+
+                 $('#myModalLabel').text(roomTypeName);
+                 var modalBody = $('#myModal').find('.modal-body');
+                 modalBody.empty();
+
+//                  var carouselInner = $('<div class="carousel-inner"></div>');
+
+//                  photoIds.forEach(function(photoId, index) {
+//                 	    var imageUrl = '/roomtypephoto/DBGifReader?roomTypePhotoId=' + photoId;
+//                 	    var carouselItem = $('<div class="carousel-item"></div>');
+//                 	    if (index === 0) {
+//                 	        carouselItem.addClass('active'); 
+//                 	    }
+//                 	    carouselItem.append('<img class="d-block w-100" th:src="@{/roomtypephoto/DBGifReader}?roomTypePhotoId='+photoId+'" alt="Room Photo">');
+                	                                                                 
+//                 	    carouselInner.append(carouselItem);
+//                 	});
+
+//                  var carousel = $('#carouselExample');
+//                  carousel.html(carouselInner);
+
+                 $('#myModal').modal('show');
+
+                 var html = '<div><span>' + roomTypeContent + '</span></div><br>'+
+                            '<div><label>房型價錢：</label><span>' + roomTypePrice + '</span><span> NTD/1間</span></div>';
+
+                 modalBody.html(html);
+            });
+        });
+
+        function getCookie(name) {
+            let cookieArr = document.cookie.split(";");
+            for(let i = 0; i < cookieArr.length; i++) {
+                let cookiePair = cookieArr[i].split("=");
+                if(name == cookiePair[0].trim()) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null;
         }
         
-    }
-    
-
-	function checkLoginStatus(event) {
-	    if (!getCookie('LogInState')) {
-	        event.preventDefault();
-	        alert('請先登入');
-	        document.getElementById('LoginButton').click();
-	        return false;
-	    }else{
-	    	return true;
-	    }
-	    
-	}
-
-
-   	function sendGetEmptyRoom() {
-       	document.getElementById("getEmptyRoom").submit();
-   	}	
-   	
-   	$(document).ready(function() {    
-		$(document).on('click','.room-info',function(e)  {
-			var paramCount = $(this).find('input[name="paramCount"]').val();
-			var roomTypeId;
-			for (var i = 1; i <= paramCount; i++) {
-				if($(this).find('input[name="roomTypeId'+i+'"]')!=null){
-					roomTypeId = $(this).find('input[name="roomTypeId'+i+'"]').val();
-				}     
-		    }
-	        
-	        console.log(paramCount);
-	        console.log(roomTypeId);
-	        
-	        
-	        $('#myModal').modal('show');
-	        $.ajax({
-	            type: 'POST',
-	            url: '/roomOrder/getRoomTypeByRoomTypeId', 
-	            data: { roomTypeId: roomTypeId },
-	            success: function(data) {
-	            	console.log(data);
-	            	
-	            	var modalBody = $('#myModal').find('.modal-body');
-	                modalBody.empty(); 
-	                
-	                var html= '<div><label>訂單編號：</label><span>' + roomOrderId + '</span></div>' +
-	                '<div><label>會員姓名：</label><span>' + memberName + '</span></div>'+
-	                '<div><label>會員電話：</label><span>' + memberPhone + '</span></div>'+
-	                '<hr style="border-color:gray, border-width:10px;">';
-	                
-	               
-	                
-	                
-	                keys.forEach(function(key) {
-	                    var order = data[key];
-	                    var roomPriceFormatted = parseInt(data[key].roomPrice).toLocaleString();
-	                    html+='<div><label>訂單明細編號：</label><span>' + key + '</span></div>'+
-	                    '<div><label>房型：</label><span>' + data[key].roomType + '</span></div>'+
-	                    '<div><label>金額：</label><span>' + roomPriceFormatted + '</span></div>';
-	                    if(roomOrderState== 0){
-	                    	html+= '<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
-	                        '<div><label>狀態：</label><span class="order_item_state">訂單已取消</span></div>'+
-	    	                '<hr style="border-color:gray;">';
-		                }else{
-		                	switch (data[key].roomOrderItemState) {
-		                    case 0:
-		                        html+= '<div><label>特殊需求：</label><input style="text" name="specialREQ" id="specialREQ_' + key + '" value="' + data[key].specialREQ + '"></span></div>'+
-		                        '<div><label>狀態：</label><span class="order_item_state" id="roomOrderItemState_' + key + '">尚未入住</span></div>'+
-		                        '<button id="updateOrder_' + key + '" onclick="updateOrder(\'' + key + '\', \'' + data[key].roomType + '\', \'' + data[key].roomPrice + '\')">修改</button>' +
-		                        '<button id="cancelOrder_' + key + '" onclick="cancelOrder(\'' + key + '\', \'' + Object.keys(data).length + '\', \'' + differenceInDays + '\')">取消</button>' +
-		    	                '<hr style="border-color:gray;">';
-		    	                console.log(Object.keys(data).length);
-		    	                break;
-		                    case 1:
-		                    	html+= '<div><label>入住姓名：</label><span>' + data[key].roomGuestName + '</span></div>' +
-		                        '<div><label>入住電話：</label><span>' + data[key].roomGuestPhone + '</span></div>' +
-		                    	'<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
-		                        '<div><label>狀態：</label><span class="order_item_state">已完成checkin, 入住中</span></div>'+
-		    	                '<hr style="border-color:gray;">';
-		    	                break;
-		                    case 2:
-		                    	html+= '<div><label>入住姓名：</label><span>' + data[key].roomGuestName + '</span></div>' +
-		                        '<div><label>入住電話：</label><span>' + data[key].roomGuestPhone + '</span></div>' +
-		                    	'<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
-		                        '<div><label>狀態：</label><span class="order_item_state">已完成checkout</span></div>'+
-		    	                '<hr style="border-color:gray;">'; 
-		    	                break;
-		                    case 3:
-		                    	html+= '<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
-		                        '<div><label>狀態：</label><span class="order_item_state">入住當天未checkin</span></div>'+
-		    	                '<hr style="border-color:gray;">';
-		    	                break;
-		                    default:
-		                    	html+= '<div><label>特殊需求：</label><span>' + data[key].specialREQ + '</span></div>'+
-		                        '<div><label>狀態：</label><span class="order_item_state">取消入住</span></div>'+
-		    	                '<hr style="border-color:gray;">';
-		    	                break;
-		                  }
-		                	
-		                	
-		                }
-	                    
-	                    
-	                });
-	               
-	                modalBody.html(html);
-	                
-	                $('#myModal').modal('show');
-	            },
-	            error: function(xhr, status, error) {
-	                console.error(error);
-	            }
-	        });
-	        
-	    });
-	}); 
-   	
-   	
-</script>
-
-
-	
+        $(document).on('click','.btn-default',function(e)  {   
+    		$('#myModal').modal('hide');
+    	});
+    	    
+        
+    </script>
 </body>
-
 </html>
