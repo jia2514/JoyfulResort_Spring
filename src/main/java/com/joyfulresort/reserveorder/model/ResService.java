@@ -35,9 +35,19 @@ public class ResService {
 
 	public List<ResVO> getAllRes() {
 //        return repository.findAll(); 預設方法
+		List<ResVO> resList = repository.findAll();
+		resList.forEach(this::saveOrUpdateReserveOrder);
 		return repository.findAllRes();
 	}
 
+	public ResVO saveOrUpdateReserveOrder(ResVO resVO) {
+		// 檢查 bookingDate 是否大於當前時間，如果是，將 reserveOrderState 設置為 2
+		if (resVO.getBookingDate() != null && resVO.getBookingDate().isBefore(LocalDateTime.now())) {
+			resVO.setReserveOrderState((byte) 2);
+
+		}
+		return repository.save(resVO);
+	}
 //	------------------------------------兩種時段的人數總數計算	
 
 	public Integer countNumber101(LocalDate bookingDate) {
