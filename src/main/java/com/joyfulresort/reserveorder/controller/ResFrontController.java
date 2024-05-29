@@ -46,12 +46,11 @@ public class ResFrontController {
 	public String restaurant(Model model) {
 		return "front-end/restaurant/main";
 	}
-	@GetMapping("resvisitorlist") //非會員新增訂單返回用
+
+	@GetMapping("resvisitorlist") // 非會員新增訂單返回用
 	public String resvisitorlist(Model model) {
 		return "front-end/restaurant/resvisitorlist";
 	}
-	
-	
 
 	@GetMapping("reservefrontadd") // 前端新增訂單
 	public String reservefrontadd(HttpSession session, ModelMap model) {
@@ -96,11 +95,8 @@ public class ResFrontController {
 	@PostMapping("insertfront")
 	public String insertfront(@Valid ResVO resVO, BindingResult result, HttpServletRequest request, HttpSession session,
 			RedirectAttributes redirectAttributes, ModelMap model) throws IOException {
+
 		String token = request.getParameter("token");
-		if (!tokenService.validateToken(token)) {
-			model.addAttribute("token", "重複下單，請重新進入訂位網頁");
-			return "front-end/restaurant/main";
-		}
 
 		MemberVO memVO = new MemberVO();
 
@@ -131,12 +127,17 @@ public class ResFrontController {
 		model.addAttribute("isMember", isMember); // 傳遞是否為會員的標誌到前端
 		model.addAttribute("resVO", resVO);
 		if (result.hasErrors()) {
+			String token2 = tokenService.generateToken();
+			model.addAttribute("token", token2);
 			return "front-end/restaurant/reserveorder";
 		}
-
+		if (!tokenService.validateToken(token)) {
+			model.addAttribute("token", "重複下單，請重新進入訂位網頁");
+			return "front-end/restaurant/main";
+		}
 		resSvc.addRes(resVO);
 
-		  redirectAttributes.addFlashAttribute("visitor", resVO);
+		redirectAttributes.addFlashAttribute("visitor", resVO);
 		redirectAttributes.addFlashAttribute("success", "新增訂單成功!");
 
 		if (isMember) {

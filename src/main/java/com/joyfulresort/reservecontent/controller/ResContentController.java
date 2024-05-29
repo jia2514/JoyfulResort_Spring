@@ -73,6 +73,7 @@ public class ResContentController {
 		if (result.hasErrors()) {
 //			  model.addAttribute("error", result.getAllErrors());
 			model.addAttribute("error", result.getFieldError("reserveText"));
+
 			return "back-end/reserve/reservecontentupdate";
 		}
 
@@ -80,6 +81,7 @@ public class ResContentController {
 		List<ResContentVO> contentList = rescontentSvc.getAllContent();
 		model.addAttribute("ContentList", contentList);
 		contentVO = rescontentSvc.getOneContent(Integer.valueOf(contentVO.getId()));
+		model.addAttribute("success", "修改成功");
 
 		return "back-end/reserve/reservecontent";
 
@@ -111,7 +113,7 @@ public class ResContentController {
 		List<ResContentVO> list = rescontentSvc.getAllContent();
 		model.addAttribute("ContentList", list);
 
-		redirectAttributes.addFlashAttribute("success", "修改成功!");
+		redirectAttributes.addFlashAttribute("success", "新增成功!");
 
 		return "redirect:/reserve/reservecontent";
 	}

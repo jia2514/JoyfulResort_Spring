@@ -23,7 +23,7 @@ public class ResTokenService {
 
 	public String generateToken() {
 		String token = UUID.randomUUID().toString();
-		redisTemplate.opsForValue().set(TOKEN_PREFIX + token, token, 60, TimeUnit.MINUTES);
+		redisTemplate.opsForValue().set(TOKEN_PREFIX + token, token, 10, TimeUnit.MINUTES);
 		return token;
 
 	}
@@ -31,6 +31,7 @@ public class ResTokenService {
 	public boolean validateToken(String token) {
 		String key = TOKEN_PREFIX + token;
 		String redisToken = redisTemplate.opsForValue().get(key);
+
 		if (redisToken != null && redisToken.equals(token)) {
 			redisTemplate.delete(key);
 			return true;
