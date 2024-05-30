@@ -67,7 +67,7 @@ public class ResVO implements Serializable {
 	private RessionVO ressionVO;
 
 //	@NotEmpty(message = "名字請勿空白")
-	@Pattern(regexp = "[\\u4e00-\\u9fa5a-zA-Z]+", message = "只能是中英文")
+	@Pattern(regexp = "[\\u4e00-\\u9fa5a-zA-Z0-9]+", message = "只能是中英文或數字")
 	@Column(name = "res_name")
 
 	private String resName ;
