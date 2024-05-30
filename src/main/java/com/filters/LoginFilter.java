@@ -35,7 +35,7 @@ public class LoginFilter implements Filter {
 		//判斷有無登入
 		if (account == null) { //無 跳轉至首頁 
 			session.setAttribute("location", req.getRequestURI());
-			res.sendRedirect(req.getContextPath() + "/joyfulresort");
+			res.sendRedirect(req.getContextPath() + "/");
 			return;
 		} else { //有 放行
 			chain.doFilter(request, response);

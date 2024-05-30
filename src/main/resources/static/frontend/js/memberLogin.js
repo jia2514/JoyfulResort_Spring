@@ -176,9 +176,17 @@ $('#Button_forgetPassword').click(function () {
           $('#back_Login').click()
           alert('已將新密碼寄出')
         } else {
-          $('#forgetPassword_inputEmali').removeClass().addClass('form-control')
-          $('#forgetPassword_inPutAuthCode').removeClass().addClass('form-control is-invalid')
-          $('#Error_forgetPassword').html(data.error)
+          if(data.error == "無此信箱"){
+            console.log(data.error)
+            $('#forgetPassword_inputEmali').removeClass().addClass('form-control is-invalid')
+            $('#Error_forgetPassword').html(data.error)
+          } else {
+            $('#forgetPassword_inPutAuthCode').removeClass().addClass('form-control is-invalid')
+            $('#Error_forgetPassword').html(data.error)
+          }
+          
+          
+          
         }
 
       }

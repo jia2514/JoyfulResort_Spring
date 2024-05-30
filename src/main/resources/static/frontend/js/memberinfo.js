@@ -34,6 +34,8 @@ $(document).ready(function () {
     case 'UpData':
       alert('修改成功')
       break;
+    case "Repository":
+      alert('註冊成功')
   }
 
 
@@ -46,16 +48,28 @@ var address = 0;
 
 //名稱欄位檢查
 $('#memberName').change(function () {
-
-  let inputName = $('#memberName').val()
   let regexName = /^[\u4e00-\u9fa5\w]{1,10}$/g
+  let inputName = $('#memberName').val()
+  // console.log(inputName);
+  
   if (inputName == "") {
-
+    console.log('名稱為空')
+    $('#nameError').html('名稱不能為空')
+    $('#memberName').removeClass().addClass('form-control is-invalid')
+    nameState = 1;
+  } else if(!regexName.test(inputName)){
+    $('#nameError').html('名稱格式不對')
+    $('#memberName').removeClass().addClass('form-control is-invalid')
+    nameState =1;
+  } else {
+    $('#nameError').html('')
+    $('#memberName').removeClass().addClass('form-control is-valid')
+    nameState =0;
   }
 
 
 
-  if (0 == emailState && 0 == phoneState) {
+  if (0 == emailState && 0 == phoneState && 0 == nameState) {
     $('#buttonUpData').attr('disabled', false)
   }
 })
@@ -75,12 +89,14 @@ $('#memberEmail').change(function () {
     console.log('信箱欄位為空值')
 
     $('#emailError').html('*信箱欄位不能為空')
+    $('#memberEmail').removeClass().addClass('form-control is-invalid')
     emailState = 1;
     $('#buttonUpData').attr('disabled', true)
 
   } else if (!regexEmail.test(inputEmail)) {
 
     $('#emailError').html('*信箱格式錯誤')
+    $('#memberEmail').removeClass().addClass('form-control is-invalid')
     emailState = 1;
     $('#buttonUpData').attr('disabled', true)
   } else {
@@ -95,13 +111,17 @@ $('#memberEmail').change(function () {
 
         if (data.inputEmail) {
           $('#emailError').html('*此信箱已被使用')
+          $('#memberEmail').removeClass().addClass('form-control is-invalid')
           emailState = 1;
           $('#buttonUpData').attr('disabled', true)
         } else {
           $('#emailError').html('')
+          $('#memberEmail').removeClass().addClass('form-control is-valid')
           emailState = 0;
-          if (0 == emailState && 0 == phoneState) {
+
+          if (0 == emailState && 0 == phoneState && 0 == nameState) {
             $('#buttonUpData').attr('disabled', false)
+
           }
 
 
@@ -124,12 +144,14 @@ $('#memberPhone').change(function () {
   if (inputPhone == "") {
 
     $('#phoneError').html('*電話欄位不能為空')
+    $('#memberPhone').removeClass().addClass('form-control is-invalid')
     phoneState = 1;
     $('#buttonUpData').attr('disabled', true)
 
   } else if (!regexPhone.test(inputPhone)) {
 
     $('#phoneError').html('*電話格式錯誤')
+    $('#memberPhone').removeClass().addClass('form-control is-invalid')
     phoneState = 1;
     $('#buttonUpData').attr('disabled', true)
   } else {
@@ -144,12 +166,14 @@ $('#memberPhone').change(function () {
 
         if (data.inputPhone) {
           $('#phoneError').html('*此電話已被使用')
+          $('#memberPhone').removeClass().addClass('form-control is-invalid')
           phoneState = 1;
           $('#buttonUpData').attr('disabled', true)
         } else {
           $('#phoneError').html('')
+          $('#memberPhone').removeClass().addClass('form-control is-valid')
           phoneState = 0;
-          if (0 == emailState && 0 == phoneState) {
+          if (0 == emailState && 0 == phoneState && 0 == nameState) {
             $('#buttonUpData').attr('disabled', false)
           }
 
@@ -276,9 +300,11 @@ $('#inputPassword_1').change(function () {
 
   if (password_1 == "") {
     $('#passwordHelpBlock_1').html('密碼欄位不能為空')
+    $('#inputPassword_1').removeClass().addClass('form-control is-invalid')
     pw_1 = 1;
   } else {
     $('#passwordHelpBlock_1').html('')
+    $('#inputPassword_1').removeClass().addClass('form-control is-valid')
     pw_1 = 0;
     if (pw_2 == 0 && pw_3 == 0 && pw_1 == 0) {
       $('#newPassword').attr('disabled', false)
@@ -292,10 +318,12 @@ $('#inputPassword_2').change(function () {
 
   if (!regexPassword.test(password_2)) {
     $('#passwordHelpBlock_2').html('密碼格式錯誤')
+    $('#inputPassword_2').removeClass().addClass('form-control is-invalid')
     $('#newPassword').attr('disabled', true)
     pw_2 = 1;
   } else {
     $('#passwordHelpBlock_2').html('')
+    $('#inputPassword_2').removeClass().addClass('form-control is-valid')
     pw_2 = 0;
     if (pw_2 == 0 && pw_3 == 0 && pw_1 == 0) {
       $('#newPassword').attr('disabled', false)
@@ -309,10 +337,12 @@ $('#inputPassword_3').change(function () {
   let password_2 = $('#inputPassword_2').val()
   if (password_2 != password_3) {
     $('#passwordHelpBlock_3').html('密碼不一致')
+    $('#inputPassword_3').removeClass().addClass('form-control is-invalid')
     $('#newPassword').attr('disabled', true)
     pw_3 = 1;
   } else {
     $('#passwordHelpBlock_3').html('')
+    $('#inputPassword_3').removeClass().addClass('form-control is-valid')
     pw_3 = 0;
     if (pw_2 == 0 && pw_3 == 0 && pw_1 == 0) {
       $('#newPassword').attr('disabled', false)
@@ -361,6 +391,7 @@ $('#newPassword').click(function () {
           $('#LogoutButton').click()
         } else {
           $('#passwordHelpBlock_4').html('密碼錯誤')
+          $('#inputPassword_1').removeClass().addClass('form-control is-invalid')
           //console.log('錯誤')
         }
 
@@ -513,7 +544,7 @@ $('#makeSureReserveOrder').click(function () {
 })
 
 //餐廳分頁
-$('#table_memberReserveOrder').tablepage($('#table_memberReserveOrder_page'), 12)
+$('#table_memberReserveOrder').tablepage($('#table_memberReserveOrder_page'), 3)
 
 //住房訂單取消
 var RoomOrderID;

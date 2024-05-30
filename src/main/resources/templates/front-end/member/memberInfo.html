@@ -73,7 +73,7 @@
 																id="staticAccount">
 														</div>
 													</div>
-
+													<span id="nameError" style="color: red; float: right;"></span>
 													<div class="mb-3 row">
 														<label style="width: 100px;" for="memberName"
 															class="col-sm-2 col-form-label">會員名稱 :</label>
@@ -82,9 +82,9 @@
 																th:value="${memberData.memberName}" id="memberName"
 																name="memberName">
 														</div>
-														<span id="nameError" style="color: red; float: right;"></span>
+														
 													</div>
-
+													
 													<div class="mb-3">
 														<input style="width: 200px;" name="memberImg"
 															th:fiele="*{memberImg}" class="form-control form-control-sm"

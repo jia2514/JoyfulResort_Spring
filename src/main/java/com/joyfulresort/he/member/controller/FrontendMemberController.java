@@ -201,7 +201,7 @@ public class FrontendMemberController {
 		res.addCookie(id);
 		res.addCookie(cookie);
 
-		return "redirect:/";
+		return "redirect:/joyfulresort/member/memberinfo?Redirect=Repository";
 	}
 
 	// 檢查驗證碼(寄送驗證信)
@@ -381,18 +381,21 @@ public class FrontendMemberController {
 
 		// 檢查資料庫信箱
 		Boolean email = memSvc.checkEmail(inuptMail);
-
+//		System.out.println("0有無信箱"+email);
 		JSONObject obj = new JSONObject();
 //		System.out.println(email);
 		// 檢查有無信箱
 		if (email) {
 			// 檢查驗證碼 取得Redis內驗證碼
 			String authCode = redis.opsForValue().get("memberCaptcha");
+//			System.out.println("1驗證碼為"+authCode);
 			if (authCode == null) {
+//				System.out.println("2驗證碼為空");
 				obj.put("error", "驗證碼過期 請重新取得");
 				res.getWriter().print(obj);
+				
 			} else if (inputAuthCode.equals(authCode)) { // 有信箱 驗證碼輸入正確
-
+//				System.out.println("3驗證碼輸入正確");
 				// 產生新密碼
 				RedisController AuthCode = new RedisController();
 				String authCode2 = AuthCode.returnAuthCode();
@@ -410,11 +413,14 @@ public class FrontendMemberController {
 				res.getWriter().print(obj);
 
 			} else {
+//				System.out.println("4驗證碼輸入錯誤");
+				obj.remove("error");
 				obj.put("error", "驗證碼錯誤");
 				res.getWriter().print(obj);
 			}
 
 		} else {
+//			System.out.println("5無此信箱");
 			obj.put("error", "無此信箱");
 			res.getWriter().print(obj);
 
